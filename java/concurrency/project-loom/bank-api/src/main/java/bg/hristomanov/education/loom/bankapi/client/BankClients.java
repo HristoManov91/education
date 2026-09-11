@@ -87,6 +87,7 @@ public final class BankClients {
 
         public CreditScore getFirstSuccessfulScore(UUID customerId) {
             // Java 25: този Joiner връща резултата от първата успешно приключила subtask.
+            // Java 26: методът е преименуван на anySuccessfulOrThrow(); виж project-loom/JAVA-26.md.
             try (var scope = StructuredTaskScope.open(
                     StructuredTaskScope.Joiner.<CreditScore>anySuccessfulResultOrThrow())) {
                 scope.fork(() -> getScore(customerId, "provider-a"));
