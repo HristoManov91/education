@@ -30,6 +30,8 @@
 
 Текущият оригинален пример на автора използва `Joiner.anySuccessfulOrThrow()`. В **Java 25** официалното API се казва `Joiner.anySuccessfulResultOrThrow()`, затова нашият пример използва Java 25 името. Това е пример защо при учебен код не копираме сляпо source code от друга JDK версия.
 
+Конфигурацията за Java 25 и preview API е в [`project-loom/pom.xml`](./pom.xml).
+
 ## Структура
 
 ```text
@@ -40,6 +42,21 @@ project-loom/
 ```
 
 `bank-services` симулира външни HTTP услуги с различна latency. `bank-api` събира тези данни и изчислява примерна оферта за кредит.
+
+## README → код
+
+Това README е главната учебна история. Когато искаш да видиш реалната реализация на дадена идея, използвай директните линкове по-долу. В отделните раздели също има линкове към конкретния код, за да не се налага да го търсиш по package-ите.
+
+| Концепция | Production-like код / конфигурация | Доказателство / тест |
+| --- | --- | --- |
+| Spring Boot върху Virtual Threads | [`application.properties`](./bank-api/src/main/resources/application.properties), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`VirtualThreadTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/VirtualThreadTest.java) |
+| Loan application orchestration | [`LoanApplicationService.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/LoanApplicationService.java) | стартирай `POST /api/loan-applications` |
+| `fork -> join` / Structured Concurrency | [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java) | поведението се наблюдава и в request логовете |
+| First-successful `Joiner` | [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java) — `CreditScoreClient` | симулирани provider-и в [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java) |
+| Structured Concurrency срещу `CompletableFuture` | [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java) | [`CompletableFutureCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/CompletableFutureCustomerInfoLoader.java) |
+| `ScopedValue` request context | [`RequestContext.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/context/RequestContext.java), binding в [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) |
+| Наследяване на request context към child tasks | [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java), логване в [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java) | [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) |
+| Бавни downstream услуги за експериментите | [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java) | стартирай `bank-services` локално |
 
 ## 1. Проблемът — blocking кодът е лесен за четене, но platform threads са скъпи
 
@@ -77,6 +94,8 @@ HikariCP maxPoolSize = 20
 
 ## 2. Virtual Threads в Spring Boot
 
+**Виж кода:** [`application.properties`](./bank-api/src/main/resources/application.properties), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java), [`VirtualThreadTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/VirtualThreadTest.java).
+
 В `bank-api/src/main/resources/application.properties`:
 
 ```properties
@@ -95,6 +114,8 @@ Virtual threads са евтини и идеята е **thread per task**. Да �
 Ако искаме да ограничим достъпа до реален scarce resource, ограничаваме самия ресурс — например connection pool, rate limiter или semaphore — не броя virtual threads.
 
 ## 3. Loan application use case
+
+**Виж orchestration-а:** [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) → [`LoanApplicationService.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/LoanApplicationService.java) → [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java).
 
 ```text
 POST /api/loan-applications
@@ -120,9 +141,13 @@ POST /api/loan-applications
 
 След като customer е известен, accounts, loans и credit score са независими I/O операции и могат да вървят паралелно.
 
+Dummy downstream поведението е в [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java), където услугите нарочно имат различна latency, за да можем да наблюдаваме concurrent поведението.
+
 ## 4. Structured Concurrency
 
-Основният код е в `StructuredCustomerInfoLoader`:
+**Основен пример:** [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java).
+
+Основният код е:
 
 ```java
 try (var scope = StructuredTaskScope.open()) {
@@ -143,6 +168,8 @@ try (var scope = StructuredTaskScope.open()) {
 
 Разделяме една parent задача на няколко child задачи. При default configuration `StructuredTaskScope` използва virtual threads за subtasks.
 
+В реалния class коментарът непосредствено пред `fork(...)` обяснява **защо** точно тези три операции могат да бъдат паралелни — те са независими и основно чакат downstream I/O.
+
 ### `join`
 
 Това е ясната граница, на която паралелните пътища отново се събират. Parent задачата не трябва да „избяга“, докато нейните child задачи още живеят.
@@ -154,6 +181,8 @@ Default `StructuredTaskScope.open()` в Java 25 използва fail-fast polic
 Scope-ът има lexical lifetime. Когато излезем от блока, lifecycle-ът на concurrent работата е приключил. Това е една от големите разлики спрямо свободно създадени futures/tasks, чиито lifecycle може да стане трудно проследим.
 
 ## 5. „Първият успешен резултат печели“ с Joiner
+
+**Виж реализацията:** [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java), class `CreditScoreClient`, method `getFirstSuccessfulScore(...)`.
 
 Имаме два credit score provider-а. За офертата е достатъчен един валиден резултат.
 
@@ -168,13 +197,18 @@ try (var scope = StructuredTaskScope.open(
 }
 ```
 
-В dummy услугата `provider-b` отговаря по-бързо. След успешния му резултат joiner-ът cancel-ва scope-а и прекъсва ненужната sibling работа.
+В dummy услугата `provider-b` отговаря по-бързо. Можеш да видиш симулацията в [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java).
+
+След успешния резултат joiner-ът може да прекрати нуждата от останалата sibling работа според lifecycle-а на scope-а.
 
 Ако единият provider fail-не, другият все още може да даде успешен резултат. Ако всички subtasks fail-нат, `join()` приключва с `StructuredTaskScope.FailedException`.
 
 ## 6. CompletableFuture срещу Structured Concurrency
 
-В проекта има и `CompletableFutureCustomerInfoLoader` за директно сравнение.
+**Сравни директно двата файла:**
+
+- Structured вариант: [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java)
+- CompletableFuture вариант: [`CompletableFutureCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/CompletableFutureCustomerInfoLoader.java)
 
 `CompletableFuture` не е „лош“ API — той е полезен, особено когато действително изграждаме async pipeline. При task-oriented request logic обаче lifecycle, cancellation и context propagation по-лесно се раздалечават от lexical structure на бизнес операцията.
 
@@ -185,6 +219,8 @@ Structured Concurrency е особено естествена, когато ми
 > Тази операция има три child операции и всички принадлежат на същата parent операция.
 
 ## 7. Scoped Values
+
+**Виж кода:** [`RequestContext.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/context/RequestContext.java), binding-а в [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) и тестовете в [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java).
 
 Вместо да подаваме `requestId` през всеки метод:
 
@@ -220,9 +256,11 @@ ScopedValue.where(METADATA, metadata)
 - inheritance към StructuredTaskScope child threads е част от structured модела;
 - не изисква ръчно `remove()` cleanup като типичните ThreadLocal patterns.
 
-`RequestContextTest` доказва както bounded lifetime-а, така и inheritance към structured child thread.
+[`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) доказва както bounded lifetime-а, така и inheritance към structured child thread.
 
 ## 8. ScopedValue + StructuredTaskScope
+
+**Проследи целия път:** [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) → [`RequestContext.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/context/RequestContext.java) → [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java) → [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java).
 
 Controller-ът bind-ва request metadata. След това `StructuredCustomerInfoLoader` създава child tasks. Binding-ът на ScopedValue се наследява от тези structured child threads, затова `AccountClient`, `LoanClient` и `CreditScoreClient` могат да логват същия `requestId` без параметърът да бъде прокарван ръчно.
 
@@ -245,6 +283,8 @@ request scope
 - HTTP calls;
 - file/network I/O;
 - request-per-thread server workloads.
+
+В тази лаборатория blocking HTTP calls се виждат директно в [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java), който използва Spring `RestClient` към dummy downstream услугата.
 
 ## 10. Кога не са магическо решение
 
@@ -272,6 +312,8 @@ CPU-bound работа няма автоматично да стане по-бъ
 ```bash
 mvn clean verify
 ```
+
+Maven настройките за preview Structured Concurrency API са в [`project-loom/pom.xml`](./pom.xml).
 
 След това от `java/concurrency/project-loom` стартирай dummy downstream услугите:
 
@@ -303,15 +345,14 @@ curl -X POST http://localhost:8080/api/loan-applications \
   }'
 ```
 
-В логовете на `bank-api` трябва да се виждат различни virtual threads, но един и същ request id за structured child операциите.
+В логовете на `bank-api` трябва да се виждат различни virtual threads, но един и същ request id за structured child операциите. Кодът, който логва тези стойности, е в [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java).
 
 ## 12. Как го доказваме
 
-В `src/test` има executable проверки за:
+В `src/test` има executable проверки, към които можеш да отидеш директно:
 
-- създаване и разпознаване на virtual thread;
-- bounded lifetime на ScopedValue binding-а;
-- наследяване на ScopedValue от StructuredTaskScope child thread.
+- [`VirtualThreadTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/VirtualThreadTest.java) — създаване и разпознаване на virtual thread;
+- [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) — bounded lifetime на ScopedValue binding-а и inheritance към StructuredTaskScope child thread.
 
 Следващи полезни тестове са cancellation/error propagation и first-successful credit score стратегията.
 
@@ -330,9 +371,9 @@ curl -X POST http://localhost:8080/api/loan-applications \
 
 ## 14. Упражнения
 
-1. Направи `provider-b` да хвърля exception и провери дали `provider-a` все още може да спечели.
+1. В [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java) направи `provider-b` да хвърля exception и провери дали `provider-a` все още може да спечели.
 2. Направи и двата credit score provider-а да fail-нат и проследи exception-а до HTTP response-а.
-3. Добави timeout към `StructuredTaskScope` configuration.
+3. Добави timeout към scope configuration в [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java).
 4. Добави тест, който доказва, че трите customer-info операции стартират concurrently.
 5. Добави variant, който използва само sequential blocking calls, и измери latency разликата.
 6. Сложи semaphore около downstream операция и наблюдавай как virtual threads чакат, без това да премахва business лимита.
