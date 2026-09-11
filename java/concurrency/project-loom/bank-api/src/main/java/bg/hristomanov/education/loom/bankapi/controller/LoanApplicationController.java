@@ -14,6 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+/**
+ * HTTP boundary на demo приложението.
+ *
+ * <p>Точно тук bind-ваме request metadata чрез ScopedValue, защото controller-ът е
+ * естествената граница на една HTTP операция. Всичко, което се извика надолу от
+ * {@link #apply(LoanApplicationRequest)}, принадлежи на същия request.</p>
+ *
+ * <p>Ако bind-нем context-а по-късно, например чак в HTTP client, sibling operations
+ * няма да споделят една и съща request identity. Ако пък го пазим в mutable singleton
+ * field, concurrent requests могат да си презаписват стойностите.</p>
+ */
 @RestController
 @RequestMapping("/api")
 public class LoanApplicationController {
@@ -26,15 +37,34 @@ public class LoanApplicationController {
 
     @PostMapping("/loan-applications")
     public Offer apply(@RequestBody LoanApplicationRequest request) {
+        /*
+         * В реално приложение requestId често идва от incoming header / gateway / tracing system.
+         * Тук генерираме UUID локално, за да държим лабораторията самостоятелна.
+         */
         var metadata = new RequestMetadata(UUID.randomUUID());
 
-        // Binding-ът важи само за динамичния scope на тази операция и се наследява
-        // от child threads, създадени от StructuredTaskScope.
+        /*
+         * RequestContext.call(...) отваря dynamic ScopedValue binding.
+         *
+         * Докато lambda-та се изпълнява:
+         * - service/loader/client кодът може да прочете RequestContext.current();
+         * - StructuredTaskScope child threads наследяват binding-а;
+         * - не е нужно requestId да се прокарва през всеки method parameter.
+         *
+         * След края на call(...) binding-ът автоматично приключва. Няма ръчно remove(),
+         * както при типичен ThreadLocal lifecycle.
+         */
         return RequestContext.call(metadata, () -> loanApplicationService.apply(request));
     }
 
     @GetMapping("/thread-info")
     public ThreadInfo threadInfo() {
+        /*
+         * Учебен диагностичен endpoint: искаме да докажем, че request code-ът действително
+         * може да се изпълнява върху virtual thread, а не само да разчитаме на property-то.
+         *
+         * В production обикновено не бихме expose-вали подобен endpoint.
+         */
         var thread = Thread.currentThread();
         return new ThreadInfo(thread.toString(), thread.isVirtual());
     }
