@@ -174,7 +174,15 @@ public final class BankClients {
                 return scope.join();
 
             } catch (InterruptedException e) {
-                // Не губим cooperative cancellation signal-а (сигнала за доброволно прекратяване).
+                /*
+                 * join() е interruptible. Когато хвърли InterruptedException, interrupted status-ът
+                 * на owner thread-а е изчистен. Понеже тук не propagate-ваме checked exception-а,
+                 * а го wrap-ваме в IllegalStateException, възстановяваме flag-а ръчно.
+                 *
+                 * Това interrupt() НЕ прекъсва thread-а „още веднъж“; то маркира текущия thread
+                 * отново като interrupted, за да може caller/framework по-нагоре да види
+                 * cancellation signal-а чрез Thread.currentThread().isInterrupted().
+                 */
                 Thread.currentThread().interrupt();
                 throw new IllegalStateException("Credit score lookup was interrupted", e);
             }

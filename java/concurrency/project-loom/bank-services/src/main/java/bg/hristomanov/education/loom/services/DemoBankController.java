@@ -79,7 +79,14 @@ public class DemoBankController {
         } catch (InterruptedException e) {
             /*
              * Ако structured parent вече не се нуждае от тази работа, child thread може да
-             * бъде interrupt-нат. Възстановяваме interrupt flag-а, преди да propagate-нем failure.
+             * бъде interrupt-нат. Thread.sleep(...) реагира като хвърля InterruptedException.
+             *
+             * Важното е, че при хвърлянето на InterruptedException interrupted status-ът на
+             * текущия thread се изчиства. Ако само wrap-нем exception-а, кодът по-нагоре вече
+             * няма да може да види чрез isInterrupted(), че тази работа е била cancel-ната.
+             *
+             * Затова interrupt() тук възстановява flag-а. Не „прекъсваме thread-а втори път“;
+             * запазваме cooperative cancellation signal-а, преди да propagate-нем failure-а.
              */
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Demo request was interrupted", e);
