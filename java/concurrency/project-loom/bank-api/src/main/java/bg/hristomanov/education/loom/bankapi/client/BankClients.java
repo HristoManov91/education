@@ -136,6 +136,12 @@ public final class BankClients {
          */
         public CreditScore getFirstSuccessfulScore(UUID customerId) {
             /*
+             * Избираме anySuccessfulResultOrThrow(), защото тук business requirement-ът е:
+             * „първият УСПЕШЕН provider е достатъчен“.
+             *
+             * Това е различно от outer StructuredCustomerInfoLoader, където accounts + loans +
+             * credit score са всички задължителни и default awaitAllSuccessfulOrThrow() е правилният избор.
+             *
              * Java 25 Joiner policy (правилото кога имаме достатъчен резултат):
              * - fork-ваме няколко candidate subtasks (кандидат дъщерни задачи);
              * - scope.join() приключва, когато има успешен резултат;
@@ -143,10 +149,18 @@ public final class BankClients {
              *   може да бъде cancel-ната;
              * - ако всички subtasks fail-нат, join() завършва с failure.
              *
+             * StructuredTaskScope<CreditScore, CreditScore> показва двата важни type параметъра:
+             * - първият CreditScore е допустимият result type на fork-натите subtasks;
+             * - вторият CreditScore е резултатът, който join() връща за тази Joiner policy.
+             *
+             * Другите основни Joiner policy-та са описани в project-loom/JOINER-POLICIES.md.
+             * Official Java 25 API:
+             * https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html
+             *
              * Java 26 преименува factory метода на anySuccessfulOrThrow().
              * Подробно: project-loom/JAVA-26.md.
              */
-            try (var scope = StructuredTaskScope.open(
+            try (StructuredTaskScope<CreditScore, CreditScore> scope = StructuredTaskScope.open(
                     StructuredTaskScope.Joiner.<CreditScore>anySuccessfulResultOrThrow())) {
 
                 scope.fork(() -> getScore(customerId, "provider-a"));
