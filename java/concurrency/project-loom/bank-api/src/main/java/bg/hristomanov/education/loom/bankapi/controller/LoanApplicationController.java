@@ -44,8 +44,11 @@ public class LoanApplicationController {
          * В реално приложение requestId често идва от incoming header (входящ HTTP header),
          * gateway (входен посредник/маршрутизатор) или tracing system (система за проследяване).
          * Тук генерираме UUID локално, за да държим лабораторията самостоятелна.
+         *
+         * Explicit type-ът RequestMetadata е умишлен за учебния проект: така резултатът от
+         * конструкцията се вижда директно и не разчитаме на var inference.
          */
-        var metadata = new RequestMetadata(UUID.randomUUID());
+        RequestMetadata metadata = new RequestMetadata(UUID.randomUUID());
 
         /*
          * RequestContext.call(...) отваря dynamic ScopedValue binding
@@ -71,7 +74,7 @@ public class LoanApplicationController {
          *
          * В production обикновено не бихме expose-вали подобен endpoint.
          */
-        var thread = Thread.currentThread();
+        Thread thread = Thread.currentThread();
         return new ThreadInfo(thread.toString(), thread.isVirtual());
     }
 }
