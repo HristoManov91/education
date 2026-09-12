@@ -32,6 +32,14 @@ public CreditScore getFirstSuccessfulScore(UUID customerId) {
 
         return scope.join();
     } catch (InterruptedException e) {
+        /*
+         * join() хвърля InterruptedException, когато owner thread-ът бъде interrupt-нат
+         * преди или по време на чакането. При хвърлянето interrupted status-ът се изчиства.
+         *
+         * Понеже не propagate-ваме checked InterruptedException директно, а го wrap-ваме,
+         * възстановяваме flag-а. interrupt() тук НЕ прекъсва thread-а втори път — маркира
+         * същия текущ thread отново като interrupted, за да не изгубим cancellation signal-а.
+         */
         Thread.currentThread().interrupt();
         throw new IllegalStateException("Credit score lookup was interrupted", e);
     }
