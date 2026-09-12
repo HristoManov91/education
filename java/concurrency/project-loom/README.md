@@ -212,6 +212,28 @@ Virtual threads са daemon threads. Daemon threads сами по себе си 
 
 `GET /api/thread-info` връща информация за `Thread.currentThread()` и `isVirtual()`. Това е учебен endpoint; в production обикновено не бихме expose-вали такъв endpoint.
 
+**IntelliJ HTTP Client:** [`http/loom-demo.http`](./http/loom-demo.http) → request `threadInfo`. Отвори файла и натисни ▶ в gutter-а до заявката. Файлът съдържа и автоматична проверка, че `virtual == true`.
+
+За най-бърза проверка IntelliJ разпознава и командата директно в Markdown и показва Run икона до нея:
+
+```bash
+curl http://localhost:8080/api/thread-info
+```
+
+<details>
+<summary>Примерен резултат, ако само четеш материала</summary>
+
+```json
+{
+  "thread": "VirtualThread[#42,tomcat-handler-0]/runnable@ForkJoinPool-1-worker-1",
+  "virtual": true
+}
+```
+
+Полето `thread` е динамично — номерът, името и carrier thread-ът могат да са различни при всяко изпълнение. Важната част за тази проверка е `"virtual": true`.
+
+</details>
+
 ---
 
 ## 6. Нашият business scenario
@@ -620,8 +642,8 @@ Native/foreign code и специфични blocking случаи все още 
 
 | Концепция | Production-like код / конфигурация | Доказателство / тест |
 | --- | --- | --- |
-| Spring Boot Virtual Threads | [`application.properties`](./bank-api/src/main/resources/application.properties), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`VirtualThreadTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/VirtualThreadTest.java) |
-| End-to-end orchestration | [`LoanApplicationService.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/LoanApplicationService.java) | `POST /api/loan-applications` |
+| Spring Boot Virtual Threads | [`application.properties`](./bank-api/src/main/resources/application.properties), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`VirtualThreadTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/VirtualThreadTest.java), [`threadInfo` HTTP request](./http/loom-demo.http) |
+| End-to-end orchestration | [`LoanApplicationService.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/LoanApplicationService.java) | [`loanApplication` HTTP request](./http/loom-demo.http) |
 | `fork → join` | [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java) | logs + tests |
 | First-successful Joiner | [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java) | [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java) |
 | ScopedValue request context | [`RequestContext.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/context/RequestContext.java), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) |
@@ -655,7 +677,18 @@ mvn -pl bank-services spring-boot:run
 mvn -pl bank-api spring-boot:run
 ```
 
-Провери thread-а:
+### Най-удобно: IntelliJ HTTP Client
+
+Готовите заявки са в [`http/loom-demo.http`](./http/loom-demo.http). В IntelliJ IDEA отвори файла и използвай ▶ до:
+
+- `threadInfo` — проверява `/api/thread-info` и автоматично assert-ва `virtual == true`;
+- `loanApplication` — пуска целия loan flow и проверява успешния demo response.
+
+Така не е нужен Postman и не трябва ръчно да сглобяваш headers/body при всяко четене на лабораторията.
+
+### Проверка директно от README
+
+IntelliJ може да показва Run action в gutter-а и за runnable командите в Markdown. За thread endpoint-а:
 
 ```bash
 curl http://localhost:8080/api/thread-info
@@ -672,6 +705,21 @@ curl -X POST http://localhost:8080/api/loan-applications \
     "purpose": "home renovation"
   }'
 ```
+
+<details>
+<summary>Примерен response за loan application</summary>
+
+```json
+{
+  "customerId": "2b8d8f54-e104-4d21-97de-6ef9a78db392",
+  "approved": true,
+  "amount": 25000,
+  "annualInterestRate": 4.20,
+  "reason": "Demo offer calculated from the first successful credit score"
+}
+```
+
+</details>
 
 Гледай логовете за различни virtual threads, един и същ `requestId` и близки start моменти на independent calls.
 
