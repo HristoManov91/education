@@ -21,16 +21,17 @@ class VirtualThreadTest {
          * AtomicBoolean използваме не заради business concurrency, а за безопасно да върнем
          * наблюдаваната стойност от child thread към test thread-а.
          */
-        var observedVirtualThread = new AtomicBoolean(false);
+        AtomicBoolean observedVirtualThread = new AtomicBoolean(false);
 
         /*
          * startVirtualThread(...) е най-директният Java API за:
          * 1) създаване на virtual thread;
          * 2) незабавното му стартиране.
          *
+         * Методът връща Thread. Изписваме типа explicit, за да се вижда директно API contract-ът.
          * Това не е pool: създаваме конкретен thread за конкретната test task.
          */
-        var thread = Thread.startVirtualThread(
+        Thread thread = Thread.startVirtualThread(
                 () -> observedVirtualThread.set(Thread.currentThread().isVirtual()));
 
         /*
