@@ -4,10 +4,16 @@ import bg.hristomanov.education.loom.bankapi.client.BankClients.AccountClient;
 import bg.hristomanov.education.loom.bankapi.client.BankClients.CreditScoreClient;
 import bg.hristomanov.education.loom.bankapi.client.BankClients.LoanClient;
 import bg.hristomanov.education.loom.bankapi.context.RequestContext;
+import bg.hristomanov.education.loom.bankapi.context.RequestContext.RequestMetadata;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.Account;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.CreditScore;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.Customer;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.CustomerInfo;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.Loan;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -51,8 +57,10 @@ public final class CompletableFutureCustomerInfoLoader {
          * structured children (дъщерни задачи в същата structured операция) на текущата операция.
          * ScopedValue inheritance-ът (автоматичното наследяване на контекста), който имаме
          * при StructuredTaskScope, не трябва да се предполага тук.
+         *
+         * Explicit type-ът показва директно, че RequestContext.current() връща RequestMetadata.
          */
-        var metadata = RequestContext.current();
+        RequestMetadata metadata = RequestContext.current();
 
         /*
          * newVirtualThreadPerTaskExecutor() създава НОВ virtual thread за всяка submitted task
@@ -60,8 +68,9 @@ public final class CompletableFutureCustomerInfoLoader {
          * (нова нишка за всяка задача), а не fixed pool (фиксиран пул) от virtual threads.
          *
          * try-with-resources затваря executor-а след края на метода и изчаква submitted tasks.
+         * Изписваме ExecutorService вместо var, за да се вижда публичният API type на factory метода.
          */
-        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
             /*
              * Re-bind-ваме (свързваме отново) същото immutable request metadata
@@ -69,14 +78,17 @@ public final class CompletableFutureCustomerInfoLoader {
              * Без това AccountClient/LoanClient/CreditScoreClient не могат да прочетат
              * RequestContext.current() в тези independently-created virtual threads
              * (virtual threads, създадени независимо от текущата structured операция).
+             *
+             * Тук explicit generic типовете са особено полезни: още от декларацията се вижда
+             * какъв резултат носи всеки CompletableFuture.
              */
-            var accounts = CompletableFuture.supplyAsync(
+            CompletableFuture<List<Account>> accounts = CompletableFuture.supplyAsync(
                     () -> RequestContext.call(metadata, () -> accountClient.getAccounts(customer.id())), executor);
 
-            var loans = CompletableFuture.supplyAsync(
+            CompletableFuture<List<Loan>> loans = CompletableFuture.supplyAsync(
                     () -> RequestContext.call(metadata, () -> loanClient.getLoans(customer.id())), executor);
 
-            var score = CompletableFuture.supplyAsync(
+            CompletableFuture<CreditScore> score = CompletableFuture.supplyAsync(
                     () -> RequestContext.call(metadata, () -> creditScoreClient.getFirstSuccessfulScore(customer.id())), executor);
 
             /*
