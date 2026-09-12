@@ -24,7 +24,7 @@ class RequestContextTest {
 
     @Test
     void scopedValueExistsOnlyInsideItsDynamicScope() {
-        var requestId = UUID.randomUUID();
+        UUID requestId = UUID.randomUUID();
 
         // Преди да отворим scope няма случайно останал context от предишна операция.
         assertFalse(RequestContext.isBound());
@@ -33,7 +33,7 @@ class RequestContextTest {
          * call(...) bind-ва metadata само за времето на lambda-та.
          * Вътре current() трябва да вижда точно requestId, който caller-ът е bind-нал.
          */
-        var observed = RequestContext.call(
+        UUID observed = RequestContext.call(
                 new RequestMetadata(requestId),
                 () -> RequestContext.current().requestId());
 
@@ -49,15 +49,19 @@ class RequestContextTest {
 
     @Test
     void structuredChildThreadInheritsScopedValue() throws Exception {
-        var requestId = UUID.randomUUID();
+        UUID requestId = UUID.randomUUID();
 
-        var observed = RequestContext.call(new RequestMetadata(requestId), () -> {
+        UUID observed = RequestContext.call(new RequestMetadata(requestId), () -> {
             /*
              * Scope-ът се отваря ДОКАТО ScopedValue binding-ът е active.
              * Child task-ът, fork-нат от този StructuredTaskScope, наследява binding-а.
+             *
+             * StructuredTaskScope<Object, Void> е explicit type-ът на default open():
+             * scope-ът приема subtasks с различни result types, а join() връща Void/null.
              */
-            try (var scope = StructuredTaskScope.open()) {
-                var child = scope.fork(() -> RequestContext.current().requestId());
+            try (StructuredTaskScope<Object, Void> scope = StructuredTaskScope.open()) {
+                StructuredTaskScope.Subtask<UUID> child =
+                        scope.fork(() -> RequestContext.current().requestId());
 
                 // join() гарантира, че child task-ът е приключил, преди да вземем резултата.
                 scope.join();

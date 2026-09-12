@@ -48,6 +48,26 @@
 
 За теми с нов vocabulary добави кратка таблица с точни значения. Например thread/task/scope/context, persistence context/session/transaction и т.н.
 
+## Значими варианти на новото API / техника
+
+Когато **темата, която в момента учим**, предлага няколко съществени стратегии, policy-та, режими или implementation подходи, не показвай само варианта, който сме избрали в кода.
+
+Задължително обясни локално в учебния материал:
+
+- кои са основните practically relevant варианти;
+- как се различава поведението им;
+- какво връщат / как завършват, когато това е част от API contract-а;
+- как реагират при failure/cancellation/timeout, ако това е важно за темата;
+- кога бихме използвали всеки вариант;
+- защо текущият пример избира точно един от тях;
+- какво би се променило, ако изберем друга стратегия.
+
+Добави и линк към **официалната version-specific документация**, но линкът е допълнение, а не заместител на обяснението в repository-то. Идеята е след месеци README/кодът сам по себе си да е достатъчен за припомняне, а официалната документация да служи за по-дълбока справка.
+
+Пример: ако учим `StructuredTaskScope.Joiner`, сравни `awaitAllSuccessfulOrThrow()`, `allSuccessfulOrThrow()`, `anySuccessfulResultOrThrow()`, `awaitAll()`, `allUntil(...)` и custom Joiner, вместо да споменеш само policy-то от текущия пример.
+
+Това правило важи за **новата изучавана концепция**, а не за всяко познато Java API. Не превръщай материала в копие на JavaDoc и не описвай механично всички overload-и на неща като `String.substring()`.
+
 ## Bad / наивен вариант
 
 Покажи код или flow и обясни **защо** изглежда логичен, но има недостатък.
@@ -114,6 +134,27 @@
 - защо конкретен ред е важен;
 - какво би станало при алтернативния подход;
 - връзката с README, когато е полезна.
+
+### Explicit типове вместо `var`
+
+В `education` repository-то **не използвай Java `var`** в нашия production-like код, тестове или учебни code snippets.
+
+Изписвай explicit типа, особено когато резултатът идва от API, което в момента учим. Така при четене в IntelliJ веднага се вижда contract-ът на метода без да е нужно hover/inference.
+
+Примери:
+
+```java
+StructuredTaskScope<Object, Void> scope = StructuredTaskScope.open();
+
+StructuredTaskScope.Subtask<List<Account>> accountsTask =
+        scope.fork(() -> accountClient.getAccounts(customer.id()));
+
+ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+```
+
+Това правило е умишлено по-строго от typical production style. Целта на repository-то е **учене и припомняне**, затова visibility на типовете е по-важна от няколко спестени символа.
+
+Ако цитираме външен код verbatim като исторически/официален пример, може да запазим оригинала, но нашият собствен runnable/production-like вариант трябва да използва explicit types.
 
 ### Английски технически термини в обясненията
 

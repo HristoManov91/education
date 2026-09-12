@@ -21,9 +21,9 @@
 Класическият Java/Spring backend често е написан в много естествен synchronous стил:
 
 ```java
-var customer = customerClient.getCustomer(id);
-var accounts = accountClient.getAccounts(id);
-var loans = loanClient.getLoans(id);
+Customer customer = customerClient.getCustomer(id);
+List<Account> accounts = accountClient.getAccounts(id);
+List<Loan> loans = loanClient.getLoans(id);
 return calculateOffer(customer, accounts, loans);
 ```
 
@@ -331,10 +331,15 @@ method-ът не приключва нормално,
 **Основен файл:** [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java)
 
 ```java
-try (var scope = StructuredTaskScope.open()) {
-    var accountsTask = scope.fork(() -> accountClient.getAccounts(customer.id()));
-    var loansTask = scope.fork(() -> loanClient.getLoans(customer.id()));
-    var creditScoreTask = scope.fork(() -> creditScoreClient.getFirstSuccessfulScore(customer.id()));
+try (StructuredTaskScope<Object, Void> scope = StructuredTaskScope.open()) {
+    StructuredTaskScope.Subtask<List<Account>> accountsTask =
+            scope.fork(() -> accountClient.getAccounts(customer.id()));
+
+    StructuredTaskScope.Subtask<List<Loan>> loansTask =
+            scope.fork(() -> loanClient.getLoans(customer.id()));
+
+    StructuredTaskScope.Subtask<CreditScore> creditScoreTask =
+            scope.fork(() -> creditScoreClient.getFirstSuccessfulScore(customer.id()));
 
     scope.join();
 
@@ -345,9 +350,45 @@ try (var scope = StructuredTaskScope.open()) {
 }
 ```
 
-### 8.1 `StructuredTaskScope.open()`
+Explicit типовете са умишлени за учебния проект. От тях веднага виждаме, че default `open()` създава scope с `Void` резултат от `join()`, а всеки `fork(...)` връща `Subtask<U>` с конкретния result type на child операцията.
 
-Отваряме scope, който става owner на child tasks. В Java 25 default policy е fail-fast: ако required subtask fail-не, останалата работа се cancel-ва и `join()` завършва с failure.
+### 8.1 `StructuredTaskScope.open()` и Joiner policy-тата
+
+`StructuredTaskScope.open()` отваря scope, който става owner на child tasks. В Java 25 този overload без Joiner е еквивалентен на:
+
+```java
+StructuredTaskScope.open(
+        StructuredTaskScope.Joiner.awaitAllSuccessfulOrThrow())
+```
+
+Тоест default policy е: **всички child задачи са задължителни; ако някоя fail-не, останалата ненужна работа може да бъде cancel-ната и `join()` хвърля**.
+
+Но това не е единственият вариант. Основните Java 25 policy-та са:
+
+| Joiner policy | Какво означава „готови сме“ | При failure | Какво връща `join()` | Кога е подходяща |
+| --- | --- | --- | --- | --- |
+| `awaitAllSuccessfulOrThrow()` | всички subtasks трябва да успеят | cancel на ненужната останала работа; `join()` хвърля | `Void` / `null` | всички резултати са задължителни и може да са от различни типове |
+| `allSuccessfulOrThrow()` | всички subtasks трябва да успеят | cancel на ненужната останала работа; `join()` хвърля | `Stream<Subtask<T>>` | всички резултати са задължителни и са от един и същ тип |
+| `anySuccessfulResultOrThrow()` | първият успешен резултат е достатъчен | отделен failure не е фатален; хвърля само ако всички fail-нат | `T` | race/fallback между няколко provider-а |
+| `awaitAll()` | чака всички subtasks | child failure сам по себе си не cancel-ва scope-а и `join()` не хвърля заради него | `Void` / `null` | независими side effects или когато после сами анализираме outcomes |
+| `allUntil(predicate)` | всички приключат или predicate-ът каже „достатъчно“ | може да short-circuit-не и cancel-не останалите | `Stream<Subtask<T>>` | custom early-stop условие |
+| custom `Joiner<T,R>` | ние определяме policy-то | според `onFork/onComplete/result` | `R` | reusable concurrency policy, която built-in вариантите не покриват |
+
+Подробната локална справка с примери е в [`JOINER-POLICIES.md`](./JOINER-POLICIES.md). Официалните Java 25 източници са [StructuredTaskScope API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html), [Joiner API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html) и [Structured Concurrency guide](https://docs.oracle.com/en/java/javase/25/core/structured-concurrency.html).
+
+### Защо тук е `awaitAllSuccessfulOrThrow()`
+
+`StructuredCustomerInfoLoader` изгражда един `CustomerInfo` от три различни типа резултат:
+
+```text
+List<Account> ─┐
+List<Loan>    ─┼──> CustomerInfo
+CreditScore   ─┘
+```
+
+Трябват ни **и трите**. Един успешен accounts call не компенсира липсващите loans или credit score. Затова first-successful policy би била грешна за този scope.
+
+Освен това резултатите са от различни типове, което е точно use case-ът, за който `awaitAllSuccessfulOrThrow()` е предназначен: `join()` валидира общото успешно завършване, а след това четем конкретните `Subtask#get()` handles.
 
 ### 8.2 `scope.fork(...)`
 
@@ -355,7 +396,7 @@ try (var scope = StructuredTaskScope.open()) {
 
 > „Тази работа е child на текущата structured операция и може да върви concurrently с другите children.“
 
-Получаваме `Subtask<T>` handle. Трите fork-а са правилни, защото всички вече имат `customer.id()`, не зависят един от друг и са предимно blocking HTTP I/O.
+Методът връща `StructuredTaskScope.Subtask<U>`. Трите fork-а са правилни, защото всички вече имат `customer.id()`, не зависят един от друг и са предимно blocking HTTP I/O.
 
 ### 8.3 `scope.join()`
 
@@ -363,11 +404,11 @@ try (var scope = StructuredTaskScope.open()) {
 
 > „Стартирах child работата. Сега ми трябват резултатите ѝ, преди да продължа.“
 
-Имаме една ясна structural join point вместо scattered waits.
+Имаме една ясна structural join point вместо scattered waits. Какъв точно е return type-ът и кога `join()` може да приключи зависи от избрания Joiner.
 
 ### 8.4 `task.get()` след `join()`
 
-След успешен `join()` взимаме стойностите от subtasks и ги събираме обратно в business object `CustomerInfo`.
+При default `awaitAllSuccessfulOrThrow()` успешният `join()` означава, че required subtasks са приключили успешно. След това взимаме конкретните стойности от `Subtask#get()` и ги събираме обратно в `CustomerInfo`.
 
 ### 8.5 Защо е `try-with-resources`
 
@@ -385,7 +426,7 @@ Thread.currentThread().interrupt();
 
 ---
 
-## 9. Joiner — policy за това какво означава „готови сме“
+## 9. `anySuccessfulResultOrThrow()` — защо credit-score scope-ът е различен
 
 При credit score имаме два provider-а и business requirement-ът е:
 
@@ -396,7 +437,7 @@ Thread.currentThread().interrupt();
 **Код:** [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java), `CreditScoreClient#getFirstSuccessfulScore(...)`.
 
 ```java
-try (var scope = StructuredTaskScope.open(
+try (StructuredTaskScope<CreditScore, CreditScore> scope = StructuredTaskScope.open(
         StructuredTaskScope.Joiner.<CreditScore>anySuccessfulResultOrThrow())) {
 
     scope.fork(() -> getScore(customerId, "provider-a"));
@@ -404,6 +445,15 @@ try (var scope = StructuredTaskScope.open(
 
     return scope.join();
 }
+```
+
+Тук explicit generic type-ът също е учебно полезен:
+
+```text
+StructuredTaskScope<CreditScore, CreditScore>
+                    └────┬────┘  └────┬────┘
+                         │            └─ типът, който join() връща
+                         └─ типът на резултатите от child subtasks
 ```
 
 ### Timeline в demo-то
@@ -418,7 +468,9 @@ try (var scope = StructuredTaskScope.open(
 
 Ако единият provider fail-не, другият още може да спечели. Ако всички fail-нат, няма успешен резултат и `join()` завършва с failure.
 
-Joiner държи policy-то на едно място: кои tasks стартираме, кога имаме достатъчно резултат и какво става с останалата работа.
+Точно тук **не** искаме default `awaitAllSuccessfulOrThrow()`: то би превърнало failure-а на единия provider във failure на целия scope, въпреки че другият може да върне напълно валиден score.
+
+Joiner държи concurrency policy-то на едно място: кога имаме достатъчно резултат, какъв резултат връща `join()` и кога останалата sibling работа вече не е нужна. Пълното сравнение е в [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
 
 ---
 
@@ -497,7 +549,7 @@ RequestContext.call(metadata, operation)
 Controller-ът е request boundary:
 
 ```java
-var metadata = new RequestMetadata(UUID.randomUUID());
+RequestMetadata metadata = new RequestMetadata(UUID.randomUUID());
 return RequestContext.call(metadata, () -> loanApplicationService.apply(request));
 ```
 
@@ -571,10 +623,10 @@ HTTP request
 Virtual threads ни позволяват да запазим прост blocking code:
 
 ```java
-var result = restClient.get()
+Customer result = restClient.get()
         .uri(...)
         .retrieve()
-        .body(...);
+        .body(Customer.class);
 ```
 
 без всеки чакащ request да изисква отделен тежък OS thread за целия wait.
@@ -645,6 +697,7 @@ Native/foreign code и специфични blocking случаи все още 
 | Spring Boot Virtual Threads | [`application.properties`](./bank-api/src/main/resources/application.properties), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`VirtualThreadTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/VirtualThreadTest.java), [`threadInfo` HTTP request](./http/loom-demo.http) |
 | End-to-end orchestration | [`LoanApplicationService.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/LoanApplicationService.java) | [`loanApplication` HTTP request](./http/loom-demo.http) |
 | `fork → join` | [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java) | logs + tests |
+| Joiner policy alternatives | [`JOINER-POLICIES.md`](./JOINER-POLICIES.md), [`StructuredCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/StructuredCustomerInfoLoader.java) | сравни outer all-required scope с inner first-successful scope |
 | First-successful Joiner | [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java) | [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java) |
 | ScopedValue request context | [`RequestContext.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/context/RequestContext.java), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) |
 | CompletableFuture comparison | [`CompletableFutureCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/CompletableFutureCustomerInfoLoader.java) | сравни със structured loader-а |
@@ -746,12 +799,14 @@ curl -X POST http://localhost:8080/api/loan-applications \
 4. Virtual threads не се pool-ват; scarce resources се ограничават директно.
 5. Structured Concurrency моделира concurrent work като parent/child task tree.
 6. `fork()` стартира независим child work; `join()` е ясната точка на събиране.
-7. Joiner описва policy — например „първият успешен резултат“.
-8. Cancellation/interruption са част от correctness-а.
-9. ScopedValue е за bounded, one-way immutable context propagation.
-10. Virtual thread не означава автоматично structured concurrency.
-11. Loom не премахва DB pool, CPU, rate-limit или downstream bottlenecks.
-12. JDK версията е важна — preview API-тата се развиват.
+7. Joiner определя какво означава „готови сме“ — all-required, first-successful, await-all или custom policy.
+8. Default `StructuredTaskScope.open()` в Java 25 използва `awaitAllSuccessfulOrThrow()` semantics.
+9. Изборът на Joiner трябва да следва business requirement-а, а не лични предпочитания към API-то.
+10. Cancellation/interruption са част от correctness-а.
+11. ScopedValue е за bounded, one-way immutable context propagation.
+12. Virtual thread не означава автоматично structured concurrency.
+13. Loom не премахва DB pool, CPU, rate-limit или downstream bottlenecks.
+14. JDK версията е важна — preview API-тата се развиват.
 
 ---
 
@@ -761,11 +816,13 @@ curl -X POST http://localhost:8080/api/loan-applications \
 2. Направи и двата provider-а да fail-нат и проследи exception flow-а.
 3. Добави тест за sequential срещу concurrent latency.
 4. Добави timeout policy към structured scope-а.
-5. Добави четвърта независима downstream операция.
-6. Ограничѝ downstream услуга със `Semaphore(2)` и изпрати много requests.
-7. Замени structured loader-а с `CompletableFutureCustomerInfoLoader` и сравни context propagation-а.
-8. Направи един child call CPU-heavy и измери защо virtual threads не му помагат.
-9. Използвай JFR/thread dump, за да разгледаш virtual threads и task relationships.
+5. Смени outer scope-а временно с `awaitAll()` и наблюдавай как се променя failure поведението.
+6. Направи малък пример с `allSuccessfulOrThrow()` за няколко задачи, които връщат един и същ type.
+7. Добави четвърта независима downstream операция.
+8. Ограничѝ downstream услуга със `Semaphore(2)` и изпрати много requests.
+9. Замени structured loader-а с `CompletableFutureCustomerInfoLoader` и сравни context propagation-а.
+10. Направи един child call CPU-heavy и измери защо virtual threads не му помагат.
+11. Използвай JFR/thread dump, за да разгледаш virtual threads и task relationships.
 
 ---
 
@@ -785,7 +842,7 @@ Joiner.anySuccessfulResultOrThrow()
 Joiner.anySuccessfulOrThrow()
 ```
 
-Подробно: [`JAVA-26.md`](./JAVA-26.md).
+Подробно за version differences: [`JAVA-26.md`](./JAVA-26.md). За Java 25 policy-тата: [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
 
 ---
 

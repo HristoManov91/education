@@ -1,6 +1,7 @@
 package bg.hristomanov.education.loom.bankapi.service;
 
 import bg.hristomanov.education.loom.bankapi.client.BankClients.CustomerClient;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.Customer;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.CustomerInfo;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.LoanApplicationRequest;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.Offer;
@@ -40,8 +41,11 @@ public class LoanApplicationService {
          * Customer е prerequisite (предварително нужен резултат) за downstream fan-out-а
          * (разклоняването към следващите извиквани операции), затова dependency-то остава explicit
          * (видимо директно от структурата на кода).
+         *
+         * Умишлено пишем explicit type вместо var: в учебния проект искаме веднага да се вижда,
+         * че customerClient.getCustomer(...) връща Customer.
          */
-        var customer = customerClient.getCustomer(request.customerId());
+        Customer customer = customerClient.getCustomer(request.customerId());
 
         /*
          * Оттук надолу имаме няколко независими I/O операции. Точно там concurrency
@@ -49,7 +53,7 @@ public class LoanApplicationService {
          * а StructuredCustomerInfoLoader поема ownership-а им
          * (отговорността да стартира, изчака и приключи тези задачи коректно).
          */
-        var customerInfo = customerInfoLoader.load(customer);
+        CustomerInfo customerInfo = customerInfoLoader.load(customer);
 
         /*
          * След fan-in-а (събирането на паралелните резултати обратно в един поток)
