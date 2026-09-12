@@ -3,10 +3,14 @@ package bg.hristomanov.education.loom.bankapi.service;
 import bg.hristomanov.education.loom.bankapi.client.BankClients.AccountClient;
 import bg.hristomanov.education.loom.bankapi.client.BankClients.CreditScoreClient;
 import bg.hristomanov.education.loom.bankapi.client.BankClients.LoanClient;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.Account;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.CreditScore;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.Customer;
 import bg.hristomanov.education.loom.bankapi.domain.BankModels.CustomerInfo;
+import bg.hristomanov.education.loom.bankapi.domain.BankModels.Loan;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.StructuredTaskScope;
 
 /**
@@ -95,11 +99,15 @@ public class StructuredCustomerInfoLoader {
          * други два. Освен това трите резултата са от различни типове, затова след join() четем
          * отделните handles чрез accountsTask.get(), loansTask.get() и creditScoreTask.get().
          *
+         * Explicit type-ът е умишлен. StructuredTaskScope.open() връща StructuredTaskScope<T, Void>.
+         * Понеже в този scope fork-ваме List<Account>, List<Loan> и CreditScore, общият T е Object.
+         * Така в кода ясно се вижда и типът на scope-а, и типът на всяка отделна Subtask.
+         *
          * Подробно: project-loom/JOINER-POLICIES.md
          * Official Java 25 API:
          * https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html
          */
-        try (var scope = StructuredTaskScope.open()) {
+        try (StructuredTaskScope<Object, Void> scope = StructuredTaskScope.open()) {
 
             /*
              * fork() НЕ означава просто „пусни Runnable някъде“.
@@ -110,12 +118,17 @@ public class StructuredCustomerInfoLoader {
              * carrier thread (platform нишката, върху която JVM в момента изпълнява virtual thread-а)
              * може да изпълнява друга работа.
              *
-             * Всяка променлива е Subtask<T> handle (дръжка към дъщерната задача).
-             * Резултатът ще се прочете след join().
+             * fork(...) връща StructuredTaskScope.Subtask<U>. Explicit generic type-овете по-долу
+             * показват директно какъв резултат очакваме от всяка child задача.
              */
-            var accountsTask = scope.fork(() -> accountClient.getAccounts(customer.id()));
-            var loansTask = scope.fork(() -> loanClient.getLoans(customer.id()));
-            var creditScoreTask = scope.fork(() -> creditScoreClient.getFirstSuccessfulScore(customer.id()));
+            StructuredTaskScope.Subtask<List<Account>> accountsTask =
+                    scope.fork(() -> accountClient.getAccounts(customer.id()));
+
+            StructuredTaskScope.Subtask<List<Loan>> loansTask =
+                    scope.fork(() -> loanClient.getLoans(customer.id()));
+
+            StructuredTaskScope.Subtask<CreditScore> creditScoreTask =
+                    scope.fork(() -> creditScoreClient.getFirstSuccessfulScore(customer.id()));
 
             /*
              * join() е structural join point-ът
