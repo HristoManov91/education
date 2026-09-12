@@ -158,13 +158,25 @@ public class StructuredCustomerInfoLoader {
 
         } catch (InterruptedException e) {
             /*
-             * InterruptedException е cooperative cancellation signal
-             * (сигнал за прекратяване, който кодът трябва доброволно да обработи).
+             * join() е interruptible операция: ако owner thread-ът получи interrupt докато чака,
+             * join() хвърля InterruptedException.
              *
-             * Не трябва да го „изяждаме“. Когато го превръщаме в unchecked/application
-             * exception, възстановяваме interrupt flag-а, за да може код по-нагоре по
-             * call stack-а (веригата от извикани методи) да разбере, че thread-ът е бил
-             * поискан за прекратяване.
+             * Критичният детайл е, че при хвърлянето на InterruptedException interrupt status-ът
+             * на текущия thread се изчиства. Тоест когато стигнем в този catch, не трябва да
+             * разчитаме, че Thread.currentThread().isInterrupted() все още е true.
+             *
+             * Ако просто wrap-нем InterruptedException в IllegalStateException и продължим нагоре,
+             * exception cause-ът ще пази информация за грешката, но interrupt signal-ът върху самия
+             * thread ще бъде загубен. Код/framework по-нагоре по call stack-а може да използва точно
+             * този flag, за да разбере, че текущата операция е била поискана за прекратяване.
+             *
+             * Затова извикваме interrupt() върху СЪЩИЯ текущ thread. Това не означава
+             * „прекъсни го втори път“ и не стартира ново прекратяване. Тук interrupt() просто
+             * възстановява interrupt flag-а, така че isInterrupted() отново да е true.
+             *
+             * Алтернативата би била методът да propagate-не InterruptedException директно.
+             * Понеже този business API не иска checked InterruptedException в signature-а,
+             * ние го преобразуваме в application exception и възстановяваме flag-а ръчно.
              */
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Customer info loading was interrupted", e);
