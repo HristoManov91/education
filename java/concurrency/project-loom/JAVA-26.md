@@ -4,6 +4,8 @@
 
 Причината да пазим отделна бележка е, че **Structured Concurrency все още е preview API** и между preview версиите има source-level промени. Това е нормално: preview API може да бъде променяно преди да стане финално.
 
+> В учебния проект не използваме `var` в нашите кодови примери. Изписваме explicit типовете, за да се вижда директно какво връщат `StructuredTaskScope.open(...)`, `fork(...)`, `join()` и останалите нови API-та.
+
 ## Най-важната разлика за нашия пример
 
 В Java 25 използваме:
@@ -22,7 +24,7 @@ StructuredTaskScope.Joiner.<CreditScore>anySuccessfulOrThrow()
 
 ```java
 public CreditScore getFirstSuccessfulScore(UUID customerId) {
-    try (var scope = StructuredTaskScope.open(
+    try (StructuredTaskScope<CreditScore, CreditScore> scope = StructuredTaskScope.open(
             StructuredTaskScope.Joiner.<CreditScore>anySuccessfulOrThrow())) {
 
         scope.fork(() -> getScore(customerId, "provider-a"));
@@ -36,7 +38,14 @@ public CreditScore getFirstSuccessfulScore(UUID customerId) {
 }
 ```
 
+Тук explicit type-ът `StructuredTaskScope<CreditScore, CreditScore>` показва две различни неща:
+
+- първият `CreditScore` е допустимият result type на fork-натите subtasks;
+- вторият `CreditScore` е резултатът, който `join()` връща при тази Joiner policy.
+
 Бизнес поведението е същото: интересува ни **първата успешно приключила subtask**; ако всички fail-нат, `join()` приключва с failure.
+
+За всички основни Java 25 Joiner policy-та виж [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
 
 ## Java 25 → Java 26: важни API промени
 
@@ -52,8 +61,8 @@ public CreditScore getFirstSuccessfulScore(UUID customerId) {
 ### Java 25
 
 ```java
-try (var scope = StructuredTaskScope.open(
-        StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow())) {
+try (StructuredTaskScope<String, Stream<StructuredTaskScope.Subtask<String>>> scope =
+        StructuredTaskScope.open(StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow())) {
 
     scope.fork(() -> "A");
     scope.fork(() -> "B");
@@ -64,13 +73,13 @@ try (var scope = StructuredTaskScope.open(
 }
 ```
 
-`join()` връща stream от `Subtask` обекти.
+`join()` връща `Stream<Subtask<String>>`, затова после четем стойностите чрез `Subtask#get()`.
 
 ### Java 26
 
 ```java
-try (var scope = StructuredTaskScope.open(
-        StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow())) {
+try (StructuredTaskScope<String, List<String>> scope =
+        StructuredTaskScope.open(StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow())) {
 
     scope.fork(() -> "A");
     scope.fork(() -> "B");
@@ -79,16 +88,17 @@ try (var scope = StructuredTaskScope.open(
 }
 ```
 
-На Java 26 `allSuccessfulOrThrow()` вече връща директно `List<T>`, което прави common case-а по-кратък.
+На Java 26 `allSuccessfulOrThrow()` вече връща директно `List<T>`, което прави common case-а по-кратък. Explicit scope type-ът показва тази API промяна много по-ясно от `var`.
 
 ## Пример: timeout конфигурация в Java 26
 
 Java 26 позволява configuration operator при `open(...)`, например:
 
 ```java
-var joiner = StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow();
+StructuredTaskScope.Joiner<String, List<String>> joiner =
+        StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow();
 
-try (var scope = StructuredTaskScope.open(
+try (StructuredTaskScope<String, List<String>> scope = StructuredTaskScope.open(
         joiner,
         configuration -> configuration.withTimeout(Duration.ofSeconds(2)))) {
 
@@ -117,7 +127,8 @@ try (var scope = StructuredTaskScope.open(
 ## Връзка с основния код
 
 - Java 25 реализацията е в [`BankClients.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/client/BankClients.java), `CreditScoreClient#getFirstSuccessfulScore(...)`.
-- Цялото обяснение на use case-а е в [`README.md`](./README.md), секция **„Първият успешен резултат печели“ с Joiner**.
+- Основните Java 25 Joiner стратегии са в [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
+- Цялото обяснение на use case-а е в [`README.md`](./README.md), секциите за `StructuredTaskScope` и `Joiner`.
 
 ## Официални източници
 
