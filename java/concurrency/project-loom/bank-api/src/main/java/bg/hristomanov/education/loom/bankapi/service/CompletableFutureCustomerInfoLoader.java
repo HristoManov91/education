@@ -11,18 +11,22 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
 /**
- * Сравнителен вариант на същия use case с CompletableFuture.
+ * Сравнителен вариант на същия use case (конкретен бизнес сценарий) с CompletableFuture.
  *
  * <p>Този class не съществува, за да показва че CompletableFuture е „лош“. Идеята е да
- * сравним два различни programming model-а:</p>
+ * сравним два различни programming model-а (начина, по който структурираме concurrent кода):</p>
  *
  * <ul>
- *   <li>CompletableFuture мисли основно в future values и async composition;</li>
- *   <li>Structured Concurrency мисли в parent operation + child task lifecycle.</li>
+ *   <li>CompletableFuture мисли основно в future values (резултати, които ще бъдат налични по-късно)
+ *       и async composition (комбиниране на асинхронни операции);</li>
+ *   <li>Structured Concurrency мисли в parent operation + child task lifecycle
+ *       (родителска операция + жизнен цикъл на дъщерните задачи).</li>
  * </ul>
  *
- * <p>За request-oriented fan-out/fan-in flow вторият модел често прави ownership-а,
- * cancellation-а и context propagation-а по-видими.</p>
+ * <p>За request-oriented fan-out/fan-in flow (заявка, която се разклонява към няколко операции
+ * и после събира резултатите им) вторият модел често прави ownership-а
+ * (кой управлява задачите), cancellation-а (как се прекратяват ненужните задачи)
+ * и context propagation-а (как request контекстът се пренася към child задачите) по-видими.</p>
  */
 public final class CompletableFutureCustomerInfoLoader {
 
@@ -41,26 +45,30 @@ public final class CompletableFutureCustomerInfoLoader {
 
     public CustomerInfo load(Customer customer) {
         /*
-         * Вземаме metadata ПРЕДИ да стартираме async tasks.
+         * Вземаме metadata ПРЕДИ да стартираме async tasks (асинхронните задачи).
          *
          * Причината: virtual threads, създадени от този ExecutorService, не са автоматично
-         * structured children на текущата операция. ScopedValue inheritance-ът, който имаме
+         * structured children (дъщерни задачи в същата structured операция) на текущата операция.
+         * ScopedValue inheritance-ът (автоматичното наследяване на контекста), който имаме
          * при StructuredTaskScope, не трябва да се предполага тук.
          */
         var metadata = RequestContext.current();
 
         /*
-         * newVirtualThreadPerTaskExecutor() създава НОВ virtual thread за всяка submitted task.
-         * Това е правилният virtual-thread модел: thread-per-task, а не fixed pool от virtual threads.
+         * newVirtualThreadPerTaskExecutor() създава НОВ virtual thread за всяка submitted task
+         * (подадена за изпълнение задача). Това е правилният virtual-thread модел: thread-per-task
+         * (нова нишка за всяка задача), а не fixed pool (фиксиран пул) от virtual threads.
          *
          * try-with-resources затваря executor-а след края на метода и изчаква submitted tasks.
          */
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
             /*
-             * Re-bind-ваме същото immutable request metadata във всяка async task.
+             * Re-bind-ваме (свързваме отново) същото immutable request metadata
+             * (неизменяеми данни за заявката) във всяка async task.
              * Без това AccountClient/LoanClient/CreditScoreClient не могат да прочетат
-             * RequestContext.current() в тези independently-created virtual threads.
+             * RequestContext.current() в тези independently-created virtual threads
+             * (virtual threads, създадени независимо от текущата structured операция).
              */
             var accounts = CompletableFuture.supplyAsync(
                     () -> RequestContext.call(metadata, () -> accountClient.getAccounts(customer.id())), executor);
@@ -72,12 +80,13 @@ public final class CompletableFutureCustomerInfoLoader {
                     () -> RequestContext.call(metadata, () -> creditScoreClient.getFirstSuccessfulScore(customer.id())), executor);
 
             /*
-             * allOf() е fan-in point-ът в CompletableFuture варианта.
-             * Той самият връща CompletableFuture<Void>, затова после четем всеки резултат
-             * поотделно с join().
+             * allOf() е fan-in point-ът (точката, в която паралелните операции отново се събират)
+             * в CompletableFuture варианта. Той самият връща CompletableFuture<Void>, затова после
+             * четем всеки резултат поотделно с join().
              *
              * Сравни това с StructuredTaskScope: там fork-натите tasks и join point-ът
-             * са част от една explicit lexical task structure.
+             * са част от една explicit lexical task structure
+             * (явно видима в кода структура с начало и край на child задачите).
              */
             CompletableFuture.allOf(accounts, loans, score).join();
 

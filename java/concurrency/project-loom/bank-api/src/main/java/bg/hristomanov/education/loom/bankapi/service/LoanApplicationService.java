@@ -9,14 +9,17 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 /**
- * Business orchestration layer за loan application use case-а.
+ * Business orchestration layer (слоят, който подрежда стъпките на бизнес операцията)
+ * за loan application use case-а.
  *
- * <p>Този class показва една важна граница: concurrency трябва да следва dependency graph-а,
+ * <p>Този class показва една важна граница: concurrency (едновременно изпълнение)
+ * трябва да следва dependency graph-а (коя операция от коя зависи),
  * а не да се добавя механично навсякъде.</p>
  *
  * <p>Първо зареждаме Customer последователно, защото следващите calls използват неговото id.
- * Едва след като prerequisite-ът е наличен, StructuredCustomerInfoLoader fan-out-ва независимите
- * accounts/loans/credit-score операции.</p>
+ * Едва след като prerequisite-ът (задължителната предварителна стъпка) е наличен,
+ * StructuredCustomerInfoLoader прави fan-out (разклоняване към няколко независими операции)
+ * към accounts/loans/credit-score.</p>
  */
 @Service
 public class LoanApplicationService {
@@ -34,18 +37,23 @@ public class LoanApplicationService {
     public Offer apply(LoanApplicationRequest request) {
         /*
          * Не fork-ваме този call заедно с останалите само защото можем.
-         * Customer е prerequisite за downstream fan-out-а и така dependency-то остава explicit.
+         * Customer е prerequisite (предварително нужен резултат) за downstream fan-out-а
+         * (разклоняването към следващите извиквани операции), затова dependency-то остава explicit
+         * (видимо директно от структурата на кода).
          */
         var customer = customerClient.getCustomer(request.customerId());
 
         /*
-         * Оттук надолу имаме няколко независими I/O операции. Точно там concurrency носи
-         * реална latency полза и StructuredCustomerInfoLoader поема ownership-а им.
+         * Оттук надолу имаме няколко независими I/O операции. Точно там concurrency
+         * (едновременно изпълнение) носи реална latency полза (по-ниско общо време на заявката),
+         * а StructuredCustomerInfoLoader поема ownership-а им
+         * (отговорността да стартира, изчака и приключи тези задачи коректно).
          */
         var customerInfo = customerInfoLoader.load(customer);
 
         /*
-         * След fan-in-а отново сме в нормален sequential business flow.
+         * След fan-in-а (събирането на паралелните резултати обратно в един поток)
+         * отново сме в нормален sequential business flow (последователен бизнес поток).
          * Самото изчисляване на офертата не става „по-добро“, ако го пуснем в още един thread.
          */
         return calculateOffer(request, customerInfo);
@@ -53,8 +61,8 @@ public class LoanApplicationService {
 
     private Offer calculateOffer(LoanApplicationRequest request, CustomerInfo info) {
         /*
-         * Banking логиката тук е умишлено опростена. Лабораторията е за concurrency model-а,
-         * не за реален credit-risk engine.
+         * Banking логиката тук е умишлено опростена. Лабораторията е за concurrency model-а
+         * (модела за едновременно изпълнение), не за реален credit-risk engine.
          */
         int score = info.creditScore().score();
 

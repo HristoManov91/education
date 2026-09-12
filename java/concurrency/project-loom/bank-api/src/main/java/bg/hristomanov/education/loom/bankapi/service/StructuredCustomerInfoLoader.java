@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.StructuredTaskScope;
 
 /**
- * Демонстрира основния Structured Concurrency use case в лабораторията.
+ * Демонстрира основния Structured Concurrency use case (конкретен сценарий) в лабораторията.
  *
- * <p>След като вече имаме {@link Customer}, трите downstream операции са независими:
+ * <p>След като вече имаме {@link Customer}, трите downstream операции
+ * (операциите към услуги/данни, които текущият компонент извиква) са независими:
  * accounts, loans и credit score. Нито една от тях не се нуждае от резултата на другата,
- * затова е безопасно да ги стартираме concurrently.</p>
+ * затова е безопасно да ги стартираме concurrently (едновременно).</p>
  *
  * <p>Важно е да не приемаме, че всяка последователност от три HTTP calls трябва автоматично
- * да стане concurrent. Fork-ваме само работа, за която dependency graph-ът го позволява.</p>
+ * да стане concurrent. Fork-ваме само работа, за която dependency graph-ът
+ * (графът на зависимостите между операциите) го позволява.</p>
  *
  * <p>README: разделите „Structured Concurrency“ и „StructuredTaskScope стъпка по стъпка“.</p>
  */
@@ -39,46 +41,55 @@ public class StructuredCustomerInfoLoader {
 
     public CustomerInfo load(Customer customer) {
         /*
-         * open() създава lexical scope, който е owner на child задачите по-долу.
+         * open() създава lexical scope (обхват, чието начало и край се виждат директно в кода),
+         * който е owner (компонентът, отговорен за lifecycle-а) на child задачите по-долу.
          *
          * Това е една от най-важните идеи на Structured Concurrency:
-         * lifetime-ът на concurrent работата е видим от самата структура на кода.
+         * lifetime-ът (времето на живот) на concurrent работата е видим от самата структура на кода.
          * Scope-ът започва тук и завършва при края на try блока.
          *
-         * В Java 25 default policy е fail-fast. Ако required subtask fail-не,
+         * В Java 25 default policy е fail-fast (при релевантна грешка прекратяваме ненужната
+         * останала работа). Ако required subtask (задължителна дъщерна задача) fail-не,
          * останалата работа може да бъде cancel-ната и join() завършва с failure.
          */
         try (var scope = StructuredTaskScope.open()) {
 
             /*
              * fork() НЕ означава просто „пусни Runnable някъде“.
-             * Казваме, че тази task е child на текущата structured операция.
+             * Казваме, че тази task е child (дъщерна задача) на текущата structured операция.
              *
-             * Тези три calls са предимно blocking HTTP I/O. Докато един virtual thread
-             * чака downstream отговор, carrier thread може да изпълнява друга работа.
+             * Тези три calls са предимно blocking HTTP I/O (операции, които прекарват време
+             * в чакане на външен отговор). Докато един virtual thread чака downstream отговор,
+             * carrier thread (platform нишката, върху която JVM в момента изпълнява virtual thread-а)
+             * може да изпълнява друга работа.
              *
-             * Всяка променлива е Subtask<T> handle. Резултатът ще се прочете след join().
+             * Всяка променлива е Subtask<T> handle (дръжка към дъщерната задача).
+             * Резултатът ще се прочете след join().
              */
             var accountsTask = scope.fork(() -> accountClient.getAccounts(customer.id()));
             var loansTask = scope.fork(() -> loanClient.getLoans(customer.id()));
             var creditScoreTask = scope.fork(() -> creditScoreClient.getFirstSuccessfulScore(customer.id()));
 
             /*
-             * join() е structural join point-ът.
+             * join() е structural join point-ът
+             * (ясната точка, в която паралелните пътища отново се събират).
              *
              * До този ред трите child операции могат да вървят едновременно.
              * От този ред надолу business logic-ът изисква техните резултати.
              *
-             * Това е по-лесно за reasoning от разпръснати Future#get()/join() calls,
-             * защото имаме ясно място, където паралелните пътища отново се събират.
+             * Това е по-лесно за reasoning (проследяване и разбиране на поведението)
+             * от разпръснати Future#get()/join() calls, защото имаме ясно място,
+             * където паралелните пътища отново се събират.
              */
             scope.join();
 
             /*
-             * След успешен join() required subtasks са приключили успешно според policy-то
-             * на този scope. Събираме резултатите обратно в един нормален domain object.
+             * След успешен join() required subtasks (задължителните дъщерни задачи)
+             * са приключили успешно според policy-то (правилото за завършване) на този scope.
+             * Събираме резултатите обратно в един нормален domain object.
              *
-             * Оттук нататък кодът отново е обикновен sequential business code.
+             * Оттук нататък кодът отново е обикновен sequential business code
+             * (последователна бизнес логика).
              */
             return new CustomerInfo(
                     accountsTask.get(),
@@ -87,11 +98,13 @@ public class StructuredCustomerInfoLoader {
 
         } catch (InterruptedException e) {
             /*
-             * InterruptedException е cooperative cancellation signal.
+             * InterruptedException е cooperative cancellation signal
+             * (сигнал за прекратяване, който кодът трябва доброволно да обработи).
              *
              * Не трябва да го „изяждаме“. Когато го превръщаме в unchecked/application
              * exception, възстановяваме interrupt flag-а, за да може код по-нагоре по
-             * call stack-а да разбере, че thread-ът е бил поискан за прекратяване.
+             * call stack-а (веригата от извикани методи) да разбере, че thread-ът е бил
+             * поискан за прекратяване.
              */
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Customer info loading was interrupted", e);

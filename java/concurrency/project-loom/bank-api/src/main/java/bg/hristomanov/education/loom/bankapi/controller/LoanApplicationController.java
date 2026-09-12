@@ -15,15 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 /**
- * HTTP boundary на demo приложението.
+ * HTTP boundary (границата, през която HTTP заявката влиза в приложението) на demo приложението.
  *
- * <p>Точно тук bind-ваме request metadata чрез ScopedValue, защото controller-ът е
+ * <p>Точно тук bind-ваме (свързваме с текущия execution scope) request metadata
+ * (данните за конкретната заявка, тук основно requestId) чрез ScopedValue, защото controller-ът е
  * естествената граница на една HTTP операция. Всичко, което се извика надолу от
  * {@link #apply(LoanApplicationRequest)}, принадлежи на същия request.</p>
  *
  * <p>Ако bind-нем context-а по-късно, например чак в HTTP client, sibling operations
- * няма да споделят една и съща request identity. Ако пък го пазим в mutable singleton
- * field, concurrent requests могат да си презаписват стойностите.</p>
+ * (паралелни операции на едно и също ниво с общ parent) няма да споделят една и съща
+ * request identity (идентичност на конкретната заявка, например нейния requestId).
+ * Ако пък го пазим в mutable singleton field (споделено изменяемо поле в един singleton bean),
+ * concurrent requests (едновременно обработвани заявки) могат да си презаписват стойностите.</p>
  */
 @RestController
 @RequestMapping("/api")
@@ -38,21 +41,24 @@ public class LoanApplicationController {
     @PostMapping("/loan-applications")
     public Offer apply(@RequestBody LoanApplicationRequest request) {
         /*
-         * В реално приложение requestId често идва от incoming header / gateway / tracing system.
+         * В реално приложение requestId често идва от incoming header (входящ HTTP header),
+         * gateway (входен посредник/маршрутизатор) или tracing system (система за проследяване).
          * Тук генерираме UUID локално, за да държим лабораторията самостоятелна.
          */
         var metadata = new RequestMetadata(UUID.randomUUID());
 
         /*
-         * RequestContext.call(...) отваря dynamic ScopedValue binding.
+         * RequestContext.call(...) отваря dynamic ScopedValue binding
+         * (временно свързване на стойност с текущия execution scope).
          *
          * Докато lambda-та се изпълнява:
          * - service/loader/client кодът може да прочете RequestContext.current();
-         * - StructuredTaskScope child threads наследяват binding-а;
+         * - StructuredTaskScope child threads (дъщерни нишки на текущата structured операция)
+         *   наследяват binding-а;
          * - не е нужно requestId да се прокарва през всеки method parameter.
          *
          * След края на call(...) binding-ът автоматично приключва. Няма ръчно remove(),
-         * както при типичен ThreadLocal lifecycle.
+         * както при типичен ThreadLocal lifecycle (жизнен цикъл).
          */
         return RequestContext.call(metadata, () -> loanApplicationService.apply(request));
     }

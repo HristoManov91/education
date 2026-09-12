@@ -16,19 +16,23 @@ import java.util.UUID;
 import java.util.concurrent.StructuredTaskScope;
 
 /**
- * Downstream HTTP clients за demo bank-services приложението.
+ * Downstream HTTP clients (клиенти към услуги, които текущото приложение извиква)
+ * за demo bank-services приложението.
  *
- * <p>Класовете са събрани в един outer class само за да държим учебния проект компактен.
- * В реална система най-вероятно бихме ги разделили в отделни файлове/packages.</p>
+ * <p>Класовете са събрани в един outer class (външен контейнерен клас) само за да държим
+ * учебния проект компактен. В реална система най-вероятно бихме ги разделили
+ * в отделни файлове/packages.</p>
  *
- * <p>Използваме synchronous Spring {@link RestClient} нарочно. Тези blocking HTTP calls
- * са добър пример за workload, при който virtual threads могат да дадат high concurrency,
- * без да пренаписваме business flow-а като reactive callback pipeline.</p>
+ * <p>Използваме synchronous Spring {@link RestClient} (блокиращ HTTP клиент) нарочно.
+ * Тези blocking HTTP calls (извиквания, които чакат отговор) са добър пример за workload
+ * (тип натоварване), при който virtual threads могат да дадат high concurrency
+ * (много едновременно обслужвани операции), без да пренаписваме business flow-а
+ * като reactive callback pipeline.</p>
  */
 public final class BankClients {
 
     private BankClients() {
-        // Namespace/utility holder: не създаваме instance на outer class-а.
+        // Namespace/utility holder (клас-контейнер): не създаваме instance на outer class-а.
     }
 
     @Component
@@ -41,7 +45,8 @@ public final class BankClients {
 
         public Customer getCustomer(UUID customerId) {
             /*
-             * Customer lookup е prerequisite за останалия fan-out: първо искаме да знаем
+             * Customer lookup е prerequisite (предварително нужна стъпка) за останалия fan-out
+             * (разклоняването към няколко независими операции): първо искаме да знаем
              * за кой customer работим. Затова този call в LoanApplicationService остава
              * преди StructuredTaskScope, вместо механично да fork-ваме абсолютно всичко.
              */
@@ -64,11 +69,14 @@ public final class BankClients {
         public List<Account> getAccounts(UUID customerId) {
             /*
              * Логваме три неща нарочно:
-             * 1) requestId — доказва ScopedValue context propagation-а;
-             * 2) текущия Thread — показва, че sibling calls са в различни threads;
+             * 1) requestId — доказва ScopedValue context propagation-а
+             *    (пренасянето на request контекста към child задачите);
+             * 2) текущия Thread — показва, че sibling calls
+             *    (паралелни извиквания на едно и също ниво) са в различни threads;
              * 3) isVirtual — доказва virtual-thread execution-а.
              *
-             * Това е observability част от лабораторията, не просто debug noise.
+             * Това е observability част (наблюдаемост на поведението) от лабораторията,
+             * не просто debug noise (излишен диагностичен шум).
              */
             log.info("requestId={} operation=accounts thread={} virtual={}",
                     RequestContext.current().requestId(), Thread.currentThread(), Thread.currentThread().isVirtual());
@@ -78,7 +86,7 @@ public final class BankClients {
                     .retrieve()
                     .body(Account[].class);
 
-            // RestClient body() може да върне null. За demo domain-а предпочитаме empty collection.
+            // RestClient body() може да върне null. За demo domain-а предпочитаме empty collection (празна колекция).
             return result == null ? List.of() : Arrays.asList(result);
         }
     }
@@ -93,7 +101,7 @@ public final class BankClients {
         }
 
         public List<Loan> getLoans(UUID customerId) {
-            // Същата observability идея като при AccountClient — виж коментара там.
+            // Същата observability идея (наблюдаемост) като при AccountClient — виж коментара там.
             log.info("requestId={} operation=loans thread={} virtual={}",
                     RequestContext.current().requestId(), Thread.currentThread(), Thread.currentThread().isVirtual());
 
@@ -116,20 +124,23 @@ public final class BankClients {
         }
 
         /**
-         * Пита два независими credit-score provider-а и връща първия УСПЕШЕН резултат.
+         * Пита два независими credit-score provider-а (доставчика на кредитен рейтинг)
+         * и връща първия УСПЕШЕН резултат.
          *
-         * <p>Това е nested Structured Concurrency пример: самият CreditScoreClient е child
-         * task на outer customer-info scope, но вътре създава собствен scope с още две children.</p>
+         * <p>Това е nested Structured Concurrency пример (structured scope вътре в друг scope):
+         * самият CreditScoreClient е child task (дъщерна задача) на outer customer-info scope,
+         * но вътре създава собствен scope с още две children.</p>
          *
          * <p>„Първият успешен“ е важно различно изискване от „първият приключил“. Ако единият
          * provider fail-не бързо, не искаме неговия exception, а продължаваме да чакаме другия.</p>
          */
         public CreditScore getFirstSuccessfulScore(UUID customerId) {
             /*
-             * Java 25 Joiner policy:
-             * - fork-ваме няколко candidate subtasks;
+             * Java 25 Joiner policy (правилото кога имаме достатъчен резултат):
+             * - fork-ваме няколко candidate subtasks (кандидат дъщерни задачи);
              * - scope.join() приключва, когато има успешен резултат;
-             * - ненужната sibling работа може да бъде cancel-ната;
+             * - ненужната sibling работа (останалата паралелна работа на същото ниво)
+             *   може да бъде cancel-ната;
              * - ако всички subtasks fail-нат, join() завършва с failure.
              *
              * Java 26 преименува factory метода на anySuccessfulOrThrow().
@@ -142,13 +153,14 @@ public final class BankClients {
                 scope.fork(() -> getScore(customerId, "provider-b"));
 
                 /*
-                 * Тук join() директно връща CreditScore, защото Joiner определя result type-а.
-                 * Това е различно от outer default scope, където след join() четем Subtask#get().
+                 * Тук join() директно връща CreditScore, защото Joiner определя result type-а
+                 * (типа на крайния резултат). Това е различно от outer default scope,
+                 * където след join() четем Subtask#get().
                  */
                 return scope.join();
 
             } catch (InterruptedException e) {
-                // Не губим cooperative cancellation signal-а при wrapping на exception-а.
+                // Не губим cooperative cancellation signal-а (сигнала за доброволно прекратяване).
                 Thread.currentThread().interrupt();
                 throw new IllegalStateException("Credit score lookup was interrupted", e);
             }
@@ -156,8 +168,9 @@ public final class BankClients {
 
         private CreditScore getScore(UUID customerId, String provider) {
             /*
-             * RequestContext.current() работи и тук, въпреки че сме в nested child task.
-             * Това демонстрира ScopedValue inheritance през structured task tree-а.
+             * RequestContext.current() работи и тук, въпреки че сме в nested child task
+             * (дъщерна задача във вложен scope). Това демонстрира ScopedValue inheritance
+             * (наследяването на контекста) през structured task tree-а.
              */
             log.info("requestId={} operation=credit-score provider={} thread={} virtual={}",
                     RequestContext.current().requestId(), provider,
