@@ -21,7 +21,12 @@ import java.util.concurrent.StructuredTaskScope;
  * да стане concurrent. Fork-ваме само работа, за която dependency graph-ът
  * (графът на зависимостите между операциите) го позволява.</p>
  *
- * <p>README: разделите „Structured Concurrency“ и „StructuredTaskScope стъпка по стъпка“.</p>
+ * <p>README: разделите „Structured Concurrency“ и „StructuredTaskScope стъпка по стъпка“.
+ * Подробна локална справка за Java 25 Joiner policy-тата има и в
+ * {@code project-loom/JOINER-POLICIES.md}.</p>
+ *
+ * @see <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html">
+ *     Java 25 StructuredTaskScope.Joiner API</a>
  */
 @Service
 public class StructuredCustomerInfoLoader {
@@ -48,9 +53,51 @@ public class StructuredCustomerInfoLoader {
          * lifetime-ът (времето на живот) на concurrent работата е видим от самата структура на кода.
          * Scope-ът започва тук и завършва при края на try блока.
          *
-         * В Java 25 default policy е fail-fast (при релевантна грешка прекратяваме ненужната
-         * останала работа). Ако required subtask (задължителна дъщерна задача) fail-не,
-         * останалата работа може да бъде cancel-ната и join() завършва с failure.
+         * ВАЖНО: StructuredTaskScope не предлага само една policy (политика за завършване).
+         * В Java 25 основните built-in Joiner варианти са:
+         *
+         * 1) awaitAllSuccessfulOrThrow()
+         *    - всички subtasks трябва да завършат успешно;
+         *    - при failure (грешка) на една задача scope-ът cancel-ва ненужната останала работа;
+         *    - join() не връща самите резултати, а след него четем отделните Subtask#get();
+         *    - подходящо е, когато child задачите могат да връщат РАЗЛИЧНИ типове резултат.
+         *
+         * 2) allSuccessfulOrThrow()
+         *    - отново всички subtasks трябва да успеят и при failure се cancel-ват останалите;
+         *    - join() връща Stream<Subtask<T>>;
+         *    - удобно е, когато задачите връщат ЕДИН И СЪЩ тип и искаме всички резултати като колекция.
+         *
+         * 3) anySuccessfulResultOrThrow()
+         *    - достатъчен е първият УСПЕШЕН резултат;
+         *    - след него останалата работа вече не е нужна и може да бъде cancel-ната;
+         *    - join() връща директно резултата T;
+         *    - хвърля failure само ако всички subtasks се провалят.
+         *    Използваме точно тази policy по-навътре в CreditScoreClient, където два provider-а
+         *    се състезават и ни е достатъчен първият успешен credit score.
+         *
+         * 4) awaitAll()
+         *    - чака всички subtasks независимо дали някоя fail-ва;
+         *    - не cancel-ва scope-а само заради failure и join() не хвърля заради child failure;
+         *    - полезно е например при независими side effects (странични ефекти) или когато
+         *      искаме след края сами да разгледаме кои операции са успели и кои са се провалили.
+         *
+         * 5) allUntil(predicate)
+         *    - чака, докато всички приключат ИЛИ predicate-ът (условието) каже „имам достатъчно“;
+         *    - тогава може да short-circuit-не (приключи по-рано) и да cancel-не останалата работа;
+         *    - полезно е за custom условие, което built-in policy-тата по-горе не покриват.
+         *
+         * Може да се напише и custom Joiner, когато тези стратегии не са достатъчни, но policy-то
+         * трябва да описва общ concurrency behavior, а не да се превръща в място за business logic.
+         *
+         * Конкретно StructuredTaskScope.open() БЕЗ Joiner е еквивалентно на
+         * awaitAllSuccessfulOrThrow(). Избираме го тук, защото CustomerInfo е валиден само ако
+         * имаме И accounts, И loans, И credit score. Един успешен резултат не компенсира липсващите
+         * други два. Освен това трите резултата са от различни типове, затова след join() четем
+         * отделните handles чрез accountsTask.get(), loansTask.get() и creditScoreTask.get().
+         *
+         * Подробно: project-loom/JOINER-POLICIES.md
+         * Official Java 25 API:
+         * https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html
          */
         try (var scope = StructuredTaskScope.open()) {
 
