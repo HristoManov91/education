@@ -326,7 +326,7 @@ jcmd -l
 Замени `<PID>`:
 
 ```bash
-jcmd <PID> JFR.start name=education settings=profile maxage=10m maxsize=256m
+jcmd <PID> JFR.start name=education settings=profile maxage=10m maxsize=256M
 ```
 
 Какво казваме:
@@ -334,7 +334,7 @@ jcmd <PID> JFR.start name=education settings=profile maxage=10m maxsize=256m
 - `name=education` — даваме име;
 - `settings=profile` — искаме profiling detail;
 - `maxage=10m` — пазим до 10 минути история;
-- `maxsize=256m` — ограничаваме размера.
+- `maxsize=256M` — ограничаваме размера.
 
 Провери:
 
@@ -364,7 +364,7 @@ CPU hotspot
 ### 10.4 Dump-ни recording-а
 
 ```bash
-jcmd <PID> JFR.dump name=education filename=target/education.jfr
+jcmd <PID> JFR.dump name=education filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 **Важно:** `JFR.dump` копира текущите recording данни във файл, но recording-ът продължава.
@@ -398,7 +398,7 @@ JFR.stop
 ## 11. `jfr summary`
 
 ```bash
-jfr summary target/education.jfr
+jfr summary java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 Това е първата проверка:
@@ -418,23 +418,23 @@ jfr summary target/education.jfr
 Полезни views:
 
 ```bash
-jfr view hot-methods target/education.jfr
-jfr view allocation-by-site target/education.jfr
-jfr view contention-by-site target/education.jfr
-jfr view file-reads-by-path target/education.jfr
-jfr view file-writes-by-path target/education.jfr
+jfr view hot-methods java/jvm/jfr-troubleshooting/target/education.jfr
+jfr view allocation-by-site java/jvm/jfr-troubleshooting/target/education.jfr
+jfr view contention-by-site java/jvm/jfr-troubleshooting/target/education.jfr
+jfr view file-reads-by-path java/jvm/jfr-troubleshooting/target/education.jfr
+jfr view file-writes-by-path java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
-За списък с наличните views:
-
-```bash
-jfr view target/education.jfr
-```
-
-или:
+За списък с predefined views:
 
 ```bash
 jfr --help view
+```
+
+За да изпълниш всички predefined views върху recording-а:
+
+```bash
+jfr view all-views java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 Имената на наличните predefined views могат да се развиват между JDK версиите.
@@ -448,7 +448,7 @@ jfr --help view
 Нашият custom event:
 
 ```bash
-jfr print --events bg.hristomanov.education.jfr.OrderProcessing target/education.jfr
+jfr print --events bg.hristomanov.education.jfr.OrderProcessing java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 Можеш да видиш:
@@ -487,7 +487,7 @@ curl "http://localhost:8080/api/jfr/cpu?iterations=10000000"
 После:
 
 ```bash
-jfr view hot-methods target/education.jfr
+jfr view hot-methods java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 ### Какво доказваме
@@ -587,7 +587,7 @@ curl -X POST "http://localhost:8080/api/jfr/locks?workers=6&holdMillis=150"
 После:
 
 ```bash
-jfr view contention-by-site target/education.jfr
+jfr view contention-by-site java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 ### Ключовото знание
@@ -624,8 +624,8 @@ curl -X POST "http://localhost:8080/api/jfr/io?megabytes=16"
 После:
 
 ```bash
-jfr view file-reads-by-path target/education.jfr
-jfr view file-writes-by-path target/education.jfr
+jfr view file-reads-by-path java/jvm/jfr-troubleshooting/target/education.jfr
+jfr view file-writes-by-path java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 Идеята е да различаваме:

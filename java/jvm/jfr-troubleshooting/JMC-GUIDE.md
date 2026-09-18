@@ -43,7 +43,7 @@ curl http://localhost:8080/api/jfr/info
 Стартирай:
 
 ```bash
-jcmd <PID> JFR.start name=education settings=profile maxage=10m maxsize=256m
+jcmd <PID> JFR.start name=education settings=profile maxage=10m maxsize=256M
 ```
 
 Генерирай workload:
@@ -55,7 +55,7 @@ curl -X POST http://localhost:8080/api/jfr/scenario
 Dump:
 
 ```bash
-jcmd <PID> JFR.dump name=education filename=target/education.jfr
+jcmd <PID> JFR.dump name=education filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 После можеш да спреш recording-а:
@@ -68,7 +68,7 @@ jcmd <PID> JFR.stop name=education
 
 ## 3. Отвори файла в JMC
 
-В JMC отвори `target/education.jfr`.
+В JMC отвори `java/jvm/jfr-troubleshooting/target/education.jfr`.
 
 Точните имена/позиции на страниците могат леко да се различават между JMC версиите, но mental model-ът е същият.
 
