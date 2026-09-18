@@ -55,7 +55,7 @@ curl -X POST http://localhost:8080/api/jfr/scenario
 Dump:
 
 ```bash
-jcmd <PID> JFR.dump name=education filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/education.jfr
+jcmd <PID> JFR.dump name=education filename=java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 После можеш да спреш recording-а:

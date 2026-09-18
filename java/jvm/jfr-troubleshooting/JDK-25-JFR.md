@@ -104,7 +104,7 @@ mvn -pl java/jvm/jfr-troubleshooting package
 Стартирай jar-а с CPU-time event:
 
 ```bash
-java -XX:StartFlightRecording=jdk.CPUTimeSample#enabled=true,filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/cpu-time.jfr,settings=profile \
+java -XX:StartFlightRecording=jdk.CPUTimeSample#enabled=true,filename=java/jvm/jfr-troubleshooting/target/cpu-time.jfr,settings=profile \
   -jar java/jvm/jfr-troubleshooting/target/jfr-troubleshooting-1.0-SNAPSHOT.jar
 ```
 
@@ -173,7 +173,7 @@ CpuHotspotService::burnCpu
 Startup пример:
 
 ```bash
-java "-XX:StartFlightRecording=method-timing=bg.hristomanov.education.jfr.service.CpuHotspotService::burnCpu,dumponexit=true,filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/method-timing.jfr" \
+java "-XX:StartFlightRecording=method-timing=bg.hristomanov.education.jfr.service.CpuHotspotService::burnCpu,dumponexit=true,filename=java/jvm/jfr-troubleshooting/target/method-timing.jfr" \
   -jar java/jvm/jfr-troubleshooting/target/jfr-troubleshooting-1.0-SNAPSHOT.jar
 ```
 
@@ -201,7 +201,7 @@ filter = package.Class::method
 Пример:
 
 ```bash
-java "-XX:StartFlightRecording:jdk.MethodTrace#filter=bg.hristomanov.education.jfr.service.OrderProcessingService::process,filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/method-trace.jfr" \
+java "-XX:StartFlightRecording:jdk.MethodTrace#filter=bg.hristomanov.education.jfr.service.OrderProcessingService::process,filename=java/jvm/jfr-troubleshooting/target/method-trace.jfr" \
   -jar java/jvm/jfr-troubleshooting/target/jfr-troubleshooting-1.0-SNAPSHOT.jar
 ```
 

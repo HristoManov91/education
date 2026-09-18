@@ -364,7 +364,7 @@ CPU hotspot
 ### 10.4 Dump-ни recording-а
 
 ```bash
-jcmd <PID> JFR.dump name=education filename=java/jvm/jfr-troubleshooting/java/jvm/jfr-troubleshooting/target/education.jfr
+jcmd <PID> JFR.dump name=education filename=java/jvm/jfr-troubleshooting/target/education.jfr
 ```
 
 **Важно:** `JFR.dump` копира текущите recording данни във файл, но recording-ът продължава.
