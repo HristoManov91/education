@@ -73,3 +73,7 @@ education/
 ### Java / Concurrency
 
 - [Project Loom — Virtual Threads, Structured Concurrency и Scoped Values](java/concurrency/project-loom/README.md)
+
+### Java / JVM
+
+- [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
