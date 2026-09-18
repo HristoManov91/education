@@ -1,0 +1,37 @@
+@baseUrl = http://localhost:8080
+
+### 1. JVM/process информация — PID-ът е полезен за jcmd
+# @name info
+GET {{baseUrl}}/api/jfr/info
+
+### 2. Пълен първи сценарий — CPU + locks + file I/O + custom JFR event
+# @name fullScenario
+POST {{baseUrl}}/api/jfr/scenario
+
+### 3. Самостоятелен CPU hotspot
+# @name cpuHotspot
+GET {{baseUrl}}/api/jfr/cpu?iterations=10000000
+
+### 4. Retain-ваме 16 MiB — повтори няколко пъти за memory-pressure recording
+# @name retainMemory
+POST {{baseUrl}}/api/jfr/memory/retain?megabytes=16
+
+### 5. Колко памет държи demo leak-ът в момента
+# @name memoryStatus
+GET {{baseUrl}}/api/jfr/memory/status
+
+### 6. Освобождаваме strong references след memory упражнението
+# @name clearMemory
+DELETE {{baseUrl}}/api/jfr/memory
+
+### 7. Monitor contention
+# @name lockContention
+POST {{baseUrl}}/api/jfr/locks?workers=6&holdMillis=150
+
+### 8. File read/write
+# @name fileIo
+POST {{baseUrl}}/api/jfr/io?megabytes=16
+
+### 9. Business operation с custom OrderProcessing JFR event
+# @name order
+POST {{baseUrl}}/api/jfr/order?itemCount=10
