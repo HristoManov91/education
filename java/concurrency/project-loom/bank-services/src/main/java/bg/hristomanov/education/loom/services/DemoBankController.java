@@ -3,11 +3,14 @@ package bg.hristomanov.education.loom.services;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Dummy downstream system, използван само за да направи concurrency поведението наблюдаемо.
@@ -21,6 +24,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/demo/customers")
 public class DemoBankController {
+
+    private static final int MAX_LIMITED_CONCURRENCY = 2;
+
+    private final AtomicInteger limitedConcurrentRequests =
+            new AtomicInteger();
 
     @GetMapping("/{id}")
     Customer customer(@PathVariable UUID id) {
@@ -63,6 +71,32 @@ public class DemoBankController {
 
         simulateLatency(450);
         return new CreditScore(provider, 735);
+    }
+
+    /**
+     * Downstream fixture за bounded-concurrency lab-а.
+     *
+     * <p>Endpoint-ът допуска максимум две едновременни заявки. Така можем да видим,
+     * че "имаме много евтини virtual threads" не означава "downstream-ът има безкраен
+     * capacity". Третата и следващите едновременни заявки получават HTTP 429.</p>
+     */
+    @GetMapping("/../../limited/pages/{page}")
+    ResponseEntity<String> limitedPage(@PathVariable int page) {
+        int activeRequests = limitedConcurrentRequests.incrementAndGet();
+
+        try {
+            if (activeRequests > MAX_LIMITED_CONCURRENCY) {
+                return ResponseEntity
+                        .status(HttpStatus.TOO_MANY_REQUESTS)
+                        .body("Too many concurrent downstream requests");
+            }
+
+            simulateLatency(200);
+            return ResponseEntity.ok("page-" + page);
+
+        } finally {
+            limitedConcurrentRequests.decrementAndGet();
+        }
     }
 
     private void simulateLatency(long millis) {
