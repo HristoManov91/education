@@ -110,7 +110,7 @@ public final class BoundedConcurrencyDemo {
             int page) throws IOException, InterruptedException {
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseUrl + "/demo/limited/pages/" + page))
+                .uri(URI.create(baseUrl + "/demo/customers/limited/pages/" + page))
                 .GET()
                 .build();
 
