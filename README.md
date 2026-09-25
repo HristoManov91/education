@@ -73,6 +73,7 @@ education/
 ### Java / Concurrency
 
 - [Project Loom — Virtual Threads, Structured Concurrency и Scoped Values](java/concurrency/project-loom/README.md)
+  - [Допълнителни Virtual Threads labs — custom Joiner, context, load и observability](java/concurrency/project-loom/VIRTUAL-THREADS-LABS.md)
 
 ### Java / JVM
 

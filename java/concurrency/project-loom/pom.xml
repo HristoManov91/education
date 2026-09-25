@@ -21,6 +21,7 @@
     <modules>
         <module>bank-services</module>
         <module>bank-api</module>
+        <module>loom-labs</module>
     </modules>
 
     <properties>
