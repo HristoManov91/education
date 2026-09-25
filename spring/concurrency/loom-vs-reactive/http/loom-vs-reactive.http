@@ -1,0 +1,28 @@
+@backend = http://localhost:9091
+@mvc = http://localhost:9092
+@webflux = http://localhost:9093
+
+### Backend fast
+GET {{backend}}/backend/fast
+
+### MVC + Loom: finite fan-out
+GET {{mvc}}/compare/fan-out
+
+### WebFlux/Reactor: finite fan-out
+GET {{webflux}}/compare/fan-out
+
+### MVC + Loom: one timeout budget for the whole structured operation
+GET {{mvc}}/compare/global-timeout
+
+### WebFlux/Reactor: one timeout around the composed publisher
+GET {{webflux}}/compare/global-timeout
+
+### MVC + Loom: protect downstream with Semaphore(2)
+GET {{mvc}}/compare/bounded
+
+### WebFlux/Reactor: flatMap(..., 2)
+GET {{webflux}}/compare/bounded
+
+### WebFlux/Reactor: infinite SSE stream
+GET {{webflux}}/compare/events
+Accept: text/event-stream

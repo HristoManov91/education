@@ -15,5 +15,6 @@
     <modules>
         <module>java/concurrency/project-loom</module>
         <module>java/jvm/jfr-troubleshooting</module>
+        <module>spring/concurrency/loom-vs-reactive</module>
     </modules>
 </project>

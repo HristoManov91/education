@@ -61,8 +61,8 @@ public CreditScore getFirstSuccessfulScore(UUID customerId) {
 | --- | --- | --- | --- |
 | First successful result | `anySuccessfulResultOrThrow()` | `anySuccessfulOrThrow()` | Нашият код изисква rename при migration към 26 |
 | `allSuccessfulOrThrow()` result | `Stream<Subtask<T>>` | `List<T>` | На Java 26 получаваме директно резултатите, вместо да map-ваме `Subtask::get` |
-| Timeout policy | timeout се обработва от scope/join механизма | `Joiner` има `onTimeout()` hook | custom Joiner може да участва в timeout outcome-а |
-| Scope configuration | preview configuration API | configuration API е доизпипан; 2-arg `open` използва configuration operator | по-ясно конфигуриране на timeout/thread factory/name |
+| Timeout policy | `Configuration.withTimeout(...)` cancel-ва scope-а и `join()` хвърля `StructuredTaskScope.TimeoutException` | `Joiner.onTimeout()` може да участва в timeout outcome-а преди `result()` | Java 26 дава повече контрол на custom Joiner при timeout |
+| Scope configuration function | 2-arg `open(joiner, Function<Configuration, Configuration>)`; има `withTimeout`, `withThreadFactory`, `withName` | 2-arg `open(joiner, UnaryOperator<Configuration>)` | capability-то съществува и в Java 25; Java 26 доизчиства signature-а |
 
 ## Пример: всички успешни резултати
 
@@ -98,26 +98,55 @@ try (StructuredTaskScope<String, List<String>> scope =
 
 На Java 26 `allSuccessfulOrThrow()` вече връща директно `List<T>`, което прави common case-а по-кратък. Explicit scope type-ът показва тази API промяна много по-ясно от `var`.
 
-## Пример: timeout конфигурация в Java 26
+## Timeout конфигурацията съществува още в Java 25
 
-Java 26 позволява configuration operator при `open(...)`, например:
+Важно уточнение: `withTimeout(...)`, `withThreadFactory(...)`, `withName(...)`
+и двуаргументният `StructuredTaskScope.open(...)` **не са нови в Java 26**.
+Те вече са част от Java 25 preview API.
+
+### Java 25
 
 ```java
-StructuredTaskScope.Joiner<String, List<String>> joiner =
-        StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow();
+StructuredTaskScope.Joiner<String, Void> joiner =
+        StructuredTaskScope.Joiner.<String>awaitAllSuccessfulOrThrow();
 
-try (StructuredTaskScope<String, List<String>> scope = StructuredTaskScope.open(
+try (StructuredTaskScope<String, Void> scope = StructuredTaskScope.open(
         joiner,
         configuration -> configuration.withTimeout(Duration.ofSeconds(2)))) {
 
-    scope.fork(this::callServiceA);
-    scope.fork(this::callServiceB);
+    StructuredTaskScope.Subtask<String> serviceA =
+            scope.fork(this::callServiceA);
 
-    List<String> result = scope.join();
+    StructuredTaskScope.Subtask<String> serviceB =
+            scope.fork(this::callServiceB);
+
+    scope.join();
+
+    String resultA = serviceA.get();
+    String resultB = serviceB.get();
 }
 ```
 
-Това е полезно за request-oriented backend код, защото timeout-ът принадлежи на **цялата structured операция**, вместо всяка child задача да има напълно независим lifecycle.
+В Java 25 вторият argument е `Function<Configuration, Configuration>`.
+Ако timeout-ът изтече, scope-ът се cancel-ва, unfinished child threads се interrupt-ват
+и `join()` хвърля `StructuredTaskScope.TimeoutException`.
+
+### Какво се променя в Java 26
+
+Java 26 запазва същия configuration model, но:
+
+- signature-ът на 2-arg `open(...)` използва `UnaryOperator<Configuration>`;
+- `Joiner` получава `onTimeout()`;
+- custom Joiner може да участва в timeout outcome-а, преди да се извика `result()`.
+
+Това е source-level refinement на вече съществуващ capability, а не първа поява
+на timeout/configuration support.
+
+Практическият Java 25 executable пример е в
+[`TimeoutAndCancellationDemo.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemo.java).
+
+Global timeout е полезен за request-oriented backend код, защото budget-ът принадлежи на
+**цялата structured операция**, вместо всяка child задача да има напълно независим lifecycle.
 
 ## Трябва ли основният проект да мине на Java 26?
 

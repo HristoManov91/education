@@ -25,8 +25,10 @@ concurrency policy, как се държи request context-ът, как изме
 3. иска да пази request/correlation context;
 4. понякога иска **най-бързия** успешен отговор;
 5. друг път иска **най-добрия** от няколко отговора;
-6. под товар трябва да обслужва много едновременно чакащи операции;
-7. при проблем трябва да можем да видим какво реално правят virtual threads.
+6. има global timeout/deadline за цялата операция;
+7. трябва да пази downstream service с ограничен concurrency;
+8. под товар трябва да обслужва много едновременно чакащи операции;
+9. при проблем трябва да можем да видим какво реално правят virtual threads.
 
 Наивното решение е да приемем:
 
@@ -437,6 +439,220 @@ Thread.currentThread().isVirtual()
 
 ---
 
+# Lab 5 — Global timeout, deadline и cooperative cancellation
+
+Код:
+
+- [TimeoutAndCancellationDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemo.java)
+- [TimeoutAndCancellationDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemoTest.java)
+
+## Какъв проблем решаваме
+
+Имаме няколко child операции, но целият request има един общ budget:
+
+```text
+request budget = 500 ms
+
+scope
+├── fast child   ~50 ms
+└── slow child   ~5 s
+```
+
+Не искаме всяка операция да има независим lifecycle. Искаме да кажем:
+
+> цялата structured операция трябва да приключи в този budget.
+
+Java 25 вече поддържа това директно:
+
+```java
+StructuredTaskScope.open(
+        joiner,
+        configuration -> configuration.withTimeout(timeout))
+```
+
+Timeout-ът започва при отваряне на scope-а.
+
+Ако изтече преди `join()` да приключи:
+
+```text
+timeout
+  ↓
+scope cancelled
+  ↓
+unfinished child threads receive interrupt
+  ↓
+join() throws StructuredTaskScope.TimeoutException
+```
+
+## Най-важната подробност: timeout НЕ е hard kill
+
+Cancellation в Java е cooperative.
+
+GOOD child:
+
+```java
+try {
+    Thread.sleep(...);
+} catch (InterruptedException e) {
+    throw e;
+}
+```
+
+Task-ът вижда interrupt и приключва.
+
+BAD child:
+
+```java
+catch (InterruptedException e) {
+    // ignore and continue
+}
+```
+
+Scope-ът вече е timed out, но child task-ът продължава. При try-with-resources
+`close()` трябва да изчака owned child work да приключи коректно.
+
+Така може да видим:
+
+```text
+configured timeout = 150 ms
+actual method time  = ~600 ms
+```
+
+не защото timeout mechanism-ът не е работил, а защото task-ът е игнорирал
+cooperative cancellation signal-а.
+
+## Връзка с `Thread.currentThread().interrupt()`
+
+Ако директно propagate-ваме `InterruptedException`, не е нужно първо да възстановяваме flag-а.
+
+Ако го преобразуваме:
+
+```java
+catch (InterruptedException e) {
+    Thread.currentThread().interrupt();
+    throw new IllegalStateException(..., e);
+}
+```
+
+възстановяваме interrupt status-а, защото хвърлянето на `InterruptedException`
+го е изчистило.
+
+---
+
+# Lab 6 — Bounded concurrency и downstream protection
+
+Код:
+
+- [BoundedConcurrencyDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyDemo.java)
+- [BoundedConcurrencyGuardTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyGuardTest.java)
+- [DemoBankController.java](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java)
+
+## Реалният проблем
+
+Virtual threads позволяват много concurrent tasks:
+
+```text
+10 tasks
+100 tasks
+10 000 tasks
+```
+
+Но downstream service може да казва:
+
+```text
+MAX 2 concurrent requests
+```
+
+Тогава unbounded fan-out:
+
+```text
+10 virtual threads
+       ↓
+10 HTTP calls наведнъж
+       ↓
+downstream capacity = 2
+       ↓
+HTTP 429
+```
+
+Това е основният production lesson:
+
+> Thread capacity и resource capacity не са едно и също.
+
+## BAD — няма resource guard
+
+`fetchUnbounded(...)` fork-ва всички requests веднага.
+
+Dummy downstream endpoint-ът:
+
+```text
+/demo/customers/limited/pages/{page}
+```
+
+допуска само две едновременни заявки. Останалите получават
+`429 Too Many Requests`.
+
+## GOOD — Semaphore около scarce resource-а
+
+```java
+Semaphore downstreamPermits = new Semaphore(2);
+```
+
+Всеки task пак има собствен virtual thread:
+
+```text
+10 virtual threads
+       ↓
+   Semaphore(2)
+     ↙       ↘
+HTTP call  HTTP call
+```
+
+Тоест **не правим pool от 2 virtual threads**.
+
+Ограничаваме точно ресурса, който е ограничен.
+
+Това правило се пренася директно към:
+
+- DB connection pool;
+- partner API quota;
+- limited HTTP connection pool;
+- expensive external service;
+- filesystem/device resource;
+- rate-limited integration.
+
+## Как да го стартираш
+
+Първо:
+
+```bash
+cd java/concurrency/project-loom
+mvn -pl bank-services spring-boot:run
+```
+
+После от IntelliJ пусни:
+
+```text
+BoundedConcurrencyDemo.main()
+```
+
+Очакваният pattern е:
+
+```text
+UNBOUNDED
+Success: малка част
+HTTP 429: има
+
+BOUNDED
+Success: 10
+HTTP 429: 0
+```
+
+Точният брой 429 в unbounded варианта зависи от scheduling-а; важният инвариант
+е, че bounded вариантът не надвишава лимита.
+
+---
+
 # Как да build-нем лабораториите
 
 От repository root:
@@ -478,6 +694,8 @@ java --enable-preview -cp loom-labs/target/classes \
 | Защо ThreadLocal не е ScopedValue? | [bad/ThreadLocalRequestContext.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/bad/ThreadLocalRequestContext.java) / [good/ScopedValueRequestContext.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/good/ScopedValueRequestContext.java) | [ContextPropagationTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/context/ContextPropagationTest.java) |
 | Как доказваме throughput ефекта? | [VirtualThreadLoadExperiment.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/load/VirtualThreadLoadExperiment.java) | platform/virtual profiles |
 | Как виждаме много virtual threads? | [VirtualThreadDumpDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/observability/VirtualThreadDumpDemo.java) | `jcmd Thread.dump_to_file` |
+| Как задаваме global timeout? | [TimeoutAndCancellationDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemo.java) | [TimeoutAndCancellationDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemoTest.java) |
+| Как пазим downstream capacity? | [BoundedConcurrencyDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyDemo.java) | [BoundedConcurrencyGuardTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyGuardTest.java) |
 
 ---
 
@@ -529,6 +747,8 @@ Observability
 ## Видео, което мотивира тези допълнителни лаборатории
 
 - YouTube — https://www.youtube.com/watch?v=4_UpZv21D3k
+- YouTube — **Concurrency and Streaming in the Age of Loom**: https://www.youtube.com/watch?v=yWVxJLRtCxI
+- Original Spring I/O 2026 demo: https://github.com/chemicL/springio-2026-loom
 
 ## Java 25
 

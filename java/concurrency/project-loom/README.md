@@ -691,6 +691,9 @@ Native/foreign code и специфични blocking случаи все още 
 - много малко concurrency;
 - bottleneck е downstream resource, а не threads.
 
+За границата между finite Loom work и continuous/reactive streams виж отделната Spring лаборатория
+[`Loom vs Reactive`](../../../spring/concurrency/loom-vs-reactive/README.md).
+
 ---
 
 ## 21. README → код
@@ -709,6 +712,8 @@ Native/foreign code и специфични blocking случаи все още 
 | ThreadLocal vs ScopedValue | [`bad/ThreadLocalRequestContext.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/bad/ThreadLocalRequestContext.java), [`good/ScopedValueRequestContext.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/good/ScopedValueRequestContext.java) | [`ContextPropagationTest.java`](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/context/ContextPropagationTest.java) |
 | Platform vs virtual load experiment | [`VirtualThreadLoadExperiment.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/load/VirtualThreadLoadExperiment.java) | [`application-platform.properties`](./bank-api/src/main/resources/application-platform.properties), [`application-virtual.properties`](./bank-api/src/main/resources/application-virtual.properties) |
 | Virtual thread observability | [`VirtualThreadDumpDemo.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/observability/VirtualThreadDumpDemo.java) | `jcmd Thread.dump_to_file` |
+| Global timeout + cooperative cancellation | [`TimeoutAndCancellationDemo.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemo.java) | [`TimeoutAndCancellationDemoTest.java`](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemoTest.java) |
+| Bounded downstream concurrency | [`BoundedConcurrencyDemo.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyDemo.java) | [`BoundedConcurrencyGuardTest.java`](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyGuardTest.java) |
 | Java 26 API delta | [`JAVA-26.md`](./JAVA-26.md) | — |
 
 ---
@@ -807,12 +812,14 @@ curl -X POST http://localhost:8080/api/loan-applications \
 
 ### Допълнителни executable доказателства
 
-Модулът [`loom-labs`](./loom-labs) добавя още четири фокусирани проверки:
+Модулът [`loom-labs`](./loom-labs) добавя още шест фокусирани проверки:
 
 1. built-in first-successful срещу custom best-successful Joiner;
 2. реален bad/good пример за `ThreadLocal` срещу `ScopedValue`;
 3. един и същ blocking Spring MVC flow с platform и virtual thread profiles;
-4. хиляди блокирани virtual threads, видими чрез `jcmd Thread.dump_to_file`.
+4. хиляди блокирани virtual threads, видими чрез `jcmd Thread.dump_to_file`;
+5. global timeout и разликата между cooperative cancellation и hard kill;
+6. bounded concurrency чрез `Semaphore` около реалния scarce downstream resource.
 
 Целият учебен flow и командите са в
 [`VIRTUAL-THREADS-LABS.md`](./VIRTUAL-THREADS-LABS.md).
@@ -843,11 +850,11 @@ curl -X POST http://localhost:8080/api/loan-applications \
 1. Направи provider B да fail-не и виж дали A ще даде резултат.
 2. Направи и двата provider-а да fail-нат и проследи exception flow-а.
 3. Добави тест за sequential срещу concurrent latency.
-4. Добави timeout policy към structured scope-а.
+4. Промени timeout-а в `TimeoutAndCancellationDemo` и наблюдавай разликата между cooperative и interrupt-ignoring child task.
 5. Смени outer scope-а временно с `awaitAll()` и наблюдавай как се променя failure поведението.
 6. Направи малък пример с `allSuccessfulOrThrow()` за няколко задачи, които връщат един и същ type.
 7. Добави четвърта независима downstream операция.
-8. Ограничѝ downstream услуга със `Semaphore(2)` и изпрати много requests.
+8. Промени `Semaphore(2)` на 1/3/5 в bounded-concurrency lab-а и сравни downstream поведението.
 9. Замени structured loader-а с `CompletableFutureCustomerInfoLoader` и сравни context propagation-а.
 10. Направи един child call CPU-heavy и измери защо virtual threads не му помагат.
 11. Използвай JFR/thread dump, за да разгледаш virtual threads и task relationships.
@@ -880,6 +887,8 @@ Joiner.anySuccessfulOrThrow()
 
 - YouTube — **Beyond Virtual Threads: Structured Concurrency**: https://www.youtube.com/watch?v=2L7zLdHeyY0
 - YouTube — допълнителният Virtual Threads / Structured Concurrency deep-dive: https://www.youtube.com/watch?v=4_UpZv21D3k
+- YouTube — **Concurrency and Streaming in the Age of Loom**: https://www.youtube.com/watch?v=yWVxJLRtCxI
+- Spring I/O 2026 demo repository: https://github.com/chemicL/springio-2026-loom
 - Оригинален demo repository — `balkrishnarawool/SpringBootLoom`: https://github.com/balkrishnarawool/SpringBootLoom
 - Structured Concurrency branch: https://github.com/balkrishnarawool/SpringBootLoom/tree/with-structured-concurrency
 - CompletableFuture branch: https://github.com/balkrishnarawool/SpringBootLoom/tree/with-completable-future
