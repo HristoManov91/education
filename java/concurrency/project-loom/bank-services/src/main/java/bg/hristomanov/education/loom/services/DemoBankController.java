@@ -80,7 +80,7 @@ public class DemoBankController {
      * че "имаме много евтини virtual threads" не означава "downstream-ът има безкраен
      * capacity". Третата и следващите едновременни заявки получават HTTP 429.</p>
      */
-    @GetMapping("/../../limited/pages/{page}")
+    @GetMapping("/limited/pages/{page}")
     ResponseEntity<String> limitedPage(@PathVariable int page) {
         int activeRequests = limitedConcurrentRequests.incrementAndGet();
 
