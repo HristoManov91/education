@@ -10,6 +10,9 @@
 - защо Structured Concurrency е нещо повече от „още един начин да пуснем няколко задачи паралелно“;
 - защо `ScopedValue` съществува, при положение че отдавна имаме `ThreadLocal`;
 - как трите идеи работят заедно в реалистичен Spring Boot request flow;
+- как custom Joiner моделира различна concurrency policy от built-in first-successful;
+- как practically да сравним platform и virtual threads под blocking load;
+- как да наблюдаваме много virtual threads чрез JDK thread dump;
 - кога Loom е добър избор и кога няма да реши проблема ни.
 
 > Основният проект е на **Java 25 LTS**. Structured Concurrency е preview API в Java 25 и затова build-ът използва `--enable-preview`.
@@ -702,6 +705,10 @@ Native/foreign code и специфични blocking случаи все още 
 | ScopedValue request context | [`RequestContext.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/context/RequestContext.java), [`LoanApplicationController.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/controller/LoanApplicationController.java) | [`RequestContextTest.java`](./bank-api/src/test/java/bg/hristomanov/education/loom/bankapi/context/RequestContextTest.java) |
 | CompletableFuture comparison | [`CompletableFutureCustomerInfoLoader.java`](./bank-api/src/main/java/bg/hristomanov/education/loom/bankapi/service/CompletableFutureCustomerInfoLoader.java) | сравни със structured loader-а |
 | Dummy latency/cancellation | [`DemoBankController.java`](./bank-services/src/main/java/bg/hristomanov/education/loom/services/DemoBankController.java) | локално изпълнение |
+| Custom best-successful Joiner | [`BestSuccessfulResultJoiner.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/joiner/BestSuccessfulResultJoiner.java) | [`BestSuccessfulResultJoinerTest.java`](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/joiner/BestSuccessfulResultJoinerTest.java) |
+| ThreadLocal vs ScopedValue | [`bad/ThreadLocalRequestContext.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/bad/ThreadLocalRequestContext.java), [`good/ScopedValueRequestContext.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/good/ScopedValueRequestContext.java) | [`ContextPropagationTest.java`](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/context/ContextPropagationTest.java) |
+| Platform vs virtual load experiment | [`VirtualThreadLoadExperiment.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/load/VirtualThreadLoadExperiment.java) | [`application-platform.properties`](./bank-api/src/main/resources/application-platform.properties), [`application-virtual.properties`](./bank-api/src/main/resources/application-virtual.properties) |
+| Virtual thread observability | [`VirtualThreadDumpDemo.java`](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/observability/VirtualThreadDumpDemo.java) | `jcmd Thread.dump_to_file` |
 | Java 26 API delta | [`JAVA-26.md`](./JAVA-26.md) | — |
 
 ---
@@ -716,6 +723,15 @@ Native/foreign code и специфични blocking случаи все още 
 ```bash
 mvn clean verify
 ```
+
+Само допълнителните focused labs:
+
+```bash
+mvn -pl loom-labs -am test
+```
+
+Подробният walkthrough за custom Joiner, ThreadLocal/ScopedValue, load experiment-а и
+thread dump-а е в [`VIRTUAL-THREADS-LABS.md`](./VIRTUAL-THREADS-LABS.md).
 
 Стартирай dummy services:
 
@@ -789,6 +805,18 @@ curl -X POST http://localhost:8080/api/loan-applications \
 
 Това доказва самата concurrency семантика, а не просто че Spring context-ът стартира.
 
+### Допълнителни executable доказателства
+
+Модулът [`loom-labs`](./loom-labs) добавя още четири фокусирани проверки:
+
+1. built-in first-successful срещу custom best-successful Joiner;
+2. реален bad/good пример за `ThreadLocal` срещу `ScopedValue`;
+3. един и същ blocking Spring MVC flow с platform и virtual thread profiles;
+4. хиляди блокирани virtual threads, видими чрез `jcmd Thread.dump_to_file`.
+
+Целият учебен flow и командите са в
+[`VIRTUAL-THREADS-LABS.md`](./VIRTUAL-THREADS-LABS.md).
+
 ---
 
 ## 24. Какво да запомня
@@ -851,6 +879,7 @@ Joiner.anySuccessfulOrThrow()
 ### Материалът, от който е създадена лабораторията
 
 - YouTube — **Beyond Virtual Threads: Structured Concurrency**: https://www.youtube.com/watch?v=2L7zLdHeyY0
+- YouTube — допълнителният Virtual Threads / Structured Concurrency deep-dive: https://www.youtube.com/watch?v=4_UpZv21D3k
 - Оригинален demo repository — `balkrishnarawool/SpringBootLoom`: https://github.com/balkrishnarawool/SpringBootLoom
 - Structured Concurrency branch: https://github.com/balkrishnarawool/SpringBootLoom/tree/with-structured-concurrency
 - CompletableFuture branch: https://github.com/balkrishnarawool/SpringBootLoom/tree/with-completable-future
