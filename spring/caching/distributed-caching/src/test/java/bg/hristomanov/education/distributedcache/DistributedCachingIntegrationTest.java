@@ -86,7 +86,7 @@ class DistributedCachingIntegrationTest {
                 .isNotNull()
                 .isPositive()
                 .isLessThanOrEqualTo(
-                        RedisCacheConfiguration
+                        DistributedRedisCacheConfiguration
                                 .PRODUCT_TTL
                                 .toSeconds()
                 );
