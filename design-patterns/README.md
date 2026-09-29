@@ -501,6 +501,8 @@ production problem
 
 - ForrestKnight — **7 Design Patterns EVERY Developer Should Know**:  
   https://www.youtube.com/watch?v=BJatgOiiht4
+- NeetCode — **8 Design Patterns EVERY Developer Should Know** (Factory, Builder, Singleton, Observer, Iterator, Strategy, Adapter, Facade):  
+  https://www.youtube.com/watch?v=tAuRQs_d9F8
 - Gamma, Helm, Johnson, Vlissides — **Design Patterns: Elements of Reusable Object-Oriented Software**
 - Refactoring.Guru — Design Patterns catalog (използван за problem/applicability/trade-off cross-check):  
   https://refactoring.guru/design-patterns

@@ -83,6 +83,10 @@ education/
 
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
 
+### Java / Algorithms
+
+- [Data Structures & Algorithm Patterns — Java 25 roadmap](java/algorithms/README.md)
+
 ### Spring / Concurrency
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
@@ -90,6 +94,10 @@ education/
 ### Spring / Caching
 
 - [Caching strategies — Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead и Spring Cache](spring/caching/caching-strategies/README.md)
+
+### Persistence / Query Design
+
+- [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)
 
 ### Design Patterns
 
