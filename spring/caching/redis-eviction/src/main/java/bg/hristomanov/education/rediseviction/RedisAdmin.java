@@ -2,6 +2,7 @@ package bg.hristomanov.education.rediseviction;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -59,19 +60,21 @@ public class RedisAdmin {
 
     public long objectFrequency(String key) {
         try (RedisConnection connection = connectionFactory.getConnection()) {
-            Object result = connection.execute(
-                    "OBJECT",
-                    bytes("FREQ"),
-                    bytes(key)
+            byte[] script = bytes(
+                    "return redis.call('OBJECT','FREQ',KEYS[1])"
             );
+
+            Object result = connection
+                    .scriptingCommands()
+                    .eval(
+                            script,
+                            ReturnType.INTEGER,
+                            1,
+                            bytes(key)
+                    );
 
             if (result instanceof Number number) {
                 return number.longValue();
-            }
-            if (result instanceof byte[] raw) {
-                return Long.parseLong(
-                        new String(raw, StandardCharsets.UTF_8)
-                );
             }
 
             throw new IllegalStateException(
