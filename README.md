@@ -98,6 +98,7 @@ education/
 ### Spring / Reliability
 
 - [Idempotency — safe retries without duplicate side effects](spring/reliability/idempotency/README.md)
+- [Retry + Timeout + Circuit Breaker + Bulkhead — fault-tolerance patterns](spring/reliability/fault-tolerance/README.md)
 
 ### Persistence / Query Design
 
