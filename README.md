@@ -100,6 +100,10 @@ education/
 - [Idempotency — safe retries without duplicate side effects](spring/reliability/idempotency/README.md)
 - [Retry + Timeout + Circuit Breaker + Bulkhead — fault-tolerance patterns](spring/reliability/fault-tolerance/README.md)
 
+### Spring / Messaging
+
+- [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
+
 ### Persistence / Query Design
 
 - [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)

@@ -22,5 +22,6 @@
         <module>persistence/repository-unit-of-work</module>
         <module>spring/reliability/idempotency</module>
         <module>spring/reliability/fault-tolerance</module>
+        <module>spring/messaging/outbox-inbox</module>
     </modules>
 </project>
