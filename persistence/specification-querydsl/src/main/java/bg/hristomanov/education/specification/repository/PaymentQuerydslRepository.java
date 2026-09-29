@@ -32,18 +32,27 @@ public class PaymentQuerydslRepository {
     public List<PaymentEntity> search(PaymentSearchCriteria criteria) {
         BooleanBuilder predicate = new BooleanBuilder();
 
-        predicate.and(PaymentQuerydslPredicates.hasStatus(criteria.status()));
-        predicate.and(PaymentQuerydslPredicates.hasMethod(criteria.method()));
-        predicate.and(PaymentQuerydslPredicates.hasCountry(criteria.countryCode()));
-        predicate.and(PaymentQuerydslPredicates.amountAtLeast(criteria.minimumAmount()));
-        predicate.and(PaymentQuerydslPredicates.createdOnOrAfter(criteria.createdFrom()));
-        predicate.and(PaymentQuerydslPredicates.createdOnOrBefore(criteria.createdTo()));
-        predicate.and(PaymentQuerydslPredicates.referenceContains(criteria.referenceContains()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.hasStatus(criteria.status()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.hasMethod(criteria.method()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.hasCountry(criteria.countryCode()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.amountAtLeast(criteria.minimumAmount()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.createdOnOrAfter(criteria.createdFrom()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.createdOnOrBefore(criteria.createdTo()));
+        andIfPresent(predicate, PaymentQuerydslPredicates.referenceContains(criteria.referenceContains()));
 
         return queryFactory
                 .selectFrom(PAYMENT)
                 .where(predicate)
                 .orderBy(PAYMENT.createdAt.desc(), PAYMENT.id.asc())
                 .fetch();
+    }
+
+    private void andIfPresent(
+            BooleanBuilder builder,
+            com.querydsl.core.types.dsl.BooleanExpression expression
+    ) {
+        if (expression != null) {
+            builder.and(expression);
+        }
     }
 }
