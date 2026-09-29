@@ -146,7 +146,7 @@ class DistributedCachingIntegrationTest {
     @Test
     void twoColdNodesCanStillCreateDistributedStampede()
             throws Exception {
-        source.readDelayMillis(150L);
+        source.expectConcurrentReads(2);
 
         try (
                 NearCacheNode nodeA =
