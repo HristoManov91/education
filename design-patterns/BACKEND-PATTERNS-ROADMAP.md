@@ -171,6 +171,27 @@ POST /payments   ← същата business операция
 
 ---
 
+## 7. Retry + Timeout + Circuit Breaker + Bulkhead — ✅ реализиран
+
+Executable lab:
+
+- [Fault Tolerance — Retry + Timeout + Circuit Breaker + Bulkhead](../spring/reliability/fault-tolerance/README.md)
+
+Покрива:
+- transient vs permanent failure classification;
+- bounded retry;
+- timeout/cancellation;
+- Circuit Breaker CLOSED/OPEN/HALF_OPEN;
+- slow-call/failure-rate semantics;
+- Semaphore Bulkhead;
+- Virtual Threads vs downstream capacity;
+- composition order;
+- per-attempt timeout vs global deadline;
+- Circuit Breaker inside/outside Retry;
+- fallback and observability trade-offs.
+
+---
+
 ## 7. Retry
 
 Retry е правилен само за подходящи transient failures.
@@ -477,7 +498,7 @@ external → port → application/domain ← port ← persistence
 1. Specification + QueryDSL ✅
 2. Repository + Unit of Work / JPA ✅
 3. Idempotency ✅
-4. Retry + Timeout + Circuit Breaker + Bulkhead
+4. Retry + Timeout + Circuit Breaker + Bulkhead ✅
 5. Transactional Outbox + Idempotent Consumer
 6. Saga
 7. Domain Events
