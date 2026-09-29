@@ -1,0 +1,60 @@
+@baseUrl = http://localhost:8090
+
+### 1. Synchronous CQRS: command updates write + read model in one transaction
+POST {{baseUrl}}/api/cqrs/orders?projectionMode=SYNCHRONOUS
+Content-Type: application/json
+
+{
+  "reference": "ORD-CQRS-SYNC",
+  "customerId": "C-42",
+  "lines": [
+    { "sku": "KEYBOARD", "quantity": 1, "unitPrice": 100.00 },
+    { "sku": "MOUSE", "quantity": 2, "unitPrice": 40.00 }
+  ]
+}
+
+### Use returned orderId below.
+@syncOrderId = 1
+
+### Query reads the flattened read model, not the write aggregate.
+GET {{baseUrl}}/api/cqrs/orders/{{syncOrderId}}
+
+### State shows both models aligned.
+GET {{baseUrl}}/api/cqrs/state/{{syncOrderId}}
+
+### 2. Deferred projection: write commits before read model refresh.
+POST {{baseUrl}}/api/cqrs/orders?projectionMode=DEFERRED
+Content-Type: application/json
+
+{
+  "reference": "ORD-CQRS-DEFERRED",
+  "customerId": "C-99",
+  "lines": [
+    { "sku": "MONITOR", "quantity": 1, "unitPrice": 300.00 }
+  ]
+}
+
+@deferredOrderId = 2
+
+### State: write model exists, readModel is null, pendingProjectionRefreshes > 0.
+GET {{baseUrl}}/api/cqrs/state/{{deferredOrderId}}
+
+### Query fails because read model is intentionally stale/missing.
+GET {{baseUrl}}/api/cqrs/orders/{{deferredOrderId}}
+
+### Projection worker catches up.
+POST {{baseUrl}}/api/cqrs/projections/refresh-next
+
+### Query now succeeds.
+GET {{baseUrl}}/api/cqrs/orders/{{deferredOrderId}}
+
+### 3. Make write model PAID but defer read model update.
+POST {{baseUrl}}/api/cqrs/orders/{{deferredOrderId}}/pay?projectionMode=DEFERRED
+
+### State shows writeStatus=PAID while readModel.status can still be NEW.
+GET {{baseUrl}}/api/cqrs/state/{{deferredOrderId}}
+
+### Catch up.
+POST {{baseUrl}}/api/cqrs/projections/refresh-next
+
+GET {{baseUrl}}/api/cqrs/state/{{deferredOrderId}}

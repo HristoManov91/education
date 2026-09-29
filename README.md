@@ -109,6 +109,10 @@ education/
 
 - [Domain Events — aggregate events, transaction phases и integration boundaries](spring/events/domain-events/README.md)
 
+### Spring / Architecture
+
+- [CQRS — separate write/read models, synchronous и eventual projections](spring/architecture/cqrs/README.md)
+
 ### Persistence / Query Design
 
 - [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)

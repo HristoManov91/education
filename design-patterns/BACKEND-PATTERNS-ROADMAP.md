@@ -247,28 +247,28 @@ Executable lab:
 
 # Ниво 5 — read/write architecture
 
-## 14. CQRS
+## 14. CQRS — ✅ реализиран
 
-### Казус
+Executable lab:
 
-Write model и complex reporting/search model имат коренно различни нужди.
+- [CQRS — separate write/read models, synchronous и eventual projections](../spring/architecture/cqrs/README.md)
 
-CQRS разделя:
-
-```text
-Commands / Write Model
-
-Queries / Read Model
-```
-
-Но не означава автоматично:
-
-- microservices;
-- Kafka;
-- Event Sourcing;
-- две databases.
-
-Ще започнем от най-малката разумна версия.
+Покрива:
+- CQS vs CQRS;
+- CRUD като default;
+- normalized write aggregate;
+- denormalized query projection;
+- business-intent commands;
+- query-only DTO model;
+- synchronous read projection в една transaction;
+- deferred projection и intentional stale-read window;
+- read-your-writes проблем;
+- projection source version / lag;
+- one database vs separate read store;
+- CQRS without messaging;
+- CQRS without Event Sourcing;
+- Spring Data DTO projections като по-лека алтернатива;
+- Outbox/Domain Events/Saga integration.
 
 ---
 
@@ -387,7 +387,7 @@ external → port → application/domain ← port ← persistence
 5. Transactional Outbox + Idempotent Consumer ✅
 6. Saga ✅
 7. Domain Events ✅
-8. CQRS
+8. CQRS ✅
 9. Ports & Adapters
 10. Event Sourcing
 ```
