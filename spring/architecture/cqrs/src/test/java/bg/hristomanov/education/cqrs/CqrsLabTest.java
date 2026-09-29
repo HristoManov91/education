@@ -24,6 +24,7 @@ class CqrsLabTest {
     private final OrderQueryService queryService;
     private final OrderProjectionWorker projectionWorker;
     private final OrderWriteRepository writeRepository;
+    private final OrderWriteInspectorService writeInspector;
     private final OrderSummaryRepository readRepository;
     private final ProjectionRefreshRequestRepository refreshRepository;
 
@@ -33,6 +34,7 @@ class CqrsLabTest {
             OrderQueryService queryService,
             OrderProjectionWorker projectionWorker,
             OrderWriteRepository writeRepository,
+            OrderWriteInspectorService writeInspector,
             OrderSummaryRepository readRepository,
             ProjectionRefreshRequestRepository refreshRepository
     ) {
@@ -40,6 +42,7 @@ class CqrsLabTest {
         this.queryService = queryService;
         this.projectionWorker = projectionWorker;
         this.writeRepository = writeRepository;
+        this.writeInspector = writeInspector;
         this.readRepository = readRepository;
         this.refreshRepository = refreshRepository;
     }
@@ -58,14 +61,11 @@ class CqrsLabTest {
                 ProjectionMode.SYNCHRONOUS
         );
 
-        OrderWriteEntity writeModel = writeRepository
-                .findById(orderId)
-                .orElseThrow();
-
+        OrderWriteSnapshot writeModel = writeInspector.snapshot(orderId);
         OrderSummaryDto readModel = queryService.get(orderId);
 
-        assertThat(writeModel.getLines()).hasSize(2);
-        assertThat(writeModel.getTotalAmount()).isEqualByComparingTo("180.00");
+        assertThat(writeModel.lineCount()).isEqualTo(2);
+        assertThat(writeModel.totalAmount()).isEqualByComparingTo("180.00");
 
         assertThat(readModel.orderId()).isEqualTo(orderId);
         assertThat(readModel.reference()).isEqualTo("ORD-SYNC");
@@ -79,7 +79,7 @@ class CqrsLabTest {
          * Read DTO-то няма child entities или behavior methods.
          * То е query shape, не write aggregate.
          */
-        assertThat(readModel.sourceVersion()).isEqualTo(writeModel.getVersion());
+        assertThat(readModel.sourceVersion()).isEqualTo(writeModel.version());
         assertThat(refreshRepository.countByProcessedAtIsNull()).isZero();
     }
 
@@ -121,13 +121,11 @@ class CqrsLabTest {
 
         commandService.markPaid(orderId, ProjectionMode.DEFERRED);
 
-        OrderWriteEntity currentWrite = writeRepository
-                .findById(orderId)
-                .orElseThrow();
+        OrderWriteSnapshot currentWrite = writeInspector.snapshot(orderId);
         OrderSummaryDto staleRead = queryService.get(orderId);
 
-        assertThat(currentWrite.getStatus()).isEqualTo(OrderStatus.PAID);
-        assertThat(currentWrite.getVersion()).isEqualTo(1);
+        assertThat(currentWrite.status()).isEqualTo(OrderStatus.PAID);
+        assertThat(currentWrite.version()).isEqualTo(1);
 
         /*
          * Това е core eventual-consistency scenario:
