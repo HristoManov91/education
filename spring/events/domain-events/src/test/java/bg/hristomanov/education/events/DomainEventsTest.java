@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -88,8 +89,9 @@ class DomainEventsTest {
         probe.failSynchronousListener(true);
 
         assertThatThrownBy(() -> orderService.markPaidAndSave(orderId))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("synchronous domain event listener");
+                .isInstanceOf(InvalidDataAccessApiUsageException.class)
+                .hasRootCauseInstanceOf(IllegalStateException.class)
+                .hasRootCauseMessage("Simulated synchronous domain event listener failure");
 
         probe.failSynchronousListener(false);
 
