@@ -15,7 +15,7 @@ public class JsonOrderImportJob extends AbstractOrderImportJob {
         String normalized = loaded
                 .replace("[", "")
                 .replace("]", "")
-                .replace(""", "");
+                .replace("\"", "");
 
         return Arrays.stream(normalized.split(","))
                 .map(String::trim)
