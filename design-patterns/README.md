@@ -411,7 +411,7 @@ Patterns намаляват complexity само когато **структур�
 От root:
 
 ```bash
-mvn -pl design-patterns -am test
+mvn -f design-patterns/pom.xml test
 ```
 
 Само категория:
