@@ -21,14 +21,15 @@ public final class PaymentSpecifications {
     }
 
     public static Specification<PaymentEntity> matches(PaymentSearchCriteria criteria) {
-        return Specification
-                .where(hasStatus(criteria.status()))
-                .and(hasMethod(criteria.method()))
-                .and(hasCountry(criteria.countryCode()))
-                .and(amountAtLeast(criteria.minimumAmount()))
-                .and(createdOnOrAfter(criteria.createdFrom()))
-                .and(createdOnOrBefore(criteria.createdTo()))
-                .and(referenceContains(criteria.referenceContains()));
+        return Specification.allOf(
+                hasStatus(criteria.status()),
+                hasMethod(criteria.method()),
+                hasCountry(criteria.countryCode()),
+                amountAtLeast(criteria.minimumAmount()),
+                createdOnOrAfter(criteria.createdFrom()),
+                createdOnOrBefore(criteria.createdTo()),
+                referenceContains(criteria.referenceContains())
+        );
     }
 
     public static Specification<PaymentEntity> hasStatus(PaymentStatus status) {
@@ -59,7 +60,7 @@ public final class PaymentSpecifications {
             return Specification.unrestricted();
         }
         return (root, query, builder) ->
-                builder.greaterThanOrEqualTo(root.get("amount"), minimumAmount);
+                builder.greaterThanOrEqualTo(root.<BigDecimal>get("amount"), minimumAmount);
     }
 
     public static Specification<PaymentEntity> createdOnOrAfter(LocalDateTime createdFrom) {
@@ -67,7 +68,7 @@ public final class PaymentSpecifications {
             return Specification.unrestricted();
         }
         return (root, query, builder) ->
-                builder.greaterThanOrEqualTo(root.get("createdAt"), createdFrom);
+                builder.greaterThanOrEqualTo(root.<LocalDateTime>get("createdAt"), createdFrom);
     }
 
     public static Specification<PaymentEntity> createdOnOrBefore(LocalDateTime createdTo) {
