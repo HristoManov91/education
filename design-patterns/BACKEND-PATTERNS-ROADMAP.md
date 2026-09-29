@@ -57,6 +57,27 @@ Executable lab:
 
 ---
 
+## 1. Repository + Unit of Work / JPA — ✅ реализиран
+
+Executable lab:
+
+- [Repository + Unit of Work](../persistence/repository-unit-of-work/README.md)
+
+Покрива:
+- direct EntityManager baseline;
+- domain-facing Repository contract;
+- JPA adapter;
+- persistence context;
+- dirty checking;
+- Identity Map semantics;
+- flush vs commit;
+- rollback after flush;
+- detached entities;
+- optimistic version field;
+- кога Repository abstraction е излишна.
+
+---
+
 ## 1. Repository
 
 ### Казус
@@ -533,7 +554,7 @@ external → port → application/domain ← port ← persistence
 
 ```text
 1. Specification + QueryDSL ✅
-2. Repository + Unit of Work / JPA
+2. Repository + Unit of Work / JPA ✅
 3. Idempotency
 4. Retry + Timeout + Circuit Breaker + Bulkhead
 5. Transactional Outbox + Idempotent Consumer
