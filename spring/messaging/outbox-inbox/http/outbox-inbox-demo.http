@@ -1,0 +1,54 @@
+@baseUrl = http://localhost:8088
+
+### Reset
+POST {{baseUrl}}/api/outbox-inbox/reset
+
+### 1. BAD baseline: DB commits, execution stops before broker publish -> 500
+POST {{baseUrl}}/api/outbox-inbox/naive/orders?stopAfterCommit=true
+Content-Type: application/json
+
+{
+  "reference": "ORD-NAIVE-001",
+  "customerId": "C-NAIVE",
+  "totalAmount": 100.00
+}
+
+### DB contains order, broker has no event.
+GET {{baseUrl}}/api/outbox-inbox/state
+
+### Reset
+POST {{baseUrl}}/api/outbox-inbox/reset
+
+### 2. GOOD: business state + outbox row commit together
+POST {{baseUrl}}/api/outbox-inbox/orders
+Content-Type: application/json
+
+{
+  "reference": "ORD-OUTBOX-001",
+  "customerId": "C-OUTBOX",
+  "totalAmount": 200.00
+}
+
+### Order + unpublished outbox row exist; broker still empty.
+GET {{baseUrl}}/api/outbox-inbox/state
+
+### 3. Relay publishes, then execution stops before marking outbox row -> 500
+POST {{baseUrl}}/api/outbox-inbox/relay?stopAfterPublish=true
+
+### Broker has 1 message, outbox is still unpublished.
+GET {{baseUrl}}/api/outbox-inbox/state
+
+### 4. Relay runs again: SAME event is published again, then acknowledged
+POST {{baseUrl}}/api/outbox-inbox/relay
+
+### Broker now contains duplicate event IDs.
+GET {{baseUrl}}/api/outbox-inbox/state
+
+### 5. Consume first delivery -> PROCESSED
+POST {{baseUrl}}/api/outbox-inbox/consume/0
+
+### 6. Consume duplicate delivery -> DUPLICATE
+POST {{baseUrl}}/api/outbox-inbox/consume/1
+
+### processedMessages=1 and loyalty account effect happened once.
+GET {{baseUrl}}/api/outbox-inbox/state
