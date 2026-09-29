@@ -38,6 +38,25 @@
 
 # Ниво 1 — най-полезни за ежедневен Spring backend
 
+## 0. Specification + QueryDSL — ✅ реализиран
+
+Executable lab:
+
+- [Specification Pattern + QueryDSL](../persistence/specification-querydsl/README.md)
+
+Покрива:
+- dynamic optional filters;
+- naive JPA Criteria baseline;
+- Spring Data `Specification<T>`;
+- reusable QueryDSL `BooleanExpression` predicates;
+- generated Q-types;
+- side-by-side integration tests;
+- кога Specification е overengineering.
+
+Следващата стъпка е да вържем това с Repository boundary и Unit of Work/JPA semantics.
+
+---
+
 ## 1. Repository
 
 ### Казус
@@ -513,7 +532,7 @@ external → port → application/domain ← port ← persistence
 Моят proposed order за следващите executable labs:
 
 ```text
-1. Specification + QueryDSL
+1. Specification + QueryDSL ✅
 2. Repository + Unit of Work / JPA
 3. Idempotency
 4. Retry + Timeout + Circuit Breaker + Bulkhead
