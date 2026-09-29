@@ -21,10 +21,8 @@ public class DistributedRedisCacheConfiguration {
     public CacheManager cacheManager(
             RedisConnectionFactory connectionFactory
     ) {
-        GenericJacksonJsonRedisSerializer valueSerializer =
-                GenericJacksonJsonRedisSerializer
-                        .builder()
-                        .build();
+        JacksonJsonRedisSerializer<Product> valueSerializer =
+                new JacksonJsonRedisSerializer<>(Product.class);
 
         RedisCacheConfiguration configuration =
                 RedisCacheConfiguration
