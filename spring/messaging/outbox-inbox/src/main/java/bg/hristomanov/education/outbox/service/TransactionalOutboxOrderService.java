@@ -5,8 +5,8 @@ import bg.hristomanov.education.outbox.event.OrderCreatedPayload;
 import bg.hristomanov.education.outbox.outbox.OutboxEvent;
 import bg.hristomanov.education.outbox.repository.OrderRepository;
 import bg.hristomanov.education.outbox.repository.OutboxEventRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +24,16 @@ public class TransactionalOutboxOrderService {
 
     private final OrderRepository orderRepository;
     private final OutboxEventRepository outboxRepository;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     public TransactionalOutboxOrderService(
             OrderRepository orderRepository,
             OutboxEventRepository outboxRepository,
-            ObjectMapper objectMapper
+            JsonMapper jsonMapper
     ) {
         this.orderRepository = orderRepository;
         this.outboxRepository = outboxRepository;
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
     }
 
     @Transactional
@@ -109,8 +109,8 @@ public class TransactionalOutboxOrderService {
 
     private String serialize(OrderCreatedPayload payload) {
         try {
-            return objectMapper.writeValueAsString(payload);
-        } catch (JsonProcessingException exception) {
+            return jsonMapper.writeValueAsString(payload);
+        } catch (JacksonException exception) {
             throw new IllegalStateException("Cannot serialize outbox payload", exception);
         }
     }
