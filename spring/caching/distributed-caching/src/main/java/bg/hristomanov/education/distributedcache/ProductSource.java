@@ -13,6 +13,7 @@ public class ProductSource {
     private final Map<Long, Product> products =
             new ConcurrentHashMap<>();
     private final AtomicInteger reads = new AtomicInteger();
+    private volatile long readDelayMillis;
 
     public ProductSource() {
         reset();
@@ -20,6 +21,7 @@ public class ProductSource {
 
     public Product findRequired(long productId) {
         reads.incrementAndGet();
+        simulateReadDelay();
 
         Product product = products.get(productId);
         if (product == null) {
@@ -56,6 +58,10 @@ public class ProductSource {
         return reads.get();
     }
 
+    public void readDelayMillis(long readDelayMillis) {
+        this.readDelayMillis = Math.max(0L, readDelayMillis);
+    }
+
     public void reset() {
         products.clear();
         products.put(
@@ -68,5 +74,22 @@ public class ProductSource {
                 )
         );
         reads.set(0);
+        readDelayMillis = 0L;
+    }
+
+    private void simulateReadDelay() {
+        if (readDelayMillis <= 0L) {
+            return;
+        }
+
+        try {
+            Thread.sleep(readDelayMillis);
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException(
+                    "Product source read was interrupted",
+                    exception
+            );
+        }
     }
 }
