@@ -91,6 +91,10 @@ education/
 
 - [Caching strategies — Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead и Spring Cache](spring/caching/caching-strategies/README.md)
 
+### Persistence / Query Design
+
+- [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)
+
 ### Design Patterns
 
 - [Design Patterns Atlas — problem-first Java/Spring patterns](design-patterns/README.md)
