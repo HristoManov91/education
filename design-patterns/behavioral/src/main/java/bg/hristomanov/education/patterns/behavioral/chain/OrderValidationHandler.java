@@ -20,11 +20,11 @@ public abstract class OrderValidationHandler {
     public final ValidationResult validate(OrderDraft order) {
         Optional<String> error = validateCurrent(order);
         if (error.isPresent()) {
-            return ValidationResult.invalid(error.get());
+            return ValidationResult.failure(error.get());
         }
 
         if (next == null) {
-            return ValidationResult.valid();
+            return ValidationResult.success();
         }
 
         return next.validate(order);
