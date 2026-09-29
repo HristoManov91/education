@@ -90,3 +90,12 @@ education/
 ### Spring / Caching
 
 - [Caching strategies — Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead и Spring Cache](spring/caching/caching-strategies/README.md)
+
+### Design Patterns
+
+- [Design Patterns Atlas — problem-first Java/Spring patterns](design-patterns/README.md)
+  - [Creational patterns](design-patterns/creational/README.md)
+  - [Structural patterns](design-patterns/structural/README.md)
+  - [Behavioral patterns](design-patterns/behavioral/README.md)
+  - [Pattern comparisons](design-patterns/PATTERN-COMPARISONS.md)
+  - [Spring mapping](design-patterns/SPRING-MAPPING.md)
