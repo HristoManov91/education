@@ -93,7 +93,14 @@ education/
 
 ### Spring / Caching
 
+- [Caching curriculum overview](spring/caching/README.md)
 - [Caching strategies — Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead и Spring Cache](spring/caching/caching-strategies/README.md)
+- [Redis Eviction — TTL, maxmemory, LRU, LFU и memory pressure](spring/caching/redis-eviction/README.md)
+- [Distributed Caching — Spring Cache + Redis + L1/L2 near cache](spring/caching/distributed-caching/README.md)
+
+### Spring / AI
+
+- [Semantic Caching — exact vs semantic cache, thresholds и context isolation](spring/ai/semantic-caching/README.md)
 
 ### Spring / Reliability
 
