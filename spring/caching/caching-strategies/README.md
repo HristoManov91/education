@@ -1203,12 +1203,34 @@ Cross-tenant cache hit е data leak, не performance bug.
 
 ---
 
+# Следващи нива
+
+Този module остава фундаментът. След него продължи с:
+
+- [Redis Eviction — TTL, maxmemory, LRU, LFU](../redis-eviction/README.md)
+- [Distributed Caching — Spring Cache + Redis + L1/L2](../distributed-caching/README.md)
+- [Semantic Caching — exact vs meaning similarity](../../ai/semantic-caching/README.md)
+
+Така не смесваме в един урок:
+- caching strategy;
+- Redis memory management;
+- multi-instance topology;
+- AI vector similarity.
+
+---
+
 # 30. Оригинални източници
 
 ## Основен материал
 
 - Java Techie — Caching Strategies Explained:  
   https://www.youtube.com/watch?v=sPA2c0DE6QY
+- Java Techie — Redis Cache Eviction Explained | How TTL, LRU & LFU Actually Work #08:  
+  https://www.youtube.com/watch?v=72eZWhx4mDs
+- SpringDeveloper — Spring Office Hours: S4E19 - Spring & Redis with Raphael De Lio:  
+  https://www.youtube.com/live/KUNNslg-RQw
+- JavaOne — Caching for Agentic Java Systems: Internal, Distributed, and Semantic:  
+  https://youtu.be/YPxMiaXToWs
 
 ## Spring
 
