@@ -51,7 +51,7 @@ public class NaivePaymentCriteriaRepository {
         if (criteria.minimumAmount() != null) {
             predicates.add(
                     builder.greaterThanOrEqualTo(
-                            payment.get("amount"),
+                            payment.<java.math.BigDecimal>get("amount"),
                             criteria.minimumAmount()
                     )
             );
