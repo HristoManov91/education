@@ -51,6 +51,12 @@ public class RedisAdmin {
         }
     }
 
+    public void resetStatistics() {
+        try (RedisConnection connection = connectionFactory.getConnection()) {
+            connection.serverCommands().resetConfigStats();
+        }
+    }
+
     public long objectFrequency(String key) {
         try (RedisConnection connection = connectionFactory.getConnection()) {
             Object result = connection.execute(
