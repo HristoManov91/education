@@ -5,6 +5,7 @@ import bg.hristomanov.education.reliability.downstream.PermanentDownstreamExcept
 import bg.hristomanov.education.reliability.downstream.TransientDownstreamException;
 import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.bulkhead.BulkheadConfig;
+import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.retry.Retry;
@@ -30,7 +31,10 @@ public class ReliabilityConfiguration {
                         TransientDownstreamException.class,
                         DownstreamTimeoutException.class
                 )
-                .ignoreExceptions(PermanentDownstreamException.class)
+                .ignoreExceptions(
+                        PermanentDownstreamException.class,
+                        BulkheadFullException.class
+                )
                 .build();
 
         return Retry.of("downstream", config);
