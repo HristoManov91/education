@@ -113,6 +113,7 @@ education/
 
 - [CQRS — separate write/read models, synchronous и eventual projections](spring/architecture/cqrs/README.md)
 - [Ports & Adapters / Hexagonal Architecture — build-enforced inside/outside boundaries](spring/architecture/hexagonal-architecture/README.md)
+- [Event Sourcing — append-only streams, replay, projections, concurrency и snapshots](spring/architecture/event-sourcing/README.md)
 
 ### Persistence / Query Design
 
