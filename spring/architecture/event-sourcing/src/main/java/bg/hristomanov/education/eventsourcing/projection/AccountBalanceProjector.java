@@ -22,7 +22,7 @@ public class AccountBalanceProjector {
     public static final String PROJECTION_NAME =
             "account-balance-v1";
 
-    private static final long BEFORE_FIRST_EVENT = 0L;
+    private static final long BEFORE_FIRST_EVENT = -1L;
 
     private final EventStore eventStore;
     private final AccountBalanceProjectionRepository projectionRepository;
@@ -95,7 +95,7 @@ public class AccountBalanceProjector {
     @Transactional
     public int rebuild() {
         projectionRepository.deleteAll();
-        checkpointRepository.deleteById(PROJECTION_NAME);
+        checkpointRepository.deleteAll();
 
         List<StoredEvent> history =
                 eventStore.readAllAfterPosition(BEFORE_FIRST_EVENT);
