@@ -1,0 +1,99 @@
+@baseUrl = http://localhost:8085
+
+### 0. Reset lab state
+POST {{baseUrl}}/api/cache-lab/reset
+
+> {%
+    client.test("reset returns version 1", function () {
+        client.assert(response.status === 200);
+        client.assert(response.body.persistedProduct.version === 1);
+    });
+%}
+
+### 1. Available strategies
+GET {{baseUrl}}/api/cache-lab/strategies
+
+### 2. Baseline: every read reaches repository
+GET {{baseUrl}}/api/cache-lab/no-cache/products/1
+###
+GET {{baseUrl}}/api/cache-lab/no-cache/products/1
+###
+GET {{baseUrl}}/api/cache-lab/state/1
+
+### 3. Cache-aside: second read is a hit
+POST {{baseUrl}}/api/cache-lab/reset
+###
+GET {{baseUrl}}/api/cache-lab/cache-aside/products/1
+###
+GET {{baseUrl}}/api/cache-lab/cache-aside/products/1
+###
+GET {{baseUrl}}/api/cache-lab/state/1
+
+### 4. BAD: stale data because write forgot invalidation
+POST {{baseUrl}}/api/cache-lab/reset
+###
+GET {{baseUrl}}/api/cache-lab/naive-cache-aside/products/1
+###
+PUT {{baseUrl}}/api/cache-lab/naive-cache-aside/products/1
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard Pro",
+  "price": 249.90
+}
+###
+GET {{baseUrl}}/api/cache-lab/naive-cache-aside/products/1
+###
+GET {{baseUrl}}/api/cache-lab/state/1
+
+### 5. Write-through: write is immediately present in DB and cache
+POST {{baseUrl}}/api/cache-lab/reset
+###
+PUT {{baseUrl}}/api/cache-lab/write-through/products/1
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard Pro",
+  "price": 249.90
+}
+###
+GET {{baseUrl}}/api/cache-lab/write-through/products/1
+###
+GET {{baseUrl}}/api/cache-lab/state/1
+
+### 6. Write-behind: cache changes before persistent store
+POST {{baseUrl}}/api/cache-lab/reset
+###
+PUT {{baseUrl}}/api/cache-lab/write-behind/products/1
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard Pro",
+  "price": 249.90
+}
+###
+GET {{baseUrl}}/api/cache-lab/state/1
+###
+GET {{baseUrl}}/api/cache-lab/write-behind/products/1
+###
+POST {{baseUrl}}/api/cache-lab/write-behind/flush
+###
+GET {{baseUrl}}/api/cache-lab/state/1
+
+### 7. Refresh-ahead
+POST {{baseUrl}}/api/cache-lab/reset
+###
+GET {{baseUrl}}/api/cache-lab/refresh-ahead/products/1
+###
+POST {{baseUrl}}/api/cache-lab/refresh-ahead/refresh
+###
+GET {{baseUrl}}/api/cache-lab/refresh-ahead/stats
+
+### 8. Spring Cache abstraction
+POST {{baseUrl}}/api/cache-lab/reset
+###
+GET {{baseUrl}}/api/cache-lab/spring-cache/products/1
+###
+GET {{baseUrl}}/api/cache-lab/spring-cache/products/1
+###
+GET {{baseUrl}}/api/cache-lab/spring-cache/stats
