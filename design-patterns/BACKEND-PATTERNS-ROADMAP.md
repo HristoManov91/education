@@ -130,7 +130,23 @@ External model
 
 # Ниво 2 — reliability patterns
 
-## 6. Idempotency
+## 6. Idempotency — ✅ реализиран
+
+Executable lab:
+
+- [Idempotency — safe retries without duplicate side effects](../spring/reliability/idempotency/README.md)
+
+Покрива:
+- HTTP POST retries;
+- idempotency key;
+- request fingerprint;
+- same-key/different-payload conflict;
+- database unique constraint;
+- check-then-act concurrency race;
+- 8 concurrent duplicate requests;
+- replay semantics;
+- key retention/scope;
+- external-side-effect limitations.
 
 ### Казус
 
@@ -460,7 +476,7 @@ external → port → application/domain ← port ← persistence
 ```text
 1. Specification + QueryDSL ✅
 2. Repository + Unit of Work / JPA ✅
-3. Idempotency
+3. Idempotency ✅
 4. Retry + Timeout + Circuit Breaker + Bulkhead
 5. Transactional Outbox + Idempotent Consumer
 6. Saga
