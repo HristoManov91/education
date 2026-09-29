@@ -103,6 +103,11 @@ education/
 ### Spring / Messaging
 
 - [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
+- [Saga Pattern — orchestration, compensation и durable workflow state](spring/messaging/saga/README.md)
+
+### Spring / Events
+
+- [Domain Events — aggregate events, transaction phases и integration boundaries](spring/events/domain-events/README.md)
 
 ### Persistence / Query Design
 
