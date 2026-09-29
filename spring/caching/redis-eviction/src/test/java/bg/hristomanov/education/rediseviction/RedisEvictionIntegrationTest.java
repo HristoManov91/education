@@ -186,6 +186,7 @@ class RedisEvictionIntegrationTest {
                 ORIGINAL_POLICY
         );
         redisAdmin.flushDatabase();
+        redisAdmin.resetStatistics();
         redisAdmin.setConfig("maxmemory-samples", "5");
         redisAdmin.setConfig("lfu-log-factor", "10");
         redisAdmin.setConfig("lfu-decay-time", "1");
