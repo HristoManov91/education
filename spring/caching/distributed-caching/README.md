@@ -720,15 +720,24 @@ A and B miss shared key simultaneously
 docker run --rm -p 6379:6379 redis:8.10.2
 ```
 
-После:
+После explicit включи Redis integration tests.
+
+Linux/macOS:
 
 ```bash
+RUN_REDIS_TESTS=true mvn -pl spring/caching/distributed-caching -am test
+```
+
+PowerShell:
+
+```powershell
+$env:RUN_REDIS_TESTS="true"
 mvn -pl spring/caching/distributed-caching -am test
 ```
 
-Redis unavailable локално → integration test се skip-ва.
+Без `RUN_REDIS_TESTS=true` Redis integration class-ът се skip-ва локално. Това пази normal root build-а runnable и когато Redis не е стартиран.
 
-CI стартира real Redis service и изпълнява тестовете.
+GitHub Actions винаги задава `RUN_REDIS_TESTS=true` и стартира real Redis 8.10.2 service, така че CI никога не пропуска тези scenarios.
 
 ---
 
