@@ -98,6 +98,7 @@ education/
 ### Persistence / Query Design
 
 - [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)
+- [Repository + Unit of Work — JPA persistence context, dirty checking и transaction semantics](persistence/repository-unit-of-work/README.md)
 
 ### Design Patterns
 

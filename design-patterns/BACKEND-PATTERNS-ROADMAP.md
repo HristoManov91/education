@@ -57,104 +57,30 @@ Executable lab:
 
 ---
 
-## 1. Repository
+## 1. Repository + Unit of Work / JPA — ✅ реализиран
 
-### Казус
+Executable lab:
 
-Business service директно знае JPA/QueryDSL/SQL details.
+- [Repository + Unit of Work](../persistence/repository-unit-of-work/README.md)
 
-### Какво решава
-
-Изолира persistence access зад domain/application-oriented contract.
-
-### Наш бъдещ lab
-
-```text
-OrderService
-   ↓
-OrderRepository
-   ├→ JPA/QueryDSL implementation
-   └→ test in-memory implementation
-```
-
-### Особено важно
-
-Да разграничим:
-
-- Repository pattern;
-- Spring Data repository abstraction;
-- DAO;
-- „repository“, който всъщност само препредава EntityManager method-и.
+Покрива:
+- direct EntityManager baseline;
+- domain-facing Repository contract;
+- JPA adapter;
+- persistence context;
+- dirty checking;
+- Identity Map semantics;
+- flush vs commit;
+- rollback after flush;
+- detached entities;
+- optimistic version field;
+- кога Repository abstraction е излишна.
 
 ---
 
-## 2. Specification
+## Следващи теми в Ниво 1
 
-### Казус
-
-Dynamic search постепенно става:
-
-```text
-if filter A
-if filter B
-if filter C
-if A + B
-if B + C
-...
-```
-
-### Какво решава
-
-Business predicates стават composable objects/rules.
-
-### Наш lab
-
-Това е много подходящо за **QueryDSL**:
-
-```text
-CustomerIsActive
-AND
-CreatedAfter
-AND
-HasProtocolType
-```
-
-Ще сравним:
-
-- classic Specification;
-- QueryDSL BooleanExpression/Predicate composition;
-- кога Specification добавя стойност и кога само преименува query code.
-
----
-
-## 3. Unit of Work
-
-### Казус
-
-В един use case променяме няколко entities и трябва да ги commit-нем като една logical transaction.
-
-### Какво решава
-
-Следи променените objects и координира persistence commit.
-
-### Spring/JPA връзка
-
-Тук е особено важно да разберем, че Hibernate `Session/EntityManager` + transaction boundary вече реализират много от Unit of Work semantics.
-
-Тоест не пишем собствен `UnitOfWork.java` механично.
-
-### Lab
-
-```text
-@Transactional
-→ load aggregate
-→ modify several entities
-→ dirty checking
-→ flush
-→ commit / rollback
-```
-
----
+Specification, Repository и Unit of Work вече са изнесени в executable labs по-горе. Следващата фундаментална тема е Dependency Injection, следвана от Anti-Corruption Layer.
 
 ## 4. Dependency Injection
 
@@ -533,7 +459,7 @@ external → port → application/domain ← port ← persistence
 
 ```text
 1. Specification + QueryDSL ✅
-2. Repository + Unit of Work / JPA
+2. Repository + Unit of Work / JPA ✅
 3. Idempotency
 4. Retry + Timeout + Circuit Breaker + Bulkhead
 5. Transactional Outbox + Idempotent Consumer

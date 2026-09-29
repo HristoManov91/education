@@ -19,5 +19,6 @@
         <module>spring/caching/caching-strategies</module>
         <module>design-patterns</module>
         <module>persistence/specification-querydsl</module>
+        <module>persistence/repository-unit-of-work</module>
     </modules>
 </project>
