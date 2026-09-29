@@ -385,3 +385,238 @@ Behavior-ът зависи от lifecycle state?
 Искам action да стане first-class object?
 → Command
 ```
+
+
+---
+
+# 10. Bridge vs Strategy vs Adapter
+
+И трите често имат interface + composition, но решават различен design pressure.
+
+## Strategy
+
+```text
+Context → избира един от няколко algorithms
+```
+
+Пример: VIP vs regular discount.
+
+## Bridge
+
+```text
+Abstraction hierarchy ↔ Implementation hierarchy
+```
+
+Имаме **две независими dimensions**, които трябва да еволюират независимо.
+
+Пример: Security/Operational Alert × Email/Slack transport.
+
+Подробно: [Bridge](./structural/bridge/README.md)
+
+## Adapter
+
+```text
+чужд interface → превод → наш interface
+```
+
+Обикновено интегрираме вече съществуващ incompatible API.
+
+Кратко правило:
+
+```text
+Strategy = сменяем algorithm
+Bridge   = две независими axes of variation
+Adapter  = превод между incompatible contracts
+```
+
+---
+
+# 11. Prototype vs Builder vs Factory
+
+Трите участват в object creation, но отговарят на различни въпроси.
+
+## Builder
+
+> Как да построя нов complex object стъпка по стъпка?
+
+## Factory
+
+> Кой concrete object/family трябва да създам?
+
+## Prototype
+
+> Вече имам подходящо конфигуриран object — как да направя независимо копие?
+
+```text
+Builder   → construct
+Factory   → choose/create
+Prototype → copy configured instance
+```
+
+Prototype е особено полезен при presets/templates, но изисква ясни deep/shallow copy semantics.
+
+Подробно: [Prototype](./creational/prototype/README.md)
+
+---
+
+# 12. Mediator vs Facade vs Observer
+
+## Facade
+
+Външен caller получава simplified API към subsystem.
+
+```text
+Caller → Facade → A/B/C
+```
+
+## Mediator
+
+Peer components не говорят директно помежду си; mediator управлява collaboration rules.
+
+```text
+A → Mediator ← B
+      ↓
+      C
+```
+
+## Observer
+
+Publisher съобщава event на множество subscribers, без да orchestrate-ва сложен conversation protocol.
+
+```text
+Publisher
+  ├→ Listener A
+  ├→ Listener B
+  └→ Listener C
+```
+
+Кратко:
+
+```text
+Facade   = simplified subsystem boundary
+Mediator = coordination между peers
+Observer = notification fan-out
+```
+
+Подробно: [Mediator](./behavioral/mediator/README.md)
+
+---
+
+# 13. Memento vs Prototype
+
+И двете могат технически да пазят копие на state.
+
+## Prototype
+
+Цел:
+
+> нов independent object.
+
+Original и copy продължават да съществуват като отделни objects.
+
+## Memento
+
+Цел:
+
+> възстановяване на минал state на originator-а.
+
+Caretaker пази snapshot history, но не трябва да разбира вътрешното state.
+
+```text
+Prototype → duplicate
+Memento   → checkpoint / restore
+```
+
+Подробно:
+- [Prototype](./creational/prototype/README.md)
+- [Memento](./behavioral/memento/README.md)
+
+---
+
+# 14. Flyweight vs Cache vs Singleton
+
+## Flyweight
+
+Много logical objects share-ват immutable intrinsic state, за да намалим memory duplication.
+
+## Cache
+
+Пазим result/data, за да избегнем повторно I/O/computation.
+
+## Singleton
+
+Имаме един instance според определен lifecycle/ownership model.
+
+Ключова разлика:
+
+```text
+Flyweight → може да има много shared instances по intrinsic state key
+Cache     → reuse на резултати
+Singleton → точно една controlled instance в scope
+```
+
+Flyweight трябва да започва от **измерен memory problem**, не от желание за „по-оптимален код“.
+
+Подробно: [Flyweight](./structural/flyweight/README.md)
+
+---
+
+# 15. Visitor vs polymorphism vs pattern matching
+
+## Обикновен polymorphism
+
+Когато behavior естествено принадлежи на element-а:
+
+```text
+payment.execute()
+```
+
+е по-прост и по-добър.
+
+## Visitor
+
+Подходящ, когато:
+
+- element types са стабилни;
+- auxiliary operations се увеличават;
+- искаме operation family да остане извън core elements.
+
+## Java pattern matching
+
+При sealed hierarchy + малък брой operations `switch` pattern matching може да бъде много по-прост.
+
+Visitor има цена:
+
+> добавянето на нов element type изисква промяна във всички visitors.
+
+Затова Visitor не е „по-ООП“ автоматично — той е оптимизация на design-а за конкретна посока на промяна.
+
+Подробно: [Visitor](./behavioral/visitor/README.md)
+
+---
+
+# 16. Iterator vs Stream
+
+## Iterator
+
+Контролира traversal state и начина, по който получаваме следващ element.
+
+Добър fit за:
+
+- pagination;
+- cursors;
+- lazy external fetch;
+- custom tree traversal.
+
+## Stream
+
+Дава declarative processing pipeline върху source.
+
+```text
+Iterator = how do I traverse?
+Stream   = what transformations do I apply?
+```
+
+Често Stream се изгражда върху Iterator/Spliterator-like traversal mechanics.
+
+Подробно: [Iterator](./behavioral/iterator/README.md)

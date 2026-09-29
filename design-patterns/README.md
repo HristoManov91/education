@@ -2,7 +2,7 @@
 
 Това е **големият учебен проект за design patterns** в `education`.
 
-Основният вход е видеото **[7 Design Patterns EVERY Developer Should Know](https://www.youtube.com/watch?v=BJatgOiiht4)** на ForrestKnight. То представя седем много полезни patterns — Singleton, Builder, Factory, Facade, Adapter, Strategy и Observer — и ги поставя в трите класически групи: creational, structural и behavioral.
+Основният вход е видеото **[7 Design Patterns EVERY Developer Should Know](https://www.youtube.com/watch?v=BJatgOiiht4)** на ForrestKnight. Оттам разширяваме материала до **целия каталог от 22 patterns на Refactoring.Guru**, разделен в трите класически групи: creational, structural и behavioral.
 
 Нашата цел е по-различна от „да научим имената“.
 
@@ -94,18 +94,19 @@ Design patterns са **имена на повтарящи се форми на �
 CREATIONAL
 Как създаваме objects?
         ↓
-Singleton / Builder / Factory Method / Abstract Factory
+Singleton / Builder / Factory Method / Abstract Factory / Prototype
 
 STRUCTURAL
 Как свързваме objects и interfaces?
         ↓
-Adapter / Facade / Decorator / Proxy / Composite
+Adapter / Bridge / Composite / Decorator /
+Facade / Flyweight / Proxy
 
 BEHAVIORAL
 Как objects си разпределят поведението и комуникират?
         ↓
-Strategy / Observer / Chain of Responsibility /
-State / Template Method / Command
+Strategy / Observer / Chain of Responsibility / Command /
+Iterator / Mediator / Memento / State / Template Method / Visitor
 ```
 
 ## Mental model за трите категории
@@ -157,16 +158,19 @@ design-patterns/
 │       ├── .../singleton/
 │       ├── .../builder/
 │       ├── .../factorymethod/
-│       └── .../abstractfactory/
+│       ├── .../abstractfactory/
+│       └── .../prototype/
 │
 ├── structural/
 │   ├── README.md
 │   └── src/
 │       ├── .../adapter/
 │       ├── .../facade/
+│       ├── .../bridge/
 │       ├── .../decorator/
 │       ├── .../proxy/
-│       └── .../composite/
+│       ├── .../composite/
+│       └── .../flyweight/
 │
 └── behavioral/
     ├── README.md
@@ -176,7 +180,11 @@ design-patterns/
         ├── .../chain/
         ├── .../state/
         ├── .../templatemethod/
-        └── .../command/
+        ├── .../command/
+        ├── .../iterator/
+        ├── .../mediator/
+        ├── .../memento/
+        └── .../visitor/
 ```
 
 Maven modules са по **тип pattern**, а не по един module за всеки pattern. Така структурата остава ясна, без 20+ дребни `pom.xml` файла.
@@ -191,36 +199,30 @@ Maven modules са по **тип pattern**, а не по един module за в
 | Creational | Builder | ✅ | ✅ | сложен object construction |
 | Creational | Factory Method | Factory | ✅ | polymorphic object creation |
 | Creational | Abstract Factory | — | ✅ | family от съвместими objects |
+| Creational | Prototype | — | ✅ | clone на предварително конфигуриран object |
 | Structural | Adapter | ✅ | ✅ | third-party / legacy integrations |
+| Structural | Bridge | — | ✅ | две независими axes of variation |
 | Structural | Facade | ✅ | ✅ | use-case boundary над subsystems |
 | Structural | Decorator | — | ✅ | добавяне на behavior чрез composition |
 | Structural | Proxy | — | ✅ | controlled access / AOP / caching |
 | Structural | Composite | — | ✅ | tree structures с един contract |
+| Structural | Flyweight | — | ✅ | споделено immutable state при огромен object count |
 | Behavioral | Strategy | ✅ | ✅ | заменяем algorithm |
 | Behavioral | Observer | ✅ | ✅ | one-to-many reactions |
 | Behavioral | Chain of Responsibility | — | ✅ | filters / validators / handlers |
 | Behavioral | State | — | ✅ | behavior според lifecycle state |
 | Behavioral | Template Method | — | ✅ | фиксиран algorithm skeleton |
 | Behavioral | Command | — | ✅ | action като object |
+| Behavioral | Iterator | — | ✅ | traversal без leaking paging/cursor mechanics |
+| Behavioral | Mediator | — | ✅ | coordination без peer-to-peer coupling |
+| Behavioral | Memento | — | ✅ | snapshot/undo без breaking encapsulation |
+| Behavioral | Visitor | — | ✅ | нови operations върху стабилна hierarchy |
 
-Така първата версия има **15 patterns**.
+Така покриваме **всичките 22 patterns от каталога на Refactoring.Guru** с Java/backend-oriented примери.
 
-## Останалите GoF patterns — roadmap, не checklist
+> Оригиналната GoF книга съдържа и **Interpreter**. Refactoring.Guru не го включва в своя 22-pattern каталог; пазим го като отделна допълнителна тема, вместо да го добавяме само за бройка.
 
-Не ги добавяме само за да кажем „имаме 23/23“.
-
-Следващи кандидати:
-
-- Prototype;
-- Bridge;
-- Flyweight;
-- Iterator;
-- Mediator;
-- Memento;
-- Visitor;
-- Interpreter.
-
-Всеки ще влезе, когато можем да му дадем пример, който има смисъл за Java/backend работа.
+След класическите object-oriented patterns следващото ниво е [**Backend/Application Patterns Roadmap**](./BACKEND-PATTERNS-ROADMAP.md): Repository, Specification, Unit of Work, Idempotency, Transactional Outbox, Saga, Circuit Breaker, CQRS и др.
 
 ---
 
@@ -271,16 +273,19 @@ Subclass/implementation решава **кой concrete product** да създа
 | Builder | [`ReportRequest.java`](./creational/src/main/java/bg/hristomanov/education/patterns/creational/builder/ReportRequest.java) | [test](./creational/src/test/java/bg/hristomanov/education/patterns/creational/CreationalPatternsTest.java) |
 | Factory Method | [`PaymentProcessorCreator.java`](./creational/src/main/java/bg/hristomanov/education/patterns/creational/factorymethod/PaymentProcessorCreator.java) | [test](./creational/src/test/java/bg/hristomanov/education/patterns/creational/CreationalPatternsTest.java) |
 | Abstract Factory | [`CommerceFactory.java`](./creational/src/main/java/bg/hristomanov/education/patterns/creational/abstractfactory/CommerceFactory.java) | [test](./creational/src/test/java/bg/hristomanov/education/patterns/creational/CreationalPatternsTest.java) |
+| Prototype | [deep dive](./creational/prototype/README.md) | [`PrototypePatternTest.java`](./creational/src/test/java/bg/hristomanov/education/patterns/creational/prototype/PrototypePatternTest.java) |
 
 ## Structural
 
 | Pattern | Основен код | Test |
 | --- | --- | --- |
 | Adapter | [`LegacyCourierAdapter.java`](./structural/src/main/java/bg/hristomanov/education/patterns/structural/adapter/LegacyCourierAdapter.java) | [`StructuralPatternsTest.java`](./structural/src/test/java/bg/hristomanov/education/patterns/structural/StructuralPatternsTest.java) |
+| Bridge | [deep dive](./structural/bridge/README.md) | [`BridgePatternTest.java`](./structural/src/test/java/bg/hristomanov/education/patterns/structural/bridge/BridgePatternTest.java) |
 | Facade | [`CheckoutFacade.java`](./structural/src/main/java/bg/hristomanov/education/patterns/structural/facade/CheckoutFacade.java) | [test](./structural/src/test/java/bg/hristomanov/education/patterns/structural/StructuralPatternsTest.java) |
 | Decorator | [`NotificationSenderDecorator.java`](./structural/src/main/java/bg/hristomanov/education/patterns/structural/decorator/NotificationSenderDecorator.java) | [test](./structural/src/test/java/bg/hristomanov/education/patterns/structural/StructuralPatternsTest.java) |
 | Proxy | [`CachingProductCatalogProxy.java`](./structural/src/main/java/bg/hristomanov/education/patterns/structural/proxy/CachingProductCatalogProxy.java) | [test](./structural/src/test/java/bg/hristomanov/education/patterns/structural/StructuralPatternsTest.java) |
 | Composite | [`Bundle.java`](./structural/src/main/java/bg/hristomanov/education/patterns/structural/composite/Bundle.java) | [test](./structural/src/test/java/bg/hristomanov/education/patterns/structural/StructuralPatternsTest.java) |
+| Flyweight | [deep dive](./structural/flyweight/README.md) | [`FlyweightPatternTest.java`](./structural/src/test/java/bg/hristomanov/education/patterns/structural/flyweight/FlyweightPatternTest.java) |
 
 ## Behavioral
 
@@ -292,6 +297,10 @@ Subclass/implementation решава **кой concrete product** да създа
 | State | [`Order.java`](./behavioral/src/main/java/bg/hristomanov/education/patterns/behavioral/state/Order.java) | [test](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/BehavioralPatternsTest.java) |
 | Template Method | [`AbstractOrderImportJob.java`](./behavioral/src/main/java/bg/hristomanov/education/patterns/behavioral/templatemethod/AbstractOrderImportJob.java) | [test](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/BehavioralPatternsTest.java) |
 | Command | [`Command.java`](./behavioral/src/main/java/bg/hristomanov/education/patterns/behavioral/command/Command.java) | [test](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/BehavioralPatternsTest.java) |
+| Iterator | [deep dive](./behavioral/iterator/README.md) | [`IteratorPatternTest.java`](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/iterator/IteratorPatternTest.java) |
+| Mediator | [deep dive](./behavioral/mediator/README.md) | [`MediatorPatternTest.java`](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/mediator/MediatorPatternTest.java) |
+| Memento | [deep dive](./behavioral/memento/README.md) | [`MementoPatternTest.java`](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/memento/MementoPatternTest.java) |
+| Visitor | [deep dive](./behavioral/visitor/README.md) | [`VisitorPatternTest.java`](./behavioral/src/test/java/bg/hristomanov/education/patterns/behavioral/visitor/VisitorPatternTest.java) |
 
 ---
 
@@ -341,8 +350,15 @@ Subclass/implementation решава **кой concrete product** да създа
 13. Abstract Factory
 14. Composite
 15. Singleton
+16. Prototype
+17. Iterator
+18. Bridge
+19. Mediator
+20. Memento
+21. Visitor
+22. Flyweight
 
-Singleton е нарочно по-назад — лесен е като syntax, но често се използва там, където dependency injection е по-добрият design.
+Singleton е нарочно по-назад — лесен е като syntax, но често се използва там, където dependency injection е по-добрият design. Flyweight е последен, защото трябва да се прилага при измерен memory problem, а не като предварителна оптимизация.
 
 ---
 
@@ -486,7 +502,7 @@ production problem
 - ForrestKnight — **7 Design Patterns EVERY Developer Should Know**:  
   https://www.youtube.com/watch?v=BJatgOiiht4
 - Gamma, Helm, Johnson, Vlissides — **Design Patterns: Elements of Reusable Object-Oriented Software**
-- Refactoring.Guru — Design Patterns:  
+- Refactoring.Guru — Design Patterns catalog (използван за problem/applicability/trade-off cross-check):  
   https://refactoring.guru/design-patterns
 - Spring Framework — Bean Scopes:  
   https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html

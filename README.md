@@ -99,3 +99,4 @@ education/
   - [Behavioral patterns](design-patterns/behavioral/README.md)
   - [Pattern comparisons](design-patterns/PATTERN-COMPARISONS.md)
   - [Spring mapping](design-patterns/SPRING-MAPPING.md)
+  - [Backend/Application patterns roadmap](design-patterns/BACKEND-PATTERNS-ROADMAP.md)

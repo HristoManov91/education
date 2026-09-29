@@ -18,7 +18,11 @@ Behavioral patterns са най-близо до ежедневния service cod
 - Chain of Responsibility;
 - State;
 - Template Method;
-- Command.
+- Command;
+- Iterator;
+- Mediator;
+- Memento;
+- Visitor.
 
 ---
 
@@ -326,7 +330,51 @@ Application-layer command/handler architectures и queues често изпол�
 
 ---
 
-# 7. Как го доказваме
+# 7. Iterator
+
+Iterator скрива traversal mechanics. Нашият consumer използва normal `for-each`, докато iterator-ът lazy-load-ва paginated order source.
+
+- [Подробен урок за Iterator](./iterator/README.md)
+- [`PagedOrderIterable.java`](./src/main/java/bg/hristomanov/education/patterns/behavioral/iterator/PagedOrderIterable.java)
+- [`IteratorPatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/behavioral/iterator/IteratorPatternTest.java)
+
+---
+
+# 8. Mediator
+
+Mediator централизира collaboration rules между peer components, за да не се coupling-ват един към друг.
+
+Нашият order workflow координира payment → inventory → shipping и compensation при failure.
+
+- [Подробен урок за Mediator](./mediator/README.md)
+- [`OrderWorkflowMediator.java`](./src/main/java/bg/hristomanov/education/patterns/behavioral/mediator/OrderWorkflowMediator.java)
+- [`MediatorPatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/behavioral/mediator/MediatorPatternTest.java)
+
+---
+
+# 9. Memento
+
+Memento пази opaque snapshot на private object state, за да можем да restore-нем предишна версия без caretaker-ът да нарушава encapsulation.
+
+- [Подробен урок за Memento](./memento/README.md)
+- [`PricingRuleEditor.java`](./src/main/java/bg/hristomanov/education/patterns/behavioral/memento/PricingRuleEditor.java)
+- [`MementoPatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/behavioral/memento/MementoPatternTest.java)
+
+---
+
+# 10. Visitor
+
+Visitor е силен, когато **element hierarchy е стабилна**, но новите operations върху нея се увеличават.
+
+Нашият payment hierarchy получава processing-fee и compliance-label operations като отделни visitors.
+
+- [Подробен урок за Visitor](./visitor/README.md)
+- [`PaymentVisitor.java`](./src/main/java/bg/hristomanov/education/patterns/behavioral/visitor/PaymentVisitor.java)
+- [`VisitorPatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/behavioral/visitor/VisitorPatternTest.java)
+
+---
+
+# 11. Как го доказваме
 
 [`BehavioralPatternsTest.java`](./src/test/java/bg/hristomanov/education/patterns/behavioral/BehavioralPatternsTest.java)
 
@@ -337,11 +385,15 @@ Application-layer command/handler architectures и queues често изпол�
 - Chain stop-ва при first validation failure;
 - State enforce-ва lifecycle transitions;
 - Template Method запазва stable workflow order;
-- Command може да бъде изпълнен и записан от invoker.
+- Command може да бъде изпълнен и записан от invoker;
+- Iterator lazy-load-ва pages, без consumer-ът да вижда pagination;
+- Mediator координира success и compensation flows;
+- Memento restore-ва предишен state;
+- Visitor изпълнява различни operations върху heterogeneous payment elements.
 
 ---
 
-# 8. Decision guide
+# 12. Decision guide
 
 ```text
 Различни algorithms за една операция?
@@ -361,11 +413,23 @@ Stable workflow + overridable steps?
 
 Искам operation/action да стане object?
 → Command
+
+Искам да скрия сложен paging/cursor/tree traversal?
+→ Iterator
+
+Имам много peer components с many-to-many interaction rules?
+→ Mediator
+
+Искам snapshot/undo без да expose-вам private state?
+→ Memento
+
+Hierarchy-то е стабилно, но добавям много нови operations?
+→ Visitor
 ```
 
 ---
 
-# 9. Code review checklist
+# 13. Code review checklist
 
 ```text
 [ ] Growing switch представя ли истинска strategy variation?
@@ -376,6 +440,11 @@ Stable workflow + overridable steps?
 [ ] Template base class контролира ли важен invariant/lifecycle?
 [ ] Наследяването нужно ли е или composition е по-гъвкава?
 [ ] Command object-ът ще бъде ли queued/retried/audited, или е ceremony?
+[ ] Paging/cursor logic изтича ли в business code?
+[ ] Components познават ли прекалено много peers?
+[ ] Mediator-ът превръща ли се в God Object?
+[ ] Snapshot history има ли memory/durability implications?
+[ ] Visitor element hierarchy достатъчно стабилна ли е?
 ```
 
 ---
@@ -388,7 +457,11 @@ Stable workflow + overridable steps?
 4. State мести **lifecycle-dependent behavior** в state objects.
 5. Template Method пази **stable algorithm skeleton**.
 6. Command прави **action first-class object**.
-7. Pattern трябва да следва variation point-а, не обратното.
+7. Iterator отделя **traversal** от consumer logic.
+8. Mediator отделя **coordination rules** от components.
+9. Memento пази **restorable state snapshots**.
+10. Visitor оптимизира design-а за **нови operations върху стабилни element types**.
+11. Pattern трябва да следва variation point-а, не обратното.
 
 ---
 
