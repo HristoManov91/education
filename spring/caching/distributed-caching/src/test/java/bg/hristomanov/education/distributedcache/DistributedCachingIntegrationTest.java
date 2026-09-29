@@ -1,6 +1,7 @@
 package bg.hristomanov.education.distributedcache;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.CacheManager;
@@ -15,6 +16,7 @@ import java.util.concurrent.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+@EnabledIfEnvironmentVariable(named = "RUN_REDIS_TESTS", matches = "true")
 @SpringBootTest
 class DistributedCachingIntegrationTest {
 
