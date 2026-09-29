@@ -1,0 +1,65 @@
+@baseUrl = http://localhost:8092
+@accountId = ACC-001
+
+### 1. Open account -> stream version 0
+POST {{baseUrl}}/api/event-sourcing/accounts
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "ownerName": "Hristo",
+  "currency": "EUR"
+}
+
+### 2. Deposit -> stream version 1
+POST {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/deposits
+Content-Type: application/json
+
+{
+  "amount": 150.00,
+  "reference": "salary"
+}
+
+### 3. Withdraw -> stream version 2
+POST {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/withdrawals
+Content-Type: application/json
+
+{
+  "amount": 20.00,
+  "reference": "groceries"
+}
+
+### 4. Current state is rebuilt from all events -> balance 130.
+GET {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/state
+
+### 5. Historical state at stream version 1 -> balance 150.
+GET {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/state/1
+
+### 6. Inspect immutable history.
+GET {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/history
+
+### 7. Read projection does not exist until events are projected.
+GET {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/projection
+
+### 8. Catch projection up.
+POST {{baseUrl}}/api/event-sourcing/projections/all
+
+GET {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/projection
+
+### 9. Create snapshot at current version.
+POST {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/snapshot
+
+### 10. New event after snapshot.
+POST {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/deposits
+Content-Type: application/json
+
+{
+  "amount": 70.00,
+  "reference": "bonus"
+}
+
+### 11. Snapshot load replays only the tail event.
+GET {{baseUrl}}/api/event-sourcing/accounts/{{accountId}}/state?useSnapshot=true
+
+### 12. Projection can be rebuilt entirely from source events.
+POST {{baseUrl}}/api/event-sourcing/projections/rebuild
