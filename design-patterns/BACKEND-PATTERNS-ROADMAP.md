@@ -171,84 +171,28 @@ POST /payments   ← същата business операция
 
 ---
 
-## 7. Retry
+## 7. Retry + Timeout + Circuit Breaker + Bulkhead — ✅ реализиран
 
-Retry е правилен само за подходящи transient failures.
+Executable lab:
 
-Ще покрием:
+- [Fault Tolerance — Retry + Timeout + Circuit Breaker + Bulkhead](../spring/reliability/fault-tolerance/README.md)
 
-- max attempts;
-- exponential backoff;
-- jitter;
-- retryable vs non-retryable errors;
-- idempotency;
-- retry storm.
-
-Важно правило:
-
-> Retry без idempotency/failure classification може да направи проблема по-лош.
-
----
-
-## 8. Timeout
-
-Без timeout caller-ът предава собствения си resource budget на downstream service-а.
-
-Ще разглеждаме:
-
-- connect timeout;
-- read/request timeout;
-- global deadline;
-- cascading latency.
-
-Това ще се върже и с вече направения Loom/Structured Concurrency material.
+Покрива:
+- transient vs permanent failure classification;
+- bounded retry;
+- timeout/cancellation;
+- Circuit Breaker CLOSED/OPEN/HALF_OPEN;
+- slow-call/failure-rate semantics;
+- Semaphore Bulkhead;
+- Virtual Threads vs downstream capacity;
+- composition order;
+- per-attempt timeout vs global deadline;
+- Circuit Breaker inside/outside Retry;
+- fallback and observability trade-offs.
 
 ---
 
-## 9. Circuit Breaker
-
-### Казус
-
-Downstream service fail-ва/timeout-ва.
-
-Без protection:
-
-```text
-request
-→ wait
-→ timeout
-request
-→ wait
-→ timeout
-...
-```
-
-Circuit Breaker временно спира calls към очевидно unhealthy dependency.
-
-Ще разграничим:
-
-- CLOSED;
-- OPEN;
-- HALF_OPEN;
-- fallback;
-- recovery probes.
-
-И най-важното: Circuit Breaker **не поправя dependency-то**.
-
----
-
-## 10. Bulkhead
-
-Една failing dependency не трябва да изяде всички:
-
-- threads;
-- connections;
-- queue capacity;
-- concurrency permits.
-
-Това ще се върже директно с bounded-concurrency lab-а, който вече имаме при Virtual Threads.
-
----
+Подробните Retry/Timeout/Circuit Breaker/Bulkhead казуси вече са изнесени в executable lab-а по-горе.
 
 # Ниво 3 — database + event consistency
 
@@ -477,7 +421,7 @@ external → port → application/domain ← port ← persistence
 1. Specification + QueryDSL ✅
 2. Repository + Unit of Work / JPA ✅
 3. Idempotency ✅
-4. Retry + Timeout + Circuit Breaker + Bulkhead
+4. Retry + Timeout + Circuit Breaker + Bulkhead ✅
 5. Transactional Outbox + Idempotent Consumer
 6. Saga
 7. Domain Events

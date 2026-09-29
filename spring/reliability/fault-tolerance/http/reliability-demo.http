@@ -1,0 +1,49 @@
+@baseUrl = http://localhost:8087
+
+### 0. Reset
+POST {{baseUrl}}/api/reliability/reset
+
+### 1. Retry: fail twice, succeed on third attempt
+GET {{baseUrl}}/api/reliability/retry?transientFailures=2
+
+> {%
+    client.test("retry reaches third attempt", function () {
+        client.assert(response.status === 200);
+        client.assert(response.body.downstreamAttempts === 3);
+    });
+%}
+
+### 2. Timeout: 250 ms downstream vs 75 ms time budget -> 504
+GET {{baseUrl}}/api/reliability/timeout?delayMs=250
+
+> {%
+    client.test("slow call times out", function () {
+        client.assert(response.status === 504);
+        client.assert(response.body.error === "DOWNSTREAM_TIMEOUT");
+    });
+%}
+
+### 3. Circuit breaker: reset first
+POST {{baseUrl}}/api/reliability/reset
+
+### Four failures fill the minimum sample and open the circuit.
+POST {{baseUrl}}/api/reliability/circuit/failure
+###
+POST {{baseUrl}}/api/reliability/circuit/failure
+###
+POST {{baseUrl}}/api/reliability/circuit/failure
+###
+POST {{baseUrl}}/api/reliability/circuit/failure
+
+### State should now show OPEN.
+GET {{baseUrl}}/api/reliability/state
+
+### 4. Combined policy: Retry -> CircuitBreaker -> Bulkhead -> TimeLimiter
+GET {{baseUrl}}/api/reliability/combined?transientFailures=2&delayMs=0
+
+> {%
+    client.test("combined succeeds after retries", function () {
+        client.assert(response.status === 200);
+        client.assert(response.body.downstreamAttempts === 3);
+    });
+%}
