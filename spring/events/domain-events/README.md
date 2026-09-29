@@ -217,6 +217,10 @@ listener throws exception
 → business transaction can rollback
 ```
 
+При Spring Data repository publication конкретният listener exception може да мине през repository/JPA exception translation. В текущия Boot 4.1.1 stack тестът вижда `InvalidDataAccessApiUsageException`, чийто root cause е оригиналният `IllegalStateException`.
+
+Това е важно при debugging: wrapper exception-ът не означава непременно, че root cause е Criteria/JPA misuse — трябва да се провери cause chain.
+
 Lab test-ът доказва точно това.
 
 ---
