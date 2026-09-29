@@ -14,7 +14,8 @@ Creational patterns не са просто техники за избягван�
 - Singleton;
 - Builder;
 - Factory Method;
-- Abstract Factory.
+- Abstract Factory;
+- Prototype.
 
 ---
 
@@ -285,7 +286,28 @@ Abstract Factory:
 
 ---
 
-# 5. Как го доказваме
+# 5. Prototype
+
+Prototype влиза, когато искаме да вземем вече конфигуриран object и да създадем **независимо копие**, без caller-ът да зависи от concrete class-а и без да повтаряме сложната initialization логика.
+
+Практическият ни казус е registry от report templates:
+
+```text
+preconfigured template
+       ↓ copy()
+independent report configuration
+       ↓ customize
+```
+
+Тук особено важни са **shallow vs deep copy** semantics — clone, който споделя mutable collections с original-а, често е по-опасен от това изобщо да няма Prototype.
+
+- [Подробен урок за Prototype](./prototype/README.md)
+- [`ReportTemplateRegistry.java`](./src/main/java/bg/hristomanov/education/patterns/creational/prototype/ReportTemplateRegistry.java)
+- [`PrototypePatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/creational/prototype/PrototypePatternTest.java)
+
+---
+
+# 6. Как го доказваме
 
 [`CreationalPatternsTest.java`](./src/test/java/bg/hristomanov/education/patterns/creational/CreationalPatternsTest.java)
 
@@ -294,7 +316,8 @@ Abstract Factory:
 - enum Singleton връща същата instance;
 - Builder валидира invariant при `build()`;
 - различни Factory Method creators създават различни processors;
-- Abstract Factory създава съвместими regional products.
+- Abstract Factory създава съвместими regional products;
+- Prototype registry връща independent copies, без caller-ът да знае concrete construction.
 
 ---
 
@@ -312,6 +335,9 @@ Base workflow трябва да остави subclass/plugin да избере p
 
 Трябва да избера цяла family от свързани products?
 → Abstract Factory
+
+Имам сложни/preconfigured objects и искам независими копия?
+→ Prototype
 ```
 
 ---
@@ -327,6 +353,8 @@ Base workflow трябва да остави subclass/plugin да избере p
 [ ] Abstract Factory products реално ли са family?
 [ ] Singleton state-ът immutable/stateless ли е?
 [ ] В Spring защо не използваме нормален injected singleton bean?
+[ ] При Prototype copy-то deep ли трябва да бъде?
+[ ] Clone-ът споделя ли mutable state с original-а?
 ```
 
 ---
@@ -338,7 +366,8 @@ Base workflow трябва да остави subclass/plugin да избере p
 3. Factory Method делегира concrete product creation към subtype.
 4. Abstract Factory избира family от products.
 5. Singleton е lifecycle decision с висока coupling цена.
-6. Spring singleton scope е container concept, различен от GoF Singleton.
+6. Prototype е полезен за preconfigured objects, когато copy semantics са ясни.
+7. Spring singleton scope е container concept, различен от GoF Singleton.
 
 ---
 
