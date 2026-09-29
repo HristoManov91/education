@@ -160,6 +160,8 @@ only NEW order can become PAID
 
 Това е business model, не UI view.
 
+Association-ът към lines е `LAZY` и `spring.jpa.open-in-view=false`. Lab test-овете не четат lazy graph-а след края на transaction-а; [`OrderWriteInspectorService.java`](./src/main/java/bg/hristomanov/education/cqrs/write/OrderWriteInspectorService.java) прави диагностичния snapshot в explicit `readOnly` transaction. Това е умишлено — не използваме EAGER/OSIV, за да маскираме persistence-boundary problem.
+
 ---
 
 # 6. Commands са business intent
