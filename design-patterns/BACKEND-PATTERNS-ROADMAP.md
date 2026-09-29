@@ -196,60 +196,29 @@ Executable lab:
 
 # Ниво 3 — database + event consistency
 
-## 11. Transactional Outbox
+## 11. Transactional Outbox + Inbox / Idempotent Consumer — ✅ реализирани
 
-Един от най-важните distributed backend patterns.
+Executable lab:
 
-### Казус
+- [Transactional Outbox + Idempotent Consumer / Inbox](../spring/messaging/outbox-inbox/README.md)
 
-```text
-BEGIN DB
-save order
-COMMIT
+Покрива:
+- direct DB + broker dual-write failure windows;
+- atomic business row + outbox row transaction;
+- Polling Publisher relay;
+- broker publish success + missing outbox acknowledgement;
+- duplicate publication with stable event ID;
+- Inbox / processed-message table;
+- atomic inbox claim + business effect;
+- concurrent duplicate consumers;
+- consumer rollback + safe redelivery;
+- event ordering vs duplicate handling;
+- multiple relay instances / claim strategies;
+- PostgreSQL / Oracle `SKIP LOCKED` considerations;
+- CDC / Debezium Outbox Event Router;
+- retention, poison messages and schema evolution.
 
-publish Kafka event
-   💥 process crashes
-```
-
-DB има order-а, Kafka няма event-а.
-
-Обратният ред също е проблем.
-
-### Pattern
-
-В една DB transaction:
-
-```text
-save order
-save outbox_event
-COMMIT
-```
-
-После отделен publisher доставя outbox records.
-
-### Lab
-
-Тук ще направим реален PostgreSQL/Oracle-oriented пример и ще разгледаме:
-
-- polling publisher;
-- CDC;
-- retries;
-- duplicate event delivery;
-- idempotent consumers.
-
----
-
-## 12. Inbox / Idempotent Consumer
-
-Outbox решава producer side.
-
-Consumer-ът трябва да приема, че event може да пристигне повече от веднъж.
-
-```text
-eventId already processed?
-→ yes: ignore/replay safe result
-→ no: process + record id
-```
+Outbox и Inbox са реализирани заедно, защото producer-side at-least-once publication логично изисква consumer-side idempotency.
 
 ---
 
@@ -422,7 +391,7 @@ external → port → application/domain ← port ← persistence
 2. Repository + Unit of Work / JPA ✅
 3. Idempotency ✅
 4. Retry + Timeout + Circuit Breaker + Bulkhead ✅
-5. Transactional Outbox + Idempotent Consumer
+5. Transactional Outbox + Idempotent Consumer ✅
 6. Saga
 7. Domain Events
 8. CQRS
