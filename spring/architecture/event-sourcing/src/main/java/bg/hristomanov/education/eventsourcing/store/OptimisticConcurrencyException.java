@@ -16,4 +16,18 @@ public class OptimisticConcurrencyException extends RuntimeException {
                         + actualVersion
         );
     }
+
+    public OptimisticConcurrencyException(
+            String streamId,
+            long expectedVersion,
+            Throwable cause
+    ) {
+        super(
+                "Concurrent append detected for stream "
+                        + streamId
+                        + " at expected version "
+                        + expectedVersion,
+                cause
+        );
+    }
 }
