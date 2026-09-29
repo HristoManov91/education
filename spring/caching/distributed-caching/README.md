@@ -213,19 +213,17 @@ Product
 
 Spring Data Redis default `RedisCacheConfiguration` използва JDK serialization за values.
 
-В lab-а изрично сменяме това с:
-
-```text
-GenericJacksonJsonRedisSerializer
-```
-
-който в Spring Data Redis 4.x е Jackson 3 serializer.
-
-За typed `RedisTemplate<String, Product>` използваме:
+В lab-а cache-ът е хомогенен — `products` съдържа само `Product`. Затова изрично използваме typed:
 
 ```text
 JacksonJsonRedisSerializer<Product>
 ```
+
+и за `RedisCacheManager`, и за `RedisTemplate<String, Product>`.
+
+Това избягва нуждата от polymorphic type metadata в cache payload-а. CI нарочно хвана как generic JSON serializer без достатъчна type информация може да deserialize-не object като `LinkedHashMap` вместо `Product`.
+
+Ако един cache трябва да държи различни runtime types, generic/polymorphic serialization изисква отделен type-metadata и security design, а не просто смяна на serializer class-а.
 
 Това е същата Jackson 3 migration линия, която видяхме и в други Boot 4 modules.
 
