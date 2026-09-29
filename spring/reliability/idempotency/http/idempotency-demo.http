@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:8086
+@key = payment-demo-001
+
+### 1. First request -> 201 Created
+POST {{baseUrl}}/api/payments
+Idempotency-Key: {{key}}
+Content-Type: application/json
+
+{
+  "customerId": "C-42",
+  "amount": 120.00,
+  "currency": "EUR"
+}
+
+> {%
+    client.test("first request creates a payment", function () {
+        client.assert(response.status === 201);
+        client.assert(response.body.replayed === false);
+    });
+%}
+
+### 2. Exact retry -> 200, same payment, replayed=true
+POST {{baseUrl}}/api/payments
+Idempotency-Key: {{key}}
+Content-Type: application/json
+
+{
+  "customerId": "C-42",
+  "amount": 120.0,
+  "currency": "eur"
+}
+
+> {%
+    client.test("retry is replayed", function () {
+        client.assert(response.status === 200);
+        client.assert(response.body.replayed === true);
+    });
+%}
+
+### 3. Same key + different payload -> 409 Conflict
+POST {{baseUrl}}/api/payments
+Idempotency-Key: {{key}}
+Content-Type: application/json
+
+{
+  "customerId": "C-42",
+  "amount": 999.00,
+  "currency": "EUR"
+}
+
+> {%
+    client.test("key reuse with different payload is rejected", function () {
+        client.assert(response.status === 409);
+        client.assert(response.body.code === "IDEMPOTENCY_KEY_CONFLICT");
+    });
+%}

@@ -95,6 +95,10 @@ education/
 
 - [Caching strategies — Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead и Spring Cache](spring/caching/caching-strategies/README.md)
 
+### Spring / Reliability
+
+- [Idempotency — safe retries without duplicate side effects](spring/reliability/idempotency/README.md)
+
 ### Persistence / Query Design
 
 - [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)
