@@ -18,5 +18,6 @@
         <module>spring/concurrency/loom-vs-reactive</module>
         <module>spring/caching/caching-strategies</module>
         <module>design-patterns</module>
+        <module>persistence/specification-querydsl</module>
     </modules>
 </project>
