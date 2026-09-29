@@ -349,29 +349,28 @@ external DTO
 
 # Ниво 7 — architecture patterns
 
-## 19. Ports & Adapters / Hexagonal Architecture
+## 19. Ports & Adapters ✅ / Hexagonal Architecture — ✅ реализиран
 
-Това ще обедини много от вече наученото:
+Executable lab:
 
-```text
-          REST adapter
-               ↓
-external → port → application/domain ← port ← persistence
-               ↑
-          message adapter
-```
+- [Ports & Adapters / Hexagonal Architecture](../spring/architecture/hexagonal-architecture/README.md)
 
-Основната идея:
-
-> core business logic не трябва да зависи от infrastructure details.
-
-Ще го сравним с:
-
-- layered architecture;
-- clean architecture;
-- onion architecture.
-
-Без догматично „всяка система трябва да е hexagonal“.
+Покрива:
+- original Cockburn inside/outside model;
+- driving vs driven adapters;
+- ports named by purpose, not technology;
+- framework-free Java core;
+- Maven-enforced dependency direction;
+- REST driving adapter;
+- JPA driven adapters;
+- separate domain and persistence models;
+- composition root with Spring `@Bean`;
+- transaction decorators outside the core;
+- isolated core tests with in-memory adapters;
+- Spring/JPA integration test;
+- layered vs hexagonal;
+- Onion/Clean Architecture comparison;
+- when hexagonal architecture is overengineering.
 
 ---
 

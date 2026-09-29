@@ -1,0 +1,29 @@
+@baseUrl = http://localhost:8091
+
+### Place an order through the driving REST adapter.
+POST {{baseUrl}}/api/hexagonal/orders
+Content-Type: application/json
+
+{
+  "reference": "ORD-HEX-HTTP-001",
+  "customerId": "C-42",
+  "items": [
+    { "sku": "KEYBOARD", "quantity": 1 },
+    { "sku": "MOUSE", "quantity": 2 }
+  ]
+}
+
+### Use returned id (normally 1 in a fresh in-memory DB).
+GET {{baseUrl}}/api/hexagonal/orders/1
+
+### Unknown product is converted by the REST adapter into HTTP 400.
+POST {{baseUrl}}/api/hexagonal/orders
+Content-Type: application/json
+
+{
+  "reference": "ORD-HEX-BAD",
+  "customerId": "C-42",
+  "items": [
+    { "sku": "UNKNOWN", "quantity": 1 }
+  ]
+}

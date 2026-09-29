@@ -26,5 +26,6 @@
         <module>spring/messaging/saga</module>
         <module>spring/events/domain-events</module>
         <module>spring/architecture/cqrs</module>
+        <module>spring/architecture/hexagonal-architecture</module>
     </modules>
 </project>
