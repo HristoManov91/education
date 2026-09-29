@@ -5,11 +5,11 @@ public record ValidationResult(
         String error
 ) {
 
-    public static ValidationResult valid() {
+    public static ValidationResult success() {
         return new ValidationResult(true, null);
     }
 
-    public static ValidationResult invalid(String error) {
+    public static ValidationResult failure(String error) {
         return new ValidationResult(false, error);
     }
 }
