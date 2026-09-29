@@ -4,6 +4,7 @@ import bg.hristomanov.education.cache.domain.Product;
 import bg.hristomanov.education.cache.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,6 +27,7 @@ class SpringCacheProductServiceTest {
     private final CachingStrategyService service;
     private final ProductRepository repository;
 
+    @Autowired
     SpringCacheProductServiceTest(
             @Qualifier("springCacheProductService") CachingStrategyService service,
             ProductRepository repository
