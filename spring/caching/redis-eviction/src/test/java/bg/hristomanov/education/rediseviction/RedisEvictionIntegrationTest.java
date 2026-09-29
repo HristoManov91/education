@@ -1,6 +1,7 @@
 package bg.hristomanov.education.rediseviction;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
@@ -12,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+@EnabledIfEnvironmentVariable(named = "RUN_REDIS_TESTS", matches = "true")
 @SpringBootTest
 class RedisEvictionIntegrationTest {
 
