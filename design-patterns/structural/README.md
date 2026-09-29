@@ -12,9 +12,11 @@ Structural patterns се занимават с composition:
 
 - Adapter;
 - Facade;
+- Bridge;
 - Decorator;
 - Proxy;
-- Composite.
+- Composite;
+- Flyweight.
 
 ---
 
@@ -296,7 +298,45 @@ PriceComponent
 
 ---
 
-# 6. Най-важното разграничение
+# 6. Bridge
+
+Bridge е за ситуация с **две независими axes of variation**, които иначе създават combinatorial subclass explosion.
+
+Нашият пример отделя:
+
+```text
+Alert type       Transport
+-----------      ---------
+Operational  ×   Email
+Security     ×   Slack
+```
+
+в две независими hierarchies, свързани чрез composition.
+
+- [Подробен урок за Bridge](./bridge/README.md)
+- [`Alert.java`](./src/main/java/bg/hristomanov/education/patterns/structural/bridge/Alert.java)
+- [`BridgePatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/structural/bridge/BridgePatternTest.java)
+
+---
+
+# 7. Flyweight
+
+Flyweight е нарочно по-рядък pattern. Той има смисъл при **огромен брой similar objects и реален memory pressure**.
+
+Разделяме:
+
+- intrinsic state — repeatable, shared, immutable;
+- extrinsic state — unique per context.
+
+При нас 10 000 audit events споделят една immutable `AuditEventType` metadata instance.
+
+- [Подробен урок за Flyweight](./flyweight/README.md)
+- [`AuditEventTypeFactory.java`](./src/main/java/bg/hristomanov/education/patterns/structural/flyweight/AuditEventTypeFactory.java)
+- [`FlyweightPatternTest.java`](./src/test/java/bg/hristomanov/education/patterns/structural/flyweight/FlyweightPatternTest.java)
+
+---
+
+# 8. Най-важното разграничение
 
 | Pattern | Основен въпрос |
 | --- | --- |
@@ -305,12 +345,14 @@ PriceComponent
 | Decorator | „Как да добавя composable behavior?“ |
 | Proxy | „Как да контролирам достъпа до real object?“ |
 | Composite | „Как да третирам leaf и tree еднакво?“ |
+| Bridge | „Как да развивам две независими dimensions без subclass explosion?“ |
+| Flyweight | „Как да share-на repeated immutable state при огромен object count?“ |
 
 За повече: [`../PATTERN-COMPARISONS.md`](../PATTERN-COMPARISONS.md).
 
 ---
 
-# 7. Как го доказваме
+# 9. Как го доказваме
 
 [`StructuralPatternsTest.java`](./src/test/java/bg/hristomanov/education/patterns/structural/StructuralPatternsTest.java)
 
@@ -320,11 +362,13 @@ PriceComponent
 - Facade скрива checkout orchestration;
 - decorators могат да се stack-ват;
 - caching proxy извиква remote catalog само веднъж;
-- Composite сумира nested tree през общ interface.
+- Composite сумира nested tree през общ interface;
+- Bridge комбинира alert types и transports независимо;
+- Flyweight доказва, че 10 000 contexts share-ват една intrinsic metadata instance.
 
 ---
 
-# 8. Code review checklist
+# 10. Code review checklist
 
 ```text
 [ ] Third-party model изтича ли в domain layer?
@@ -334,6 +378,8 @@ PriceComponent
 [ ] Proxy ли е или Decorator?
 [ ] Facade-ът use-case boundary ли е, или просто God Service?
 [ ] Имаме ли tree structure, пълна с instanceof checks?
+[ ] Има ли две независими dimensions, които умножават subclasses?
+[ ] Flyweight решава ли измерен memory problem или е premature optimization?
 ```
 
 ---
@@ -345,7 +391,9 @@ PriceComponent
 3. Decorator **надгражда behavior**.
 4. Proxy **контролира access**.
 5. Composite **унифицира leaf и container**.
-6. Wrapper syntax-ът може да е сходен; intent-ът определя pattern-а.
+6. Bridge **разделя независими dimensions**.
+7. Flyweight **споделя immutable intrinsic state** при огромен object count.
+8. Wrapper syntax-ът може да е сходен; intent-ът определя pattern-а.
 
 ---
 
