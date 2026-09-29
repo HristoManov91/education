@@ -423,15 +423,24 @@ cluster overall memory = 60%
 docker run --rm -p 6379:6379 redis:8.10.2
 ```
 
-После:
+После explicit включи Redis integration tests.
+
+Linux/macOS:
 
 ```bash
+RUN_REDIS_TESTS=true mvn -pl spring/caching/redis-eviction -am test
+```
+
+PowerShell:
+
+```powershell
+$env:RUN_REDIS_TESTS="true"
 mvn -pl spring/caching/redis-eviction -am test
 ```
 
-Ако Redis не е наличен, integration test-ът се skip-ва локално.
+Без `RUN_REDIS_TESTS=true` Redis integration class-ът се skip-ва локално. Това пази normal root build-а runnable и когато Redis не е стартиран.
 
-GitHub Actions стартира Redis service, така че CI винаги изпълнява реалните scenarios.
+GitHub Actions винаги задава `RUN_REDIS_TESTS=true` и стартира real Redis 8.10.2 service, така че CI никога не пропуска тези scenarios.
 
 ---
 
