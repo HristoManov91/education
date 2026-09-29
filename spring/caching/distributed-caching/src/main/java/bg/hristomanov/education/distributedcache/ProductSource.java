@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
@@ -14,6 +16,7 @@ public class ProductSource {
             new ConcurrentHashMap<>();
     private final AtomicInteger reads = new AtomicInteger();
     private volatile long readDelayMillis;
+    private volatile CountDownLatch concurrentReadGate;
 
     public ProductSource() {
         reset();
@@ -21,6 +24,7 @@ public class ProductSource {
 
     public Product findRequired(long productId) {
         reads.incrementAndGet();
+        awaitConcurrentReadGate();
         simulateReadDelay();
 
         Product product = products.get(productId);
@@ -62,6 +66,10 @@ public class ProductSource {
         this.readDelayMillis = Math.max(0L, readDelayMillis);
     }
 
+    public void expectConcurrentReads(int readers) {
+        this.concurrentReadGate = new CountDownLatch(readers);
+    }
+
     public void reset() {
         products.clear();
         products.put(
@@ -75,6 +83,31 @@ public class ProductSource {
         );
         reads.set(0);
         readDelayMillis = 0L;
+        concurrentReadGate = null;
+    }
+
+    private void awaitConcurrentReadGate() {
+        CountDownLatch gate = concurrentReadGate;
+
+        if (gate == null) {
+            return;
+        }
+
+        gate.countDown();
+
+        try {
+            if (!gate.await(2, TimeUnit.SECONDS)) {
+                throw new IllegalStateException(
+                        "Expected concurrent source reads did not arrive"
+                );
+            }
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException(
+                    "Concurrent source read gate was interrupted",
+                    exception
+            );
+        }
     }
 
     private void simulateReadDelay() {
