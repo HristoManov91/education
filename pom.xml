@@ -23,5 +23,7 @@
         <module>spring/reliability/idempotency</module>
         <module>spring/reliability/fault-tolerance</module>
         <module>spring/messaging/outbox-inbox</module>
+        <module>spring/messaging/saga</module>
+        <module>spring/events/domain-events</module>
     </modules>
 </project>
