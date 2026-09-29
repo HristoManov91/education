@@ -65,7 +65,10 @@ public class ReliabilityConfiguration {
                         TransientDownstreamException.class,
                         DownstreamTimeoutException.class
                 )
-                .ignoreExceptions(PermanentDownstreamException.class)
+                .ignoreExceptions(
+                        PermanentDownstreamException.class,
+                        BulkheadFullException.class
+                )
                 .build();
 
         return CircuitBreaker.of("downstream", config);
