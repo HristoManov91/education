@@ -7,6 +7,7 @@ import bg.hristomanov.education.cqrs.write.OrderWriteEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.Optional;
 
 /**
  * Превежда write aggregate-а към query-optimized read model.
@@ -36,30 +37,34 @@ public class OrderProjectionWriter {
                 + " items | "
                 + order.getTotalAmount();
 
-        OrderSummaryProjection projection = repository
-                .findById(order.getId())
-                .orElseGet(() ->
-                        new OrderSummaryProjection(
-                                order.getId(),
-                                order.getReference(),
-                                order.getCustomerId(),
-                                order.getStatus().name(),
-                                order.getTotalAmount(),
-                                itemCount,
-                                displayLabel,
-                                order.getVersion(),
-                                Instant.now()
-                        )
-                );
+        Instant projectedAt = Instant.now();
 
-        if (repository.existsById(order.getId())) {
+        Optional<OrderSummaryProjection> existing =
+                repository.findById(order.getId());
+
+        OrderSummaryProjection projection;
+
+        if (existing.isPresent()) {
+            projection = existing.get();
             projection.refresh(
                     order.getStatus().name(),
                     order.getTotalAmount(),
                     itemCount,
                     displayLabel,
                     order.getVersion(),
-                    Instant.now()
+                    projectedAt
+            );
+        } else {
+            projection = new OrderSummaryProjection(
+                    order.getId(),
+                    order.getReference(),
+                    order.getCustomerId(),
+                    order.getStatus().name(),
+                    order.getTotalAmount(),
+                    itemCount,
+                    displayLabel,
+                    order.getVersion(),
+                    projectedAt
             );
         }
 
