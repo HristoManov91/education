@@ -17,6 +17,9 @@
         <module>java/jvm/jfr-troubleshooting</module>
         <module>spring/concurrency/loom-vs-reactive</module>
         <module>spring/caching/caching-strategies</module>
+        <module>spring/caching/redis-eviction</module>
+        <module>spring/caching/distributed-caching</module>
+        <module>spring/ai/semantic-caching</module>
         <module>design-patterns</module>
         <module>persistence/specification-querydsl</module>
         <module>persistence/repository-unit-of-work</module>
