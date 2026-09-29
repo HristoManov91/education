@@ -272,29 +272,31 @@ Executable lab:
 
 ---
 
-## 15. Event Sourcing
+## 15. Event Sourcing — ✅ реализиран
 
-Това ще е по-късен advanced module.
+Executable lab:
 
-State не се пази само като latest snapshot:
+- [Event Sourcing — append-only streams, replay, projections, concurrency и snapshots](../spring/architecture/event-sourcing/README.md)
 
-```text
-AccountOpened
-MoneyDeposited
-MoneyWithdrawn
-...
-→ replay
-→ current state
-```
-
-Важно е първо да разбираме:
-
-- Domain Events;
-- Outbox;
-- Idempotency;
-- CQRS.
-
-Event Sourcing не е „по-модерна база“.
+Покрива:
+- events като authoritative source of truth;
+- event notification vs Event Sourcing;
+- stream per aggregate;
+- stream version vs global position;
+- command -> replay -> decide -> append;
+- invalid command = no event;
+- historical state reconstruction;
+- expected-version optimistic concurrency;
+- append-only relational Event Store;
+- CQRS projection + checkpoint;
+- projection deletion/rebuild;
+- snapshots като replay optimization;
+- event schema versioning/upcasting;
+- deterministic replay;
+- event immutability/corrections;
+- GDPR/PII trade-offs;
+- Event Store vs broker/audit log/outbox;
+- Kurrent/EventStoreDB expected-revision semantics.
 
 ---
 
@@ -349,7 +351,7 @@ external DTO
 
 # Ниво 7 — architecture patterns
 
-## 19. Ports & Adapters ✅ / Hexagonal Architecture — ✅ реализиран
+## 19. Ports & Adapters / Hexagonal Architecture — ✅ реализиран
 
 Executable lab:
 
@@ -387,8 +389,8 @@ Executable lab:
 6. Saga ✅
 7. Domain Events ✅
 8. CQRS ✅
-9. Ports & Adapters
-10. Event Sourcing
+9. Ports & Adapters ✅
+10. Event Sourcing ✅
 ```
 
 Този ред е избран така, че всяка тема да стъпва върху предишната.
