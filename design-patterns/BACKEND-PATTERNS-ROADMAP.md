@@ -224,32 +224,24 @@ Outbox и Inbox са реализирани заедно, защото producer-
 
 # Ниво 4 — distributed business transactions
 
-## 13. Saga
+## 13. Saga — ✅ реализиран
 
-### Казус
+Executable lab:
 
-Order flow:
+- [Saga Pattern — orchestration, compensation и durable workflow state](../spring/messaging/saga/README.md)
 
-```text
-payment
-→ inventory
-→ shipping
-```
-
-Нямаме една ACID transaction през три services.
-
-Saga моделира:
-
-- local transactions;
-- sequence;
-- compensating actions.
-
-### Ще сравним
-
-- choreography;
-- orchestration.
-
-Тук Mediator/Observer знанията ще помогнат, но Saga има distributed failure/durability semantics и е отделен architectural pattern.
+Покрива:
+- отделни local transactions;
+- orchestration;
+- choreography comparison;
+- reverse-order compensation;
+- persistent saga state;
+- compensation failure;
+- compensation retry;
+- idempotent participant operations;
+- Saga + Outbox/Inbox;
+- timeout/unknown outcome;
+- intermediate consistency states.
 
 ---
 
@@ -308,21 +300,22 @@ Event Sourcing не е „по-модерна база“.
 
 # Ниво 6 — domain/application modeling
 
-## 16. Domain Event
+## 16. Domain Event — ✅ реализиран
 
-Event за вече случил се business fact:
+Executable lab:
 
-```text
-OrderPlaced
-PaymentCaptured
-ProtocolConfirmed
-```
+- [Domain Events — aggregate events, transaction phases и integration boundaries](../spring/events/domain-events/README.md)
 
-Ще разграничим:
-
-- domain event;
-- application event;
-- integration event.
+Покрива:
+- Spring Data `AbstractAggregateRoot`;
+- `@DomainEvents` semantics;
+- dirty checking without repository save;
+- synchronous `@EventListener`;
+- `@TransactionalEventListener` AFTER_COMMIT / AFTER_ROLLBACK;
+- REQUIRES_NEW reaction after commit;
+- Domain vs Application vs Integration Event;
+- Outbox connection;
+- Spring Modulith Event Publication Registry.
 
 ---
 
@@ -392,8 +385,8 @@ external → port → application/domain ← port ← persistence
 3. Idempotency ✅
 4. Retry + Timeout + Circuit Breaker + Bulkhead ✅
 5. Transactional Outbox + Idempotent Consumer ✅
-6. Saga
-7. Domain Events
+6. Saga ✅
+7. Domain Events ✅
 8. CQRS
 9. Ports & Adapters
 10. Event Sourcing
