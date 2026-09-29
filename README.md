@@ -86,3 +86,7 @@ education/
 ### Spring / Concurrency
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
+
+### Spring / Caching
+
+- [Caching strategies — Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead и Spring Cache](spring/caching/caching-strategies/README.md)
