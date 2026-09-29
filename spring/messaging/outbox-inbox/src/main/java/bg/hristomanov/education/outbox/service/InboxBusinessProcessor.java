@@ -6,8 +6,8 @@ import bg.hristomanov.education.outbox.inbox.LoyaltyAccount;
 import bg.hristomanov.education.outbox.inbox.ProcessedMessage;
 import bg.hristomanov.education.outbox.repository.LoyaltyAccountRepository;
 import bg.hristomanov.education.outbox.repository.ProcessedMessageRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,16 +29,16 @@ public class InboxBusinessProcessor {
 
     private final ProcessedMessageRepository processedMessageRepository;
     private final LoyaltyAccountRepository loyaltyAccountRepository;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     public InboxBusinessProcessor(
             ProcessedMessageRepository processedMessageRepository,
             LoyaltyAccountRepository loyaltyAccountRepository,
-            ObjectMapper objectMapper
+            JsonMapper jsonMapper
     ) {
         this.processedMessageRepository = processedMessageRepository;
         this.loyaltyAccountRepository = loyaltyAccountRepository;
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -79,8 +79,8 @@ public class InboxBusinessProcessor {
 
     private OrderCreatedPayload deserialize(String payload) {
         try {
-            return objectMapper.readValue(payload, OrderCreatedPayload.class);
-        } catch (JsonProcessingException exception) {
+            return jsonMapper.readValue(payload, OrderCreatedPayload.class);
+        } catch (JacksonException exception) {
             throw new IllegalArgumentException(
                     "Cannot deserialize OrderCreated payload",
                     exception
