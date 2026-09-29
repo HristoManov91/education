@@ -4,8 +4,8 @@ import bg.hristomanov.education.outbox.broker.BrokerMessage;
 import bg.hristomanov.education.outbox.broker.InMemoryMessageBroker;
 import bg.hristomanov.education.outbox.domain.OrderEntity;
 import bg.hristomanov.education.outbox.event.OrderCreatedPayload;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,16 +22,16 @@ public class NaiveOrderService {
 
     private final NaiveOrderPersistenceService persistenceService;
     private final InMemoryMessageBroker broker;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     public NaiveOrderService(
             NaiveOrderPersistenceService persistenceService,
             InMemoryMessageBroker broker,
-            ObjectMapper objectMapper
+            JsonMapper jsonMapper
     ) {
         this.persistenceService = persistenceService;
         this.broker = broker;
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
     }
 
     public long createOrder(
@@ -74,8 +74,8 @@ public class NaiveOrderService {
 
     private String serialize(OrderCreatedPayload payload) {
         try {
-            return objectMapper.writeValueAsString(payload);
-        } catch (JsonProcessingException exception) {
+            return jsonMapper.writeValueAsString(payload);
+        } catch (JacksonException exception) {
             throw new IllegalStateException("Cannot serialize order event", exception);
         }
     }
