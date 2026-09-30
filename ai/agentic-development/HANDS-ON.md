@@ -171,3 +171,50 @@ guard = independent review clean AND head unchanged
 [ ] Reviewer независим ли е?
 [ ] Merge guard mechanical ли е където може?
 ```
+
+---
+
+# Lab 10 — Handoff между два AI tools
+
+Сценарий:
+
+```text
+Codex е започнал Issue #42.
+Има Draft PR #57.
+Reviewer е намерил два проблема.
+Първият е поправен.
+Вторият concurrency finding остава.
+Искаш утре Claude Code или Gemini да продължи.
+```
+
+Напиши handoff с максимум ~30 реда, който съдържа:
+
+```text
+repository
+task/goal
+workflow state
+PR + exact head
+done
+locked decisions
+validation
+open finding
+relevant files
+next action
+do-not rules
+```
+
+После направи две проверки:
+
+1. Може ли receiving agent да започне без целия стар chat?
+2. Кои твърдения в handoff-а трябва задължително да бъдат re-verified срещу current repository state?
+
+Накрая класифицирай:
+
+```text
+task contract = target
+checkpoint    = workflow position
+handoff       = transfer snapshot
+```
+
+Използвай [HANDOFF-AND-RESUME.md](./HANDOFF-AND-RESUME.md) и
+[example handoff template](./example-project/workflow/HANDOFF-TEMPLATE.md).
