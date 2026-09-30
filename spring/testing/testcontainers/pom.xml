@@ -15,7 +15,7 @@
     <artifactId>testcontainers-learning</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Containers & Testcontainers Learning Lab</name>
+    <name>Containers &amp; Testcontainers Learning Lab</name>
     <description>Bottom-up container mental model and Spring Boot integration testing with real dependencies</description>
 
     <properties>
