@@ -65,6 +65,7 @@ education/
 │   ├── collections/
 │   └── jvm/
 ├── spring/
+├── ai/
 ├── persistence/
 ├── database/
 └── design-patterns/
@@ -106,6 +107,13 @@ education/
 ### Spring / AI
 
 - [Semantic Caching — exact vs semantic cache, thresholds и context isolation](spring/ai/semantic-caching/README.md)
+
+### AI / Agentic Development
+
+- [AI-assisted development — instructions, skills, planning, agents и orchestration](ai/agentic-development/README.md)
+  - [Project setup guide — от празен repository до организирана AI работа](ai/agentic-development/PROJECT-SETUP-GUIDE.md)
+  - [Hands-on labs](ai/agentic-development/HANDS-ON.md)
+  - [Vendor mapping — Codex, Claude, Copilot, Gemini като adapters](ai/agentic-development/VENDOR-MAPPING.md)
 
 ### Spring / Reliability
 
