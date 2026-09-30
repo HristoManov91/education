@@ -1,0 +1,13 @@
+# Учебен BAD пример:
+# - process-ът остава root в container-а;
+# - runtime secret е bake-нат в image metadata;
+# - работи, но увеличава blast radius при compromise.
+FROM eclipse-temurin:25-jre
+
+WORKDIR /app
+
+ENV DATABASE_PASSWORD=education
+
+COPY target/testcontainers-learning-1.0-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

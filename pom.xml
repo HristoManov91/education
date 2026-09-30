@@ -16,6 +16,7 @@
         <module>java/concurrency/project-loom</module>
         <module>java/jvm/jfr-troubleshooting</module>
         <module>spring/concurrency/loom-vs-reactive</module>
+        <module>spring/testing/testcontainers</module>
         <module>spring/caching/caching-strategies</module>
         <module>spring/caching/redis-eviction</module>
         <module>spring/caching/distributed-caching</module>

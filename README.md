@@ -91,6 +91,11 @@ education/
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
 
+### Spring / Testing
+
+- [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
+  - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
+
 ### Spring / Caching
 
 - [Caching curriculum overview](spring/caching/README.md)
