@@ -298,7 +298,48 @@ Durable state може да бъде:
 
 ---
 
-# 12. Observability
+# 12. Handoff и resume между sessions/tools
+
+Durable state и handoff решават различни проблеми.
+
+```text
+checkpoint
+→ machine/workflow position
+
+handoff
+→ transfer package за следващия agent/tool/human
+```
+
+Полезен handoff съдържа:
+
+- task/Issue и goal;
+- current workflow state;
+- branch/PR и exact head SHA;
+- какво вече е направено;
+- locked decisions;
+- validation/evidence;
+- remaining findings/blockers;
+- relevant files/docs;
+- exact next action.
+
+Той е **derived snapshot, не authoritative state**. Receiving agent трябва да fetch-не current repository evidence и да reconcile-не handoff-а преди да продължи.
+
+Handoff е особено полезен при:
+
+```text
+Codex -> Claude Code
+new session -> resumed task
+agent -> human developer
+implementer -> external specialist
+```
+
+Но ако същият orchestrator може евтино да възстанови state-а от Issue/PR/checkpoint, отделен handoff може да е излишен overhead.
+
+Виж [HANDOFF-AND-RESUME.md](./HANDOFF-AND-RESUME.md).
+
+---
+
+# 13. Observability
 
 При повече agents трябва да можеш да отговориш:
 
@@ -315,7 +356,7 @@ Durable state може да бъде:
 
 ---
 
-# 13. Най-малкият полезен maturity ladder
+# 14. Най-малкият полезен maturity ladder
 
 ```text
 LEVEL 0
@@ -341,7 +382,7 @@ orchestrated state machine + approvals + observability
 
 ---
 
-# 14. Checklist
+# 15. Checklist
 
 ```text
 [ ] Planning grounded ли е в real repo?
@@ -355,5 +396,7 @@ orchestrated state machine + approvals + observability
 [ ] Human approval boundaries ясни ли са?
 [ ] Retryable и non-retryable failures различени ли са?
 [ ] State durable ли е за long-running work?
+[ ] Ако ownership/session/tool се сменя, има ли ясен handoff/resume mechanism?
+[ ] Handoff-ът derived snapshot ли е, а не competing source of truth?
 [ ] Има ли trace/audit trail?
 ```
