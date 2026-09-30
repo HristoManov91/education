@@ -34,6 +34,7 @@ MERGE / RESULT
 - какво е разликата между skill, prompt template, tool/MCP и subagent;
 - защо planner, implementer и reviewer са различни роли;
 - как се проектира workflow, който не позволява агентът да си измисля requirements или да approve-ва сам себе си;
+- как се предава незавършена работа между sessions, agents, AI tools или хора чрез handoff, без handoff-ът да става нов source of truth;
 - кои части са open standards и кои са vendor-specific;
 - как да смениш coding agent без да пренаписваш целия project knowledge.
 
@@ -103,6 +104,9 @@ Agent / subagent
 
 Orchestrator
 → управлява state transitions между ролите
+
+Handoff
+→ portable snapshot за безопасно предаване на текущата работа
 ```
 
 Една информация трябва да има **един естествен owner**.
@@ -318,6 +322,20 @@ Orchestrator-ът трябва да знае:
 
 Подробно: [PLANNING-AGENTS-ORCHESTRATION.md](./PLANNING-AGENTS-ORCHESTRATION.md).
 
+## Handoff / resume — когато context ownership се сменя
+
+Handoff не е седмо архитектурно ниво и не е нов source of truth. Той е **derived portable snapshot**, който помага друга session, друг agent, друг AI tool или човек бързо да поеме незавършена работа.
+
+```text
+TASK CONTRACT = какво трябва да постигнем
+CHECKPOINT    = къде е workflow state machine-ът
+HANDOFF       = как следващият изпълнител да поеме текущото състояние
+```
+
+Receiving agent винаги reconcile-ва handoff-а срещу current Issue/PR/head/code/CI. Repository truth печели при разминаване.
+
+Подробно: [HANDOFF-AND-RESUME.md](./HANDOFF-AND-RESUME.md).
+
 ---
 
 # Седмият cross-cutting слой: Tools / MCP
@@ -419,6 +437,7 @@ thin adapters only where needed
 | Live capability към външна система | Tool/MCP/plugin |
 | Отделна специализирана execution роля | Subagent/custom agent |
 | Последователност и guards между роли | Orchestrator/workflow engine |
+| Portable snapshot за предаване на незавършена работа | Handoff artifact/comment, derived от current repository state |
 | Secret/token | secret manager/runtime config, никога instruction file |
 
 ---
@@ -559,6 +578,7 @@ Skill е полезен, когато можеш честно да кажеш:
 | Skill reference | [`references/implementation-checklist.md`](./example-project/.agents/skills/implement-change/references/implementation-checklist.md) |
 | Skill output asset | [`assets/result-template.md`](./example-project/.agents/skills/implement-change/assets/result-template.md) |
 | Orchestration state machine | [`example-project/workflow/ORCHESTRATION.md`](./example-project/workflow/ORCHESTRATION.md) |
+| Portable handoff template | [`example-project/workflow/HANDOFF-TEMPLATE.md`](./example-project/workflow/HANDOFF-TEMPLATE.md) |
 
 ---
 
@@ -594,6 +614,14 @@ Skill е полезен, когато можеш честно да кажеш:
 - има повече от една роля;
 - има retry/failure/approval transitions;
 - искаш repeatable end-to-end automation.
+
+## Използвай handoff когато
+
+- сменяш session, agent, AI tool или human owner по средата на задача;
+- новият изпълнител трябва бързо да разбере done/locked/open/next;
+- repository state е достатъчно голям, че reconstruction има осезаема цена.
+
+Не го използвай като втори Issue, втори checkpoint или нов canonical truth.
 
 ---
 
