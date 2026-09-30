@@ -167,6 +167,31 @@ retry policy
 
 ---
 
+# Stage 8 — Handoff / resume (само ако реално е нужен)
+
+Когато задачи редовно прескачат между sessions, agents, AI tools или хора, дефинирай portable handoff format.
+
+Минимално:
+
+```text
+task + goal
+workflow state
+PR/branch + exact head
+completed work
+locked decisions
+validation/evidence
+open findings
+next action
+```
+
+Не създавай handoff като втори source of truth. Той трябва да се генерира/обновява от current repository evidence и receiving agent трябва да го reconcile-не срещу реалното състояние.
+
+За малък project или uninterrupted single-agent flow този stage може напълно да се пропусне.
+
+Виж [HANDOFF-AND-RESUME.md](./HANDOFF-AND-RESUME.md).
+
+---
+
 # Minimal setup за малък project
 
 ```text
@@ -208,6 +233,7 @@ portable instructions
 + orchestration state machine
 + CI/approval guards
 + observability/audit
++ optional handoff/resume при смяна на context owner
 ```
 
 ---
@@ -238,6 +264,7 @@ portable instructions
 → има само нужните capabilities
 → изпълни проверими стъпки
 → представи evidence
+→ при смяна на owner/session да може да предаде compact verified handoff
 ```
 
 без човекът да paste-ва 2000 реда instructions във всеки нов chat.
