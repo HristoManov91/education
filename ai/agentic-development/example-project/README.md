@@ -28,7 +28,8 @@ example-project/
 │   ├── implementer.md
 │   └── reviewer.md
 └── workflow/
-    └── ORCHESTRATION.md
+    ├── ORCHESTRATION.md
+    └── HANDOFF-TEMPLATE.md
 ```
 
 ## Кое е стандарт и кое е conceptual?
@@ -38,5 +39,6 @@ example-project/
 - `docs/` и `tasks/`: project conventions, не AI standard.
 - `agent-roles/*.md`: **conceptual role specs** за обучение; конкретният harness може да изисква друго местоположение/формат.
 - `workflow/ORCHESTRATION.md`: human-readable state model; runtime implementation зависи от избрания orchestrator.
+- `workflow/HANDOFF-TEMPLATE.md`: project example за portable transfer snapshot; не е source of truth и не е universal standard.
 
 Целта е responsibility separation, не конкретните имена на всички папки.
