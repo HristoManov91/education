@@ -22,6 +22,7 @@
     <modules>
         <module>01-algorithmic-thinking-complexity</module>
         <module>02-linear-data-structures</module>
+        <module>03-hashing</module>
     </modules>
 
     <properties>
