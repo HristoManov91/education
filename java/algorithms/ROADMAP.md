@@ -1,0 +1,82 @@
+# Data Structures & Algorithms — roadmap
+
+Roadmap-ът е подробна карта на знанията. Номерацията съвпада с NotebookLM curriculum-а и служи за ориентация, но **не диктува 1:1 Maven modules или Studio artifacts**.
+
+## 1. Algorithms & Complexity
+
+### 1.1 Foundations — Algorithms, Data Structures & ADT
+- computational problem;
+- algorithm and correctness;
+- Abstract Data Type;
+- data structure vs implementation;
+- time/memory trade-offs.
+
+### 1.2 Complexity & Big-O
+- input size;
+- time and space complexity;
+- O(1), O(log n), O(n), O(n log n), O(n²), exponential growth;
+- Big-O, Big-Theta, Big-Omega;
+- best / average / worst case;
+- independent input sizes `n` and `m`;
+- recursion stack;
+- amortized complexity;
+- Big-O vs real runtime performance.
+
+## 2. Linear Data Structures
+### 2.1 Arrays & Dynamic Arrays
+### 2.2 Linked Lists
+### 2.3 Stacks, Queues & Deques
+
+## 3. Hashing
+### 3.1 Hashing Fundamentals
+### 3.2 Open Addressing & Collision Strategies
+### 3.3 Hash Table Implementation Lab
+
+## 4. Searching & Sorting
+### 4.1 Searching Fundamentals
+### 4.2 Comparison Sorting
+### 4.3 Linear Sorting
+
+## 5. Trees & Heaps
+### 5.1 Trees & Binary Search Trees
+### 5.2 Balanced Trees & AVL
+### 5.3 Binary Heaps & Priority Queues
+
+## 6. Graph Fundamentals
+### 6.1 Graphs & Breadth-First Search
+### 6.2 Depth-First Search & Traversal
+
+## 7. Graph Algorithms
+### 7.1 Weighted Shortest Paths
+### 7.2 Dijkstra
+### 7.3 Bellman-Ford
+### 7.4 Union-Find & Minimum Spanning Trees
+### 7.5 APSP & Johnson [optional / deep dive]
+
+## 8. Algorithmic Problem Solving
+
+### 8.1 Common Problem-Solving Patterns
+- hash lookup;
+- two pointers;
+- sliding window;
+- prefix/suffix ideas;
+- binary-search pattern;
+- stack patterns;
+- heap / Top-K;
+- BFS / DFS;
+- recursion / backtracking.
+
+### 8.2 Dynamic Programming — Fundamentals
+### 8.3 Dynamic Programming — Classic Patterns
+### 8.4 Advanced Dynamic Programming [optional]
+
+## Финална цел
+
+```text
+constraints
+→ recognize problem shape
+→ choose data structure / algorithm
+→ reason about complexity
+→ implement
+→ prove behavior
+```

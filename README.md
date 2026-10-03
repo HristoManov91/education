@@ -61,6 +61,7 @@
 ```text
 education/
 ├── java/
+│   ├── algorithms/
 │   ├── concurrency/
 │   ├── collections/
 │   └── jvm/
@@ -86,7 +87,8 @@ education/
 
 ### Java / Algorithms
 
-- [Data Structures & Algorithm Patterns — Java 25 roadmap](java/algorithms/README.md)
+- [Data Structures & Algorithms — Java 25 roadmap](java/algorithms/README.md)
+  - [01. Algorithmic Thinking & Complexity](java/algorithms/01-algorithmic-thinking-complexity/README.md)
 
 ### Spring / Concurrency
 
