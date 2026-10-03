@@ -16,7 +16,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Data Structures & Algorithms</name>
+    <name>Data Structures &amp; Algorithms</name>
     <description>Problem-first Java 25 labs for data structures, algorithms and complexity</description>
 
     <modules>
