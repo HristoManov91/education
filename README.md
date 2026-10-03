@@ -91,6 +91,7 @@ education/
   - [01. Algorithmic Thinking & Complexity](java/algorithms/01-algorithmic-thinking-complexity/README.md)
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)
+  - [04. Searching & Sorting](java/algorithms/04-searching-sorting/README.md)
 
 ### Spring / Concurrency
 
