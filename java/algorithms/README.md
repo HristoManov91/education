@@ -56,6 +56,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива binary trees, BST operations и traversals, AVL balancing/rotations, binary heaps, Priority Queue semantics и избора между ordered lookup и repeated min/max extraction.
 
+### 06. Graph Fundamentals
+
+- [`06-graph-fundamentals`](./06-graph-fundamentals/README.md)
+
+Покрива graph terminology, adjacency list/matrix, BFS, DFS, visited tracking, unweighted shortest path, cycle detection и connected components.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
