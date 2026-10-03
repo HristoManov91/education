@@ -78,9 +78,32 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - resize/rehash tests.
 
 ## 4. Searching & Sorting
+
 ### 4.1 Searching Fundamentals
+- linear search;
+- sorted / monotonic search space;
+- binary search;
+- low / high / mid boundaries;
+- missing values and duplicates;
+- off-by-one and overflow-safe midpoint;
+- preprocessing cost vs repeated searches.
+
 ### 4.2 Comparison Sorting
+- why sorting is useful as preprocessing;
+- insertion sort;
+- merge sort;
+- quick sort;
+- stability;
+- in-place vs extra memory;
+- average vs worst case;
+- why comparison sorting naturally trends toward O(n log n).
+
 ### 4.3 Linear Sorting
+- counting sort;
+- radix sort;
+- key-domain assumptions;
+- O(n + k) style complexity;
+- why linear sorting is not a free replacement for comparison sorting.
 
 ## 5. Trees & Heaps
 ### 5.1 Trees & Binary Search Trees
