@@ -1,6 +1,7 @@
 package bg.hristomanov.education.algorithms.linear;
 
 import bg.hristomanov.education.algorithms.linear.array.EducationalDynamicArray;
+import bg.hristomanov.education.algorithms.linear.deque.CircularArrayDeque;
 import bg.hristomanov.education.algorithms.linear.bad.LinkedListIndexedSnapshot;
 import bg.hristomanov.education.algorithms.linear.good.DynamicArrayIndexedSnapshot;
 import bg.hristomanov.education.algorithms.linear.list.EducationalDoublyLinkedList;
