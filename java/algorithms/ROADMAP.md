@@ -23,9 +23,31 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - Big-O vs real runtime performance.
 
 ## 2. Linear Data Structures
+
 ### 2.1 Arrays & Dynamic Arrays
+- contiguous memory mental model;
+- indexed access;
+- size vs capacity;
+- resize / copying;
+- amortized append;
+- insert/delete shifting;
+- cache locality.
+
 ### 2.2 Linked Lists
+- nodes and references;
+- singly vs doubly linked;
+- head / tail;
+- traversal;
+- insert/delete when a node is already known;
+- cost of finding the node first;
+- memory overhead and poor locality.
+
 ### 2.3 Stacks, Queues & Deques
+- ADT vs concrete implementation;
+- LIFO / FIFO / double-ended access;
+- array/circular-array vs linked implementation;
+- stack, queue and deque recognition signals;
+- practical software/backend use cases.
 
 ## 3. Hashing
 ### 3.1 Hashing Fundamentals

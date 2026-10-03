@@ -32,6 +32,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива computational problem, algorithm, ADT, data structure, time/space complexity, growth rates, Big-O/Θ/Ω, multiple input sizes и amortized complexity.
 
+### 02. Linear Data Structures
+
+- [`02-linear-data-structures`](./02-linear-data-structures/README.md)
+
+Покрива arrays, dynamic arrays, linked lists, stack/queue/deque ADT-та, memory layout, resize/copy cost, traversal, cache locality и избора на структура според операциите.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
