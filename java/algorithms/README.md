@@ -38,6 +38,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива arrays, dynamic arrays, linked lists, stack/queue/deque ADT-та, memory layout, resize/copy cost, traversal, cache locality и избора на структура според операциите.
 
+### 03. Hashing
+
+- [`03-hashing`](./03-hashing/README.md)
+
+Покрива hash functions, buckets, collisions, separate chaining, open addressing, linear/quadratic probing, double hashing, load factor, resize/rehash и tombstone deletion.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
