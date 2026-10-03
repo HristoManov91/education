@@ -24,6 +24,7 @@
         <module>02-linear-data-structures</module>
         <module>03-hashing</module>
         <module>04-searching-sorting</module>
+        <module>05-trees-heaps</module>
     </modules>
 
     <properties>

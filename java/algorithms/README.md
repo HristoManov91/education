@@ -50,6 +50,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива linear search, binary search, comparison sorting, linear/non-comparison sorting, stability, memory trade-offs и input assumptions.
 
+### 05. Trees & Heaps
+
+- [`05-trees-heaps`](./05-trees-heaps/README.md)
+
+Покрива binary trees, BST operations и traversals, AVL balancing/rotations, binary heaps, Priority Queue semantics и избора между ordered lookup и repeated min/max extraction.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
