@@ -92,6 +92,7 @@ education/
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)
   - [04. Searching & Sorting](java/algorithms/04-searching-sorting/README.md)
+  - [05. Trees & Heaps](java/algorithms/05-trees-heaps/README.md)
 
 ### Spring / Concurrency
 
