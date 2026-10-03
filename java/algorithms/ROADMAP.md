@@ -141,8 +141,27 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - BST vs Heap decision signals.
 
 ## 6. Graph Fundamentals
+
 ### 6.1 Graphs & Breadth-First Search
+- vertex / edge / path / cycle / degree;
+- directed vs undirected;
+- weighted vs unweighted;
+- adjacency list vs adjacency matrix;
+- sparse vs dense graph trade-offs;
+- BFS with Queue;
+- visited set;
+- O(V + E) traversal with adjacency list;
+- shortest path in unweighted graphs.
+
 ### 6.2 Depth-First Search & Traversal
+- recursive DFS;
+- iterative DFS with explicit Stack;
+- visited tracking in cyclic graphs;
+- connected components;
+- path existence;
+- directed cycle detection;
+- recursion depth risk;
+- BFS vs DFS decision signals.
 
 ## 7. Graph Algorithms
 ### 7.1 Weighted Shortest Paths

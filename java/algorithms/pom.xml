@@ -25,6 +25,7 @@
         <module>03-hashing</module>
         <module>04-searching-sorting</module>
         <module>05-trees-heaps</module>
+        <module>06-graph-fundamentals</module>
     </modules>
 
     <properties>
