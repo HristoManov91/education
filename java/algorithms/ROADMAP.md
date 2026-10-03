@@ -50,9 +50,32 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - practical software/backend use cases.
 
 ## 3. Hashing
+
 ### 3.1 Hashing Fundamentals
+- key → hash → bucket/index mental model;
+- properties of a useful hash function;
+- unavoidable collisions;
+- separate chaining;
+- capacity / load factor;
+- average vs worst-case complexity;
+- resize / rehash.
+
 ### 3.2 Open Addressing & Collision Strategies
+- open addressing;
+- probe sequence;
+- linear probing and primary clustering;
+- quadratic probing;
+- double hashing;
+- tombstones / deletion;
+- load-factor sensitivity and locality trade-offs.
+
 ### 3.3 Hash Table Implementation Lab
+- separate-chaining implementation;
+- open-addressing implementation;
+- deterministic collision keys;
+- broken deletion demonstration;
+- probe/collision metrics;
+- resize/rehash tests.
 
 ## 4. Searching & Sorting
 ### 4.1 Searching Fundamentals
