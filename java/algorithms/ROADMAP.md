@@ -106,9 +106,39 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - why linear sorting is not a free replacement for comparison sorting.
 
 ## 5. Trees & Heaps
+
 ### 5.1 Trees & Binary Search Trees
+- root / parent / child / leaf / subtree;
+- depth and height;
+- binary tree vs Binary Search Tree;
+- BST ordering invariant;
+- search / insert / remove;
+- leaf / one-child / two-child removal;
+- inorder / preorder / postorder / level-order traversals;
+- complexity as O(h);
+- skewed-tree degeneration.
+
 ### 5.2 Balanced Trees & AVL
+- why balancing exists;
+- balance factor;
+- height maintenance;
+- left / right rotations;
+- LL / RR / LR / RL cases;
+- rebalancing after insert;
+- rebalancing after remove;
+- preserving BST ordering while restoring logarithmic height.
+
 ### 5.3 Binary Heaps & Priority Queues
+- Priority Queue as ADT;
+- complete binary tree;
+- min heap / max heap;
+- array representation;
+- parent/child index relationships;
+- sift-up / bubble-up;
+- sift-down / bubble-down;
+- peek vs arbitrary search;
+- scheduler / Top-K / next-best use cases;
+- BST vs Heap decision signals.
 
 ## 6. Graph Fundamentals
 ### 6.1 Graphs & Breadth-First Search
