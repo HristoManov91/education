@@ -44,6 +44,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива hash functions, buckets, collisions, separate chaining, open addressing, linear/quadratic probing, double hashing, load factor, resize/rehash и tombstone deletion.
 
+### 04. Searching & Sorting
+
+- [`04-searching-sorting`](./04-searching-sorting/README.md)
+
+Покрива linear search, binary search, comparison sorting, linear/non-comparison sorting, stability, memory trade-offs и input assumptions.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
