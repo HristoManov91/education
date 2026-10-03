@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>01-algorithmic-thinking-complexity</artifactId>
-    <name>Algorithms 01 - Algorithmic Thinking & Complexity</name>
+    <name>Algorithms 01 - Algorithmic Thinking &amp; Complexity</name>
 
     <dependencies>
         <dependency>
