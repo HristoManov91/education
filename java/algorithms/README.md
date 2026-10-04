@@ -62,6 +62,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива graph terminology, adjacency list/matrix, BFS, DFS, visited tracking, unweighted shortest path, cycle detection и connected components.
 
+### 07. Graph Algorithms
+
+- [`07-graph-algorithms`](./07-graph-algorithms/README.md)
+
+Покрива weighted shortest paths, relaxation, Dijkstra, Bellman-Ford, negative cycles, Union-Find, Kruskal/MST и Johnson APSP като deep dive.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
