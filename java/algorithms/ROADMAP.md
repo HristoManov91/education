@@ -210,19 +210,49 @@ Roadmap-ът е подробна карта на знанията. Номера�
 ## 8. Algorithmic Problem Solving
 
 ### 8.1 Common Problem-Solving Patterns
-- hash lookup;
+- recognition signals before implementation;
+- brute force → repeated work → better invariant;
+- hash lookup / frequency map;
 - two pointers;
 - sliding window;
-- prefix/suffix ideas;
+- prefix / suffix preprocessing;
 - binary-search pattern;
-- stack patterns;
+- stack / monotonic-stack signals;
 - heap / Top-K;
 - BFS / DFS;
-- recursion / backtracking.
+- recursion vs backtracking;
+- pattern combinations and when NOT to use them.
 
 ### 8.2 Dynamic Programming — Fundamentals
+- overlapping subproblems;
+- optimal substructure;
+- state meaning;
+- decisions / transitions;
+- base cases;
+- naive recursion;
+- top-down memoization;
+- bottom-up tabulation;
+- DAG mental model;
+- states × work-per-state complexity;
+- space optimization.
+
 ### 8.3 Dynamic Programming — Classic Patterns
+- LCS;
+- LIS;
+- minimum-cost DP;
+- counting-ways DP;
+- coin change;
+- objective changes state/transition semantics;
+- 1D vs 2D state spaces.
+
 ### 8.4 Advanced Dynamic Programming [optional]
+- interval DP;
+- subset sum;
+- remaining-resource state;
+- state dimensionality;
+- pseudopolynomial complexity;
+- encoded input size vs numeric value;
+- state-space feasibility and memory reduction.
 
 ## Финална цел
 

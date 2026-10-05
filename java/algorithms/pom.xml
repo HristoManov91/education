@@ -27,6 +27,7 @@
         <module>05-trees-heaps</module>
         <module>06-graph-fundamentals</module>
         <module>07-graph-algorithms</module>
+        <module>08-algorithmic-problem-solving</module>
     </modules>
 
     <properties>
