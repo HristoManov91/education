@@ -68,6 +68,12 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива weighted shortest paths, relaxation, Dijkstra, Bellman-Ford, negative cycles, Union-Find, Kruskal/MST и Johnson APSP като deep dive.
 
+### 08. Algorithmic Problem Solving
+
+- [`08-algorithmic-problem-solving`](./08-algorithmic-problem-solving/README.md)
+
+Покрива pattern recognition, two pointers, sliding window, prefix sums, backtracking и Dynamic Programming от state/transition fundamentals до LCS, LIS, coin change, interval DP и pseudopolynomial state spaces.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема
