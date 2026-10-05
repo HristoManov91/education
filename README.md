@@ -94,6 +94,7 @@ education/
   - [04. Searching & Sorting](java/algorithms/04-searching-sorting/README.md)
   - [05. Trees & Heaps](java/algorithms/05-trees-heaps/README.md)
   - [06. Graph Fundamentals](java/algorithms/06-graph-fundamentals/README.md)
+  - [07. Graph Algorithms](java/algorithms/07-graph-algorithms/README.md)
 
 ### Spring / Concurrency
 

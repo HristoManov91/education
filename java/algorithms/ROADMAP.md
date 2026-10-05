@@ -164,11 +164,48 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - BFS vs DFS decision signals.
 
 ## 7. Graph Algorithms
+
 ### 7.1 Weighted Shortest Paths
+- path weight;
+- single-source shortest paths;
+- distance estimates;
+- edge relaxation;
+- predecessor/path reconstruction;
+- shortest-path tree vs Minimum Spanning Tree;
+- negative edges and negative-cycle intuition.
+
 ### 7.2 Dijkstra
+- non-negative edge requirement;
+- tentative vs settled distances;
+- Priority Queue frontier;
+- stale-entry strategy instead of decrease-key;
+- O((V + E) log V) with adjacency-list + binary heap;
+- path reconstruction.
+
 ### 7.3 Bellman-Ford
+- repeated full-edge relaxation;
+- why V - 1 passes are sufficient without relevant negative cycle;
+- early stopping;
+- reachable negative-cycle detection;
+- O(VE) trade-off vs Dijkstra.
+
 ### 7.4 Union-Find & Minimum Spanning Trees
+- Disjoint Set Union / Union-Find;
+- find / union;
+- union by size;
+- path compression;
+- connectivity queries;
+- Kruskal;
+- cycle prevention;
+- MST vs shortest-path distinction.
+
 ### 7.5 APSP & Johnson [optional / deep dive]
+- all-pairs shortest paths;
+- Bellman-Ford potentials;
+- edge reweighting;
+- repeated Dijkstra;
+- negative-cycle rejection;
+- sparse-graph motivation.
 
 ## 8. Algorithmic Problem Solving
 

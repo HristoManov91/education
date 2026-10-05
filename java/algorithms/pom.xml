@@ -26,6 +26,7 @@
         <module>04-searching-sorting</module>
         <module>05-trees-heaps</module>
         <module>06-graph-fundamentals</module>
+        <module>07-graph-algorithms</module>
     </modules>
 
     <properties>
