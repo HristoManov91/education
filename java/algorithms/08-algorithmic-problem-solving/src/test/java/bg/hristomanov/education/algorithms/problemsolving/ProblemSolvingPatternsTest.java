@@ -15,7 +15,7 @@ class ProblemSolvingPatternsTest {
 
     @Test
     void twoPointersEliminateImpossiblePairsFromBothEnds() {
-        int[] values = {-3, 1, 4, 7, 11};
+        int[] values = {-3, 1, 4, 7, 12};
 
         Optional<TwoPointersPairSum.Pair> result =
                 new TwoPointersPairSum().find(values, 8);
