@@ -74,6 +74,40 @@ System.out.println(first.equals(number)); // true: boxing на int, после �
 
 Въпреки че резултатите са еднакви, **причините са различни**. При wrapper-to-wrapper `==` е опасен за сравнение по стойност, защото извън гарантирания диапазон не трябва да приемаме нито `true`, нито `false` за всички JVM конфигурации.
 
+### Уточнение от последващия въпрос — кешът не е диапазонът на `short`
+
+Гарантираният диапазон за споделено boxing представяне на **константни `int` стойности** е `-128..127`, а не целият диапазон на `short` (`-32768..32767`). Тази гаранция е в JLS §5.1.7. Освен това API контрактът на `Integer.valueOf(int)` обещава кеширане за `-128..127`, но допуска кеширане и на по-големи стойности. **Не твърдим**, че извън диапазона винаги се създават два различни обекта.
+
+```java
+Integer one = 100;
+Integer two = 100;
+System.out.println(one == two); // true: гарантирано споделено boxing представяне
+
+Integer large1 = 1000;
+Integer large2 = 1000;
+// large1 == large2: не разчитай на идентичност; няма гарантиран резултат
+System.out.println(large1.equals(large2)); // true: числово равенство
+```
+
+Това не е механизъм, който слива **вече създадени** обекти: при boxing може да се върне споделена кеширана референция. `Integer` е wrapper класът за `int`, а не за `short`.
+
+### Смесено числово сравнение — посоката на `==` няма значение
+
+```java
+Integer a = 100;
+Integer b = 100;
+int sameInt = 100;
+long sameLong = 100L;
+
+System.out.println(a == b);        // true: reference identity (cache)
+System.out.println(a == sameInt);  // true: Integer → int, numeric comparison
+System.out.println(sameInt == a);  // true: същото, независимо от реда
+System.out.println(a == sameLong); // true: Integer → int → long
+System.out.println(sameLong == a); // true: същото, независимо от реда
+```
+
+При **числово `==`** с един примитивен тип и един числов wrapper Java прилага binary numeric promotion, което може да включва **unboxing** и след това **widening primitive conversion**. Когато **и двата** операнда са `Integer`, това е референтно `==` и не се извършва unboxing само заради сравнение. Изборът на конверсия е според **статичните типове и контекста**, не според реда отляво/отдясно, нито според числовата стойност.
+
 ### `null` — защитено сравнение срещу опасно unboxing
 
 ```java
