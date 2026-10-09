@@ -9,6 +9,7 @@
 | JAVA-FND-01 | Примитивни стойности, референции и споделено състояние | [01 — Values, References & Aliasing](01-values-references-aliasing.md) | Въпрос 1 · 2026-10-08 |
 | JAVA-FND-02 | Предаване на аргументи в Java — pass-by-value, mutation и reassignment | [02 — Method Arguments: Pass-by-Value](02-method-arguments-pass-by-value.md) | Въпрос 2 · 2026-10-08 |
 | JAVA-FND-04 | String vs StringBuilder — immutability, mutation и reassignment | [03 — String & StringBuilder](03-string-immutability-stringbuilder.md) | Въпрос 3 · 2026-10-08 |
+| JAVA-FND-03 | Object identity, equality, String Pool и null safety | [04 — Identity, Equality & Null](04-object-identity-equality-null.md) | Въпрос 4 · 2026-10-08 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 
