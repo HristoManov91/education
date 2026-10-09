@@ -10,6 +10,7 @@
 | JAVA-FND-02 | Предаване на аргументи в Java — pass-by-value, mutation и reassignment | [02 — Method Arguments: Pass-by-Value](02-method-arguments-pass-by-value.md) | Въпрос 2 · 2026-10-08 |
 | JAVA-FND-04 | String vs StringBuilder — immutability, mutation и reassignment | [03 — String & StringBuilder](03-string-immutability-stringbuilder.md) | Въпрос 3 · 2026-10-08 |
 | JAVA-FND-03 | Object identity, equality, String Pool и null safety | [04 — Identity, Equality & Null](04-object-identity-equality-null.md) | Въпрос 4 · 2026-10-08 |
+| JAVA-FND-05 (част 1) | Numeric promotion, int overflow, widening/narrowing и compound assignment | [05 — Numeric Promotions & Overflow](05-numeric-promotions-overflow-compound-assignment.md) | Въпрос 5.1 · 2026-10-09 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 
