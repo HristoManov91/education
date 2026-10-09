@@ -25,17 +25,17 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | Java Fundamentals — **JAVA-FND-05**: част 1 numeric conversions/overflow/compound assignment — оценена, но с целеви recall; част 2 autoboxing/unboxing — още не е зададена |
-| Последна активност | **2026-10-09** — след успешен D+1 започнат Q5, част 1 |
+| Активна родителска тема | Java Fundamentals — **JAVA-FND-05**: част 1 numeric conversions/overflow оценена (`TARGETED_REVIEW`); част 2 autoboxing/unboxing оценена първоначално (`TARGETED_REVIEW`), очаква кратък follow-up |
+| Последна активност | **2026-10-09** — проведен Q5.2 autoboxing/unboxing; дадена е обратна връзка и се чака targeted follow-up |
 | Статус | **DIAGNOSTIC_IN_PROGRESS** — напредваме въпрос по въпрос |
-| Вече отговорени | Q1, Q2, Q3, Q3b и Q4 — приключени; **Q5, част 1** — първоначален въпрос + уточняващ отговор за `+=`/`=` проведени на 2026-10-09; механизмът на compound assignment е обяснен след неточност |
+| Вече отговорени | Q1, Q2, Q3, Q3b и Q4 приключени; Q5 част 1 (numeric conversions) оценена; **Q5 част 2 (autoboxing/unboxing) — първи отговор оценен, остава независима проверка на unboxing и wrapper caching** |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | **binary numeric promotion** (`byte`/`short`/`char` → `int` при събиране), **widening** (`int` → `long`) и **narrowing primitive conversion** (може да губи информация); `+=` прави неявно стесняване **след** аритметиката, не преди; `int` overflow преди присвояване към `long` |
-| Следващо действие | **Q5, част 1 има обратна връзка и Concept Note #5.** Преговор за `+=` и момента на cast (ново знание). При следващо изрично съгласие продължи към Q5, част 2 — **autoboxing/unboxing**, без да издаваш бъдещите отговори. |
+| Терминология за затвърждаване | Numeric: binary numeric promotion и narrowing **след** операцията. Wrappers: **boxing** `int → Integer`, **unboxing** `Integer → int` става автоматично; `Integer == Integer` сравнява identity (с гаранция за еднакво boxing на константи `-128..127`), докато `Integer == int` прави unboxing и числово сравнение. Unboxing на `null` хвърля NPE. |
+| Следващо действие | **Q5.2: даден е пълен feedback и Concept Note #6.** Критични нови знания: `Integer` caching за `127` и автоматичен unboxing при `Integer == int`. Провери с кратък **нов вариант за същата тема**, без да смесваш с още незададени теми; след отговора отчети какво реално е усвоено. D+1/D+7/D+30: 2026-10-10 / 2026-10-16 / 2026-11-08. **Не започвай нова микро-тема без съгласие.** |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -51,7 +51,8 @@
 [Q2 — Method Arguments: Pass-by-Value](concepts/02-method-arguments-pass-by-value.md) ·
 [Q3 — String & StringBuilder](concepts/03-string-immutability-stringbuilder.md) ·
 [Q4 — Object Identity, Equality & Null](concepts/04-object-identity-equality-null.md) ·
-[Q5, част 1 — Numeric Promotions, Overflow & Compound Assignment](concepts/05-numeric-promotions-overflow-compound-assignment.md).
+[Q5, част 1 — Numeric Promotions, Overflow & Compound Assignment](concepts/05-numeric-promotions-overflow-compound-assignment.md) ·
+[Q5, част 2 — Autoboxing, Unboxing & Integer Caching](concepts/06-autoboxing-unboxing-integer-cache-null.md).
 
 ### Recall queue — поправено знание и професионален изказ
 
@@ -63,6 +64,9 @@
 | Q5.1 · D+1 | **2026-10-10** | PENDING | Кратък изменен пример: тип на `byte` аритметика, `+=` срещу `=`, кога настъпва implicit cast. Без подсказване. |
 | Q5.1 · D+7 | **2026-10-16** | PENDING | Пример с `short`/`byte`, бинарно числово повишаване, допустимо/недопустимо присвояване и overflow. |
 | Q5.1 · D+30 | **2026-11-08** | PENDING | Интеграционна мини-задача с `int`/`long`, overflow, widening/narrowing, compound assignment. |
+| Q5.2 · D+1 | **2026-10-10** | PENDING | Нов случай `Integer` срещу `Integer` и `int`; boxing cache и автоматичен unboxing без подсказване. |
+| Q5.2 · D+7 | **2026-10-16** | PENDING | Обясни wrapper cache гаранции и как типът на операндите променя `==`, плюс safe handling при `null`. |
+| Q5.2 · D+30 | **2026-11-08** | PENDING | Реалистичен DTO/ORM сценарий с nullable `Integer`, числово сравнение и причинно-следствен анализ на NPE. |
 
 **Когато се върнем:** D+1 е успешно приключен, включително целевото потвърждение за `Object.equals()`. Не повтаряй днешната поправка като непроверена; D+7 (2026-10-15) и D+30 (2026-11-07) остават предстоящи. Датите не са автоматични reminders.
 
@@ -70,7 +74,7 @@
 
 **Q4 е приключен на 2026-10-08.** На D+1 (2026-10-09) String Pool е възпроизведен правилно; след корекция `Object.equals()` също е **потвърден самостоятелно**. На D+7/D+30 провери и двете, в нов контекст.
 
-**Q5 (numeric conversions и overflow) е започнат на 2026-10-09 с изрично съгласие. Част 1 е оценена, а част 2 (autoboxing) се започва само след следващо изрично съгласие.**
+**Q5 част 1 и Q5 част 2 са действително проведени на 2026-10-09.** След разяснения за autoboxing/unboxing има конкретен пропуск, за който предстои независима follow-up проверка. **Не третирай Q5 като MASTERED**, не давай още неизпитани теми без изрично съгласие.
 
 ## Детайлен progress по микро-теми
 
@@ -80,9 +84,24 @@
 | JAVA-FND-02 | `READY_FOR_RECALL` | Q2: 9.5/10; на D+1 правилно различава локално reassignment от видима mutation | Pass-by-value: копие на стойността на референцията | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-03 | `READY_FOR_RECALL` | Q4: 8.5/10 техн. и 8.5/10 изказ; D+1: верен `String Pool`, първоначална грешка за default `Object.equals()` и **успешно независимо повторно обяснение (10/10)** | Базовият `Object.equals()` сравнява идентичност; `String.equals()` override-ва за сравнение на съдържанието (последователност от символи, без фиксиран алгоритъм) | 2026-10-09 | D+7/D+30 recall с различен пример |
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
-| JAVA-FND-05 | `TARGETED_REVIEW` (част 1); `NOT_TESTED` (autoboxing) | Q5 част 1: верен compile status и 3/3 резултата; вярно обяснение за `int` overflow преди widening и cast преди `long` събиране. Follow-up: вярно, че `+=` се компилира, но първоначално неверен момент на implicit cast; правилно предположение, че `y = y + 1` не се компилира. | `byte + int` се изчислява в `int`; `+=` е еквивалентно на cast **след** бинарната операция (LHS веднъж); при `=` неконстантен `int` израз се нуждае от явен cast. | 2026-10-09 | D+1/D+7/D+30 recall за част 1; част 2 autoboxing само при изрично съгласие |
+| JAVA-FND-05 | `TARGETED_REVIEW` (част 1 и част 2) | Част 1: 3/3 верни резултата, 8/10 техническо, 8/10 изказ; грешка кога `+=` стеснява резултата. Част 2 Q5.2: правилно предвидено компилиране, `first.equals(primitive)` = false, `missing == null` = true, `missing == 0` = NPE; погрешно `first == second` = false; `boxed == primitive` — изразена несигурност. | `Integer == Integer` е reference identity; boxing на константни `int` `-128..127` споделя идентичност; `Integer == int` прави **автоматичен unboxing** и сравнява стойности; `null` unboxing хвърля NPE. | 2026-10-09 | Част 2: targeted follow-up, после D+1/D+7/D+30 (2026-10-10/16/11-08) |
 
 ## Дневник на заниманията
+
+### 2026-10-09 · Q5.2 — Autoboxing & Unboxing (първоначален отговор и feedback)
+
+**Зададен код:** `Integer first = 127, second = 127; Integer boxed = 1000; int primitive = 1000; Integer missing = null;`, след което шест `println` извиквания.
+
+- **Кодът се компилира.** Истинският изход е `true`, `true`, `false`, `true`, след което `missing == 0` хвърля `NullPointerException`, а `"END"` не се отпечатва.
+- **Правилно от ученика:** компилиране; `first.equals(primitive)` = `false` и автоматично boxing на аргумента; `missing == null` = `true`; unboxing на `null` при `missing == 0` → `NullPointerException` и стоп на потока.
+- **Грешка:** `first == second` е посочено като `false`, защото не е отчетено задължителното споделяне на референции при boxing на константни `int` стойности от `-128` до `127`; действителният резултат е `true`.
+- **Несигурност:** при `boxed == primitive` ученикът грешно смята, че `Integer → int` изисква изричен cast, и не дава окончателен резултат. Java прави автоматичен unboxing; сравнението на числовите стойности `1000 == 1000` връща `true`.
+- **Корекция и терминология:** `Integer == Integer` при две wrapper референции е сравнение на **identity**; `Integer == int` задейства **unboxing** и числово сравнение; `Integer.equals()` е логическо равенство по число; unboxing на `null` хвърля NPE. Кеширане извън гарантирания диапазон е implementation-dependent; не ползвай wrapper `==` за логическо равенство.
+- **Частична оценка само за Q5.2 (преди целевата проверка):** **6.5/10 техническо разбиране, 7.5/10 техническа комуникация**. Оценката не е обща за JAVA-FND-05. Не твърди, че пропускът е независимо потвърден след обяснението.
+- **Concept Note:** [Autoboxing, Unboxing, Integer Caching & Null Safety](concepts/06-autoboxing-unboxing-integer-cache-null.md).
+- **Следващо:** кратък targeted follow-up с нов случай за wrapper identity и смесено числово сравнение. Повторение D+1 2026-10-10, D+7 2026-10-16, D+30 2026-11-08.
+
+---
 
 ### 2026-10-09 · Q5 — numeric conversions, overflow, compound assignment (част 1)
 
