@@ -70,6 +70,38 @@ System.out.println(first.equals(third));  // true: еднакво съдържа
 
 Важно: `String Pool` **не означава**, че `new String(...)` ще върне съществуващия обект. Изричното `new` различава този случай от повторното използване на интерниран литерал. При нужда `intern()` може да върне каноничната интернирана референция, но това не променя идентичността на вече създадения с `new` обект.
 
+### Default `Object.equals()` — не сравнява полета
+
+Когато класът **не override-ва** `equals()`, наследената реализация от `Object` сравнява **идентичността на обектите**, а не стойностите на техните полета. Еднакво съдържание не означава автоматично логическо равенство.
+
+```java
+class Person {
+    final String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person first = new Person("Ivan");
+        Person second = new Person("Ivan");
+
+        System.out.println(first == second);       // false
+        System.out.println(first.equals(second));  // false — Object.equals()
+        System.out.println(first.equals(first));   // true
+
+        String a = new String("Ivan");
+        String b = new String("Ivan");
+        System.out.println(a == b);                // false
+        System.out.println(a.equals(b));           // true — String.equals()
+    }
+}
+```
+
+В примера `Person` наследява базовия `equals()` и **не получава автоматично сравнение по `name`**. Класът `String` override-ва този метод и сравнява съдържанието. При собствена имплементация на `equals()` трябва да се спазва договорът с `hashCode()`; това е отделна тема за колекциите.
+
 ### Null-safe сравнение
 
 ```java
@@ -102,7 +134,7 @@ boolean same = Objects.equals(left, right); // false
 ## Провери се без подсказване
 
 1. Защо `new String("Java") == "Java"` е `false`, независимо кое е декларирано първо? Какво точно проверява `==`?
-2. Кога `equals()` сравнява логически стойности и как би сравнил две потенциално `null` променливи?
+2. Два отделни `Person("Ivan")` обекта имат еднакви полета, но `Person` не override-ва `equals()`. Какво връща `first.equals(second)` и защо? Как би сравнил две потенциално `null` референции?
 
 ## Официални източници
 
