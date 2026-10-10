@@ -12,6 +12,7 @@
 | JAVA-FND-03 | Object identity, equality, String Pool и null safety | [04 — Identity, Equality & Null](04-object-identity-equality-null.md) | Въпрос 4 · 2026-10-08 |
 | JAVA-FND-05 (част 1) | Numeric promotion, int overflow, widening/narrowing и compound assignment | [05 — Numeric Promotions & Overflow](05-numeric-promotions-overflow-compound-assignment.md) | Въпрос 5.1 · 2026-10-09 |
 | JAVA-FND-05 (част 2) | Boxing/unboxing, Integer cache, equality, nullable wrapper | [06 — Autoboxing & Unboxing](06-autoboxing-unboxing-integer-cache-null.md) | Въпрос 5.2 · 2026-10-09 |
+| JAVA-FND (checkpoint №1) | Интеграция: pass-by-value, mutation, immutable String/Integer, `Integer++`, equality, numeric promotion и overflow | [07 — Integrated Java Fundamentals Checkpoint](07-java-fundamentals-integrated-checkpoint.md) | Q1–Q5 checkpoint · 2026-10-10 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 

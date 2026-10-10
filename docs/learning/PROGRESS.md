@@ -1,6 +1,6 @@
 # Learning Progress — актуален отчет
 
-**Snapshot дата:** 2026-10-09 (Europe/Sofia)  
+**Snapshot дата:** 2026-10-10 (Europe/Sofia)  
 **Цел:** системна диагностика от Junior fundamentals към уверен Mid+ и Early Senior.  
 **Източник на оценките:** действителни отговори в диалог + обоснована обратна връзка. Не попълвай проценти без проведена проверка.  
 **Протокол:** [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md) · **План:** [ROADMAP.md](ROADMAP.md)
@@ -25,17 +25,17 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | Java Fundamentals — **JAVA-FND-05**: numeric conversions/overflow и autoboxing/unboxing проверени; остава целево повторение за `Integer` caching и `+=` (без обща оценка на Java Fundamentals) |
-| Последна активност | **2026-10-09** — Q5.2 follow-up: два верни резултата, правилно обяснен unboxing → widening; caching диапазонът е уточнен |
-| Статус | **DIAGNOSTIC_IN_PROGRESS** — напредваме въпрос по въпрос |
-| Вече отговорени | Q1, Q2, Q3, Q3b и Q4 приключени; **Q5 част 1** оценена (8/10 техн.); **Q5 част 2** първи отговор (6.5/10 техн.) и последващ targeted follow-up с 2/2 верни резултата и 9/10 техн. Следва D+1 проверка за затвърждаване. |
+| Активна родителска тема | **Java Fundamentals Q1–Q5:** първият комбиниран checkpoint е проведен и оценен (2026-10-10); целеви преговор за immutability на `Integer` и инкремента на wrapper параметър |
+| Последна активност | **2026-10-10** — checkpoint №1, уточняващ follow-up и професионална корекция за `Integer++` |
+| Статус | **TARGETED_REVIEW** за wrapper increment; Java Fundamentals общата диагностика продължава след планирани recall проверки |
+| Вече отговорени | Q1–Q4, Q3b и Q5 (numeric + boxing) проверени; **Checkpoint №1**: всички **7/7** изходни реда са потвърдени правилно след поправка на първоначален лапсус за `marker`; механизъм на `Integer++`: правилни unboxing → int increment → boxing, но грешно предположение, че оригиналният `Integer` обект се изменя. |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | При `Integer == Integer` е reference identity и boxing на константен `int` в **-128..127** гарантира еднакви референции; това **не е целият диапазон на `short`**. При `Integer == int` или `Integer == long` има **unboxing**, при нужда последван от **widening primitive conversion**; редът на операндите не променя правилото. `+=` включва narrowing след аритметиката. |
-| Следващо действие | **Q5.2 targeted follow-up е проведен:** 2/2 правилни резултата (`true`, `true`), вярно обяснение за референциите и `Integer → int → long`. Заблуждението „кешира се целият диапазон на `short`“ е изяснено, но още не е проверено независимо след корекцията. Следва D+1 на 2026-10-10 за caching диапазон и `+=`. Следващ комбиниран JAVA-FND checkpoint **само с изрично съгласие**. |
+| Терминология за затвърждаване | `Integer` е **immutable**: `attempts++` е unboxing → primitive increment → boxing → **локално reassignment**, а **не mutation**. При post-increment стойността на самия израз е старата числова стойност. Други термини за recall: pass-by-value, `Integer` cache `-128..127`, numerical vs reference equality, numeric promotion и overflow. |
+| Следващо действие | **Checkpoint №1 е оценен** (8.5/10 техническо, 8.5/10 комуникация; само за checkpoint-а). Провери независимо поправения `Integer++` mental model при следващ recall, започвайки със due Q5 проверки от 2026-10-10. За нови микро-теми/въпроси искаме изрично съгласие. Не отбелязвай целия Java Fundamentals за `MASTERED`. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -52,7 +52,8 @@
 [Q3 — String & StringBuilder](concepts/03-string-immutability-stringbuilder.md) ·
 [Q4 — Object Identity, Equality & Null](concepts/04-object-identity-equality-null.md) ·
 [Q5, част 1 — Numeric Promotions, Overflow & Compound Assignment](concepts/05-numeric-promotions-overflow-compound-assignment.md) ·
-[Q5, част 2 — Autoboxing, Unboxing & Integer Caching](concepts/06-autoboxing-unboxing-integer-cache-null.md).
+[Q5, част 2 — Autoboxing, Unboxing & Integer Caching](concepts/06-autoboxing-unboxing-integer-cache-null.md) ·
+[Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md).
 
 ### Recall queue — поправено знание и професионален изказ
 
@@ -67,14 +68,17 @@
 | Q5.2 · D+1 | **2026-10-10** | PENDING | Нов случай `Integer` срещу `Integer` и `int`; boxing cache и автоматичен unboxing без подсказване. |
 | Q5.2 · D+7 | **2026-10-16** | PENDING | Обясни wrapper cache гаранции и как типът на операндите променя `==`, плюс safe handling при `null`. |
 | Q5.2 · D+30 | **2026-11-08** | PENDING | Реалистичен DTO/ORM сценарий с nullable `Integer`, числово сравнение и причинно-следствен анализ на NPE. |
+| Checkpoint · D+1 | **2026-10-11** | PENDING | Без подсказване: два aliases към един `Integer`, локален `++` върху единия — кои референции се променят, кой обект остава immutable и как работи post-increment. |
+| Checkpoint · D+7 | **2026-10-17** | PENDING | Нов случай: `Integer++` в метод, други aliases и nullable wrapper; различи reassignment и mutation с точни термини. |
+| Checkpoint · D+30 | **2026-11-09** | PENDING | Комбиниран пример `Integer`/`StringBuilder`, pass-by-value и wrapper increment с проверка на ефекта в caller. |
 
-**Когато се върнем:** D+1 е успешно приключен, включително целевото потвърждение за `Object.equals()`. Не повтаряй днешната поправка като непроверена; D+7 (2026-10-15) и D+30 (2026-11-07) остават предстоящи. Датите не са автоматични reminders.
+**Когато се върнем:** Java Fundamentals Q1–Q4 D+1 е приключен, но **Q5.1 и Q5.2 D+1 са изискуеми от 2026-10-10** и не са отбелязани като успешно преминати отделни recall проверки. Първо провери due recalls с кратък нов код. Провери и корекцията за `Integer++` (checkpoint D+1: 2026-10-11). Не повтаряй вече правилно обяснения `Object.equals()` като непроверен. Датите не са автоматични reminders.
 
 ### Точка на спиране след завършен Q4
 
 **Q4 е приключен на 2026-10-08.** На D+1 (2026-10-09) String Pool е възпроизведен правилно; след корекция `Object.equals()` също е **потвърден самостоятелно**. На D+7/D+30 провери и двете, в нов контекст.
 
-**Q5 части 1–2 и targeted follow-up за Q5.2 са проведени на 2026-10-09.** Правилно предвидени `Integer == Integer` за 100 и `Integer == long` за 100, и обяснено unboxing → widening. Разяснено е, че кешът не следва целия диапазон на `short`, а гаранцията е -128..127. **Не третирай Q5 като MASTERED** преди D+1/D+7/D+30. Не започвай нова тема без изрично съгласие.
+**Q5 части 1–2 и targeted follow-up за Q5.2 са проведени на 2026-10-09.** На 2026-10-10 е завършен интеграционен checkpoint №1 върху Q1–Q5, с 7/7 верни изхода след корекция на лапсус и една поправка на mental model: `Integer++` не изменя wrapper обекта. **Не третирай Q5 или целия Java Fundamentals като MASTERED** преди допълнителните recall проверки. Не започвай нова тема без изрично съгласие.
 
 ## Детайлен progress по микро-теми
 
@@ -84,9 +88,25 @@
 | JAVA-FND-02 | `READY_FOR_RECALL` | Q2: 9.5/10; на D+1 правилно различава локално reassignment от видима mutation | Pass-by-value: копие на стойността на референцията | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-03 | `READY_FOR_RECALL` | Q4: 8.5/10 техн. и 8.5/10 изказ; D+1: верен `String Pool`, първоначална грешка за default `Object.equals()` и **успешно независимо повторно обяснение (10/10)** | Базовият `Object.equals()` сравнява идентичност; `String.equals()` override-ва за сравнение на съдържанието (последователност от символи, без фиксиран алгоритъм) | 2026-10-09 | D+7/D+30 recall с различен пример |
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
-| JAVA-FND-05 | `TARGETED_REVIEW` (Q5 части 1–2) | Q5.1: правилни 3/3 резултата и `int` overflow, но неправилно първоначално поставено преобразуване преди `+=` аритметиката (8/10 техн., 8/10 изказ). Q5.2: начален отговор 6.5/10 техн. и 7.5/10 изказ; последващо 2/2 верни резултата, **9/10 техн.** за wrapper equality и `Integer → int → long` conversion. | Разграничено `Integer == Integer` (identity; cache -128..127 за константно boxing) от `Integer == primitive` (unboxing); не свързвай кеширането с пълния `short` диапазон; премествай вниманието върху статичните типове. | 2026-10-09 | D+1 2026-10-10; D+7 2026-10-16; D+30 2026-11-08; следващ групов checkpoint само при съгласие |
+| JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | D+1 Q5.1/Q5.2 изискуем 2026-10-10; checkpoint D+1 2026-10-11; D+7/D+30 по график |
 
 ## Дневник на заниманията
+
+### 2026-10-10 · Checkpoint №1 — Java Fundamentals (Q1–Q5)
+
+**Решен интеграционен код:** `process(int count, String status, StringBuilder audit, Integer attempts)`, `Integer` сравнения, `String` identity/equality, `int` overflow, `byte += 1`.
+
+- **Изход — потвърден 7/7:** `3:NEW-SENT:128`; `2:NEW:start|sent:127`; `true`; `true`; `false`; `true`; `-2147483648:-128`.
+- **Първоначален лапсус:** в последния ред е написано `-127`, но същият отговор устно е описал резултат `-128`; при поискана корекция изходът е поправен изрично на `-2147483648:-128`.
+- **Силни страни:** точно обяснени pass-by-value, `String.concat()` и immutable `String`, `StringBuilder.append()` mutation и локално reassignment, Integer cache и примитивно сравнение, различните механизми на `String ==`/`equals()`, `int` overflow преди widening и `byte` narrowing след промоция до `int`.
+- **Критична неточност:** при `Integer attempts++` правилно посочени **unboxing → int+1 → autoboxing**, но погрешно е заключено, че **оригиналният `Integer` обект остава същият, а стойността му се променя**. Корекция: `Integer` е immutable; boxing на `128` дава различен обект от стария `Integer(127)` (може да е кеширан), а локалният параметър се пренасочва. Оригиналният caller аргумент остава `127`.
+- **Postfix:** правилно разпознат `attempts++` като post-increment; уточнено е, че стойността на самия postfix израз е старата числова стойност, а променливата се увеличава.
+- **Частична оценка само за checkpoint №1:** **8.5/10 техническо разбиране и 8.5/10 техническа комуникация**. Резултатът не е обща оценка на целия Java Fundamentals или доказателство за MASTERED.
+- **Трайна бележка:** [Java Fundamentals Integrated Checkpoint](concepts/07-java-fundamentals-integrated-checkpoint.md); тематичната [Autoboxing & Unboxing бележка](concepts/06-autoboxing-unboxing-integer-cache-null.md) е актуализирана с `Integer++`.
+- **Recall:** Q5.1 и Q5.2 D+1 са изискуеми на 2026-10-10, но не са отметнати като отделни успешни recall проверки. За новата корекция checkpoint D+1: 2026-10-11; D+7: 2026-10-17; D+30: 2026-11-09.
+- **Следващо:** при съгласие първо due recall върху wrapper increment и числовите правила, без да се повтаря същият решен checkpoint като нов тест.
+
+---
 
 ### 2026-10-09 · Q5.2 targeted follow-up — wrapper identity, cache и mixed numeric equality
 
