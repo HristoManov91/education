@@ -72,6 +72,9 @@
 | Checkpoint · D+1 | **2026-10-11** | PENDING | Без подсказване: два aliases към един `Integer`, локален `++` върху единия — кои референции се променят, кой обект остава immutable и как работи post-increment. |
 | Checkpoint · D+7 | **2026-10-17** | PENDING | Нов случай: `Integer++` в метод, други aliases и nullable wrapper; различи reassignment и mutation с точни термини. |
 | Checkpoint · D+30 | **2026-11-09** | PENDING | Комбиниран пример `Integer`/`StringBuilder`, pass-by-value и wrapper increment с проверка на ефекта в caller. |
+| OOP-01 · D+1 | **2026-10-11** | PENDING | Precondition versus invariant, checked addition and safe update order. |
+| OOP-01 · D+7 | **2026-10-17** | PENDING | New public method scenario, ensure state valid and no overflow. |
+| OOP-01 · D+30 | **2026-11-09** | PENDING | Constructor, encapsulation and invariant scenario. |
 
 **Когато се върнем:** Java Fundamentals Q1–Q4 D+1 е приключен, но **Q5.1 и Q5.2 D+1 са изискуеми от 2026-10-10** и не са отбелязани като успешно преминати отделни recall проверки. Първо провери due recalls с кратък нов код. Провери и корекцията за `Integer++` (checkpoint D+1: 2026-10-11). Не повтаряй вече правилно обяснения `Object.equals()` като непроверен. Датите не са автоматични reminders.
 
