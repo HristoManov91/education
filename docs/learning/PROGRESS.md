@@ -94,7 +94,7 @@
 
 ## Дневник на заниманията
 
-### 2026-10-10 · Q6 — JAVA-OOP-01: classes, constructors, private/final и encapsulation (частично)
+### 2026-10-10 · Q6 — JAVA-OOP-01: classes, constructors, private/final и encapsulation (завършен)
 
 **Условие:** `Order order = new Order(42L, 5); order.addItems(3);` с грешен конструктор `quantity = quantity;` и mutable поле `int quantity`.
 
@@ -102,7 +102,7 @@
 - **Q6.2:** правилно разпознато self-assignment на параметъра и необходимостта от `this.quantity = quantity`. Само тази промяна би дала `42`, `8` в оригиналния тест.
 - **Q6.3:** `private` описано правилно за ограничаване на директния достъп; добре разграничени `final` primitive value и final reference, при която mutable обект може да се променя. **Уточнения:** getter/setter не са задължителни; instance initializer `{ }` и static initializer `static { }` са различни; instance blank final може да се инициализира в field initializer/instance initializer/constructor, а static final — в static field initializer/static block.
 - **Q6.4:** правилно предложена валидация за отрицателен `quantity` в конструктора и във възможен setter. **Непълен анализ:** не е споменат съществуващият публичен `addItems(int amount)`; няма оценка на отрицателен `amount` или границите на `int`. Следва уточняващ въпрос **по текущата задача**, без решение предварително.
-- **Оценка:** първите три механизма са отговорени правилно; **не давай окончателна цялостна оценка на Q6**, докато не получим независим отговор за Q6.4. Общото ниво Java Fundamentals остава неоценено.
+- **Q6 follow-up и оценка:** правилно разпознати опасностите от отрицателно количество и int overflow; предложен временен резултат, проверка и запис накрая. Уточнено: отрицателен amount може да даде положителен резултат, затова input validation е отделно от object invariant. Безопасна алтернатива е Math.addExact. **9/10 техническо, 8.5/10 комуникация; READY_FOR_RECALL.**
 - **Документация:** [OOP Fields, Constructors & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) — изложени са вече обсъдените механизми; решението на незавършения invariant follow-up **не е публикувано**.
 - **Следващо:** след корекцията на конструктора отговори как публичните операции трябва да пазят `quantity >= 0` при допълнителни промени; след отговора допълни бележката, оценката и планирай recall.
 
