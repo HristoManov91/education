@@ -25,17 +25,17 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **Java Fundamentals Q1–Q5:** първият комбиниран checkpoint е проведен и оценен (2026-10-10); целеви преговор за immutability на `Integer` и инкремента на wrapper параметър |
-| Последна активност | **2026-10-10** — checkpoint №1, уточняващ follow-up и професионална корекция за `Integer++` |
-| Статус | **TARGETED_REVIEW** за wrapper increment; Java Fundamentals общата диагностика продължава след планирани recall проверки |
-| Вече отговорени | Q1–Q4, Q3b и Q5 (numeric + boxing) проверени; **Checkpoint №1**: всички **7/7** изходни реда са потвърдени правилно след поправка на първоначален лапсус за `marker`; механизъм на `Integer++`: правилни unboxing → int increment → boxing, но грешно предположение, че оригиналният `Integer` обект се изменя. |
+| Активна родителска тема | **JAVA-OOP-01 — Classes, Constructors, Access Modifiers & Encapsulation**: Q6 първоначален отговор получен на 2026-10-10; уточняване на object invariant при всички промени предстои |
+| Последна активност | **2026-10-10** — Q6: верен constructor shadowing, `private`, `final`; непълен анализ на object invariant |
+| Статус | **DIAGNOSTIC_IN_PROGRESS** — JAVA-OOP-01; Q1–Q5 са проверени преди това и подлежат на recall |
+| Вече отговорени | Java Fundamentals Q1–Q5 и интеграционен checkpoint №1 проверени; **Q6 / JAVA-OOP-01**: първи отговор — compile/output `42`, `3` правилни, конструкторният проблем и `this` правилно обяснени, `private`/`final` общо правилни; инвариантът е защитен само в конструктора и евентуален setter, но не е анализиран `addItems()` |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | `Integer` е **immutable**: `attempts++` е unboxing → primitive increment → boxing → **локално reassignment**, а **не mutation**. При post-increment стойността на самия израз е старата числова стойност. Други термини за recall: pass-by-value, `Integer` cache `-128..127`, numerical vs reference equality, numeric promotion и overflow. |
-| Следващо действие | **Checkpoint №1 е оценен** (8.5/10 техническо, 8.5/10 комуникация; само за checkpoint-а). Провери независимо поправения `Integer++` mental model при следващ recall, започвайки със due Q5 проверки от 2026-10-10. За нови микро-теми/въпроси искаме изрично съгласие. Не отбелязвай целия Java Fundamentals за `MASTERED`. |
+| Терминология за затвърждаване | **parameter shadowing**, `this.quantity`, **instance field default value** (`int = 0`), **instance initializer** vs **static initializer**, blank `final` definite assignment, `private` не означава автоматичен getter/setter, **object invariant** трябва да остане изпълнен през целия публичен жизнен цикъл |
+| Следващо действие | **Q6 е частично оценен:** Q6.1–3 правилни; Q6.4 има важен пропуск — не са анализирани публичният `addItems()` и възможността от некоректно числово състояние при промени след конструиране. Изискай кратък targeted follow-up със сценарии (след коригиран конструктор) за отрицателен `amount` и голям `amount`; **не публикувай решението предварително**. След отговора актуализирай оценката/концептуалната бележка и recall. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -53,7 +53,8 @@
 [Q4 — Object Identity, Equality & Null](concepts/04-object-identity-equality-null.md) ·
 [Q5, част 1 — Numeric Promotions, Overflow & Compound Assignment](concepts/05-numeric-promotions-overflow-compound-assignment.md) ·
 [Q5, част 2 — Autoboxing, Unboxing & Integer Caching](concepts/06-autoboxing-unboxing-integer-cache-null.md) ·
-[Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md).
+[Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
+[Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md).
 
 ### Recall queue — поправено знание и професионален изказ
 
@@ -89,8 +90,23 @@
 | JAVA-FND-03 | `READY_FOR_RECALL` | Q4: 8.5/10 техн. и 8.5/10 изказ; D+1: верен `String Pool`, първоначална грешка за default `Object.equals()` и **успешно независимо повторно обяснение (10/10)** | Базовият `Object.equals()` сравнява идентичност; `String.equals()` override-ва за сравнение на съдържанието (последователност от символи, без фиксиран алгоритъм) | 2026-10-09 | D+7/D+30 recall с различен пример |
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | D+1 Q5.1/Q5.2 изискуем 2026-10-10; checkpoint D+1 2026-10-11; D+7/D+30 по график |
+| JAVA-OOP-01 | `DIAGNOSTIC_IN_PROGRESS` | Q6 на 2026-10-10: вярно компилиране и изход `42`, `3`, верен constructor parameter shadowing и `this.quantity`, правилна основа за `private` и `final` (вкл. mutable object при final reference). При инварианта `quantity >= 0` посочва конструктор и setter, но **не** анализира `addItems()` и възможни невалидни промени. | `private` не налага публичен setter; instance blank final и static final имат различни контексти за definite assignment. Object invariant се защитава във всички публични операции, а не само в конструктора. | 2026-10-10 | Кратка уточняваща проверка на Q6.4, след това числова и комуникационна оценка и recall |
 
 ## Дневник на заниманията
+
+### 2026-10-10 · Q6 — JAVA-OOP-01: classes, constructors, private/final и encapsulation (частично)
+
+**Условие:** `Order order = new Order(42L, 5); order.addItems(3);` с грешен конструктор `quantity = quantity;` и mutable поле `int quantity`.
+
+- **Q6.1:** кодът се компилира, изход `42`, `3` — **правилно**. Constructor parameter `quantity` засенчва полето, което остава с default `0`; `addItems(3)` го прави `3`.
+- **Q6.2:** правилно разпознато self-assignment на параметъра и необходимостта от `this.quantity = quantity`. Само тази промяна би дала `42`, `8` в оригиналния тест.
+- **Q6.3:** `private` описано правилно за ограничаване на директния достъп; добре разграничени `final` primitive value и final reference, при която mutable обект може да се променя. **Уточнения:** getter/setter не са задължителни; instance initializer `{ }` и static initializer `static { }` са различни; instance blank final може да се инициализира в field initializer/instance initializer/constructor, а static final — в static field initializer/static block.
+- **Q6.4:** правилно предложена валидация за отрицателен `quantity` в конструктора и във възможен setter. **Непълен анализ:** не е споменат съществуващият публичен `addItems(int amount)`; няма оценка на отрицателен `amount` или границите на `int`. Следва уточняващ въпрос **по текущата задача**, без решение предварително.
+- **Оценка:** първите три механизма са отговорени правилно; **не давай окончателна цялостна оценка на Q6**, докато не получим независим отговор за Q6.4. Общото ниво Java Fundamentals остава неоценено.
+- **Документация:** [OOP Fields, Constructors & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) — изложени са вече обсъдените механизми; решението на незавършения invariant follow-up **не е публикувано**.
+- **Следващо:** след корекцията на конструктора отговори как публичните операции трябва да пазят `quantity >= 0` при допълнителни промени; след отговора допълни бележката, оценката и планирай recall.
+
+---
 
 ### 2026-10-10 · Checkpoint №1 — Java Fundamentals (Q1–Q5)
 
