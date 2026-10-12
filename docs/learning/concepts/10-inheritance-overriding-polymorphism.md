@@ -118,6 +118,41 @@ Dog dog = (Dog) pet; // ClassCastException по време на изпълнен
 
 Накрая правим cast към Dog и присвояваме резултата на нова променлива dog. Cast-ването не прави нов обект. Двете променливи сочат към същия Dog. Разликата е, че изразът dog има статичен тип Dog и компилаторът вече позволява да използваме неговите специфични методи и полета. Ако runtime обектът не е съвместим с Dog, cast-ването завършва с ClassCastException.
 
+## Q9 — Overload resolution и runtime dispatch (2026-10-12)
+
+При `Animal first = new Dog(); Dog second = new Dog(); Animal secondAsAnimal = second;` имаме различни статични типове, но и трите променливи не сочат към един обект: `first` сочи към първия `Dog`, а `second` и `secondAsAnimal` — към втория `Dog`.
+
+```java
+class Animal {
+    String interact(Animal other) { return "Animal -> Animal"; }
+}
+class Dog extends Animal {
+    @Override
+    String interact(Animal other) { return "Dog -> Animal"; }
+    String interact(Dog other) { return "Dog -> Dog"; }
+}
+```
+
+| Извикване | Избран overload при компилация | Runtime реализация / резултат |
+| --- | --- | --- |
+| `first.interact(second)` | `interact(Animal)` — статичният тип на получателя е `Animal` | `Dog.interact(Animal)` → `Dog -> Animal` |
+| `((Dog) first).interact(second)` | `interact(Dog)` — типът на получателя и аргумента е `Dog` | `Dog.interact(Dog)` → `Dog -> Dog` |
+| `((Dog) first).interact(secondAsAnimal)` | `interact(Animal)` — аргументът има статичен тип `Animal` | `Dog.interact(Animal)` → `Dog -> Animal` |
+| `((Dog) first).interact((Dog) secondAsAnimal)` | `interact(Dog)` — типът на cast израза на аргумента е `Dog` | `Dog.interact(Dog)` → `Dog -> Dog` |
+
+В същата задача `second == secondAsAnimal` е `true` (един и същ обект). След извеждане на `BEFORE`, `Animal ordinary = new Animal(); Dog wrong = (Dog) ordinary;` предизвиква `ClassCastException` и `AFTER` не се изпълнява.
+
+**Механизмът:** Изборът на приложим overload е **compile-time**, по статичните типове на изразите. За избрания instance метод override-натата реализация се определя чрез **runtime dispatch** според действителния тип на обекта *получател*. Runtime типът на *аргумента* не прави автоматичен втори overload selection.
+
+**Правилна йерархия:** `Animal` е по-общ superclass; `Dog` — по-специфичен subclass. `Dog → Animal` е *upcast/widening reference conversion*; `Animal → Dog` — *downcast/narrowing reference conversion*. Downcast може да се компилира, но да се провали при изпълнение, ако конкретният обект не е съвместим с `Dog`. Cast не създава и не променя обект; променя compile-time типа на израза.
+
+**Професионално обяснение:** „Първо компилаторът избира метода по видимите сигнатури и статичните типове на изразите. После JVM изпълнява override-натата реализация спрямо runtime типа на получателя. Cast може да промени статичния тип на израза и избора на overload, но не и самия обект.“
+
+**Аудио допълнение:** Когато Dog предоставя interact с Animal и interact с Dog, Java избира между двата overload-а при компилация. Ако аргументът е деклариран Animal, се избира версията с Animal, независимо че действителният обект може да е Dog. След това, ако получателят действително е Dog, неговият override за interact с Animal се изпълнява чрез динамично диспечиране. Ако направим cast на аргумента към Dog, компилаторът може да избере по-специфичния overload. Това не променя обекта и при несъвместим действителен обект хвърля ClassCastException.
+
+**Recall:** Защо `dog.interact(a)` и `dog.interact((Dog) a)` могат да извикат различни overload-и, дори когато `a` и `dog` реферират обекти от един и същ клас?
+
+
 ## Провери се без подсказване
 
 1. Как обясняваш с точни термини защо `Animal pet = new Dog(); pet.speak();` може да извика метода от `Dog`, но `pet.speak("Loud")` не се компилира?
