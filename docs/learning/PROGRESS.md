@@ -25,9 +25,9 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-FND-01, разширение — Q7:** масиви, `clone()`, aliasing и `final` референции; отговор и обратна връзка 2026-10-12 |
+| Активна родителска тема | **JAVA-OOP-02 — Q8 (поставен, още няма отговор):** inheritance, overriding/overloading и polymorphism |
 | Последна активност | **2026-10-12** — Q7: 5/5 правилни изхода, верен aliasing/clone/reassignment; уточнени термините Java reference и `final` variable |
-| Статус | **TARGETED_REVIEW** за терминологията на Q7; **READY_FOR_RECALL** за JAVA-OOP-01; предстоящи/просрочени преговори от Q1–Q6 остават отворени |
+| Статус | **Q8 — AWAITING_ANSWER**; предишните оценки остават валидни, а всички непроведени recall проверки са **DEFERRED_BY_USER** от 2026-10-12, без нова дата |
 | Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — правилни 5 изхода, `alias`, масивен `clone()`, reassignment и compile-time error при повторно присвояване на `final` променлива |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
@@ -35,7 +35,7 @@
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
 | Терминология за затвърждаване | parameter shadowing, blank final, object invariant vs precondition, overflow-safe arithmetic; за Q7: **reference to object**, не гарантиран физически адрес; **final reference variable**, не „final обект“; shallow copy на референтни елементи |
-| Следващо действие | Q7: **9/10 локална оценка**, 5/5 точен изход; targeted terminology recall D+1 2026-10-13, D+7 2026-10-19, D+30 2026-11-11. Предишните recall задачи остават изискуеми. **Нов въпрос само след изрично съгласие.** |
+| Следващо действие | Изчакай отговор на **Q8 — `Animal pet = new Dog()`**; не изпреварвай решението. Преговорите от Q1–Q7 са отложени **до по-късен учебен етап без фиксирана дата** по изрична молба; не ги предлагай преди новите въпроси. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -58,30 +58,30 @@
 [Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
 [Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md).
 
-### Recall queue — поправено знание и професионален изказ
+### Recall queue — поправено знание и професионален изказ (пауза по молба от 2026-10-12)
 
-| Кога | Дата (Europe/Sofia) | Състояние | Проверка |
+| Кога | Първоначален ориентир (Europe/Sofia) | Състояние | Проверка |
 | --- | --- | --- | --- |
 | D+1 | **2026-10-09** | **COMPLETED — targeted correction verified** | Първи отговор: 4/4 верни изхода (`Java`, `A!`, `false`, `true`), правилни pass-by-value, mutation/reassignment, String Pool; първоначална грешка за default `Object.equals()`. След обяснение потребителят самостоятелно и правилно различи `Object.equals()` (**identity**) от override-натия `String.equals()` (**съдържание/последователност от символи**). Първи отговор: **8.5/10 техническо, 8/10 комуникация**; follow-up: **10/10**; не изчислявай изкуствена обща оценка. |
-| D+7 | **2026-10-15** | PENDING | Променен сценарий с параметър, alias, `String` и `StringBuilder`, плюс `==`, `equals()` и `null` проверка |
-| D+30 | **2026-11-07** | PENDING | Кратка интеграционна задача с refs, method args, String/Builder, object equality и професионално обяснение |
-| Q5.1 · D+1 | **2026-10-10** | PENDING | Кратък изменен пример: тип на `byte` аритметика, `+=` срещу `=`, кога настъпва implicit cast. Без подсказване. |
-| Q5.1 · D+7 | **2026-10-16** | PENDING | Пример с `short`/`byte`, бинарно числово повишаване, допустимо/недопустимо присвояване и overflow. |
-| Q5.1 · D+30 | **2026-11-08** | PENDING | Интеграционна мини-задача с `int`/`long`, overflow, widening/narrowing, compound assignment. |
-| Q5.2 · D+1 | **2026-10-10** | PENDING | Нов случай `Integer` срещу `Integer` и `int`; boxing cache и автоматичен unboxing без подсказване. |
-| Q5.2 · D+7 | **2026-10-16** | PENDING | Обясни wrapper cache гаранции и как типът на операндите променя `==`, плюс safe handling при `null`. |
-| Q5.2 · D+30 | **2026-11-08** | PENDING | Реалистичен DTO/ORM сценарий с nullable `Integer`, числово сравнение и причинно-следствен анализ на NPE. |
-| Checkpoint · D+1 | **2026-10-11** | PENDING | Без подсказване: два aliases към един `Integer`, локален `++` върху единия — кои референции се променят, кой обект остава immutable и как работи post-increment. |
-| Checkpoint · D+7 | **2026-10-17** | PENDING | Нов случай: `Integer++` в метод, други aliases и nullable wrapper; различи reassignment и mutation с точни термини. |
-| Checkpoint · D+30 | **2026-11-09** | PENDING | Комбиниран пример `Integer`/`StringBuilder`, pass-by-value и wrapper increment с проверка на ефекта в caller. |
-| OOP-01 · D+1 | **2026-10-11** | PENDING | Precondition versus invariant, checked addition and safe update order. |
-| OOP-01 · D+7 | **2026-10-17** | PENDING | New public method scenario, ensure state valid and no overflow. |
-| OOP-01 · D+30 | **2026-11-09** | PENDING | Constructor, encapsulation and invariant scenario. |
-| Q7 arrays · D+1 | **2026-10-13** | PENDING | Формулирай със свои думи aliasing vs array cloning, и `final` variable vs mutable object. |
-| Q7 arrays · D+7 | **2026-10-19** | PENDING | Масив от mutable обекти: кои обекти са shared след `clone()` и какво се изменя при `append` vs slot assignment? |
-| Q7 arrays · D+30 | **2026-11-11** | PENDING | API scenario за defensive copy, `final` reference, reassignment и mutation. |
+| D+7 | **2026-10-15** | **DEFERRED_BY_USER** (без нова дата) | Променен сценарий с параметър, alias, `String` и `StringBuilder`, плюс `==`, `equals()` и `null` проверка |
+| D+30 | **2026-11-07** | **DEFERRED_BY_USER** (без нова дата) | Кратка интеграционна задача с refs, method args, String/Builder, object equality и професионално обяснение |
+| Q5.1 · D+1 | **2026-10-10** | **DEFERRED_BY_USER** (без нова дата) | Кратък изменен пример: тип на `byte` аритметика, `+=` срещу `=`, кога настъпва implicit cast. Без подсказване. |
+| Q5.1 · D+7 | **2026-10-16** | **DEFERRED_BY_USER** (без нова дата) | Пример с `short`/`byte`, бинарно числово повишаване, допустимо/недопустимо присвояване и overflow. |
+| Q5.1 · D+30 | **2026-11-08** | **DEFERRED_BY_USER** (без нова дата) | Интеграционна мини-задача с `int`/`long`, overflow, widening/narrowing, compound assignment. |
+| Q5.2 · D+1 | **2026-10-10** | **DEFERRED_BY_USER** (без нова дата) | Нов случай `Integer` срещу `Integer` и `int`; boxing cache и автоматичен unboxing без подсказване. |
+| Q5.2 · D+7 | **2026-10-16** | **DEFERRED_BY_USER** (без нова дата) | Обясни wrapper cache гаранции и как типът на операндите променя `==`, плюс safe handling при `null`. |
+| Q5.2 · D+30 | **2026-11-08** | **DEFERRED_BY_USER** (без нова дата) | Реалистичен DTO/ORM сценарий с nullable `Integer`, числово сравнение и причинно-следствен анализ на NPE. |
+| Checkpoint · D+1 | **2026-10-11** | **DEFERRED_BY_USER** (без нова дата) | Без подсказване: два aliases към един `Integer`, локален `++` върху единия — кои референции се променят, кой обект остава immutable и как работи post-increment. |
+| Checkpoint · D+7 | **2026-10-17** | **DEFERRED_BY_USER** (без нова дата) | Нов случай: `Integer++` в метод, други aliases и nullable wrapper; различи reassignment и mutation с точни термини. |
+| Checkpoint · D+30 | **2026-11-09** | **DEFERRED_BY_USER** (без нова дата) | Комбиниран пример `Integer`/`StringBuilder`, pass-by-value и wrapper increment с проверка на ефекта в caller. |
+| OOP-01 · D+1 | **2026-10-11** | **DEFERRED_BY_USER** (без нова дата) | Precondition versus invariant, checked addition and safe update order. |
+| OOP-01 · D+7 | **2026-10-17** | **DEFERRED_BY_USER** (без нова дата) | New public method scenario, ensure state valid and no overflow. |
+| OOP-01 · D+30 | **2026-11-09** | **DEFERRED_BY_USER** (без нова дата) | Constructor, encapsulation and invariant scenario. |
+| Q7 arrays · D+1 | **2026-10-13** | **DEFERRED_BY_USER** (без нова дата) | Формулирай със свои думи aliasing vs array cloning, и `final` variable vs mutable object. |
+| Q7 arrays · D+7 | **2026-10-19** | **DEFERRED_BY_USER** (без нова дата) | Масив от mutable обекти: кои обекти са shared след `clone()` и какво се изменя при `append` vs slot assignment? |
+| Q7 arrays · D+30 | **2026-11-11** | **DEFERRED_BY_USER** (без нова дата) | API scenario за defensive copy, `final` reference, reassignment и mutation. |
 
-**Когато се върнем:** Java Fundamentals Q1–Q4 D+1 е приключен, но **Q5.1 и Q5.2 D+1 са изискуеми от 2026-10-10** и не са отбелязани като успешно преминати отделни recall проверки. Първо провери due recalls с кратък нов код. Провери и корекцията за `Integer++` (checkpoint D+1: 2026-10-11). Не повтаряй вече правилно обяснения `Object.equals()` като непроверен. Датите не са автоматични reminders. Q7 от 2026-10-12 има кратък D+1 recall на 2026-10-13; датите сами по себе си не означават, че преговорите са проведени.
+**Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Активен е Q8 от JAVA-OOP-02, отговор още не е получен.
 
 ### Точка на спиране след завършен Q4
 
@@ -93,14 +93,22 @@
 
 | ID | Status | Доказателства до момента | Изказ/корекция | Последна активност | Следващо действие |
 | --- | --- | --- | --- | --- | --- |
-| JAVA-FND-01 | `TARGETED_REVIEW` | Q1: верни резултати; D+1: правилен модел; **Q7 2026-10-12: 5/5 изхода, верен alias/`clone()`/`final`** | Казвай „копирана стойност на референцията“, а не физически адрес; `final` променлива, не „final обект“. Shallow копието на масив от обекти е показано, но още не е изпитано. | 2026-10-12 | Q7 D+1 2026-10-13, D+7 2026-10-19, D+30 2026-11-11; стари recalls остават |
+| JAVA-FND-01 | `TARGETED_REVIEW` | Q1: верни резултати; D+1: правилен модел; **Q7 2026-10-12: 5/5 изхода, верен alias/`clone()`/`final`** | Казвай „копирана стойност на референцията“, а не физически адрес; `final` променлива, не „final обект“. Shallow копието на масив от обекти е показано, но още не е изпитано. | 2026-10-12 | Recalls Q1–Q7 са отложени по желание на потребителя, без нов срок |
 | JAVA-FND-02 | `READY_FOR_RECALL` | Q2: 9.5/10; на D+1 правилно различава локално reassignment от видима mutation | Pass-by-value: копие на стойността на референцията | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-03 | `READY_FOR_RECALL` | Q4: 8.5/10 техн. и 8.5/10 изказ; D+1: верен `String Pool`, първоначална грешка за default `Object.equals()` и **успешно независимо повторно обяснение (10/10)** | Базовият `Object.equals()` сравнява идентичност; `String.equals()` override-ва за сравнение на съдържанието (последователност от символи, без фиксиран алгоритъм) | 2026-10-09 | D+7/D+30 recall с различен пример |
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
-| JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | D+1 Q5.1/Q5.2 изискуем 2026-10-10; checkpoint D+1 2026-10-11; D+7/D+30 по график |
-| JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall on 2026-10-11, 2026-10-17, 2026-11-09 |
+| JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | Непроведените recall проверки са отложени по искане на потребителя на 2026-10-12; първоначалните дати са запазени в queue |
+| JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall отложен по искане на потребителя на 2026-10-12, без нова дата |
 
 ## Дневник на заниманията
+
+### 2026-10-12 · Решение за recall и поставен Q8
+
+- Потребителят каза, че все още помни материала от предишните въпроси и иска текущите преговори да бъдат **отложени за по-късен етап**.
+- Всички все още непроведени Q1–Q7 recall проверки са маркирани **DEFERRED_BY_USER**, без фиксирана нова дата. Това не е доказателство за успешно recall и не променя оценките.
+- Изрично поиска **следващ нов въпрос**. Поставен е Q8 за **JAVA-OOP-02**: `Animal pet = new Dog()`, поле `name`, overridden `speak()`, inherited `description()`, cast към `Dog`, overloading `speak(String)` и статичен срещу runtime тип. **Въпросът е зададен, но отговор още няма.** Не публикувай решението предварително.
+
+---
 
 ### 2026-10-12 · Q7 — JAVA-FND-01 (arrays extension): array aliasing, clone и final
 
