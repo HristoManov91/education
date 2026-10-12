@@ -17,6 +17,7 @@
 | JAVA-FND-01 (arrays extension) | Масиви, reference aliasing, `clone()` (shallow copy), `final` референции | [09 — Arrays, Clone & Final References](09-arrays-clone-final-reference.md) | Въпрос 7 · 2026-10-12 |
 | JAVA-OOP-02 | Inheritance, overriding, overloading, runtime polymorphism, field hiding и casting | [10 — Inheritance, Overriding & Polymorphism](10-inheritance-overriding-polymorphism.md) | Въпрос 8 · 2026-10-12 |
 | JAVA-OOP-03 (abstract/interface) | Абстрактни класове, interface методи, default implementations, constructor chain и дизайн | [11 — Abstract Classes & Interfaces](11-abstract-classes-interfaces-default-methods.md) | Въпрос 10 · 2026-10-12 |
+| JAVA-OOP-03 (records) | Record components, compact canonical constructor, `equals/hashCode`, shallow immutability, `List.copyOf` и DTO дизайн | [12 — Records, Immutability & Defensive Copying](12-records-immutability-defensive-copying.md) | Въпрос 11 · 2026-10-12 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 
