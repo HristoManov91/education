@@ -25,17 +25,17 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-OOP-02 — Q9 (отговорен 2026-10-12):** overload resolution, runtime overriding dispatch, identity и downcasting |
-| Последна активност | **2026-10-12** — Q9: 6/6 правилни изхода преди изключението, правилно посочен `ClassCastException` след `BEFORE` и правилна аргументация за четирите извиквания |
-| Статус | **JAVA-OOP-02 — TARGETED_REVIEW** (типова йерархия `Animal` superclass / `Dog` subclass; разграничение selection vs dispatch); отложените recall проверки от Q1–Q8 не са проведени |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast (6/6 отпечатани реда + правилно exception) |
+| Активна родителска тема | **JAVA-OOP-03 — Q10 (отговорен 2026-10-12):** abstract classes, interface methods, default implementation, constructor chain и дизайн |
+| Последна активност | **2026-10-12** — Q10: 4/4 верни изхода, правилно обяснени `default`/`override`, абстрактен конструктор, `Task.info()` и каст; поправка на видовете методи в интерфейси и новост в Java 25 |
+| Статус | **JAVA-OOP-03 — TARGETED_REVIEW** (видове интерфейсни методи; Java 25 Flexible Constructor Bodies); предходните непроведени recalls остават отложени по изрично желание |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast (6/6 преди exception); **Q10** — abstract class/interface/default/constructor (4/4) |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8: declared/static type vs runtime type, field hiding; **Q9: `Animal` е superclass/по-общ тип, `Dog` е subclass/по-специфичен тип; downcasting `Animal → Dog`; compile-time overload resolution срещу runtime overriding dispatch на получателя** |
-| Следващо действие | **Q9 приключен с обратна връзка (9.5/10 техническо, 8.5/10 изказ).** Изчакай изрично съгласие за Q10 или друга тема. Отложените преговори остават за **по-късен учебен етап, без фиксирана дата**. |
+| Терминология за затвърждаване | Q7: reference value/final/shallow copy; Q8–Q9: static type vs runtime type, overloading vs dispatch, downcasting; **Q10: interface abstract/default/static/private methods, interface `public static final` fields, Java 25 flexible constructor bodies, instance state в abstract class** |
+| Следващо действие | **Q10 приключен с обратна връзка (8.5/10 техническо, 9/10 изказ).** Изчакай изрично съгласие за следващ въпрос (Q11), без автоматично започване. Отложените преговори остават за по-късен учебен етап без фиксирана дата. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -48,6 +48,7 @@
 - **Q7 (2026-10-12):** вярно компилиране и 5/5 изхода; правилни aliasing, primitive-array `clone()`, пренасочване, `==` identity и compile-time error при `original = snapshot`. Целеви езикови корекции: `final` е за променливата, не за обекта; Java reference не се свежда непременно до суров адрес. Обяснена е и shallow-copy спецификата на масив от обекти, **не е независимо изпитана**.
 - **Q8 (2026-10-12):** вярно компилиране и 5/5 изхода `Animal`, `Woof`, `Animal: Woof`, `Dog`, `Loud Woof`. Правилно обяснява разликата между field access и overriding в `description()`, както и че `pet.speak("Loud")` без cast не се компилира. **Концептуална неточност:** твърди, че cast променя поведението на обекта; коригирано е, че cast променя compile-time типа на израза след runtime type check, но не променя обекта. **Терминологична неточност:** „отляво стои поведението“ вместо „статичен тип на променливата“.
 - **Q9 (2026-10-12):** 6/6 правилни изхода преди ClassCastException: `Dog -> Animal`, `Dog -> Dog`, `Dog -> Animal`, `Dog -> Dog`, `true`, `BEFORE`. Правилно обяснява compile-time видимите overload-и и ефекта на cast върху static type на receiver/argument, а също и alias identity. **Корекция:** `Animal` е по-общ superclass, а `Dog` по-специфичен subclass; `Animal → Dog` е downcast, не widening. **Доизказване:** compile-time изборът на overload и runtime изборът на override implementation са два отделни етапа. Q9 техническа оценка **9.5/10**, изказ **8.5/10**.
+- **Q10 (2026-10-12):** 4/4 верни изхода (`EMAIL:I:42`, `I:42`, `S:99`, `99`). Верен constructor chain/abstract class модел, interface default inheritance vs override, `Task.code()` implementation и static type check за `second.info()`. След cast към `Task` — валиден метод и резултат `SMS:S:99` (потребителят не даде този конкретен низ, но правилно прогнозира компилация и работа). Корекция: интерфейсът НЕ съдържа само static методи; има abstract/default/static/private; полетата са implicit public static final. Допълнителна новост: Java 25 Flexible Constructor Bodies допуска предходни инструкции преди `super(...)`; историческото правило за first statement вече не е универсално. Q10 техническа оценка **8.5/10**, изказ **9/10**.
 
 **Постоянни материали за преговор и NotebookLM:**
 [Q1 — Values, References & Aliasing](concepts/01-values-references-aliasing.md) ·
@@ -59,7 +60,8 @@
 [Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
 [Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
 [Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md) ·
-[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md).
+[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md) ·
+[Q10 — Abstract Classes, Interfaces & Default Methods](concepts/11-abstract-classes-interfaces-default-methods.md).
 
 ### Recall queue — поправено знание и професионален изказ (пауза по молба от 2026-10-12)
 
@@ -85,6 +87,7 @@
 | Q7 arrays · D+30 | **2026-11-11** | **DEFERRED_BY_USER** (без нова дата) | API scenario за defensive copy, `final` reference, reassignment и mutation. |
 | Q8 inheritance · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов сценарий: `Animal pet = new Dog()` и cast/field hiding; обясни защо cast не променя обекта. Да се провери по-късно, не веднага. |
 | Q9 overload/override · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Overload resolution по статичен тип на аргумента срещу runtime dispatch по действителен тип на получателя; Animal superclass → Dog subclass като downcast. Да се провери в по-късен етап. |
+| Q10 abstract/interface · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Интерфейсен abstract/default/static/private метод срещу `public static final` поле; наследяване на default method; ново правило за `super(...)` в Java 25. Да се провери по-късно. |
 
 **Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Q8 и Q9 от JAVA-OOP-02 са **вече отговорени на 2026-10-12** и получили обратна връзка. След Q9 остава за по-късно терминологична проверка на типова йерархия и formal compile-time selection vs runtime dispatch. Няма независимо възпроизвеждане след последната корекция.
 
@@ -105,8 +108,24 @@
 | JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | Непроведените recall проверки са отложени по искане на потребителя на 2026-10-12; първоначалните дати са запазени в queue |
 | JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall отложен по искане на потребителя на 2026-10-12, без нова дата |
 | JAVA-OOP-02 | `TARGETED_REVIEW` | Q8: 5/5 изхода, **9/10 техническо и 8.5/10 изказ**. Q9: 6/6 изхода и правилен `ClassCastException`, **9.5/10 техническо и 8.5/10 изказ**, пълно обяснение за 4 overload/override извиквания. | Cast не променя обекта; superclass `Animal` е по-общ от subclass `Dog`; `Animal → Dog` е downcast; избор на overload при компилация и dispatch при runtime. | 2026-10-12 | Изчакай изрично съгласие за нов въпрос. Terminology recall по-късно, без фиксирана дата. |
+| JAVA-OOP-03 | `TARGETED_REVIEW` | Q10: **4/4 верни изхода**; верни abstract class constructors, `default` methods, polymorphism и `second.info()` compile time. **8.5/10 техническо, 9/10 изказ** за Q10. | Интерфейс има abstract/default/static/private методи; няма instance полета. Java 25 може да допуска statements преди `super(...)`. | 2026-10-12 | Нов въпрос само при изрично съгласие; targeted recall по-късно, без фиксиран срок. |
 
 ## Дневник на заниманията
+
+### 2026-10-12 · Q10 — JAVA-OOP-03: Abstract Classes, Interfaces & Default Methods
+
+**Условие:** `Task first = new EmailTask("42"); Describable second = new SmsTask("99");`, interface `Describable` с `code()` и `default description()`, abstract `Task` със `private final code`, конструктор, concrete `code()`, abstract `type()` и concrete `info()`. Проверка на 4 изхода, поведение на конструктори, default/override, `second.info()` и каст, плюс избор на дизайн.
+
+- **Верен изход (4/4):** `EMAIL:I:42`, `I:42`, `S:99`, `99`; кодът се компилира.
+- **Вярно обяснен механизъм:** абстрактният клас не може да бъде инстанциран директно, но има конструктор, извикван при създаване на конкретен наследник. `Task` реализира abstract `code()` от интерфейса. `EmailTask` наследява default описание, докато `SmsTask` го override-ва. `first.info()` извиква `EmailTask.type()`, default `Describable.description()` и `Task.code()`. `second.info()` не се компилира за static type `Describable`, но `((Task) second).info()` работи (резултат `SMS:S:99`, добавен при обратната връзка).
+- **Съществена неточност:** „Интерфейсът има само статични методи или константи“ е неверно за видовете методи. Корекция: интерфейсът има abstract, default, static, private методи (част от тях instance); **единствено полетата** са implicit `public static final`.
+- **Нов езиков детайл:** „`super(...)` е задължително първи ред“ вече не е универсално вярно от Java 25 — JEP 513 Flexible Constructor Bodies позволява определени statements преди constructor invocation. Това не е основен пропуск по наследяването.
+- **Дизайн:** правилно разграничени много интерфейси спрямо един superclass и необходимостта от instance поле в abstract class. Добавена е мотивацията договор vs споделено състояние/логика vs composition.
+- **Оценки само за Q10:** **8.5/10 техническо разбиране, 9/10 техническа комуникация**. Няма независим отговор след корекцията, затова статус **TARGETED_REVIEW**, не MASTERED.
+- **Concept Note:** [Abstract Classes, Interfaces & Default Methods](concepts/11-abstract-classes-interfaces-default-methods.md).
+- **Следващо:** нов въпрос само след изрично съгласие, а повторението по коригираната терминология е отложено по изрично желание, без срок.
+
+---
 
 ### 2026-10-12 · Q9 — JAVA-OOP-02: overloading, overriding, downcasting (приключен)
 
