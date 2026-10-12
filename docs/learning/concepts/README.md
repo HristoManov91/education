@@ -14,6 +14,7 @@
 | JAVA-FND-05 (част 2) | Boxing/unboxing, Integer cache, equality, nullable wrapper | [06 — Autoboxing & Unboxing](06-autoboxing-unboxing-integer-cache-null.md) | Въпрос 5.2 · 2026-10-09 |
 | JAVA-FND (checkpoint №1) | Интеграция: pass-by-value, mutation, immutable String/Integer, `Integer++`, equality, numeric promotion и overflow | [07 — Integrated Java Fundamentals Checkpoint](07-java-fundamentals-integrated-checkpoint.md) | Q1–Q5 checkpoint · 2026-10-10 |
 | JAVA-OOP-01 | Constructor shadowing, instance field defaults, `this`, `private` и `final`; object invariant — диагностика в процес | [08 — OOP Fields, Constructors & Encapsulation](08-oop-fields-constructors-final-encapsulation.md) | Въпрос 6 · 2026-10-10 (частично) |
+| JAVA-FND-01 (arrays extension) | Масиви, reference aliasing, `clone()` (shallow copy), `final` референции | [09 — Arrays, Clone & Final References](09-arrays-clone-final-reference.md) | Въпрос 7 · 2026-10-12 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 
