@@ -1,6 +1,6 @@
 # Learning Progress — актуален отчет
 
-**Snapshot дата:** 2026-10-10 (Europe/Sofia)  
+**Snapshot дата:** 2026-10-12 (Europe/Sofia)  
 **Цел:** системна диагностика от Junior fundamentals към уверен Mid+ и Early Senior.  
 **Източник на оценките:** действителни отговори в диалог + обоснована обратна връзка. Не попълвай проценти без проведена проверка.  
 **Протокол:** [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md) · **План:** [ROADMAP.md](ROADMAP.md)
@@ -21,21 +21,21 @@
 
 > Има изградени лаборатории/обучителни материали и по други теми, но **наличието им не е доказателство**, че знанията вече са проверени или усвоени.
 
-## Текущо: Java Fundamentals — начална диагностика
+## Текущо: Java Fundamentals и OOP — адаптивна диагностика
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-OOP-01 — Q6:** завършен и оценен на 2026-10-10; constructor shadowing, private/final, инварианти и защита от overflow |
-| Последна активност | **2026-10-10** — финализиран Q6 с уточнение за addItems и проверка за overflow |
-| Статус | **READY_FOR_RECALL** за JAVA-OOP-01; Q1–Q5 остават с предстоящи проверки |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — правилни резултати и конструктор, private/final; при follow-up посочени отрицателно количество, overflow и проверка преди промяна на полето |
+| Активна родителска тема | **JAVA-OOP-02 — Q9 (отговорен 2026-10-12):** overload resolution, runtime overriding dispatch, identity и downcasting |
+| Последна активност | **2026-10-12** — Q9: 6/6 правилни изхода преди изключението, правилно посочен `ClassCastException` след `BEFORE` и правилна аргументация за четирите извиквания |
+| Статус | **JAVA-OOP-02 — TARGETED_REVIEW** (типова йерархия `Animal` superclass / `Dog` subclass; разграничение selection vs dispatch); отложените recall проверки от Q1–Q8 не са проведени |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast (6/6 отпечатани реда + правилно exception) |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | parameter shadowing, blank final, **object invariant** quantity >= 0, отделен **input precondition** amount >= 0, overflow-safe arithmetic, validate → compute → assign |
-| Следващо действие | Q6: **9/10 техническо, 8.5/10 комуникация**, READY_FOR_RECALL. Проверка D+1 2026-10-11; D+7 2026-10-17; D+30 2026-11-09. Друг въпрос само с изрично съгласие. |
+| Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8: declared/static type vs runtime type, field hiding; **Q9: `Animal` е superclass/по-общ тип, `Dog` е subclass/по-специфичен тип; downcasting `Animal → Dog`; compile-time overload resolution срещу runtime overriding dispatch на получателя** |
+| Следващо действие | **Q9 приключен с обратна връзка (9.5/10 техническо, 8.5/10 изказ).** Изчакай изрично съгласие за Q10 или друга тема. Отложените преговори остават за **по-късен учебен етап, без фиксирана дата**. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -45,6 +45,9 @@
 - **Q3:** `String.concat(" World")` не изменя `String` обекта; локалното `text` не променя `main`; `builder` от `main` става `Hello World`. Първоначално беше обяснено неточно поведението на `append()`.
 - **Q3b / 3.1:** в последващия отговор вече правилно е обяснено, че `append()` връща същия builder, `second` продължава да сочи стария обект при пренасочване на `first`, а `==` е `false`. **Единствена грешка в отговора:** разменени са отпечатванията на `first` и `second`; изходът е `false`, `C`, `ABD`.
 - **Q4:** първоначално правилно са обяснени `equals()` и `null`, но `a == b` е сгрешено; след корекция потребителят правилно обясни отделния обект от `new String`, а редът на декларациите е новонаучена особеност. Потвърди, че NPE спира изпълнението преди `END`, и че знае за `Object.equals()` и `Objects.equals()`. Частична оценка само за Q4: **8.5/10 техническо разбиране и 8.5/10 комуникация**.
+- **Q7 (2026-10-12):** вярно компилиране и 5/5 изхода; правилни aliasing, primitive-array `clone()`, пренасочване, `==` identity и compile-time error при `original = snapshot`. Целеви езикови корекции: `final` е за променливата, не за обекта; Java reference не се свежда непременно до суров адрес. Обяснена е и shallow-copy спецификата на масив от обекти, **не е независимо изпитана**.
+- **Q8 (2026-10-12):** вярно компилиране и 5/5 изхода `Animal`, `Woof`, `Animal: Woof`, `Dog`, `Loud Woof`. Правилно обяснява разликата между field access и overriding в `description()`, както и че `pet.speak("Loud")` без cast не се компилира. **Концептуална неточност:** твърди, че cast променя поведението на обекта; коригирано е, че cast променя compile-time типа на израза след runtime type check, но не променя обекта. **Терминологична неточност:** „отляво стои поведението“ вместо „статичен тип на променливата“.
+- **Q9 (2026-10-12):** 6/6 правилни изхода преди ClassCastException: `Dog -> Animal`, `Dog -> Dog`, `Dog -> Animal`, `Dog -> Dog`, `true`, `BEFORE`. Правилно обяснява compile-time видимите overload-и и ефекта на cast върху static type на receiver/argument, а също и alias identity. **Корекция:** `Animal` е по-общ superclass, а `Dog` по-специфичен subclass; `Animal → Dog` е downcast, не widening. **Доизказване:** compile-time изборът на overload и runtime изборът на override implementation са два отделни етапа. Q9 техническа оценка **9.5/10**, изказ **8.5/10**.
 
 **Постоянни материали за преговор и NotebookLM:**
 [Q1 — Values, References & Aliasing](concepts/01-values-references-aliasing.md) ·
@@ -54,29 +57,36 @@
 [Q5, част 1 — Numeric Promotions, Overflow & Compound Assignment](concepts/05-numeric-promotions-overflow-compound-assignment.md) ·
 [Q5, част 2 — Autoboxing, Unboxing & Integer Caching](concepts/06-autoboxing-unboxing-integer-cache-null.md) ·
 [Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
-[Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md).
+[Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
+[Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md) ·
+[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md).
 
-### Recall queue — поправено знание и професионален изказ
+### Recall queue — поправено знание и професионален изказ (пауза по молба от 2026-10-12)
 
-| Кога | Дата (Europe/Sofia) | Състояние | Проверка |
+| Кога | Първоначален ориентир (Europe/Sofia) | Състояние | Проверка |
 | --- | --- | --- | --- |
 | D+1 | **2026-10-09** | **COMPLETED — targeted correction verified** | Първи отговор: 4/4 верни изхода (`Java`, `A!`, `false`, `true`), правилни pass-by-value, mutation/reassignment, String Pool; първоначална грешка за default `Object.equals()`. След обяснение потребителят самостоятелно и правилно различи `Object.equals()` (**identity**) от override-натия `String.equals()` (**съдържание/последователност от символи**). Първи отговор: **8.5/10 техническо, 8/10 комуникация**; follow-up: **10/10**; не изчислявай изкуствена обща оценка. |
-| D+7 | **2026-10-15** | PENDING | Променен сценарий с параметър, alias, `String` и `StringBuilder`, плюс `==`, `equals()` и `null` проверка |
-| D+30 | **2026-11-07** | PENDING | Кратка интеграционна задача с refs, method args, String/Builder, object equality и професионално обяснение |
-| Q5.1 · D+1 | **2026-10-10** | PENDING | Кратък изменен пример: тип на `byte` аритметика, `+=` срещу `=`, кога настъпва implicit cast. Без подсказване. |
-| Q5.1 · D+7 | **2026-10-16** | PENDING | Пример с `short`/`byte`, бинарно числово повишаване, допустимо/недопустимо присвояване и overflow. |
-| Q5.1 · D+30 | **2026-11-08** | PENDING | Интеграционна мини-задача с `int`/`long`, overflow, widening/narrowing, compound assignment. |
-| Q5.2 · D+1 | **2026-10-10** | PENDING | Нов случай `Integer` срещу `Integer` и `int`; boxing cache и автоматичен unboxing без подсказване. |
-| Q5.2 · D+7 | **2026-10-16** | PENDING | Обясни wrapper cache гаранции и как типът на операндите променя `==`, плюс safe handling при `null`. |
-| Q5.2 · D+30 | **2026-11-08** | PENDING | Реалистичен DTO/ORM сценарий с nullable `Integer`, числово сравнение и причинно-следствен анализ на NPE. |
-| Checkpoint · D+1 | **2026-10-11** | PENDING | Без подсказване: два aliases към един `Integer`, локален `++` върху единия — кои референции се променят, кой обект остава immutable и как работи post-increment. |
-| Checkpoint · D+7 | **2026-10-17** | PENDING | Нов случай: `Integer++` в метод, други aliases и nullable wrapper; различи reassignment и mutation с точни термини. |
-| Checkpoint · D+30 | **2026-11-09** | PENDING | Комбиниран пример `Integer`/`StringBuilder`, pass-by-value и wrapper increment с проверка на ефекта в caller. |
-| OOP-01 · D+1 | **2026-10-11** | PENDING | Precondition versus invariant, checked addition and safe update order. |
-| OOP-01 · D+7 | **2026-10-17** | PENDING | New public method scenario, ensure state valid and no overflow. |
-| OOP-01 · D+30 | **2026-11-09** | PENDING | Constructor, encapsulation and invariant scenario. |
+| D+7 | **2026-10-15** | **DEFERRED_BY_USER** (без нова дата) | Променен сценарий с параметър, alias, `String` и `StringBuilder`, плюс `==`, `equals()` и `null` проверка |
+| D+30 | **2026-11-07** | **DEFERRED_BY_USER** (без нова дата) | Кратка интеграционна задача с refs, method args, String/Builder, object equality и професионално обяснение |
+| Q5.1 · D+1 | **2026-10-10** | **DEFERRED_BY_USER** (без нова дата) | Кратък изменен пример: тип на `byte` аритметика, `+=` срещу `=`, кога настъпва implicit cast. Без подсказване. |
+| Q5.1 · D+7 | **2026-10-16** | **DEFERRED_BY_USER** (без нова дата) | Пример с `short`/`byte`, бинарно числово повишаване, допустимо/недопустимо присвояване и overflow. |
+| Q5.1 · D+30 | **2026-11-08** | **DEFERRED_BY_USER** (без нова дата) | Интеграционна мини-задача с `int`/`long`, overflow, widening/narrowing, compound assignment. |
+| Q5.2 · D+1 | **2026-10-10** | **DEFERRED_BY_USER** (без нова дата) | Нов случай `Integer` срещу `Integer` и `int`; boxing cache и автоматичен unboxing без подсказване. |
+| Q5.2 · D+7 | **2026-10-16** | **DEFERRED_BY_USER** (без нова дата) | Обясни wrapper cache гаранции и как типът на операндите променя `==`, плюс safe handling при `null`. |
+| Q5.2 · D+30 | **2026-11-08** | **DEFERRED_BY_USER** (без нова дата) | Реалистичен DTO/ORM сценарий с nullable `Integer`, числово сравнение и причинно-следствен анализ на NPE. |
+| Checkpoint · D+1 | **2026-10-11** | **DEFERRED_BY_USER** (без нова дата) | Без подсказване: два aliases към един `Integer`, локален `++` върху единия — кои референции се променят, кой обект остава immutable и как работи post-increment. |
+| Checkpoint · D+7 | **2026-10-17** | **DEFERRED_BY_USER** (без нова дата) | Нов случай: `Integer++` в метод, други aliases и nullable wrapper; различи reassignment и mutation с точни термини. |
+| Checkpoint · D+30 | **2026-11-09** | **DEFERRED_BY_USER** (без нова дата) | Комбиниран пример `Integer`/`StringBuilder`, pass-by-value и wrapper increment с проверка на ефекта в caller. |
+| OOP-01 · D+1 | **2026-10-11** | **DEFERRED_BY_USER** (без нова дата) | Precondition versus invariant, checked addition and safe update order. |
+| OOP-01 · D+7 | **2026-10-17** | **DEFERRED_BY_USER** (без нова дата) | New public method scenario, ensure state valid and no overflow. |
+| OOP-01 · D+30 | **2026-11-09** | **DEFERRED_BY_USER** (без нова дата) | Constructor, encapsulation and invariant scenario. |
+| Q7 arrays · D+1 | **2026-10-13** | **DEFERRED_BY_USER** (без нова дата) | Формулирай със свои думи aliasing vs array cloning, и `final` variable vs mutable object. |
+| Q7 arrays · D+7 | **2026-10-19** | **DEFERRED_BY_USER** (без нова дата) | Масив от mutable обекти: кои обекти са shared след `clone()` и какво се изменя при `append` vs slot assignment? |
+| Q7 arrays · D+30 | **2026-11-11** | **DEFERRED_BY_USER** (без нова дата) | API scenario за defensive copy, `final` reference, reassignment и mutation. |
+| Q8 inheritance · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов сценарий: `Animal pet = new Dog()` и cast/field hiding; обясни защо cast не променя обекта. Да се провери по-късно, не веднага. |
+| Q9 overload/override · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Overload resolution по статичен тип на аргумента срещу runtime dispatch по действителен тип на получателя; Animal superclass → Dog subclass като downcast. Да се провери в по-късен етап. |
 
-**Когато се върнем:** Java Fundamentals Q1–Q4 D+1 е приключен, но **Q5.1 и Q5.2 D+1 са изискуеми от 2026-10-10** и не са отбелязани като успешно преминати отделни recall проверки. Първо провери due recalls с кратък нов код. Провери и корекцията за `Integer++` (checkpoint D+1: 2026-10-11). Не повтаряй вече правилно обяснения `Object.equals()` като непроверен. Датите не са автоматични reminders.
+**Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Q8 и Q9 от JAVA-OOP-02 са **вече отговорени на 2026-10-12** и получили обратна връзка. След Q9 остава за по-късно терминологична проверка на типова йерархия и formal compile-time selection vs runtime dispatch. Няма независимо възпроизвеждане след последната корекция.
 
 ### Точка на спиране след завършен Q4
 
@@ -88,14 +98,65 @@
 
 | ID | Status | Доказателства до момента | Изказ/корекция | Последна активност | Следващо действие |
 | --- | --- | --- | --- | --- | --- |
-| JAVA-FND-01 | `TARGETED_REVIEW` | Q1: правилни резултати; D+1: правилен модел за споделен обект и референции | Казвай „копирана стойност на референцията“, а не гарантиран физически адрес | 2026-10-09 | D+7/D+30 recall |
+| JAVA-FND-01 | `TARGETED_REVIEW` | Q1: верни резултати; D+1: правилен модел; **Q7 2026-10-12: 5/5 изхода, верен alias/`clone()`/`final`** | Казвай „копирана стойност на референцията“, а не физически адрес; `final` променлива, не „final обект“. Shallow копието на масив от обекти е показано, но още не е изпитано. | 2026-10-12 | Recalls Q1–Q7 са отложени по желание на потребителя, без нов срок |
 | JAVA-FND-02 | `READY_FOR_RECALL` | Q2: 9.5/10; на D+1 правилно различава локално reassignment от видима mutation | Pass-by-value: копие на стойността на референцията | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-03 | `READY_FOR_RECALL` | Q4: 8.5/10 техн. и 8.5/10 изказ; D+1: верен `String Pool`, първоначална грешка за default `Object.equals()` и **успешно независимо повторно обяснение (10/10)** | Базовият `Object.equals()` сравнява идентичност; `String.equals()` override-ва за сравнение на съдържанието (последователност от символи, без фиксиран алгоритъм) | 2026-10-09 | D+7/D+30 recall с различен пример |
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
-| JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | D+1 Q5.1/Q5.2 изискуем 2026-10-10; checkpoint D+1 2026-10-11; D+7/D+30 по график |
-| JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall on 2026-10-11, 2026-10-17, 2026-11-09 |
+| JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | Непроведените recall проверки са отложени по искане на потребителя на 2026-10-12; първоначалните дати са запазени в queue |
+| JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall отложен по искане на потребителя на 2026-10-12, без нова дата |
+| JAVA-OOP-02 | `TARGETED_REVIEW` | Q8: 5/5 изхода, **9/10 техническо и 8.5/10 изказ**. Q9: 6/6 изхода и правилен `ClassCastException`, **9.5/10 техническо и 8.5/10 изказ**, пълно обяснение за 4 overload/override извиквания. | Cast не променя обекта; superclass `Animal` е по-общ от subclass `Dog`; `Animal → Dog` е downcast; избор на overload при компилация и dispatch при runtime. | 2026-10-12 | Изчакай изрично съгласие за нов въпрос. Terminology recall по-късно, без фиксирана дата. |
 
 ## Дневник на заниманията
+
+### 2026-10-12 · Q9 — JAVA-OOP-02: overloading, overriding, downcasting (приключен)
+
+**Условие:** Receiver и аргументите с различни static types: `Animal first = new Dog(); Dog second = new Dog(); Animal secondAsAnimal = second;`. Четири извиквания на `interact(Animal)`/`interact(Dog)` с cast на получателя/аргумента; `second == secondAsAnimal`; последвано от `Dog wrong = (Dog) ordinary` за `ordinary = new Animal()`.
+
+- **Верни всички нормални резултати (6/6):** `Dog -> Animal`, `Dog -> Dog`, `Dog -> Animal`, `Dog -> Dog`, `true`, `BEFORE`. Правилно: кодът се компилира, изпълнението стига до необработен `ClassCastException`, `AFTER` не се извежда.
+- **Силна страна:** ученикът сам посочи, че при `first.interact(second)` аргументът `Dog` не е основание компилаторът да намери `interact(Dog)` през статичния тип `Animal` на получателя. Разграничи второ/трето/четвърто извикване според cast на получателя или аргумента и правилно определи равенството на референциите.
+- **Терминологична корекция:** при описание на `Animal → Dog` е обърнал „по-тесен“ и „по-широк“. Правилно: `Animal` = superclass, по-общ; `Dog` = subclass, по-специфичен; `Animal → Dog` = downcasting/narrowing reference conversion.
+- **Корекция за формулиране:** „интересува го референцията, не обектът“ не е достатъчно прецизно — overload resolution е compile-time според static type на аргументите, а override implementation е runtime според runtime type на получателя.
+- **Оценка само за Q9:** **9.5/10 техническо разбиране, 8.5/10 техническа комуникация**. Не е обща оценка за JAVA-OOP-02. Независим follow-up след тези корекции **не е проведен**.
+- **Concept Note:** [Inheritance, Overriding & Polymorphism — Q8–Q9](concepts/10-inheritance-overriding-polymorphism.md) (обновена на място, без дублираща тема).
+- **Следващо:** при изрично съгласие — нов въпрос/микро-тема. Повторението на терминологията е отложено по желание за по-късен етап, без фиксирана дата.
+
+---
+
+### 2026-10-12 · Q8 — JAVA-OOP-02: inheritance, overriding, overloading, field hiding & cast
+
+**Условие:** `Animal pet = new Dog();` със скрито поле `name`, override на `speak()`, наследен метод `description()`, overload `speak(String)`, `Dog dog = (Dog) pet` и въпрос дали `pet.speak("Loud")` се компилира.
+
+- **Верен резултат:** кодът се компилира и отпечатва `Animal`, `Woof`, `Animal: Woof`, `Dog`, `Loud Woof` — **5/5**.
+- **Вярна причинност:** `pet.name` се свързва със статичния тип `Animal`; `speak()` е override-нат в `Dog` и се диспечира динамично; `Animal.description()` комбинира `Animal.name` с динамично извикване на `speak()`. Cast-ването не създава обект. `pet.speak("Loud")` без cast не се компилира, защото в `Animal` липсва този overload.
+- **Нужна смислова корекция:** „cast променя поведението на обекта“ — неправилно; той е checked reference conversion, предоставя различен compile-time тип на израза, без промяна на обекта или неговия runtime клас.
+- **Нужна терминологична корекция:** „отляво стои поведението“ → отляво е **declared/static type** на променливата, докато `new Dog()` отдясно създава обект с runtime тип `Dog`; „референцията Animal не знае за Dog“ → компилаторът извършва method lookup по static type на израза.
+- **Локална оценка само за Q8 от обратната връзка:** **9/10 техническо разбиране, 8.5/10 техническа комуникация**. Това не е окончателна оценка на цялото OOP или Java Core.
+- **Concept Note:** [Inheritance, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md).
+- **Следващо:** изчакай изрично потвърждение за нов въпрос; кратък recall на разликата между cast, compile-time type и runtime object на по-късен етап, без активен срок според желанието на ученика.
+
+---
+
+### 2026-10-12 · Решение за recall и поставен Q8
+
+- Потребителят каза, че все още помни материала от предишните въпроси и иска текущите преговори да бъдат **отложени за по-късен етап**.
+- Всички все още непроведени Q1–Q7 recall проверки са маркирани **DEFERRED_BY_USER**, без фиксирана нова дата. Това не е доказателство за успешно recall и не променя оценките.
+- Изрично поиска **следващ нов въпрос**. Поставен е Q8 за **JAVA-OOP-02**: `Animal pet = new Dog()`, поле `name`, overridden `speak()`, inherited `description()`, cast към `Dog`, overloading `speak(String)` и статичен срещу runtime тип. **Въпросът е зададен, но отговор още няма.** Не публикувай решението предварително.
+
+---
+
+### 2026-10-12 · Q7 — JAVA-FND-01 (arrays extension): array aliasing, clone и final
+
+**Условие:** `final int[] original = {1, 2, 3}`, `alias = original`, `snapshot = original.clone()`; мутации през alias/snapshot, пренасочване на alias и 5 `println` резултата. Допълнително: какво става при `original = snapshot`.
+
+- **Верни изходи (5/5):** `[10, 2, 3]`, `[1, 20, 30]`, `[1, 20, 30]`, `true`, `false`. Правилно е предвидено, че първоначалният код се компилира.
+- **Верни причинни обяснения:** масивите са обекти; `alias = original` копира референцията, `clone()` създава нов `int[]`; първата промяна на `alias[0]` засяга original, последната след `alias = snapshot` — snapshot; повторно присвояване на `final` original е compilation error.
+- **Уточнен технически изказ:** не твърдим, че Java референцията е непременно физически адрес. `final` е модификатор на *променливата*, който забранява пренасочването ѝ след инициализация, но не прави масива immutable. Ученика използва „final обект“ и противоречивата формулировка „не може да променяме обекта, но може да подменяме стойностите“; отговорът показва правилната идея за mutation на елементите.
+- **Допълнение, обяснено от асистента, не проверено:** `clone()` прави shallow copy: при `StringBuilder[]` се копират референциите към вложените builders; `append()` върху споделен елемент се вижда и през другия масив.
+- **Оценка само за Q7:** **9/10** в обратната връзка; правилни резултати и механизмът, две езиково-технически корекции. Няма доказателство за успешно възпроизвеждане след корекцията; статус **TARGETED_REVIEW**, не MASTERED.
+- **Бележка:** [Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md).
+- **Recall:** D+1 2026-10-13, D+7 2026-10-19, D+30 2026-11-11. Следващ въпрос само след изрично съгласие.
+
+---
 
 ### 2026-10-10 · Q6 — JAVA-OOP-01: classes, constructors, private/final и encapsulation (завършен)
 
