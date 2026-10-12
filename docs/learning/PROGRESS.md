@@ -1,6 +1,6 @@
 # Learning Progress — актуален отчет
 
-**Snapshot дата:** 2026-10-10 (Europe/Sofia)  
+**Snapshot дата:** 2026-10-12 (Europe/Sofia)  
 **Цел:** системна диагностика от Junior fundamentals към уверен Mid+ и Early Senior.  
 **Източник на оценките:** действителни отговори в диалог + обоснована обратна връзка. Не попълвай проценти без проведена проверка.  
 **Протокол:** [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md) · **План:** [ROADMAP.md](ROADMAP.md)
@@ -25,17 +25,17 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-OOP-01 — Q6:** завършен и оценен на 2026-10-10; constructor shadowing, private/final, инварианти и защита от overflow |
-| Последна активност | **2026-10-10** — финализиран Q6 с уточнение за addItems и проверка за overflow |
-| Статус | **READY_FOR_RECALL** за JAVA-OOP-01; Q1–Q5 остават с предстоящи проверки |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — правилни резултати и конструктор, private/final; при follow-up посочени отрицателно количество, overflow и проверка преди промяна на полето |
+| Активна родителска тема | **JAVA-FND-01, разширение — Q7:** масиви, `clone()`, aliasing и `final` референции; отговор и обратна връзка 2026-10-12 |
+| Последна активност | **2026-10-12** — Q7: 5/5 правилни изхода, верен aliasing/clone/reassignment; уточнени термините Java reference и `final` variable |
+| Статус | **TARGETED_REVIEW** за терминологията на Q7; **READY_FOR_RECALL** за JAVA-OOP-01; предстоящи/просрочени преговори от Q1–Q6 остават отворени |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — правилни 5 изхода, `alias`, масивен `clone()`, reassignment и compile-time error при повторно присвояване на `final` променлива |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | parameter shadowing, blank final, **object invariant** quantity >= 0, отделен **input precondition** amount >= 0, overflow-safe arithmetic, validate → compute → assign |
-| Следващо действие | Q6: **9/10 техническо, 8.5/10 комуникация**, READY_FOR_RECALL. Проверка D+1 2026-10-11; D+7 2026-10-17; D+30 2026-11-09. Друг въпрос само с изрично съгласие. |
+| Терминология за затвърждаване | parameter shadowing, blank final, object invariant vs precondition, overflow-safe arithmetic; за Q7: **reference to object**, не гарантиран физически адрес; **final reference variable**, не „final обект“; shallow copy на референтни елементи |
+| Следващо действие | Q7: **9/10 локална оценка**, 5/5 точен изход; targeted terminology recall D+1 2026-10-13, D+7 2026-10-19, D+30 2026-11-11. Предишните recall задачи остават изискуеми. **Нов въпрос само след изрично съгласие.** |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
@@ -45,6 +45,7 @@
 - **Q3:** `String.concat(" World")` не изменя `String` обекта; локалното `text` не променя `main`; `builder` от `main` става `Hello World`. Първоначално беше обяснено неточно поведението на `append()`.
 - **Q3b / 3.1:** в последващия отговор вече правилно е обяснено, че `append()` връща същия builder, `second` продължава да сочи стария обект при пренасочване на `first`, а `==` е `false`. **Единствена грешка в отговора:** разменени са отпечатванията на `first` и `second`; изходът е `false`, `C`, `ABD`.
 - **Q4:** първоначално правилно са обяснени `equals()` и `null`, но `a == b` е сгрешено; след корекция потребителят правилно обясни отделния обект от `new String`, а редът на декларациите е новонаучена особеност. Потвърди, че NPE спира изпълнението преди `END`, и че знае за `Object.equals()` и `Objects.equals()`. Частична оценка само за Q4: **8.5/10 техническо разбиране и 8.5/10 комуникация**.
+- **Q7 (2026-10-12):** вярно компилиране и 5/5 изхода; правилни aliasing, primitive-array `clone()`, пренасочване, `==` identity и compile-time error при `original = snapshot`. Целеви езикови корекции: `final` е за променливата, не за обекта; Java reference не се свежда непременно до суров адрес. Обяснена е и shallow-copy спецификата на масив от обекти, **не е независимо изпитана**.
 
 **Постоянни материали за преговор и NotebookLM:**
 [Q1 — Values, References & Aliasing](concepts/01-values-references-aliasing.md) ·
@@ -54,7 +55,8 @@
 [Q5, част 1 — Numeric Promotions, Overflow & Compound Assignment](concepts/05-numeric-promotions-overflow-compound-assignment.md) ·
 [Q5, част 2 — Autoboxing, Unboxing & Integer Caching](concepts/06-autoboxing-unboxing-integer-cache-null.md) ·
 [Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
-[Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md).
+[Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
+[Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md).
 
 ### Recall queue — поправено знание и професионален изказ
 
@@ -75,8 +77,11 @@
 | OOP-01 · D+1 | **2026-10-11** | PENDING | Precondition versus invariant, checked addition and safe update order. |
 | OOP-01 · D+7 | **2026-10-17** | PENDING | New public method scenario, ensure state valid and no overflow. |
 | OOP-01 · D+30 | **2026-11-09** | PENDING | Constructor, encapsulation and invariant scenario. |
+| Q7 arrays · D+1 | **2026-10-13** | PENDING | Формулирай със свои думи aliasing vs array cloning, и `final` variable vs mutable object. |
+| Q7 arrays · D+7 | **2026-10-19** | PENDING | Масив от mutable обекти: кои обекти са shared след `clone()` и какво се изменя при `append` vs slot assignment? |
+| Q7 arrays · D+30 | **2026-11-11** | PENDING | API scenario за defensive copy, `final` reference, reassignment и mutation. |
 
-**Когато се върнем:** Java Fundamentals Q1–Q4 D+1 е приключен, но **Q5.1 и Q5.2 D+1 са изискуеми от 2026-10-10** и не са отбелязани като успешно преминати отделни recall проверки. Първо провери due recalls с кратък нов код. Провери и корекцията за `Integer++` (checkpoint D+1: 2026-10-11). Не повтаряй вече правилно обяснения `Object.equals()` като непроверен. Датите не са автоматични reminders.
+**Когато се върнем:** Java Fundamentals Q1–Q4 D+1 е приключен, но **Q5.1 и Q5.2 D+1 са изискуеми от 2026-10-10** и не са отбелязани като успешно преминати отделни recall проверки. Първо провери due recalls с кратък нов код. Провери и корекцията за `Integer++` (checkpoint D+1: 2026-10-11). Не повтаряй вече правилно обяснения `Object.equals()` като непроверен. Датите не са автоматични reminders. Q7 от 2026-10-12 има кратък D+1 recall на 2026-10-13; датите сами по себе си не означават, че преговорите са проведени.
 
 ### Точка на спиране след завършен Q4
 
@@ -88,7 +93,7 @@
 
 | ID | Status | Доказателства до момента | Изказ/корекция | Последна активност | Следващо действие |
 | --- | --- | --- | --- | --- | --- |
-| JAVA-FND-01 | `TARGETED_REVIEW` | Q1: правилни резултати; D+1: правилен модел за споделен обект и референции | Казвай „копирана стойност на референцията“, а не гарантиран физически адрес | 2026-10-09 | D+7/D+30 recall |
+| JAVA-FND-01 | `TARGETED_REVIEW` | Q1: верни резултати; D+1: правилен модел; **Q7 2026-10-12: 5/5 изхода, верен alias/`clone()`/`final`** | Казвай „копирана стойност на референцията“, а не физически адрес; `final` променлива, не „final обект“. Shallow копието на масив от обекти е показано, но още не е изпитано. | 2026-10-12 | Q7 D+1 2026-10-13, D+7 2026-10-19, D+30 2026-11-11; стари recalls остават |
 | JAVA-FND-02 | `READY_FOR_RECALL` | Q2: 9.5/10; на D+1 правилно различава локално reassignment от видима mutation | Pass-by-value: копие на стойността на референцията | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-03 | `READY_FOR_RECALL` | Q4: 8.5/10 техн. и 8.5/10 изказ; D+1: верен `String Pool`, първоначална грешка за default `Object.equals()` и **успешно независимо повторно обяснение (10/10)** | Базовият `Object.equals()` сравнява идентичност; `String.equals()` override-ва за сравнение на съдържанието (последователност от символи, без фиксиран алгоритъм) | 2026-10-09 | D+7/D+30 recall с различен пример |
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
@@ -96,6 +101,20 @@
 | JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall on 2026-10-11, 2026-10-17, 2026-11-09 |
 
 ## Дневник на заниманията
+
+### 2026-10-12 · Q7 — JAVA-FND-01 (arrays extension): array aliasing, clone и final
+
+**Условие:** `final int[] original = {1, 2, 3}`, `alias = original`, `snapshot = original.clone()`; мутации през alias/snapshot, пренасочване на alias и 5 `println` резултата. Допълнително: какво става при `original = snapshot`.
+
+- **Верни изходи (5/5):** `[10, 2, 3]`, `[1, 20, 30]`, `[1, 20, 30]`, `true`, `false`. Правилно е предвидено, че първоначалният код се компилира.
+- **Верни причинни обяснения:** масивите са обекти; `alias = original` копира референцията, `clone()` създава нов `int[]`; първата промяна на `alias[0]` засяга original, последната след `alias = snapshot` — snapshot; повторно присвояване на `final` original е compilation error.
+- **Уточнен технически изказ:** не твърдим, че Java референцията е непременно физически адрес. `final` е модификатор на *променливата*, който забранява пренасочването ѝ след инициализация, но не прави масива immutable. Ученика използва „final обект“ и противоречивата формулировка „не може да променяме обекта, но може да подменяме стойностите“; отговорът показва правилната идея за mutation на елементите.
+- **Допълнение, обяснено от асистента, не проверено:** `clone()` прави shallow copy: при `StringBuilder[]` се копират референциите към вложените builders; `append()` върху споделен елемент се вижда и през другия масив.
+- **Оценка само за Q7:** **9/10** в обратната връзка; правилни резултати и механизмът, две езиково-технически корекции. Няма доказателство за успешно възпроизвеждане след корекцията; статус **TARGETED_REVIEW**, не MASTERED.
+- **Бележка:** [Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md).
+- **Recall:** D+1 2026-10-13, D+7 2026-10-19, D+30 2026-11-11. Следващ въпрос само след изрично съгласие.
+
+---
 
 ### 2026-10-10 · Q6 — JAVA-OOP-01: classes, constructors, private/final и encapsulation (завършен)
 
