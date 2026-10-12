@@ -160,6 +160,6 @@ class Dog extends Animal {
 
 ## Официални източници
 
-- [Java Language Specification 25 — Classes](https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html), включително `8.3 Fields и `8.4 Methods
-- [JLS 25 — Expressions](https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html), `15.11 Field Access, `15.12 Method Invocation и `15.16 Cast Expressions
+- [Java Language Specification 25 — Classes](https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html), включително 8.3 (Fields) и 8.4 (Methods)
+- [JLS 25 — Expressions](https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html), 15.11 (Field Access), 15.12 (Method Invocation) и 15.16 (Cast Expressions)
 - [JLS 25 — Inheritance, Overriding, and Hiding](https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.4.8)
