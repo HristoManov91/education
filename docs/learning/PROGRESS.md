@@ -1,6 +1,6 @@
 # Learning Progress — актуален отчет
 
-**Snapshot дата:** 2026-10-12 (Europe/Sofia)  
+**Snapshot дата:** 2026-10-13 (Europe/Sofia)  
 **Цел:** системна диагностика от Junior fundamentals към уверен Mid+ и Early Senior.  
 **Източник на оценките:** действителни отговори в диалог + обоснована обратна връзка. Не попълвай проценти без проведена проверка.  
 **Протокол:** [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md) · **План:** [ROADMAP.md](ROADMAP.md)
@@ -25,20 +25,22 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-OOP-02 — Q9 (отговорен 2026-10-12):** overload resolution, runtime overriding dispatch, identity и downcasting |
-| Последна активност | **2026-10-12** — Q9: 6/6 правилни изхода преди изключението, правилно посочен `ClassCastException` след `BEFORE` и правилна аргументация за четирите извиквания |
-| Статус | **JAVA-OOP-02 — TARGETED_REVIEW** (типова йерархия `Animal` superclass / `Dog` subclass; разграничение selection vs dispatch); отложените recall проверки от Q1–Q8 не са проведени |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast (6/6 отпечатани реда + правилно exception) |
+| Активна родителска тема | **JAVA-EXC-01 — Q12 (отговорен 2026-10-13):** checked/unchecked exceptions, propagation, wrapping и cause |
+| Последна активност | **2026-10-13** — Q12: верен изход `A`, `C`, `E`, `IOException`, `F` и правилни 5/5 отговори за `throw`/`throws`, checked/unchecked и компилационния проблем без `catch` |
+| Статус | **JAVA-EXC-01 — IN_PROGRESS** (Q12 коректен; новата микро-тема не е окончателно оценена). За Q12: **READY_FOR_RECALL** — терминология „catch or declare“ и оригинален `cause`. Предходните recall проверки остават отложени по желание на потребителя |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast; **Q12** — checked/unchecked exceptions и propagation (5/5 правилни отговора). Q10–Q11 не са описани в този отчет |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
 | Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8: declared/static type vs runtime type, field hiding; **Q9: `Animal` е superclass/по-общ тип, `Dog` е subclass/по-специфичен тип; downcasting `Animal → Dog`; compile-time overload resolution срещу runtime overriding dispatch на получателя** |
-| Следващо действие | **Q9 приключен с обратна връзка (9.5/10 техническо, 8.5/10 изказ).** Изчакай изрично съгласие за Q10 или друга тема. Отложените преговори остават за **по-късен учебен етап, без фиксирана дата**. |
+| Следващо действие | **Q12 приключен с обратна връзка (5/5 верни отговора; дребни уточнения в професионалния изказ).** Изчакай изрично съгласие за нов въпрос; текущите recall проверки остават отложени, без нови фиксирани дати. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
+
+- **Q12 (2026-10-13):** верни всички пет отговора: кодът се компилира; изход `A`, `C`, `E`, `IOException`, `F`; checked/unchecked разграничението е смислово правилно; `throw` vs `throws` и нуждата от `catch` или `throws` при премахнат `try/catch` са обяснени вярно. **Уточнен изказ:** checked означава *catch or declare*, не непременно „обработи веднага“; unchecked може да се прихваща доброволно; original cause е запазен чрез exception wrapping. В допълнителната хипотеза, ако `process()` декларира `throws IOException`, също и `main()` трябва да го прихване или декларира. Няма независим повторен отговор след формулировъчните уточнения.
 
 - **Q1:** независимо копиране на примитивна стойност; две референции към един споделен изменяем обект. Корекция: и примитивни стойности, и референции, и обекти заемат памет; не твърдим фиксирано stack/heap правило.
 - **Q2:** `p` и `person` са независими променливи; копира се стойността на референцията; `person.name = "Maria"` изменя споделения обект; `person = new Person("Peter")` пренасочва само локалния параметър; `age = 30` променя локалното копие.
@@ -59,7 +61,8 @@
 [Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
 [Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
 [Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md) ·
-[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md).
+[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md) ·
+[Q12 — Checked/Unchecked Exceptions & Propagation](concepts/11-checked-unchecked-exceptions-propagation.md).
 
 ### Recall queue — поправено знание и професионален изказ (пауза по молба от 2026-10-12)
 
@@ -85,6 +88,7 @@
 | Q7 arrays · D+30 | **2026-11-11** | **DEFERRED_BY_USER** (без нова дата) | API scenario за defensive copy, `final` reference, reassignment и mutation. |
 | Q8 inheritance · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов сценарий: `Animal pet = new Dog()` и cast/field hiding; обясни защо cast не променя обекта. Да се провери по-късно, не веднага. |
 | Q9 overload/override · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Overload resolution по статичен тип на аргумента срещу runtime dispatch по действителен тип на получателя; Animal superclass → Dog subclass като downcast. Да се провери в по-късен етап. |
+| Q12 exceptions · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов scenario с checked IOException през два метода, `catch`/`throws`, exception wrapping и cause. Не проверявай веднага; запази за по-късен учебен етап. |
 
 **Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Q8 и Q9 от JAVA-OOP-02 са **вече отговорени на 2026-10-12** и получили обратна връзка. След Q9 остава за по-късно терминологична проверка на типова йерархия и formal compile-time selection vs runtime dispatch. Няма независимо възпроизвеждане след последната корекция.
 
@@ -105,8 +109,22 @@
 | JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | Непроведените recall проверки са отложени по искане на потребителя на 2026-10-12; първоначалните дати са запазени в queue |
 | JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall отложен по искане на потребителя на 2026-10-12, без нова дата |
 | JAVA-OOP-02 | `TARGETED_REVIEW` | Q8: 5/5 изхода, **9/10 техническо и 8.5/10 изказ**. Q9: 6/6 изхода и правилен `ClassCastException`, **9.5/10 техническо и 8.5/10 изказ**, пълно обяснение за 4 overload/override извиквания. | Cast не променя обекта; superclass `Animal` е по-общ от subclass `Dog`; `Animal → Dog` е downcast; избор на overload при компилация и dispatch при runtime. | 2026-10-12 | Изчакай изрично съгласие за нов въпрос. Terminology recall по-късно, без фиксирана дата. |
+| JAVA-EXC-01 | `IN_PROGRESS` (Q12 `READY_FOR_RECALL`) | Q12: верен изход и 5/5 верни въпроса — checked/unchecked, throw/throws, propagation и compilation error без catch/declare | Уточнение: checked = catch-or-declare, wrapping пази original cause; при `throws IOException` и caller трябва да изпълни правилото | 2026-10-13 | Изчакай съгласие за следващ въпрос; terminology recall по-късно |
 
 ## Дневник на заниманията
+
+### 2026-10-13 · Q12 — JAVA-EXC-01: checked/unchecked, propagation, wrapping (приключен)
+
+**Условие:** `readFile() throws IOException` отпечатва `A` и хвърля checked exception; `process()` прихваща и обвива в `IllegalStateException` с original cause; `main()` прихваща unchecked exception и отпечатва cause type. Вариант: премахнат `try/catch` в `process()`.
+
+- **Верни 5/5:** кодът се компилира; изходът е `A`, `C`, `E`, `IOException`, `F`; вярно обяснени checked/unchecked, `throw`/ `throws`, липсата на задължителен `throws` на `process()` и compilation error при премахнат `catch` без `throws`.
+- **Технически коректно разбиране.** Изказ за усъвършенстване: „checked задължително трябва да се обработи“ е твърде тясно — правилно е *catch or declare*. `throws` не гарантира възникване на грешка. `IllegalStateException` е unchecked и може да се прихваща доброволно.
+- **Допълнено в обратната връзка, не проверено самостоятелно:** при `process() throws IOException`, старият `catch (IllegalStateException)` в `main()` не е достатъчен; `main()` също трябва да прихване `IOException` или да го декларира. `getCause()` е оригиналният `IOException`, запазен чрез exception wrapping.
+- **Оценка само за Q12:** **5/5 правилни отговора**. Комуникацията е ясна, с две професионални уточнения. Това **не** е обща оценка на всички Java exceptions.
+- **Трайна бележка:** [Checked/Unchecked Exceptions & Propagation](concepts/11-checked-unchecked-exceptions-propagation.md).
+- **Следващо:** нов въпрос само след съгласие; targeted terminology recall по-късно без фиксирана дата.
+
+---
 
 ### 2026-10-12 · Q9 — JAVA-OOP-02: overloading, overriding, downcasting (приключен)
 
