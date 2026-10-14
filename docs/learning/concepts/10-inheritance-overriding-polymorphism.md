@@ -153,6 +153,103 @@ class Dog extends Animal {
 **Recall:** Защо `dog.interact(a)` и `dog.interact((Dog) a)` могат да извикат различни overload-и, дори когато `a` и `dog` реферират обекти от един и същ клас?
 
 
+
+## Q14 — Overloading с `null`, casts, overriding и return types (2026-10-14)
+
+### Самостоятелен изпълним пример
+
+```java
+public class Main {
+    static class Parent {
+        String process(Object value) { return "P:Object"; }
+        String process(String value) { return "P:String"; }
+    }
+
+    static class Child extends Parent {
+        @Override
+        String process(Object value) { return "C:Object"; }
+        String process(CharSequence value) { return "C:CharSequence"; }
+    }
+
+    public static void main(String[] args) {
+        Parent first = new Child();
+        Child second = new Child();
+
+        System.out.println(first.process("Java"));
+        System.out.println(first.process((Object) "Java"));
+        System.out.println(second.process("Java"));
+        System.out.println(second.process((CharSequence) "Java"));
+        System.out.println(second.process(null));
+    }
+}
+```
+
+**Изход (точно пет реда):**
+
+```text
+P:String
+C:Object
+P:String
+C:CharSequence
+P:String
+```
+
+### Два независими избора
+
+1. **По време на компилация** компилаторът определя приложимите overload-и чрез *статичния тип на receiver израза*, статичните типове на аргументните изрази и правилата за *most-specific applicable method*. Така определя **сигнатурата**, която се извиква. Runtime типът на аргумента не задейства ново overload resolution.
+2. **По време на изпълнение**, за избрания *virtual instance method*, JVM прави *dynamic dispatch* според действителния клас на **receiver обекта**, за да определи изпълняваната override-ната реализация. JVM **не сменя вече избрания overload**.
+
+| Извикване | Compile-time метод | Реално изпълнение |
+| --- | --- | --- |
+| `first.process("Java")` | `Parent.process(String)` | Наследеният `Parent.process(String)` → `P:String` |
+| `first.process((Object) "Java")` | `Parent.process(Object)` | Override `Child.process(Object)` → `C:Object` |
+| `second.process("Java")` | Най-специфичният `process(String)` | Наследеният `Parent.process(String)` → `P:String` |
+| `second.process((CharSequence) "Java")` | `Child.process(CharSequence)` | `Child.process(CharSequence)` → `C:CharSequence` |
+| `second.process(null)` | Най-специфичният `process(String)` | Наследеният `Parent.process(String)` → `P:String` |
+
+Cast-ът `(Object) "Java"` променя **статичния тип на израза**, а не действителния тип `String` на обекта; не се създава нов обект. Когато receiver-ът има статичен тип `Parent`, overload-ът `Child.process(CharSequence)` не е видим като кандидат само защото действителният receiver е `Child`.
+
+### `null` и специфичност
+
+`null` може да се подава на параметри с референтни типове. Тук `String` имплементира `CharSequence`, а `CharSequence` е подтип на `Object`: всички три overload-а са приложими, но `process(String)` е **най-специфичният**. Правилото не е „винаги String“.
+
+```java
+class Sample {
+    void accept(String value) {}
+    void accept(Integer value) {}
+
+    void test() {
+        // accept(null); // compile-time error: ambiguous
+        accept((String) null); // недвусмислено
+    }
+}
+```
+
+`String` и `Integer` са несвързани референтни типове и нямаме един най-специфичен overload.
+
+### Сигнатура и return type
+
+При обичайните Java методи **името и типовете на параметрите** разграничават overload-ите; само различен return type **не е достатъчен**. Два overload-а с различни списъци от параметри могат също да имат различни return типове.
+
+При overriding методът в наследника трябва да има съвместима сигнатура. За референтен резултат е разрешен **ковариантен return type** — например override на `Number result()` с `Integer result()`. При примитивен резултат типът трябва да съвпада. Не може да се намалява достъпността, да се добавят по-широки несъвместими checked exceptions или да се override-ва `final` метод. `static` методите се *скриват* (*method hiding*), а не се override-ват; `private` методите не се наследяват и не се override-ват.
+
+### Професионално обяснение за колега или интервю
+
+> При Java method invocation първо компилаторът избира приложимия overload според статичния тип на израза получател и статичните типове на аргументите. Ако има няколко приложими, предпочита най-специфичния. След това при изпълнение JVM избира override-натата реализация на тази сигнатура според действителния тип на receiver обекта. Cast на аргумент може да промени overload resolution, без да променя самия обект. `null` не е специално насочен към String: избира се най-специфичният приложим overload, а при несвързани еднакво приложими типове извикването може да е двусмислено.
+
+### Текст за слушане
+
+Представи си променлива first, декларирана като Parent, която сочи към Child. Когато извикаме process с текстовия литерал Java, компилаторът вижда String аргумент и избира метода, приемащ String, от Parent. Child не е предефинирал този метод, затова изпълнението остава в Parent. Ако направим cast на същия текст към Object, самият обект не се променя — той все още е String. Но компилаторът вижда Object аргумент и избира друг overload, този с Object параметър. Този път Child го е предефинирал и по време на изпълнение се използва реализацията от Child.
+
+Ако извикаме метода върху референция от тип Child с аргумент, cast-нат към CharSequence, компилаторът избира overload-а с CharSequence. И тук не се гледа реалният тип на аргумента, когато се избира сигнатурата. При подаване на null Java може да използва всеки overload с референтен параметър, но избира най-специфичния приложим. String е по-специфичен от CharSequence, а той е по-специфичен от Object, затова в този пример се избира String. Ако вместо това двата приложими метода приемат несвързани типове като String и Integer, извикването с null е двусмислено още при компилация.
+
+Накрая, само различен тип на резултата не създава overload. При overriding обаче референтният return тип може да стане по-конкретен, например Integer вместо Number. За надеждно обяснение винаги разделяй избора на сигнатура в компилатора от избора на реализация при изпълнение.
+
+### Recall — без подсказване, в следващ учебен етап
+
+1. Ако добавим `Child.process(Integer)`, защо `second.process(null)` става двусмислено и как би избрал еднозначно конкретен overload?
+2. Защо `Object value = "Java"; second.process(value)` не извиква `process(String)`, въпреки че реалният обект е `String`?
+
 ## Провери се без подсказване
 
 1. Как обясняваш с точни термини защо `Animal pet = new Dog(); pet.speak();` може да извика метода от `Dog`, но `pet.speak("Loud")` не се компилира?
