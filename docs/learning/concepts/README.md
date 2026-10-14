@@ -16,6 +16,8 @@
 | JAVA-OOP-01 | Constructor shadowing, instance field defaults, `this`, `private` и `final`; object invariant — диагностика в процес | [08 — OOP Fields, Constructors & Encapsulation](08-oop-fields-constructors-final-encapsulation.md) | Въпрос 6 · 2026-10-10 (частично) |
 | JAVA-FND-01 (arrays extension) | Масиви, reference aliasing, `clone()` (shallow copy), `final` референции | [09 — Arrays, Clone & Final References](09-arrays-clone-final-reference.md) | Въпрос 7 · 2026-10-12 |
 | JAVA-OOP-02 | Inheritance, overriding, overloading, runtime polymorphism, field hiding и casting | [10 — Inheritance, Overriding & Polymorphism](10-inheritance-overriding-polymorphism.md) | Въпрос 8 · 2026-10-12 |
+| JAVA-EXC-01 | Checked/unchecked exceptions, propagation, `throw`/`throws`, wrapping и `cause` | [11 — Exception Handling & Propagation](11-checked-unchecked-exceptions-propagation.md) | Въпрос 12 · 2026-10-13 |
+| JAVA-EXC-02 | `try-with-resources`, `AutoCloseable`, обратен ред на `close()` и suppressed exceptions | [12 — Try-with-resources & Suppressed Exceptions](12-try-with-resources-suppressed-exceptions.md) | Въпрос 13 · 2026-10-13 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 

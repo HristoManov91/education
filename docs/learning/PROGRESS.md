@@ -1,6 +1,6 @@
 # Learning Progress — актуален отчет
 
-**Snapshot дата:** 2026-10-12 (Europe/Sofia)  
+**Snapshot дата:** 2026-10-13 (Europe/Sofia)  
 **Цел:** системна диагностика от Junior fundamentals към уверен Mid+ и Early Senior.  
 **Източник на оценките:** действителни отговори в диалог + обоснована обратна връзка. Не попълвай проценти без проведена проверка.  
 **Протокол:** [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md) · **План:** [ROADMAP.md](ROADMAP.md)
@@ -25,20 +25,24 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-OOP-02 — Q9 (отговорен 2026-10-12):** overload resolution, runtime overriding dispatch, identity и downcasting |
-| Последна активност | **2026-10-12** — Q9: 6/6 правилни изхода преди изключението, правилно посочен `ClassCastException` след `BEFORE` и правилна аргументация за четирите извиквания |
-| Статус | **JAVA-OOP-02 — TARGETED_REVIEW** (типова йерархия `Animal` superclass / `Dog` subclass; разграничение selection vs dispatch); отложените recall проверки от Q1–Q8 не са проведени |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast (6/6 отпечатани реда + правилно exception) |
+| Активна родителска тема | **JAVA-EXC-02 — Q13 (отговорен 2026-10-13):** `try-with-resources`, автоматично затваряне и suppressed exceptions |
+| Последна активност | **2026-10-13** — Q13: 4/4 верни отговора; правилен пълен изход, reverse close order, запазване на primary exception и сценарий без грешка от тялото; техническо **9.5/10**, изказ **9.5/10** |
+| Статус | **JAVA-EXC-01 — READY_FOR_RECALL** за Q12; **JAVA-EXC-02 — READY_FOR_RECALL** за Q13 (4/4, 9.5/10 техническо, 9.5/10 изказ). Не маркирай whole Exceptions area MASTERED без последващи проверки. Предходните recall проверки остават отложени по желание на потребителя |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast; **Q12** — checked/unchecked exceptions и propagation (5/5 правилни отговора); **Q13** — try-with-resources и suppressed exceptions (4/4 правилни отговора). Q10–Q11 не са описани в този отчет |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
 | Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8: declared/static type vs runtime type, field hiding; **Q9: `Animal` е superclass/по-общ тип, `Dog` е subclass/по-специфичен тип; downcasting `Animal → Dog`; compile-time overload resolution срещу runtime overriding dispatch на получателя** |
-| Следващо действие | **Q9 приключен с обратна връзка (9.5/10 техническо, 8.5/10 изказ).** Изчакай изрично съгласие за Q10 или друга тема. Отложените преговори остават за **по-късен учебен етап, без фиксирана дата**. |
+| Следващо действие | **Q13 приключен с обратна връзка (9.5/10 техническо, 9.5/10 изказ, 4/4 верни отговора).** Изчакай изрично съгласие за Q14; следващото кратко упражнение може да продължи с resource-initialization failure или друга нова концепция. Recall проверки Q1–Q13 остават за по-късно без фиксирана дата. |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
+
+- **Q13 (2026-10-13):** правилен изход `OPEN A`, `OPEN B`, `WORK`, `CLOSE B`, `CLOSE A`, `CAUGHT operation`, `SUPPRESSED close-B`, `SUPPRESSED close-A`, `END`. Познава обратно затваряне (B→A), изрично заяви, че не знае друга причинна обосновка за реда — обяснена LIFO/вложена try/finally семантика. Правилно определя `operation` като primary и close-B/close-A като suppressed, знае предназначението на `getSuppressed()`. **Новонаучено и изрично потвърдено от потребителя след обратната връзка:** точният return type на `getSuppressed()` е `Throwable[]` (масив), не Java `Collection`. Това е конкретният нов технически факт в Q13; не е грешка в разбирането за предназначението на suppression. Правилно решава и променения сценарий без `throw` в тялото: primary `close-B`, suppressed `close-A`. **Само за Q13:** 4/4 верни, **9.5/10 техническо разбиране**, **9.5/10 професионален изказ**. Уточненията не са независимо повторно изпитани; няма съществена концептуална грешка.
+
+- **Q12 (2026-10-13):** верни всички пет отговора: кодът се компилира; изход `A`, `C`, `E`, `IOException`, `F`; checked/unchecked разграничението е смислово правилно; `throw` vs `throws` и нуждата от `catch` или `throws` при премахнат `try/catch` са обяснени вярно. **След последващо уточнение от потребителя:** правилото *catch or declare* вече е било описано в точка 5 на първоначалния отговор; това е независимо демонстрирано разбиране, а не пропуск. Потребителят потвърди, че познава наследствената йерархия на `IOException`, `IllegalStateException`, `RuntimeException` и `Error`, възможността unchecked да се прихващат, необходимите действия в `main()` при `process() throws IOException` и че `throws` не означава неизбежно хвърляне. **Тези допълнителни детайли са само потвърдени като познати, а не независимо проверени в нов кодов вариант; не ги представяй като новонаучени или като сгрешени.** Остава единствено препоръката за по-стегната и точна терминология, без намаляване на техническата оценка.
 
 - **Q1:** независимо копиране на примитивна стойност; две референции към един споделен изменяем обект. Корекция: и примитивни стойности, и референции, и обекти заемат памет; не твърдим фиксирано stack/heap правило.
 - **Q2:** `p` и `person` са независими променливи; копира се стойността на референцията; `person.name = "Maria"` изменя споделения обект; `person = new Person("Peter")` пренасочва само локалния параметър; `age = 30` променя локалното копие.
@@ -59,7 +63,9 @@
 [Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
 [Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
 [Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md) ·
-[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md).
+[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md) ·
+[Q12 — Checked/Unchecked Exceptions & Propagation](concepts/11-checked-unchecked-exceptions-propagation.md) ·
+[Q13 — Try-with-resources & Suppressed Exceptions](concepts/12-try-with-resources-suppressed-exceptions.md).
 
 ### Recall queue — поправено знание и професионален изказ (пауза по молба от 2026-10-12)
 
@@ -85,6 +91,9 @@
 | Q7 arrays · D+30 | **2026-11-11** | **DEFERRED_BY_USER** (без нова дата) | API scenario за defensive copy, `final` reference, reassignment и mutation. |
 | Q8 inheritance · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов сценарий: `Animal pet = new Dog()` и cast/field hiding; обясни защо cast не променя обекта. Да се провери по-късно, не веднага. |
 | Q9 overload/override · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Overload resolution по статичен тип на аргумента срещу runtime dispatch по действителен тип на получателя; Animal superclass → Dog subclass като downcast. Да се провери в по-късен етап. |
+| Q12 exceptions · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов практически сценарий с checked exception и exception chaining за задържане на знанието, не за коригиране на въображаем пропуск. Не проверявай веднага; запази за по-късен учебен етап. |
+
+| Q13 try-with-resources · recall | **Без нова дата** | **DEFERRED_BY_USER** | Различен сценарий: resource initialization failure и primary/suppressed; кратък проверочен въпрос за **точния return type `Throwable[]` на `getSuppressed()`**, който е новонаучен в Q13. Не проверявай веднага. |
 
 **Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Q8 и Q9 от JAVA-OOP-02 са **вече отговорени на 2026-10-12** и получили обратна връзка. След Q9 остава за по-късно терминологична проверка на типова йерархия и formal compile-time selection vs runtime dispatch. Няма независимо възпроизвеждане след последната корекция.
 
@@ -105,8 +114,37 @@
 | JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | Непроведените recall проверки са отложени по искане на потребителя на 2026-10-12; първоначалните дати са запазени в queue |
 | JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall отложен по искане на потребителя на 2026-10-12, без нова дата |
 | JAVA-OOP-02 | `TARGETED_REVIEW` | Q8: 5/5 изхода, **9/10 техническо и 8.5/10 изказ**. Q9: 6/6 изхода и правилен `ClassCastException`, **9.5/10 техническо и 8.5/10 изказ**, пълно обяснение за 4 overload/override извиквания. | Cast не променя обекта; superclass `Animal` е по-общ от subclass `Dog`; `Animal → Dog` е downcast; избор на overload при компилация и dispatch при runtime. | 2026-10-12 | Изчакай изрично съгласие за нов въпрос. Terminology recall по-късно, без фиксирана дата. |
+| JAVA-EXC-01 | `IN_PROGRESS` (Q12 `READY_FOR_RECALL`) | Q12: верен изход и 5/5 верни въпроса — checked/unchecked, throw/throws, propagation и compilation error без catch/declare | Няма установена концептуална грешка; catch-or-declare е изрично описано в оригиналния отговор; по-късните допълнения са потвърдени като познати, без независим нов тест | 2026-10-13 | Изчакай съгласие за следващ въпрос; terminology recall по-късно |
+
+| JAVA-EXC-02 | `READY_FOR_RECALL` (Q13) | Q13: 4/4 правилни, верен ред на open/work/close, основно и suppressed изключения, правилен вариант без грешка от тялото | `getSuppressed()` връща `Throwable[]`, не Java `Collection`; обратният ред е LIFO-подобен, както при вложени try/finally. **9.5/10 техническо, 9.5/10 изказ само за Q13.** | 2026-10-13 | Следващ нов въпрос само по изрично желание; review отложен |
 
 ## Дневник на заниманията
+
+### 2026-10-13 · Q13 — JAVA-EXC-02: try-with-resources и suppression (приключен)
+
+**Условие:** Два `AutoCloseable` ресурса `Connection("A")` и `Connection("B")`. `close()` винаги хвърля `IOException`. В тялото на `try` се отпечатва `WORK`, след което се хвърля `IOException("operation")`; `catch` отпечатва primary exception и suppressed exceptions. Вариант без `throw` в тялото.
+
+- **Правилни 4/4:** кодът се компилира; пълен изход `OPEN A`, `OPEN B`, `WORK`, `CLOSE B`, `CLOSE A`, `CAUGHT operation`, `SUPPRESSED close-B`, `SUPPRESSED close-A`, `END`.
+- **Самостоятелно обяснено:** ресурсите се затварят в обратен ред (B преди A); и двата `close()` се извикват въпреки exception; `operation` е primary, а грешките при затваряне са suppressed. Във варианта без грешка от тялото правилно определя `close-B` за primary и `close-A` за suppressed.
+- **Ново научено:** потребителят изрично уточни след оценката, че **не е знаел** точния тип на `getSuppressed()` — това е **`Throwable[]`**, а не `Collection`. Механизмът на suppressed exceptions е бил обяснен правилно. Той заявява, че знае reverse close order, но не е знаел допълнителната причинна обосновка; обяснено е сходството с LIFO и вложени `try/finally`. Не маркирай като грешен механизма на `getSuppressed()`.
+- **Частична оценка само за Q13:** **9.5/10 техническо разбиране; 9.5/10 професионален изказ; 4/4 верни отговора**. Няма съществени концептуални грешки. Няма отделен follow-up след корекциите.
+- **Концептуална бележка:** [Try-with-resources & Suppressed Exceptions](concepts/12-try-with-resources-suppressed-exceptions.md).
+- **Следващо:** изчакай изрично съгласие за Q14; терминологичното повторение остава за по-късно.
+
+---
+
+### 2026-10-13 · Q12 — JAVA-EXC-01: checked/unchecked, propagation, wrapping (приключен)
+
+**Условие:** `readFile() throws IOException` отпечатва `A` и хвърля checked exception; `process()` прихваща и обвива в `IllegalStateException` с original cause; `main()` прихваща unchecked exception и отпечатва cause type. Вариант: премахнат `try/catch` в `process()`.
+
+- **Верни 5/5:** кодът се компилира; изходът е `A`, `C`, `E`, `IOException`, `F`; вярно обяснени checked/unchecked, `throw`/ `throws`, липсата на задължителен `throws` на `process()` и compilation error при премахнат `catch` без `throws`.
+- **Технически коректно разбиране, без установена концептуална грешка.** Оригиналният отговор изрично прилага *catch or declare* в последната си точка; първоначалната забележка за пропуск е преоценена като само стилистично предложение. Потребителят изрично потвърди, че знае също `throws` не гарантира възникване на грешка, а unchecked може да се прихваща. Това не е новонаучено и не налага наказание по разбиране.
+- **Допълнено в обратната връзка, впоследствие потвърдено като известно на потребителя:** при `process() throws IOException`, старият `catch (IllegalStateException)` в `main()` не е достатъчен; `main()` също трябва да прихване `IOException` или да го декларира. `getCause()` е оригиналният `IOException`, запазен чрез exception wrapping. Няма проведен нов самостоятелен вариант на задача.
+- **Оценка само за Q12:** **10/10 техническо разбиране; 9.5/10 професионален изказ; 5/5 правилни отговора; 0 концептуални грешки**. Намалението от 0.5 само за изказа е за възможност за по-прецизни терминологични формулировки; вече обясненото catch-or-declare е признато за демонстрирано знание. Това **не** е обща оценка на всички Java exceptions.
+- **Трайна бележка:** [Checked/Unchecked Exceptions & Propagation](concepts/11-checked-unchecked-exceptions-propagation.md).
+- **Следващо:** нов въпрос само след съгласие; targeted terminology recall по-късно без фиксирана дата.
+
+---
 
 ### 2026-10-12 · Q9 — JAVA-OOP-02: overloading, overriding, downcasting (приключен)
 
