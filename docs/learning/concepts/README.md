@@ -18,6 +18,7 @@
 | JAVA-OOP-02 | Inheritance, overriding, overloading, runtime polymorphism, field hiding, casting и most-specific overload при `null` | [10 — Inheritance, Overriding & Polymorphism](10-inheritance-overriding-polymorphism.md) | Q8–Q9 · 2026-10-12; Q14 · 2026-10-14 |
 | JAVA-EXC-01 | Checked/unchecked exceptions, propagation, `throw`/`throws`, wrapping и `cause` | [11 — Exception Handling & Propagation](11-checked-unchecked-exceptions-propagation.md) | Въпрос 12 · 2026-10-13 |
 | JAVA-EXC-02 | `try-with-resources`, `AutoCloseable`, обратен ред на `close()` и suppressed exceptions | [12 — Try-with-resources & Suppressed Exceptions](12-try-with-resources-suppressed-exceptions.md) | Въпрос 13 · 2026-10-13 |
+| JAVA-COL-01 | `List`, `Set`, `Map`, record equality, hash collisions, `get(Object)` и deduplication по ключ | [13 — Collections: List, Set, Map & Equality](13-collections-list-set-map-equality.md) | Въпрос 15 · 2026-10-14 |
 
 Номерацията на бележките е **редът на действително разгледаните въпроси**, а ID-тата са стабилните микро-теми от [ROADMAP.md](../ROADMAP.md). Това позволява да учим адаптивно, без да изкривяваме roadmap-а.
 
