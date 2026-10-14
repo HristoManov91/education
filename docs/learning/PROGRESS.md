@@ -1,6 +1,6 @@
 # Learning Progress — актуален отчет
 
-**Snapshot дата:** 2026-10-13 (Europe/Sofia)  
+**Snapshot дата:** 2026-10-14 (Europe/Sofia)  
 **Цел:** системна диагностика от Junior fundamentals към уверен Mid+ и Early Senior.  
 **Източник на оценките:** действителни отговори в диалог + обоснована обратна връзка. Не попълвай проценти без проведена проверка.  
 **Протокол:** [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md) · **План:** [ROADMAP.md](ROADMAP.md)
@@ -25,20 +25,22 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-EXC-02 — Q13 (отговорен 2026-10-13):** `try-with-resources`, автоматично затваряне и suppressed exceptions |
-| Последна активност | **2026-10-13** — Q13: 4/4 верни отговора; правилен пълен изход, reverse close order, запазване на primary exception и сценарий без грешка от тялото; техническо **9.5/10**, изказ **9.5/10** |
-| Статус | **JAVA-EXC-01 — READY_FOR_RECALL** за Q12; **JAVA-EXC-02 — READY_FOR_RECALL** за Q13 (4/4, 9.5/10 техническо, 9.5/10 изказ). Не маркирай whole Exceptions area MASTERED без последващи проверки. Предходните recall проверки остават отложени по желание на потребителя |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8** — inheritance/field hiding/casting (5/5); **Q9** — overload selection/override dispatch/identity/downcast; **Q12** — checked/unchecked exceptions и propagation (5/5 правилни отговора); **Q13** — try-with-resources и suppressed exceptions (4/4 правилни отговора). Q10–Q11 не са описани в този отчет |
+| Активна родителска тема | **JAVA-OOP-02 — Q14 (отговорен 2026-10-14):** overload resolution с `null`, cast, dynamic dispatch и covariant return |
+| Последна активност | **2026-10-14** — Q14: кодът се компилира, 5/5 верни изхода, правилно разграничение между compile-time overloading и runtime overriding; несигурност за критерия при `null` и return type правилата. **9/10 техническо, 8.5/10 изказ — само Q14** |
+| Статус | **JAVA-OOP-02 — TARGETED_REVIEW за Q14** (most-specific overload при `null` и covariant return са разяснени, не са самостоятелно възпроизведени). **JAVA-EXC-01/02 — READY_FOR_RECALL** за Q12/Q13. Всички отложени recall проверки остават без нова дата по желание на потребителя |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8–Q9** — inheritance/overloading/overriding/casting; **Q12** — checked/unchecked exceptions (5/5); **Q13** — try-with-resources (4/4); **Q14** — overloading, overriding, `null` (5/5). Q10–Q11 са документирани отделно в PR #46, още не са включени в този branch |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8: declared/static type vs runtime type, field hiding; **Q9: `Animal` е superclass/по-общ тип, `Dog` е subclass/по-специфичен тип; downcasting `Animal → Dog`; compile-time overload resolution срещу runtime overriding dispatch на получателя** |
-| Следващо действие | **Q13 приключен с обратна връзка (9.5/10 техническо, 9.5/10 изказ, 4/4 верни отговора).** Изчакай изрично съгласие за Q14; следващото кратко упражнение може да продължи с resource-initialization failure или друга нова концепция. Recall проверки Q1–Q13 остават за по-късно без фиксирана дата. |
+| Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8–Q9: declared/static type vs runtime type, field hiding, downcast и dynamic dispatch; **Q14:** *most-specific applicable overload* при `null`, статичен тип на аргументния израз след cast, *method signature* vs *return type* и *covariant return*. Верният избор за `null` е бил предположение, не обосновано самостоятелно |
+| Следващо действие | **Q14 приключен с feedback (5/5 резултата; 9/10 техническо, 8.5/10 изказ).** Не започвай Q15 без изрично съгласие. При по-късен recall: most-specific overload / ambiguity и covariant return с нов пример. Отложените Q1–Q14 recall проверки не са изпълнени и нямат фиксирани нови дати |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
+
+- **Q14 (2026-10-14):** правилно предвидено компилиране и **5/5 изхода**: `P:String`, `C:Object`, `P:String`, `C:CharSequence`, `P:String` (последният е посочен с изрично колебание). Самостоятелно обяснява, че cast към `Object` променя избора на overload и че при override се изпълнява реализацията на `Child` според действителния receiver. Правилно, макар предпазливо, посочва compile-time за overloading и runtime за overriding. Не е обяснил защо `null` избира `String`; разяснени са most-specific applicability и ambiguity между несвързани типове. За overriding казва „същата сигнатура“, а return constraints са несигурни; изяснени са covariant return, че return type сам по себе си не прави overload и ограниченията при overriding. **Частични оценки само за Q14: 9/10 техническо, 8.5/10 професионален изказ.** Няма нов самостоятелен follow-up след корекциите.
 
 - **Q13 (2026-10-13):** правилен изход `OPEN A`, `OPEN B`, `WORK`, `CLOSE B`, `CLOSE A`, `CAUGHT operation`, `SUPPRESSED close-B`, `SUPPRESSED close-A`, `END`. Познава обратно затваряне (B→A), изрично заяви, че не знае друга причинна обосновка за реда — обяснена LIFO/вложена try/finally семантика. Правилно определя `operation` като primary и close-B/close-A като suppressed, знае предназначението на `getSuppressed()`. **Новонаучено и изрично потвърдено от потребителя след обратната връзка:** точният return type на `getSuppressed()` е `Throwable[]` (масив), не Java `Collection`. Това е конкретният нов технически факт в Q13; не е грешка в разбирането за предназначението на suppression. Правилно решава и променения сценарий без `throw` в тялото: primary `close-B`, suppressed `close-A`. **Само за Q13:** 4/4 верни, **9.5/10 техническо разбиране**, **9.5/10 професионален изказ**. Уточненията не са независимо повторно изпитани; няма съществена концептуална грешка.
 
@@ -63,7 +65,7 @@
 [Checkpoint №1 — Java Fundamentals Q1–Q5](concepts/07-java-fundamentals-integrated-checkpoint.md) ·
 [Q6 — OOP Fields, Constructors, private, final & Encapsulation](concepts/08-oop-fields-constructors-final-encapsulation.md) ·
 [Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md) ·
-[Q8–Q9 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md) ·
+[Q8–Q9, Q14 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md) ·
 [Q12 — Checked/Unchecked Exceptions & Propagation](concepts/11-checked-unchecked-exceptions-propagation.md) ·
 [Q13 — Try-with-resources & Suppressed Exceptions](concepts/12-try-with-resources-suppressed-exceptions.md).
 
@@ -94,6 +96,7 @@
 | Q12 exceptions · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нов практически сценарий с checked exception и exception chaining за задържане на знанието, не за коригиране на въображаем пропуск. Не проверявай веднага; запази за по-късен учебен етап. |
 
 | Q13 try-with-resources · recall | **Без нова дата** | **DEFERRED_BY_USER** | Различен сценарий: resource initialization failure и primary/suppressed; кратък проверочен въпрос за **точния return type `Throwable[]` на `getSuppressed()`**, който е новонаучен в Q13. Не проверявай веднага. |
+| Q14 overloading/null · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Провери most-specific applicable method при `null`, ambiguity с несвързани параметърни типове и covariant return; изисквай самостоятелна причинна аргументация. |
 
 **Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Q8 и Q9 от JAVA-OOP-02 са **вече отговорени на 2026-10-12** и получили обратна връзка. След Q9 остава за по-късно терминологична проверка на типова йерархия и formal compile-time selection vs runtime dispatch. Няма независимо възпроизвеждане след последната корекция.
 
@@ -113,12 +116,24 @@
 | JAVA-FND-04 | `READY_FOR_RECALL` | Q3: 8/10, Q3b: 9/10; D+1: 4/4 верни изхода и вярна разлика между `concat()` и `append()` | `String` immutable не гарантира нов екземпляр за всяко извикване | 2026-10-09 | D+7/D+30 recall |
 | JAVA-FND-05 | `TARGETED_REVIEW` (Q5 и checkpoint №1) | Q5.1: 8/10 техн., Q5.2 първи отговор 6.5/10 техн., targeted follow-up 9/10 техн.; checkpoint №1 на 2026-10-10: правилни всички 7 резултата, **8.5/10 техническо и 8.5/10 изказ**. | При `attempts++` Java изпълнява `Integer → int`, `+1`, `int → Integer` и **reassignment**, не mutation; оригиналният `Integer(127)` не се изменя. Други механизми — правилно. | 2026-10-10 | Непроведените recall проверки са отложени по искане на потребителя на 2026-10-12; първоначалните дати са запазени в queue |
 | JAVA-OOP-01 | `READY_FOR_RECALL` | Q6 completed on 2026-10-10; constructor, private and final correct, negative amount and overflow identified in follow-up. | 9/10 technical and 8.5/10 communication. Validate amount before arithmetic, guard overflow, then assign. | 2026-10-10 | Recall отложен по искане на потребителя на 2026-10-12, без нова дата |
-| JAVA-OOP-02 | `TARGETED_REVIEW` | Q8: 5/5 изхода, **9/10 техническо и 8.5/10 изказ**. Q9: 6/6 изхода и правилен `ClassCastException`, **9.5/10 техническо и 8.5/10 изказ**, пълно обяснение за 4 overload/override извиквания. | Cast не променя обекта; superclass `Animal` е по-общ от subclass `Dog`; `Animal → Dog` е downcast; избор на overload при компилация и dispatch при runtime. | 2026-10-12 | Изчакай изрично съгласие за нов въпрос. Terminology recall по-късно, без фиксирана дата. |
+| JAVA-OOP-02 | `TARGETED_REVIEW` | Q8 5/5 (9/10 техническо), Q9 6/6 (9.5/10), **Q14 5/5 (9/10 техническо, 8.5/10 изказ)**: compile-time overload vs runtime overriding е обяснено правилно. | Q14: изборът на `String` при `null` е предположен правилно, но most-specific правило не е било известно; return type ограниченията са били несигурни. | 2026-10-14 | Targeted recall по-късно, без нова дата; следващ въпрос само със съгласие |
 | JAVA-EXC-01 | `IN_PROGRESS` (Q12 `READY_FOR_RECALL`) | Q12: верен изход и 5/5 верни въпроса — checked/unchecked, throw/throws, propagation и compilation error без catch/declare | Няма установена концептуална грешка; catch-or-declare е изрично описано в оригиналния отговор; по-късните допълнения са потвърдени като познати, без независим нов тест | 2026-10-13 | Изчакай съгласие за следващ въпрос; terminology recall по-късно |
 
 | JAVA-EXC-02 | `READY_FOR_RECALL` (Q13) | Q13: 4/4 правилни, верен ред на open/work/close, основно и suppressed изключения, правилен вариант без грешка от тялото | `getSuppressed()` връща `Throwable[]`, не Java `Collection`; обратният ред е LIFO-подобен, както при вложени try/finally. **9.5/10 техническо, 9.5/10 изказ само за Q13.** | 2026-10-13 | Следващ нов въпрос само по изрично желание; review отложен |
 
 ## Дневник на заниманията
+
+### 2026-10-14 · Q14 — JAVA-OOP-02: compile-time overloading, runtime overriding и `null` (приключен)
+
+**Условие:** `Parent.process(Object/String)`, `Child` предефинира `process(Object)` и добавя `process(CharSequence)`; пет извиквания през `Parent` и `Child`, включително cast-нат `Object`/`CharSequence` аргумент и `null`.
+
+- **Резултат:** правилно компилиране и пет точни резултата: `P:String`, `C:Object`, `P:String`, `C:CharSequence`, `P:String`. За `null` ученикът ясно заявява колебание — правилен изход, но непотвърден механизъм.
+- **Демонстрирано:** статичният тип на аргумента при cast влияе върху compile-time overload resolution; действителният `Child` receiver избира override на `process(Object)`; правилно идентифицира двата етапа на избор и смисъла на overloading/overriding.
+- **Целево доуточняване:** при `null` се избира най-специфичният приложим overload, не „произволен String“; несвързани приложими типове може да дадат compile-time ambiguity. Method return type сам не създава overload; при override е възможен covariant reference return type; други ограничения (visibility, checked throws, final/private/static) са обяснени, без да се водят като доказано усвоени.
+- **Частична оценка само за Q14:** **9/10 техническо разбиране, 8.5/10 техническа комуникация**. Причина: 5/5 верни прогнози, силен модел на dispatch; липсва обосновка за `null` и увереност в return type правилата. Не отчитай колебанието като грешен резултат.
+- **Бележка:** [Inheritance, Overriding & Polymorphism — Q14](concepts/10-inheritance-overriding-polymorphism.md). Recall по-късно; без автоматично нов въпрос.
+
+---
 
 ### 2026-10-13 · Q13 — JAVA-EXC-02: try-with-resources и suppression (приключен)
 
