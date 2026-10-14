@@ -1,5 +1,7 @@
 # Transactional Outbox + Idempotent Consumer / Inbox
 
+> **Production case study:** [Decathlon — Kafka dual write → Debezium CDC върху business tables](../../../docs/case-studies/001-decathlon-kafka-business-table-cdc.md). Сравни нашия класически Transactional Outbox с избрания от екипа подход и неговите PostgreSQL WAL/replication slot рискове.
+
 Този модул решава един от най-важните distributed backend problems:
 
 > **Как да запазим business state в database и надеждно да публикуваме event към message broker, без distributed transaction между DB и broker?**

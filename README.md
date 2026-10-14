@@ -42,6 +42,11 @@
 
 - [NotebookLM — prompt за превръщане на техническо видео в задълбочена аудио лекция на български](docs/NOTEBOOKLM-TECHNICAL-AUDIO-PROMPT.md)
 
+## Реални production казуси (Engineering Case Studies)
+
+- [Case Studies — индекс на реални инженерни проблеми и решения](docs/case-studies/README.md)
+- [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
+
 ## Персонален учебен план и диагностика
 
 **Учене от най-основното към Mid+ / Early Senior**, на микро-теми за 20–30-минутни сесии. За всяка тема правим адаптивен тест, коригираме не само знанията, но и точността на техническия изказ и поддържаме преговори на D+1, D+7 и D+30.
