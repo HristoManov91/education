@@ -25,20 +25,22 @@
 
 | Поле | Състояние |
 | --- | --- |
-| Активна родителска тема | **JAVA-OOP-02 — Q14 (отговорен 2026-10-14):** overload resolution с `null`, cast, dynamic dispatch и covariant return |
-| Последна активност | **2026-10-14** — Q14: кодът се компилира, 5/5 верни изхода, правилно разграничение между compile-time overloading и runtime overriding; несигурност за критерия при `null` и return type правилата. **9/10 техническо, 8.5/10 изказ — само Q14** |
-| Статус | **JAVA-OOP-02 — TARGETED_REVIEW за Q14** (most-specific overload при `null` и covariant return са разяснени, не са самостоятелно възпроизведени). **JAVA-EXC-01/02 — READY_FOR_RECALL** за Q12/Q13. Всички отложени recall проверки остават без нова дата по желание на потребителя |
-| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8–Q9** — inheritance/overloading/overriding/casting; **Q12** — checked/unchecked exceptions (5/5); **Q13** — try-with-resources (4/4); **Q14** — overloading, overriding, `null` (5/5). Q10–Q11 са документирани отделно в PR #46, още не са включени в този branch |
+| Активна родителска тема | **JAVA-COL-01 — Q15 (отговорен 2026-10-14):** List/Set/Map, record equality, hash collisions и дедупликация по бизнес ключ |
+| Последна активност | **2026-10-14** — Q15: 6/6 правилни резултата, правилен избор на `Map<Long,Task>` за уникалност по ID; концептуална грешка: смята, че `HashSet` отхвърля втория различен обект при hash collision. **8.5/10 техническо, 8.5/10 изказ — само Q15** |
+| Статус | **JAVA-COL-01 — TARGETED_REVIEW за Q15** (hash collision ≠ equality; разграничение `hashCode`/`equals` при `HashSet`). JAVA-OOP-02 — TARGETED_REVIEW за Q14 (`null`/covariant return); JAVA-EXC-01/02 — READY_FOR_RECALL за Q12/Q13. Няма успешно независимо recall след настоящите корекции |
+| Вече отговорени | Q1–Q5 и checkpoint №1; **Q6** — constructors/`final`/invariants; **Q7** — arrays/clone (5/5); **Q8–Q9** — inheritance/overloading/overriding/casting; **Q12** — checked/unchecked exceptions (5/5); **Q13** — try-with-resources (4/4); **Q14** — overloading/`null` (5/5); **Q15** — Collections (6/6). Q10–Q11 са описани отделно в PR #46 и още не са включени в този branch |
 | Въпрос 1 — ориентировъчно | **90% само за Q1** (от предишната оценка); правилни изходи: `10`, `20`, `AB`, `AB` |
 | Въпрос 2 — оценка от обратната връзка | **9.5/10 само за Q2**; правилни `Maria` и `20`, правилно обяснение на mutation и reassignment |
 | Въпрос 3 — оценка от обратната връзка | **8/10 разбиране; 8.5/10 комуникация — само Q3**; правилни `Hello` и `Hello World` и правилно обяснение за `concat()`; допуснато неточно обяснение на `StringBuilder.append()` |
 | Въпрос 3.1 / Q3b — частична оценка | **9/10 техническо разбиране само за Q3b**; верен mental model за `append()`, `==` и reassignment; разменен ред на последните две стойности: действителният изход е `false`, `C`, `ABD` |
 | Въпрос 4 — финална оценка | **8.5/10 техническо разбиране; 8.5/10 комуникация — само Q4.** Първоначалното `a == b` е сбъркано (`true` вместо `false`); след корекция потребителят правилно обясни новия екземпляр от `new String` и интернирания литерал. Потвърди, че `END` не се изпълнява след NPE. Каза, че познава `Object.equals()` и `Objects.equals()`, но не ги е споменал първоначално. |
-| Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8–Q9: declared/static type vs runtime type, field hiding, downcast и dynamic dispatch; **Q14:** *most-specific applicable overload* при `null`, статичен тип на аргументния израз след cast, *method signature* vs *return type* и *covariant return*. Верният избор за `null` е бил предположение, не обосновано самостоятелно |
-| Следващо действие | **Q14 приключен с feedback (5/5 резултата; 9/10 техническо, 8.5/10 изказ).** Не започвай Q15 без изрично съгласие. При по-късен recall: most-specific overload / ambiguity и covariant return с нов пример. Отложените Q1–Q14 recall проверки не са изпълнени и нямат фиксирани нови дати |
+| Терминология за затвърждаване | Q7: reference value, final reference variable, shallow copy; Q8–Q9/Q14: compile-time overload resolution, runtime dispatch, most-specific overload, covariant return; **Q15:** `HashSet`/`LinkedHashSet` използват `hashCode` за търсене на кандидати и `equals` за равенство; *hash collision* не означава дубликат; `List.of` забранява `null`; `Map.get(Object)` приема `Object`, а различните wrapper типове `Integer`/`Long` не са равни |
+| Следващо действие | **Q15 приключен с feedback (6/6 резултата; 8.5/10 техническо, 8.5/10 изказ).** При по-късна целева проверка: hash collision vs equality, Map key type, nullable List factories и conflict policy. Q16 само след изрично съгласие. Всички отложени recall проверки остават за по-късен етап без фиксирана дата |
 | Финална оценка на Java Fundamentals | **Няма достатъчно данни** — оценките са само за отделни въпроси |
 
 ### Какво вече доказаха отговорите
+
+- **Q15 (2026-10-14):** кодът компилира, **6/6 правилни реда**: `3`, `3`, `2`, `SENT`, `null`, `true`. Потребителят правилно обяснява дубликатите в List, record equality на двата компонента, `Map<Long,Task>` overwriting по id, `Map.get(7)` дава `null`, защото `Integer` не съвпада с `Long`, и предлага Map с id като бизнес ключ. Знае, че `ArrayList` може да държи няколко `null`; пропуска разликата с `List.of`. **Ключова доказана грешка:** твърди, че при два различни обекта с еднакъв hashCode вторият не се добавя в Set. Разяснено: при `HashSet`/`LinkedHashSet` hashCode насочва търсенето, а equals различава кандидатите; колизии не нарушават уникалността. Разяснено също, че Set като интерфейс не гарантира hash-базирана имплементация (`TreeSet` сравнява чрез ordering); `Map.get(Object)` позволява неподходящ тип ключ и някои имплементации може да хвърлят `ClassCastException`; `get` може да върне `null` и за наличен ключ със стойност `null`. Вариантът с override `equals/hashCode` само по id е технически възможен, но променя глобалната семантика на record; предпочитаме `Map` за конкретен бизнес deduplication и изрична conflict policy (last/first/merge/error). **Оценки само за Q15: 8.5/10 техническо разбиране и 8.5/10 професионален изказ.** Няма независимо възпроизвеждане след корекцията.
 
 - **Q14 (2026-10-14):** правилно предвидено компилиране и **5/5 изхода**: `P:String`, `C:Object`, `P:String`, `C:CharSequence`, `P:String` (последният е посочен с изрично колебание). Самостоятелно обяснява, че cast към `Object` променя избора на overload и че при override се изпълнява реализацията на `Child` според действителния receiver. Правилно, макар предпазливо, посочва compile-time за overloading и runtime за overriding. Не е обяснил защо `null` избира `String`; разяснени са most-specific applicability и ambiguity между несвързани типове. За overriding казва „същата сигнатура“, а return constraints са несигурни; изяснени са covariant return, че return type сам по себе си не прави overload и ограниченията при overriding. **Частични оценки само за Q14: 9/10 техническо, 8.5/10 професионален изказ.** Няма нов самостоятелен follow-up след корекциите.
 
@@ -67,7 +69,8 @@
 [Q7 — Arrays, Clone & Final References](concepts/09-arrays-clone-final-reference.md) ·
 [Q8–Q9, Q14 — Inheritance, Overloading, Overriding & Polymorphism](concepts/10-inheritance-overriding-polymorphism.md) ·
 [Q12 — Checked/Unchecked Exceptions & Propagation](concepts/11-checked-unchecked-exceptions-propagation.md) ·
-[Q13 — Try-with-resources & Suppressed Exceptions](concepts/12-try-with-resources-suppressed-exceptions.md).
+[Q13 — Try-with-resources & Suppressed Exceptions](concepts/12-try-with-resources-suppressed-exceptions.md) ·
+[Q15 — Collections: List, Set, Map & Equality](concepts/13-collections-list-set-map-equality.md).
 
 ### Recall queue — поправено знание и професионален изказ (пауза по молба от 2026-10-12)
 
@@ -97,6 +100,7 @@
 
 | Q13 try-with-resources · recall | **Без нова дата** | **DEFERRED_BY_USER** | Различен сценарий: resource initialization failure и primary/suppressed; кратък проверочен въпрос за **точния return type `Throwable[]` на `getSuppressed()`**, който е новонаучен в Q13. Не проверявай веднага. |
 | Q14 overloading/null · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Провери most-specific applicable method при `null`, ambiguity с несвързани параметърни типове и covariant return; изисквай самостоятелна причинна аргументация. |
+| Q15 collections/hash collisions · targeted recall | **Без нова дата** | **DEFERRED_BY_USER** | Нови обекти с еднакъв hash, но различен equals; предвиди поведение на HashSet/Map и мотивирай реална стратегия за уникалност по ID. Не повтаряй веднага след обратната връзка. |
 
 **Решение от 2026-10-12:** ученикът изрично поиска да отложим текущите преговори, защото материалът още му е пресен, и да продължим с нови въпроси. Всички непроведени recall проверки Q1–Q7 остават **непроведени, не са преминати и не са отменени като учебна цел**, но първоначалните дати са исторически ориентир, не активни срокове. Върни ги в по-късен учебен етап (след нови концепции) според желанието му, а не при следващото влизане в чата. Няма автоматични reminders. Q8 и Q9 от JAVA-OOP-02 са **вече отговорени на 2026-10-12** и получили обратна връзка. След Q9 остава за по-късно терминологична проверка на типова йерархия и formal compile-time selection vs runtime dispatch. Няма независимо възпроизвеждане след последната корекция.
 
@@ -120,8 +124,23 @@
 | JAVA-EXC-01 | `IN_PROGRESS` (Q12 `READY_FOR_RECALL`) | Q12: верен изход и 5/5 верни въпроса — checked/unchecked, throw/throws, propagation и compilation error без catch/declare | Няма установена концептуална грешка; catch-or-declare е изрично описано в оригиналния отговор; по-късните допълнения са потвърдени като познати, без независим нов тест | 2026-10-13 | Изчакай съгласие за следващ въпрос; terminology recall по-късно |
 
 | JAVA-EXC-02 | `READY_FOR_RECALL` (Q13) | Q13: 4/4 правилни, верен ред на open/work/close, основно и suppressed изключения, правилен вариант без грешка от тялото | `getSuppressed()` връща `Throwable[]`, не Java `Collection`; обратният ред е LIFO-подобен, както при вложени try/finally. **9.5/10 техническо, 9.5/10 изказ само за Q13.** | 2026-10-13 | Следващ нов въпрос само по изрично желание; review отложен |
+| JAVA-COL-01 | `TARGETED_REVIEW` | Q15: 6/6 правилни резултата, правилна разлика List/Set, равенство по два компонента при record, Map с ключ id и последният запис печели; избрана правилна бизнес структура. | **Концептуална грешка:** идентифицира hash collision с дубликат и твърди, че Set няма да добави различен обект с еднакъв hash. Уточнени hashCode→candidate и equals→equality, TreeSet ordering, List.of null и Map.get(Object). **8.5/10 техническо, 8.5/10 комуникация — само Q15.** | 2026-10-14 | Отложен targeted recall без фиксирана дата; следващ въпрос само по желание |
 
 ## Дневник на заниманията
+
+### 2026-10-14 · Q15 — JAVA-COL-01: List, Set, Map, equality и hash collisions (приключен)
+
+**Условие:** `record Task(long id,String status)` — `List.of` → `ArrayList` → `LinkedHashSet` → `LinkedHashMap<Long,Task>`, два записа с един ID и различен статус, `get(7L)` vs `get(7)`, `contains(new Task(...))`; обяснение на реална бизнес дедупликация.
+
+- **Шестте изхода са верни:** `3`, `3`, `2`, `SENT`, `null`, `true`. Кодът се компилира.
+- **Доказано:** List допуска дубликати; Set премахва равни по дефинираната equality, `record` включва двата компонента; Map замества стойност по вече съществуващ ключ; `get(7)` компилира и връща `null` в конкретния LinkedHashMap; за бизнес уникалност само по ID най-подходящо е `Map<Long,Task>`. Посочено е и технически възможното (но глобално) override-ване на record equality по id.
+- **Съществен концептуален пропуск:** ученикът неправилно смята, че hash collision между неравни обекти води до отхвърляне на втория в Set. Показан пример с три различни User records и константен hash; HashSet запазва и трите, понеже equals различава обектите.
+- **Доуточнения, не доказани преди feedback:** `ArrayList` допуска два `null`, но `List.of(null)` не; `Map.get(Object)` е широк API, `Integer` и `Long` не са равни, а някои Map реализации могат да хвърлят `ClassCastException` при грешен тип; разлика между `get` и `containsKey`; hash-базирани Set vs `TreeSet`; изрична merge/duplicate policy за production.
+- **Оценка само за Q15:** **8.5/10 техническо разбиране, 8.5/10 професионален изказ**, **6/6 резултата**. Не отчитай непроведения recall като успешен. Статус `TARGETED_REVIEW` поради hash collision грешката.
+- **Бележка:** [Collections: List, Set, Map & Equality](concepts/13-collections-list-set-map-equality.md).
+- **Следващо:** Q16 само след изрично желание. Коригираните знания се преговарят по-късно, без фиксирана дата.
+
+---
 
 ### 2026-10-14 · Q14 — JAVA-OOP-02: compile-time overloading, runtime overriding и `null` (приключен)
 
