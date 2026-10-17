@@ -271,6 +271,8 @@ WHERE slot_type = 'logical';
 
 **Търси по ключови думи:** `Decathlon Kafka dual write`, `Virginie Zinck Devoxx`, `Debezium CDC operational tables`, `PostgreSQL WAL replication slot heartbeat`, `Transactional Outbox alternatives`.
 
+**Контрастен инженерeн казус:** [Case 002 — Commerzbank: Oracle Exadata performance incident](002-commerzbank-exadata-performance-incident.md) показва обратния организационен избор: CDC не е приемлив при конкретните права/поддръжка, а предлаганият application-level dual-write изисква отделен recovery и reconciliation contract. Сравнявай **защо** е избран подходът, а не само какъв инструмент използва.
+
 ## 12. Оригинални и официални източници
 
 1. [Virginie Zinck / Devoxx — The day we stopped publishing Kafka event from our API](https://www.youtube.com/watch?v=YEy7AgRO7As) — **първичен източник за Decathlon архитектурата**.
