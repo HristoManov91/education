@@ -15,6 +15,7 @@ Case study **не се брои за преминат урок или доказ
 | ID | Казус | Симптом / проблем | Архитектурен избор | Свързани теми |
 | --- | --- | --- | --- | --- |
 | [001](001-decathlon-kafka-business-table-cdc.md) | Decathlon — Kafka/Order API | Dual write; consumer преди commit; PostgreSQL WAL retention | Debezium CDC върху business tables вместо директен Kafka publish | Distributed systems, Outbox, Kafka, PostgreSQL, CDC, Reliability |
+| [002](002-commerzbank-exadata-performance-incident.md) | Commerzbank — Oracle Exadata 11 TB | Cold cache + скъпа read-side дедупликация след DR; HTTP 200, но клиентски timeout | Валидиран query window → write-side integrity; план за поетапна Oracle → PostgreSQL миграция | SQL/Oracle, Performance, Reliability, System Design, CDC vs dual-write |
 
 ## Какво изискваме от всеки казус
 
@@ -32,5 +33,7 @@ Case study **не се брои за преминат урок или доказ
 ## Откриване и свързване
 
 - **Kafka / Outbox / Idempotency / CDC:** [Case 001](001-decathlon-kafka-business-table-cdc.md) и [изпълнимата ни Outbox/Inbox лаборатория](../../spring/messaging/outbox-inbox/README.md).
+- **Oracle / Exadata / SQL cold cache / миграция:** [Case 002](002-commerzbank-exadata-performance-incident.md) — диагностичен runbook, read vs write deduplication, canary и ограничения на CDC.
+- **Сравни 001 ↔ 002:** при Decathlon е избран **CDC**, а при Commerzbank той не е приемлив в конкретната среда и е предложен **app-level dual-write**; всеки избор има различни consistency и operational рискове.
 - За бъдещи примери използваме кратки имена, последователен номер и searchable ключови думи.
 - Общият [учебен roadmap](../learning/ROADMAP.md) определя кога да задълбочаваме фундаментите. Case studies остават достъпни като справочник независимо от текущата диагностична сесия.
