@@ -96,6 +96,8 @@
 
 **Налични лаборатории:** [Repository & Unit of Work](../../persistence/repository-unit-of-work/README.md), [Specification + QueryDSL](../../persistence/specification-querydsl/README.md).
 
+**Съпътстващ production казус (не е лаборатория):** [Case Study 002 — Commerzbank, 11 TB Exadata cold cache и read/write trade-offs](../case-studies/002-commerzbank-exadata-performance-incident.md) — прилагай при DB-05/06/07/16, REL-01/05 и P1 System Design.
+
 ## P0-C — Spring Boot, Web & Security
 
 | ID | Микро-тема |
