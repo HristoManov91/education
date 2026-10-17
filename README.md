@@ -46,6 +46,7 @@
 
 - [Case Studies — индекс на реални инженерни проблеми и решения](docs/case-studies/README.md)
 - [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
+- [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
 
 ## Персонален учебен план и диагностика
 
