@@ -812,7 +812,7 @@ curl -X POST http://localhost:8080/api/loan-applications \
 
 ### Допълнителни executable доказателства
 
-Модулът [`loom-labs`](./loom-labs) добавя още шест фокусирани проверки:
+Модулът [`loom-labs`](./loom-labs) добавя още осем фокусирани проверки:
 
 1. built-in first-successful срещу custom best-successful Joiner;
 2. реален bad/good пример за `ThreadLocal` срещу `ScopedValue`;
@@ -820,6 +820,8 @@ curl -X POST http://localhost:8080/api/loan-applications \
 4. хиляди блокирани virtual threads, видими чрез `jcmd Thread.dump_to_file`;
 5. global timeout и разликата между cooperative cancellation и hard kill;
 6. bounded concurrency чрез `Semaphore` около реалния scarce downstream resource.
+7. вложени `StructuredTaskScope` и анализ на parent-child йерархия чрез JSON thread dump;
+8. `allUntil` + deadline subtask за partial results в Java 25, с тестове за failure и cancellation.
 
 Целият учебен flow и командите са в
 [`VIRTUAL-THREADS-LABS.md`](./VIRTUAL-THREADS-LABS.md).
@@ -858,10 +860,12 @@ curl -X POST http://localhost:8080/api/loan-applications \
 9. Замени structured loader-а с `CompletableFutureCustomerInfoLoader` и сравни context propagation-а.
 10. Направи един child call CPU-heavy и измери защо virtual threads не му помагат.
 11. Използвай JFR/thread dump, за да разгледаш virtual threads и task relationships.
+12. Пусни `NestedScopeThreadDumpDemo` и намери outer/inner scope-овете чрез `parent` и `owner` в JSON dump.
+13. Пусни `PartialResultsUntilDeadlineDemo` и провери защо не използваме scope timeout директно за partial results в Java 25.
 
 ---
 
-## 26. Java 25 срещу Java 26
+## 26. Java 25 → Java 26 → Java 28
 
 Основният runnable код е Java 25. Upstream примерът вече използва Java 26 и Structured Concurrency API-то се е променило:
 
@@ -877,7 +881,9 @@ Joiner.anySuccessfulResultOrThrow()
 Joiner.anySuccessfulOrThrow()
 ```
 
-Подробно за version differences: [`JAVA-26.md`](./JAVA-26.md). За Java 25 policy-тата: [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
+Подробно за version differences: [`JAVA-26.md`](./JAVA-26.md), както и [JDK 27 / планирания финален API за JDK 28](./JAVA-28.md). Към 21.10.2026 JEP 543 е targeted в разработката на JDK 28, но Java 28 **още не е GA**. За Java 25 policy-тата: [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
+
+**Две нови лаборатории** допълват наблюдаемостта и deadline поведенията: [nested structured thread dump](./VIRTUAL-THREADS-LABS.md#lab-7--nested-structuredtaskscope-и-json-thread-dump-devoxx) и [partial results until deadline](./VIRTUAL-THREADS-LABS.md#lab-8--partial-results-until-deadline-java-25).
 
 ---
 
@@ -888,6 +894,7 @@ Joiner.anySuccessfulOrThrow()
 - YouTube — **Beyond Virtual Threads: Structured Concurrency**: https://www.youtube.com/watch?v=2L7zLdHeyY0
 - YouTube — допълнителният Virtual Threads / Structured Concurrency deep-dive: https://www.youtube.com/watch?v=4_UpZv21D3k
 - YouTube — **Concurrency and Streaming in the Age of Loom**: https://www.youtube.com/watch?v=yWVxJLRtCxI
+- YouTube — **Structured Concurrency Looms (Alan Bateman & Viktor Klang, Devoxx 2026)**: https://www.youtube.com/watch?v=aow56RgptLA
 - Spring I/O 2026 demo repository: https://github.com/chemicL/springio-2026-loom
 - Оригинален demo repository — `balkrishnarawool/SpringBootLoom`: https://github.com/balkrishnarawool/SpringBootLoom
 - Structured Concurrency branch: https://github.com/balkrishnarawool/SpringBootLoom/tree/with-structured-concurrency
@@ -901,6 +908,8 @@ Joiner.anySuccessfulOrThrow()
 - JEP 491 — Synchronize Virtual Threads without Pinning: https://openjdk.org/jeps/491
 - JEP 505 — Structured Concurrency (Fifth Preview, Java 25): https://openjdk.org/jeps/505
 - JEP 506 — Scoped Values: https://openjdk.org/jeps/506
+- JEP 543 — Structured Concurrency (final target JDK 28): https://openjdk.org/jeps/543
+- Oracle Structured Concurrency guide / structured JSON dumps: https://docs.oracle.com/en/java/javase/25/core/structured-concurrency.html
 - Java 25 Structured Concurrency guide: https://docs.oracle.com/en/java/javase/25/core/structured-concurrency.html
 - Java 25 `StructuredTaskScope` API: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html
 - Java 25 `StructuredTaskScope.Joiner` API: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html
