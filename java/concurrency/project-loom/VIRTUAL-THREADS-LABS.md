@@ -653,6 +653,121 @@ HTTP 429: 0
 
 ---
 
+# Lab 7 — Nested StructuredTaskScope и JSON thread dump (Devoxx)
+
+**Проблем:** имаме parent request, който стартира няколко виртуални нишки, а една от тях отваря **втори** structured scope. При hang искаме да открием *защо чака parent-ът* и *коя точно leaf операция блокира*, вместо да получим плосък списък с thread IDs.
+
+Код и тест:
+
+- [NestedScopeThreadDumpDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/observability/NestedScopeThreadDumpDemo.java)
+- [NestedScopeThreadDumpDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/observability/NestedScopeThreadDumpDemoTest.java)
+
+```text
+loom-dump-owner (owner на outer scope)
+└── order-summary-scope
+    ├── loom-outer-0  (customer aggregation / inner scope owner)
+    │   └── customer-details-scope
+    │       ├── loom-customer-0  (profile, waits on latch)
+    │       └── loom-customer-1  (preferences, waits on latch)
+    └── loom-outer-1  (order, waits on latch)
+```
+
+Всяка leaf операция извиква `CountDownLatch.await()`. `allLeavesStarted` гарантира, че **и трите** leaf нишки действително са достигнали blocking точката **преди** да поканим потребителя да направи dump. `releaseLeaves` ги освобождава и двата scope-а приключват без orphan tasks.
+
+## Стартиране и диагностика
+
+От IntelliJ изпълни `NestedScopeThreadDumpDemo.main()` (или подай аргумент `90`, за да оставиш 90 секунди за оглед). Можеш и през команден ред след `mvn -pl loom-labs compile` от `java/concurrency/project-loom`:
+
+```bash
+java --enable-preview -cp loom-labs/target/classes \
+  bg.hristomanov.education.loom.labs.observability.NestedScopeThreadDumpDemo 90
+```
+
+Програмата извежда реален PID. В **друг терминал**, докато трите leaf задачи още чакат:
+
+```bash
+jcmd <PID> Thread.dump_to_file -format=json loom-structured.json
+```
+
+В dump-а намери `threadDump.threadContainers` и потърси `order-summary-scope` и `customer-details-scope`. Обърни внимание на:
+
+- `container` — името на съответния scope (плюс JVM runtime suffix);
+- `parent` — *кой е parent container-ът*, от който възстановяваме структурното дърво;
+- `owner` — tid на thread-а, отворил scope-а;
+- `threads[]` — `tid`, `name`, `virtual` и stack на child задачите.
+
+По желание с инсталиран `jq`:
+
+```bash
+jq -r '.threadDump.threadContainers[]
+ | select(.container | test("order-summary-scope|customer-details-scope"))
+ | [.container, .parent, .owner, ([.threads[].name] | join(", "))]
+ | @tsv' loom-structured.json
+```
+
+Не записваме конкретни `tid`, PID или JVM-generated suffix в тестовете — те се променят при всяко изпълнение. Автоматичният тест валидира **структурата на реалната concurrent работа и чистото приключване**; JSON dump е практическа инструментална проверка, не snapshot тест, зависим от формата на HotSpot.
+
+**Ограничение:** ако child игнорира interruption, `close()` пак чака. Structured dump не отменя нуждата от JFR, metrics, timeout-и и thread-safe cancellation.
+
+---
+
+# Lab 8 — Partial results until deadline (Java 25)
+
+**Сценарий:** отправяме независими search заявки към `catalog`, `cache` и бавен външен партньор. Request-ът има общ budget (например 350 ms), а бизнес изискването е **да върнем наличните резултати**, а не да провалим цялата заявка, когато един provider е бавен или fail-не.
+
+Код и тестове:
+
+- [PartialResultsUntilDeadlineDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/deadline/PartialResultsUntilDeadlineDemo.java)
+- [PartialResultsUntilDeadlineDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/deadline/PartialResultsUntilDeadlineDemoTest.java)
+
+```text
+shared deadline = 350 ms
+├── catalog:         completes ~30 ms ── included
+├── cache:           completes ~80 ms ── included
+└── remote-partner:  needs 2000 ms ── interrupted / not included
+                                      ↓
+                   PartialResults(hits=2, deadlineReached=true)
+```
+
+## Защо не използваме директно `withTimeout()` в Java 25
+
+**Версионна разлика, която е лесно да пропуснем:**
+
+- В **Java 25** `StructuredTaskScope.open(joiner, config -> config.withTimeout(...))` води до `StructuredTaskScope.TimeoutException` от `join()`. Дори с `allUntil(...)` **нямаме** готов partial-results outcome при timeout.
+- Затова тук използваме `Joiner.allUntil(predicate)` **без** scope timeout, и fork-ваме **допълнителна deadline subtask**. Когато тя приключи, Joiner-ът cancel-ва scope-а и `join()` връща `Stream<Subtask<Outcome>>`.
+- Ако **всички providers** приключат по-рано, `AtomicInteger` + Joiner predicate завършват scope-а **преди** deadline-а и cancel-ват timer subtask. Не чакаме изкуствено целия budget.
+- В **Java 27 / предложеното финално Java 28 API** `allUntil` вече връща `List<Subtask<T>>` и при конфигуриран `withTimeout()`; няма нужда от специална timer subtask. Това е [отделно документирано](./JAVA-28.md), без да смесваме preview версии в runnable кода.
+
+## Защо използваме точно този Joiner
+
+`allSuccessfulOrThrow()` би загубил наличните резултати при един провален provider. `anySuccessfulResultOrThrow()` би спрял при **първия** успешен, но искаме **всички отговори, които успеят да пристигнат в budget-а**. `allUntil` позволява да дефинираме условието за приключване на една свързана операция.
+
+`onComplete` може да се извика паралелно от различни virtual threads, затова броячът на приключилите providers е `AtomicInteger`. Заявките се пускат независимо и не споделят mutable колекция: резултатите се събират от scope owner-а **след** `join()`.
+
+Записваме `elapsedNanos` чрез `System.nanoTime()`, за да не включим случайно резултат от race, приключил **след** deadline-а. Не използваме wall-clock време (`Instant.now()`) за сравнение на elapsed duration.
+
+## Failure и cancellation
+
+- Единичен обикновен provider `Exception` се превръща в `ProviderFailure`; останалите providers продължават.
+- Provider, който е interrupt-нат при deadline, **не** се отчита като бизнес failure — `InterruptedException` се propagate-ва, а `UNAVAILABLE` / cancelled tasks не се четат с `get()`.
+- Изходните `hits` и `failures` са immutable копия. Празен списък е валиден, ако нищо не е успяло преди deadline-а.
+- Deadline-ът е **кооперативен**: ако provider блокира неinterruptibly или игнорира interruption, `close()` може да надхвърли зададения budget. Няма гаранция за строго ограничено време до HTTP response само от `StructuredTaskScope`.
+- Това е **finite fan-out** лаборатория, не замества backpressure/streaming от [Loom vs Reactive](../../../spring/concurrency/loom-vs-reactive/README.md).
+
+## Стартиране
+
+```bash
+cd java/concurrency/project-loom
+mvn -pl loom-labs test
+mvn -pl loom-labs compile
+java --enable-preview -cp loom-labs/target/classes \
+  bg.hristomanov.education.loom.labs.deadline.PartialResultsUntilDeadlineDemo
+```
+
+Тестовете проверяват: partial results + interrupt на бавен sibling, ранно приключване при всички готови, независим provider failure и валидация на некоректен budget.
+
+---
+
 # Как да build-нем лабораториите
 
 От repository root:
@@ -694,6 +809,8 @@ java --enable-preview -cp loom-labs/target/classes \
 | Защо ThreadLocal не е ScopedValue? | [bad/ThreadLocalRequestContext.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/bad/ThreadLocalRequestContext.java) / [good/ScopedValueRequestContext.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/context/good/ScopedValueRequestContext.java) | [ContextPropagationTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/context/ContextPropagationTest.java) |
 | Как доказваме throughput ефекта? | [VirtualThreadLoadExperiment.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/load/VirtualThreadLoadExperiment.java) | platform/virtual profiles |
 | Как виждаме много virtual threads? | [VirtualThreadDumpDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/observability/VirtualThreadDumpDemo.java) | `jcmd Thread.dump_to_file` |
+| Как виждаме parent-child scope tree? | [NestedScopeThreadDumpDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/observability/NestedScopeThreadDumpDemo.java) | [NestedScopeThreadDumpDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/observability/NestedScopeThreadDumpDemoTest.java) + manual JSON thread dump |
+| Как връщаме partial results до deadline? | [PartialResultsUntilDeadlineDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/deadline/PartialResultsUntilDeadlineDemo.java) | [PartialResultsUntilDeadlineDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/deadline/PartialResultsUntilDeadlineDemoTest.java) |
 | Как задаваме global timeout? | [TimeoutAndCancellationDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemo.java) | [TimeoutAndCancellationDemoTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/timeout/TimeoutAndCancellationDemoTest.java) |
 | Как пазим downstream capacity? | [BoundedConcurrencyDemo.java](./loom-labs/src/main/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyDemo.java) | [BoundedConcurrencyGuardTest.java](./loom-labs/src/test/java/bg/hristomanov/education/loom/labs/limit/BoundedConcurrencyGuardTest.java) |
 
@@ -747,6 +864,7 @@ Observability
 ## Видео, което мотивира тези допълнителни лаборатории
 
 - YouTube — https://www.youtube.com/watch?v=4_UpZv21D3k
+- YouTube — **Structured Concurrency Looms (Alan Bateman & Viktor Klang)**: https://www.youtube.com/watch?v=aow56RgptLA
 - YouTube — **Concurrency and Streaming in the Age of Loom**: https://www.youtube.com/watch?v=yWVxJLRtCxI
 - Original Spring I/O 2026 demo: https://github.com/chemicL/springio-2026-loom
 
@@ -755,6 +873,8 @@ Observability
 - JEP 444 — Virtual Threads: https://openjdk.org/jeps/444
 - JEP 505 — Structured Concurrency: https://openjdk.org/jeps/505
 - JEP 506 — Scoped Values: https://openjdk.org/jeps/506
+- [Java 28 status / migration note](./JAVA-28.md)
+- Oracle Structured Concurrency (JSON scope hierarchy): https://docs.oracle.com/en/java/javase/25/core/structured-concurrency.html
 - StructuredTaskScope API: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html
 - StructuredTaskScope.Joiner API: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.Joiner.html
 - ScopedValue API: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html
