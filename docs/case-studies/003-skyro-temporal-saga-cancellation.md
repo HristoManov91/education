@@ -31,7 +31,7 @@
 | Поправка | Кой проблем адресира | Какво остава |
 | --- | --- | --- |
 | Регистрирай compensation преди forward Activity | Lost acknowledgement | Compensation може да се случи преждевременно |
-| Detached cancellation scope + \`run()\` | Cleanup от cancelled Workflow | External HTTP може още да работи |
+| Detached cancellation scope + `run()` | Cleanup от cancelled Workflow | External HTTP може още да работи |
 | WAIT_CANCELLATION_COMPLETED | Workflow изчаква Activity terminal observation | No-heartbeat/timeout и пропуснат final check |
 | Проверка след всяка Activity | Последен completed side effect при cancellation | Все още няма атомарност между външните участници |
 | Idempotency / fencing на participant | Late hold след release | Трябва истинска durable atomic реализация |
@@ -51,12 +51,12 @@
 
 ## Дизайн на възстановяване
 
-1. Пази стабилен \`operationId\` и \`workflowId\` за **една бизнес операция**, не по HTTP request.
+1. Пази стабилен `operationId` и `workflowId` за **една бизнес операция**, не по HTTP request.
 2. Изисквай downstream idempotency/operation-status contract. Ако participant не може да предотврати късно изпълнение след cancellation, не обещавай твърдо „освободено“ само по Workflow terminal state.
-3. Пази \`UNKNOWN\`, \`CANCEL_REQUESTED\`, \`COMPENSATION_REQUIRED\` като отделни операционни състояния, когато domain-ът го допуска.
+3. Пази `UNKNOWN`, `CANCEL_REQUESTED`, `COMPENSATION_REQUIRED` като отделни операционни състояния, когато domain-ът го допуска.
 4. Компенсирай извън отменения scope; failed compensation не е успех.
 5. Reconciliation сравнява business intent с participant facts; repair actions са идемпотентни, одитируеми, с alert при невъзможно възстановяване.
-6. Измервай \`orphaned_holds_count\`, \`cancellation_to_release_latency\`, \`oldest_unresolved_age\`, \`reconciliation_repair_rate\`.
+6. Измервай `orphaned_holds_count`, `cancellation_to_release_latency`, `oldest_unresolved_age`, `reconciliation_repair_rate`.
 
 ## Какво реализирахме в education
 
@@ -64,7 +64,7 @@
 - **[Temporal Java Workflow](../../spring/messaging/saga/src/main/java/bg/hristomanov/education/saga/temporal/HoldWorkflowImpl.java)**: compensation registration before Activity, WAIT, final check, detached cleanup.
 - **[Temporal integration tests](../../spring/messaging/saga/src/test/java/bg/hristomanov/education/saga/temporal/TemporalHoldWorkflowIntegrationTest.java)**: in-memory Temporal server с реален SDK/Worker, забавена Activity и lost ACK.
 - **[Participant state test](../../spring/messaging/saga/src/test/java/bg/hristomanov/education/saga/cancellation/HoldingCancellationRaceTest.java)**: детерминистично доказателство на premature release → late hold bug и cancellation marker.
-- **[HoldGateway](../../spring/messaging/saga/src/main/java/bg/hristomanov/education/saga/temporal/HoldGateway.java)**: bounded caller wait, \`PENDING\` и attach на retry към stable Workflow ID.
+- **[HoldGateway](../../spring/messaging/saga/src/main/java/bg/hristomanov/education/saga/temporal/HoldGateway.java)**: bounded caller wait, `PENDING` и attach на retry към stable Workflow ID.
 
 Това НЕ е production implementation с истински банкови системи, durability на participants или реална network failure injection.
 
