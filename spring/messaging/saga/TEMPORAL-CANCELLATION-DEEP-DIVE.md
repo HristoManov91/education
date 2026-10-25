@@ -282,6 +282,7 @@ mvn -pl spring/messaging/saga -am test
 | Manual demo с Temporal CLI | [`TemporalHoldDemo.java`](./src/main/java/bg/hristomanov/education/saga/temporal/TemporalHoldDemo.java) |
 | Bounded HTTP-wait boundary + attach-on-retry | [`HoldGateway.java`](./src/main/java/bg/hristomanov/education/saga/temporal/HoldGateway.java) |
 | Temporal test server + реален worker + JUnit | [`TemporalHoldWorkflowIntegrationTest.java`](./src/test/java/bg/hristomanov/education/saga/temporal/TemporalHoldWorkflowIntegrationTest.java) |
+| Intentional TRY_CANCEL race: naive release vs fencing | [`TemporalTryCancelRaceTest.java`](./src/test/java/bg/hristomanov/education/saga/temporal/TemporalTryCancelRaceTest.java) / [`UnsafeTryCancelHoldWorkflowImpl.java`](./src/test/java/bg/hristomanov/education/saga/temporal/UnsafeTryCancelHoldWorkflowImpl.java) |
 
 **Действително реализирани интеграционни сценарии:**
 
@@ -294,6 +295,7 @@ mvn -pl spring/messaging/saga -am test
 7. Втори start със **същия Workflow ID** при активен първи execution.
 8. Failed credit compensation след debit failure — failure остава видим и изисква reconciliation.
 9. След client timeout повторен request **се свързва към стария Workflow** чрез `HoldGateway`, вместо да стартира нов.
+10. **Истински Temporal `TRY_CANCEL` race**: release се случва преди външната Activity да завърши. При наивен участник остава orphaned debit hold; при cancellation tombstone късният hold не може да възстанови блокировката.
 
 Изпълни:
 
@@ -314,7 +316,7 @@ mvn -pl spring/messaging/saga -DskipTests compile exec:java \
 
 `temporal server start-dev` е отделен процес, който може да се инсталира чрез [Temporal CLI](https://docs.temporal.io/cli). Demo използва **in-memory** participants: не може да доказва crash recovery на външна база.
 
-**Оставащи production-grade fault injection направления** (не ги бъркаме с готови тестове): конкретен `TRY_CANCEL`/heartbeat comparison при remote HTTP, Toxiproxy latency/lost HTTP response, durable PostgreSQL participant, persist/restart/crash recovery и reconciliation срещу реален provider. Точно там са оставащите неопределености при преминаване от embedded Temporal Test Server към distributed deployment.
+**Оставащи production-grade fault injection направления** (не ги бъркаме с готови тестове): `TRY_CANCEL`/heartbeat latency измерване при реален remote HTTP, Toxiproxy network faults, durable PostgreSQL participant, persist/restart/crash recovery и reconciliation срещу реален provider. `TemporalTryCancelRaceTest` доказва **локална Temporal SDK междупоследователност**, но не WAN/network semantics. Точно там са оставащите неопределености при преминаване от embedded Temporal Test Server към distributed deployment.
 
 ## 10. Кога Temporal / Saga е подходяща и кога — не
 
