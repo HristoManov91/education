@@ -280,6 +280,7 @@ mvn -pl spring/messaging/saga -am test
 | Safe Saga orchestration, WAIT cancellation, detached scope, final cancellation check | [`HoldWorkflowImpl.java`](./src/main/java/bg/hristomanov/education/saga/temporal/HoldWorkflowImpl.java) |
 | In-memory credit/debit adapters, единствено за demonstration | [`InMemoryHoldActivities.java`](./src/main/java/bg/hristomanov/education/saga/temporal/InMemoryHoldActivities.java) |
 | Manual demo с Temporal CLI | [`TemporalHoldDemo.java`](./src/main/java/bg/hristomanov/education/saga/temporal/TemporalHoldDemo.java) |
+| Bounded HTTP-wait boundary + attach-on-retry | [`HoldGateway.java`](./src/main/java/bg/hristomanov/education/saga/temporal/HoldGateway.java) |
 | Temporal test server + реален worker + JUnit | [`TemporalHoldWorkflowIntegrationTest.java`](./src/test/java/bg/hristomanov/education/saga/temporal/TemporalHoldWorkflowIntegrationTest.java) |
 
 **Действително реализирани интеграционни сценарии:**
@@ -292,6 +293,7 @@ mvn -pl spring/messaging/saga -am test
 6. Кратък **client getResult timeout** без автоматична отмяна на Workflow.
 7. Втори start със **същия Workflow ID** при активен първи execution.
 8. Failed credit compensation след debit failure — failure остава видим и изисква reconciliation.
+9. След client timeout повторен request **се свързва към стария Workflow** чрез `HoldGateway`, вместо да стартира нов.
 
 Изпълни:
 
@@ -323,6 +325,8 @@ mvn -pl spring/messaging/saga -DskipTests compile exec:java \
 | Async command + Outbox/Inbox | Бизнесът допуска eventual outcome и reliable delivery е приоритет | Клиентският контракт трябва да приема pending state |
 | Една local ACID transaction | Данните и side effects са в един transactional boundary | Не решава external services |
 | 2PC | Контролирани XA participants със силен atomicity contract | Координационна цена, locks, blocking и сложна експлоатация |
+
+**Допълнително:** [Case Study 003 — Skyro и Temporal cancellation](../../../docs/case-studies/003-skyro-temporal-saga-cancellation.md) пази production симптомите/решенията като отделна лесно откриваема инженерна справка.
 
 **Не взимай архитектурно решение само защото library-то има `Saga` клас.** Първо определи какво означават success, cancel, timeout и „никога да не останат блокирани пари“ в бизнеса.
 
