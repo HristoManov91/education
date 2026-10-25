@@ -6,7 +6,7 @@
 - Retry/Timeout/Circuit Breaker/Bulkhead;
 - Transactional Outbox + Inbox.
 
-**P1 / Deep Technical Lecture:** [Temporal Saga — cancellation, unknown outcomes и reconciliation](./TEMPORAL-CANCELLATION-DEEP-DIVE.md). Надгражда фундаментите с реалния Skyro/Devoxx казус, SDK cancellation semantics и [детерминистична Java лаборатория](./src/test/java/bg/hristomanov/education/saga/cancellation/HoldingCancellationRaceTest.java) за late hold, изгубен response и възстановяване.
+**P1 / Deep Technical Lecture:** [Temporal Saga — cancellation, unknown outcomes и reconciliation](./TEMPORAL-CANCELLATION-DEEP-DIVE.md). Надгражда фундаментите с [реалния Skyro/Devoxx казус](../../../docs/case-studies/003-skyro-temporal-saga-cancellation.md), SDK cancellation semantics, [детерминистичен participant race test](./src/test/java/bg/hristomanov/education/saga/cancellation/HoldingCancellationRaceTest.java), [реална Temporal SDK integration лаборатория](./src/test/java/bg/hristomanov/education/saga/temporal/TemporalHoldWorkflowIntegrationTest.java) и [идемпотентен синхронен caller](./src/main/java/bg/hristomanov/education/saga/temporal/HoldGateway.java).
 
 Основният въпрос е:
 
