@@ -6,7 +6,7 @@
 >
 > **Основа:** [Saga Pattern — Fundamentals](./README.md) и [Idempotency](../../reliability/idempotency/README.md).
 >
-> **Статус на доказателствата:** Java моделът и JUnit сценариите са добавени в този модул. **Няма Temporal SDK dependency, работещ Temporal Server или изпълнени Temporal integration tests.** Temporal API примерите по-долу са учебни фрагменти, подкрепени с официалната Java SDK документация; не ги представяме за проверена интеграция.
+> **Статус на доказателствата:** тук имаме **два отделни слоя**: (1) независими детерминистични Java/JUnit state-machine тестове и (2) **реален Temporal Java SDK 1.40.0** Workflow/Worker със самостоятелен **TestWorkflowEnvironment** (in-memory Temporal service) и интеграционни JUnit тестове. Последните упражняват реални workflow/activity/cancellation primitives, но **не** представляват тест срещу production Temporal Cluster, реален HTTP provider, persistence или WAN. GitHub Actions/CI потвърждава execution резултатите, когато проверките са завършили.
 
 ## 1. Реалният казус — клиентът чака на терминала
 
@@ -267,20 +267,52 @@ Skyro използват отделен Reconciliation Service за провер
 mvn -pl spring/messaging/saga -am test
 ~~~
 
-Тестовете са **без Temporal SDK и без реална мрежа** — затова са детерминистични и CI-friendly. Те **не** доказват `WAIT_CANCELLATION_COMPLETED`, heartbeat propagation или detached scope в реален Temporal Server.
+Горните **state-model** тестове не използват Temporal SDK и проверяват само participant transitions. **Допълнително** се изпълняват Temporal интеграционните тестове по-долу с истински SDK/Worker/TestWorkflowEnvironment.
 
-### Следваща лаборатория — Temporal integration (предложение, още НЕ реализирано)
+### Реализирана Temporal SDK 1.40.0 лаборатория — real Workflow + Activity Worker + test server
 
-В отделен module / source set с `temporal-testing` / `TestWorkflowEnvironment` и контролиран remote mock/Toxiproxy:
+В основния `saga` Maven модул са добавени съвместими `io.temporal:temporal-sdk` и `io.temporal:temporal-testing` 1.40.0. Тестовият сървър е in-memory: за `mvn test` **не** е необходимо да стартираш Temporal Docker container.
 
-1. Стартирай Workflow с blocked hold Activity и `TRY_CANCEL`; докажи premature compensation.
-2. Повтори с `WAIT_CANCELLATION_COMPLETED` и bounded timeouts/heartbeat.
-3. Отмени по време на последната Activity; провери explicit cancelled-state check.
-4. Тествай detached compensation, failed compensation и статус след възстановяване.
-5. Инжектирай duplicate request + lost HTTP acknowledgment; провери Workflow identity и downstream idempotency.
-6. Инжектирай Worker crash / restart и reconciliation repair.
+| Отговорност | Реален код |
+| --- | --- |
+| Workflow API/operation ID | [`HoldWorkflow.java`](./src/main/java/bg/hristomanov/education/saga/temporal/HoldWorkflow.java) |
+| Activity contract: външни странични ефекти | [`HoldActivities.java`](./src/main/java/bg/hristomanov/education/saga/temporal/HoldActivities.java) |
+| Safe Saga orchestration, WAIT cancellation, detached scope, final cancellation check | [`HoldWorkflowImpl.java`](./src/main/java/bg/hristomanov/education/saga/temporal/HoldWorkflowImpl.java) |
+| In-memory credit/debit adapters, единствено за demonstration | [`InMemoryHoldActivities.java`](./src/main/java/bg/hristomanov/education/saga/temporal/InMemoryHoldActivities.java) |
+| Manual demo с Temporal CLI | [`TemporalHoldDemo.java`](./src/main/java/bg/hristomanov/education/saga/temporal/TemporalHoldDemo.java) |
+| Temporal test server + реален worker + JUnit | [`TemporalHoldWorkflowIntegrationTest.java`](./src/test/java/bg/hristomanov/education/saga/temporal/TemporalHoldWorkflowIntegrationTest.java) |
 
-**Не представяй тези точки за реализирани тестове**, докато не се изпълнят срещу съвместим Temporal SDK/runtime.
+**Действително реализирани интеграционни сценарии:**
+
+1. Happy path през реален Workflow и две Activities.
+2. Credit hold commit + изгубен ACK, със задействане на компенсация.
+3. Debit hold commit + изгубен ACK, със reverse compensation.
+4. Cancellation докато **последната** Activity е в полет, с detached cleanup.
+5. Cancellation по време на **първата** Activity, без orphaned hold.
+6. Кратък **client getResult timeout** без автоматична отмяна на Workflow.
+7. Втори start със **същия Workflow ID** при активен първи execution.
+8. Failed credit compensation след debit failure — failure остава видим и изисква reconciliation.
+
+Изпълни:
+
+```bash
+mvn -pl spring/messaging/saga -am test
+# само Temporal интеграционния тест:
+mvn -pl spring/messaging/saga -Dtest=TemporalHoldWorkflowIntegrationTest test
+```
+
+Ръчен пример срещу локален Temporal Server:
+
+```bash
+temporal server start-dev
+# във втори terminal от education/:
+mvn -pl spring/messaging/saga -DskipTests compile exec:java \
+  -Dexec.mainClass=bg.hristomanov.education.saga.temporal.TemporalHoldDemo
+```
+
+`temporal server start-dev` е отделен процес, който може да се инсталира чрез [Temporal CLI](https://docs.temporal.io/cli). Demo използва **in-memory** participants: не може да доказва crash recovery на външна база.
+
+**Оставащи production-grade fault injection направления** (не ги бъркаме с готови тестове): конкретен `TRY_CANCEL`/heartbeat comparison при remote HTTP, Toxiproxy latency/lost HTTP response, durable PostgreSQL participant, persist/restart/crash recovery и reconciliation срещу реален provider. Точно там са оставащите неопределености при преминаване от embedded Temporal Test Server към distributed deployment.
 
 ## 10. Кога Temporal / Saga е подходяща и кога — не
 
