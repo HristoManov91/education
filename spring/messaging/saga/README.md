@@ -6,6 +6,8 @@
 - Retry/Timeout/Circuit Breaker/Bulkhead;
 - Transactional Outbox + Inbox.
 
+**P1 / Deep Technical Lecture:** [Temporal Saga — cancellation, unknown outcomes и reconciliation](./TEMPORAL-CANCELLATION-DEEP-DIVE.md). Надгражда фундаментите с реалния Skyro/Devoxx казус, SDK cancellation semantics и [детерминистична Java лаборатория](./src/test/java/bg/hristomanov/education/saga/cancellation/HoldingCancellationRaceTest.java) за late hold, изгубен response и възстановяване.
+
 Основният въпрос е:
 
 > Как изпълняваме business workflow през няколко отделни services/datastores, когато няма една ACID transaction, която да обхване всички стъпки?
