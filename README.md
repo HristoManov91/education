@@ -152,6 +152,7 @@ education/
 
 - [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
 - [Saga Pattern — orchestration, compensation и durable workflow state](spring/messaging/saga/README.md)
+  - [Temporal Saga — cancellation, unknown outcomes и reconciliation (P1 Deep Dive)](spring/messaging/saga/TEMPORAL-CANCELLATION-DEEP-DIVE.md)
 
 ### Spring / Events
 
