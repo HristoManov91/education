@@ -47,6 +47,7 @@
 - [Case Studies — индекс на реални инженерни проблеми и решения](docs/case-studies/README.md)
 - [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
 - [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
+- [Skyro — Temporal Saga cancellation и orphaned holds (Case 003)](docs/case-studies/003-skyro-temporal-saga-cancellation.md)
 
 ## Персонален учебен план и диагностика
 
@@ -152,6 +153,7 @@ education/
 
 - [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
 - [Saga Pattern — orchestration, compensation и durable workflow state](spring/messaging/saga/README.md)
+  - [Temporal Saga — cancellation, unknown outcomes и reconciliation (P1 Deep Dive)](spring/messaging/saga/TEMPORAL-CANCELLATION-DEEP-DIVE.md)
 
 ### Spring / Events
 
