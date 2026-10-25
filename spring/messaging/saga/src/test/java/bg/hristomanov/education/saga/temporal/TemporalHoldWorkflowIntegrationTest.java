@@ -1,6 +1,8 @@
 package bg.hristomanov.education.saga.temporal;
 
 import bg.hristomanov.education.saga.cancellation.HoldingParticipant;
+import io.temporal.activity.Activity;
+import io.temporal.failure.ApplicationFailure;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowExecutionAlreadyStarted;
 import io.temporal.client.WorkflowFailedException;
@@ -100,6 +102,7 @@ class TemporalHoldWorkflowIntegrationTest {
     @Test
     void cancelDuringFinalActivityRunsDetachedCompensations() throws InterruptedException {
         activities.blockDebit = true;
+        activities.expectCancellationDuringDebit = true;
         startWorker();
 
         HoldWorkflow workflow = newWorkflow("op-cancel-last");
@@ -203,7 +206,11 @@ class TemporalHoldWorkflowIntegrationTest {
 
         assertThatThrownBy(() -> workflow.hold("op-repair-required"))
                 .isInstanceOf(WorkflowFailedException.class)
-                .hasMessageContaining("COMPENSATION_REQUIRED");
+                .satisfies(failure -> {
+                    assertThat(failure.getCause()).isInstanceOf(ApplicationFailure.class);
+                    assertThat(((ApplicationFailure) failure.getCause()).getType())
+                            .isEqualTo("COMPENSATION_REQUIRED");
+                });
 
         // A successful compensation of debit does not repair an unsuccessful
         // compensation of credit. There is no dishonest "CANCELLED" claim.
@@ -282,17 +289,20 @@ class TemporalHoldWorkflowIntegrationTest {
 
         private volatile boolean blockCredit;
         private volatile boolean blockDebit;
+        private volatile boolean expectCancellationDuringDebit;
         private volatile boolean failCreditAfterCommit;
         private volatile boolean failDebitAfterCommit;
         private volatile boolean failCreditCompensation;
 
         @Override
         public void holdCredit(String operationId) {
+            // The committed side effect can precede the cancellation request.
+            credit.hold(operationId);
             if (blockCredit) {
                 enteredCredit.countDown();
                 await(proceedCredit);
+                awaitCancellationByHeartbeat();
             }
-            credit.hold(operationId);
             if (failCreditAfterCommit) {
                 throw new IllegalStateException("HTTP reply lost after credit commit");
             }
@@ -300,11 +310,14 @@ class TemporalHoldWorkflowIntegrationTest {
 
         @Override
         public void holdDebit(String operationId) {
+            debit.hold(operationId);
             if (blockDebit) {
                 enteredDebit.countDown();
                 await(proceedDebit);
+                if (expectCancellationDuringDebit) {
+                    awaitCancellationByHeartbeat();
+                }
             }
-            debit.hold(operationId);
             if (failDebitAfterCommit) {
                 throw new IllegalStateException("HTTP reply lost after debit commit");
             }
@@ -326,6 +339,23 @@ class TemporalHoldWorkflowIntegrationTest {
         private void releaseAll() {
             proceedCredit.countDown();
             proceedDebit.countDown();
+        }
+
+        private static void awaitCancellationByHeartbeat() {
+            // WAIT_CANCELLATION_COMPLETED cannot observe a cancellation if an
+            // already-running Activity never heartbeats. The controlled Activity
+            // intentionally stays alive until the SDK sends cancellation back.
+            // ActivityCompletionException is deliberately propagated unchanged.
+            for (int attempt = 0; attempt < 120; attempt++) {
+                Activity.getExecutionContext().heartbeat(attempt);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IllegalStateException("Interrupted while heartbeating", e);
+                }
+            }
+            throw new IllegalStateException("Temporal cancellation never reached Activity heartbeat");
         }
 
         private static void await(CountDownLatch gate) {
