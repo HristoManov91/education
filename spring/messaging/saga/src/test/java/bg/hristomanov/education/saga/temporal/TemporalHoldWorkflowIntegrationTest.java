@@ -213,6 +213,40 @@ class TemporalHoldWorkflowIntegrationTest {
                 .isEqualTo(HoldingParticipant.State.RELEASED);
     }
 
+    @Test
+    void gatewayTimeoutAndClientRetryAttachToOneRunningWorkflow() throws InterruptedException {
+        activities.blockDebit = true;
+        startWorker();
+
+        HoldGateway gateway = new HoldGateway(client, TASK_QUEUE);
+        String operationId = "op-gateway-retry";
+
+        try {
+            HoldGateway.Submission first =
+                    gateway.startOrAttach(operationId, java.time.Duration.ofMillis(100));
+            assertThat(first.outcome()).isEqualTo(HoldGateway.Outcome.PENDING);
+            assertThat(first.workflowId()).isEqualTo(HoldGateway.workflowIdFor(operationId));
+
+            assertThat(activities.enteredDebit.await(15, TimeUnit.SECONDS)).isTrue();
+
+            HoldGateway.Submission retry =
+                    gateway.startOrAttach(operationId, java.time.Duration.ofMillis(100));
+            assertThat(retry.outcome()).isEqualTo(HoldGateway.Outcome.PENDING);
+            assertThat(retry.workflowId()).isEqualTo(first.workflowId());
+        } finally {
+            activities.proceedDebit.countDown();
+        }
+
+        HoldGateway.Submission completed =
+                gateway.startOrAttach(operationId, java.time.Duration.ofSeconds(15));
+
+        assertThat(completed.outcome()).isEqualTo(HoldGateway.Outcome.HELD);
+        assertThat(activities.credit.stateOf(operationId))
+                .isEqualTo(HoldingParticipant.State.HELD);
+        assertThat(activities.debit.stateOf(operationId))
+                .isEqualTo(HoldingParticipant.State.HELD);
+    }
+
     private void startWorker() {
         worker.registerActivitiesImplementations(activities);
         environment.start();
