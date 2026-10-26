@@ -98,10 +98,14 @@ strategic-ddd/  (Maven aggregator)
 ├── quoting-domain/     pure Java model and pricing decisions
 ├── contracts-domain/   pure Java physical vehicle + contract authority
 ├── claims-domain/      pure Java claims vocabulary + ContractFactsPort
-└── integration-lab/    Spring Boot composition
-    ├── ContractToClaimsAclAdapter      (sync in-process reader)
-    ├── ReplicatedContractFactsProjection (async-like local copy)
-    └── ArchUnit / JUnit / @SpringBootTest
+├── integration-lab/    Spring Boot composition
+│   ├── ContractToClaimsAclAdapter      (sync in-process reader)
+│   ├── ReplicatedContractFactsProjection (async-like local copy)
+│   └── ArchUnit / JUnit / @SpringBootTest
+└── modulith-lab/      one Spring Boot deployable / three package-based modules
+    ├── Health Assessment / Dangerous Goods / Operational Clearance
+    ├── @NamedInterface + @ApplicationModule boundaries
+    └── ApplicationModules.verify() / @ApplicationModuleTest / full-context JUnit
 ```
 
 **Maven dependency direction:**
