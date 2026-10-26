@@ -71,6 +71,12 @@ class DataOrientedProgrammingTest {
     }
 
     @Test
+    void markdownJavaDocExampleMatchesExecutedCode() {
+        assertThat(DocumentationExample.sampleDescription())
+                .isEqualTo("tablets:1/0/1");
+    }
+
+    @Test
     void structuralRecordEqualityUsesComponents() {
         assertThat(new Medication(Drug.CAFFEINE, new Tablets(1, 0, 0)))
                 .isEqualTo(new Medication(Drug.CAFFEINE, new Tablets(1, 0, 0)));
