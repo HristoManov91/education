@@ -110,7 +110,7 @@ input.stream()
 
 Mapper-ът може да работи върху virtual threads, но резултатите се връщат в encounter order. Test проверява result order и actual max in-flight не надвишава 2.
 
-**Trade-off:** ако downstream service има 5 DB connections, `mapConcurrent(200)` не прави DB по-бърза; bottleneck и queue просто се преместват. Ако една mapping операция се провали, трябва да анализираш cancellation и кой външен side effect може вече да се е случил. Виж [Temporal Saga](../../concurrency/project-loom/README.md) за concurrent request boundaries и [Idempotency](../../../spring/reliability/idempotency/README.md) за retried effects.
+**Trade-off:** ако downstream service има 5 DB connections, `mapConcurrent(200)` не прави DB по-бърза; bottleneck и queue просто се преместват. Ако една mapping операция се провали, трябва да анализираш cancellation и кой външен side effect може вече да се е случил. Виж [Project Loom](../../concurrency/project-loom/README.md) за concurrent request boundaries и [Idempotency](../../../spring/reliability/idempotency/README.md) за retried effects.
 
 ## 6. When NOT to use Gatherers
 
