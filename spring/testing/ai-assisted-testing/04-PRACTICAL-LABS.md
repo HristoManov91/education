@@ -68,6 +68,12 @@ Test credentials are declared only in the test class. @WithMockUser does **not**
 
 **Trade-off:** This is localhost integration, not Keycloak, gateway or browser E2E.
 
+### Production-like servlet edge case: error dispatch
+
+Един от тестовете първоначално откри **реален бъг в нашия нов модул**: невалидният email задействаше Bean Validation, но реалният `ERROR` dispatch през Spring Security превръщаше очакваното `400` в `403`. Поправката в [SecurityConfig](src/main/java/bg/hristomanov/education/aitesting/security/SecurityConfig.java) разрешава **само** `DispatcherType.ERROR`, не анонимни оригинални заявки. Така 401/403 проверките запазват защитата на resource endpoint-а, а 400 отново описва правилно validation failure.
+
+Този edge case не беше забелязан от по-лекото MVC slice ниво и затова е част от integration lesson.
+
 ## 6. Context cache proof
 
 **Proof:** [ContextCacheIdentityTest](src/test/java/bg/hristomanov/education/aitesting/context/ContextCacheIdentityTest.java)
