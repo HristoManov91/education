@@ -163,6 +163,10 @@ education/
 
 - [CQRS — separate write/read models, synchronous и eventual projections](spring/architecture/cqrs/README.md)
 - [Ports & Adapters / Hexagonal Architecture — build-enforced inside/outside boundaries](spring/architecture/hexagonal-architecture/README.md)
+- [Strategic DDD & Microservice Boundaries — Context Mapping, ACL и executable Java/Spring labs (P1)](spring/architecture/strategic-ddd/README.md)
+  - [1.1 Fundamentals — Bounded Contexts, Ownership & Boundaries](spring/architecture/strategic-ddd/01-STRATEGIC-DDD-AND-BOUNDARIES.md)
+  - [1.2 Deep Dive — Context Mapping & Integration Relationships](spring/architecture/strategic-ddd/02-CONTEXT-MAPPING.md)
+  - [1.3 Hands-on — Maven boundaries, ACL, local projections и ArchUnit](spring/architecture/strategic-ddd/03-LABS.md)
 - [Event Sourcing — append-only streams, replay, projections, concurrency и snapshots](spring/architecture/event-sourcing/README.md)
 
 ### Persistence / Query Design
