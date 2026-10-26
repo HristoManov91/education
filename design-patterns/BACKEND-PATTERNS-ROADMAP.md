@@ -97,7 +97,13 @@ Spring е excellent production context за този pattern/principle.
 
 ---
 
-## 5. Anti-Corruption Layer
+## 5. Anti-Corruption Layer — ✅ demonstrational executable lab
+
+Свързано обучение: [Strategic DDD / Context Mapping — ACL vs Conformist с Java/Spring тестове](../spring/architecture/strategic-ddd/README.md).
+
+Имаме изпълним upstream→downstream translator, compile-time Maven separation, ArchUnit architecture tests и versioned local read projection. Това е **част от стратегическия курс**, а не отделен REST/third-party production adapter.
+
+
 
 ### Казус
 
