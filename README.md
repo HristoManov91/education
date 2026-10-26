@@ -48,6 +48,7 @@
 - [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
 - [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
 - [Skyro — Temporal Saga cancellation и orphaned holds (Case 003)](docs/case-studies/003-skyro-temporal-saga-cancellation.md)
+- [Port of Rotterdam — microservice overload → domain-first modular monolith migration (Case 004)](docs/case-studies/004-port-of-rotterdam-modular-monolith.md)
 
 ## Персонален учебен план и диагностика
 
@@ -181,6 +182,10 @@ education/
   - [1.1 Fundamentals — Bounded Contexts, Ownership & Boundaries](spring/architecture/strategic-ddd/01-STRATEGIC-DDD-AND-BOUNDARIES.md)
   - [1.2 Deep Dive — Context Mapping & Integration Relationships](spring/architecture/strategic-ddd/02-CONTEXT-MAPPING.md)
   - [1.3 Hands-on — Maven boundaries, ACL, local projections и ArchUnit](spring/architecture/strategic-ddd/03-LABS.md)
+  - [1.4 P1 EventStorming — Workshop за откриване на реални бизнес граници](spring/architecture/strategic-ddd/04-EVENTSTORMING-WORKSHOP.md)
+  - [1.5 P1 Spring Modulith — executable modules, verification и module tests](spring/architecture/strategic-ddd/05-SPRING-MODULITH.md)
+  - [Port Clearance Modulith — Java 25 runnable lab](spring/architecture/strategic-ddd/modulith-lab/README.md)
+  - [NotebookLM — два P1 prompts (EventStorming и Spring Modulith)](spring/architecture/strategic-ddd/NOTEBOOKLM-EVENTSTORMING-MODULITH.md)
 - [Event Sourcing — append-only streams, replay, projections, concurrency и snapshots](spring/architecture/event-sourcing/README.md)
 
 ### Persistence / Query Design
