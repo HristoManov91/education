@@ -150,8 +150,11 @@
 | SYS-DDD-03 | Anti-Corruption Layer, Shared Kernel, integration decisions | Собствен downstream model, mapping semantics, conscious coupling |
 | SYS-DDD-04 | Modular monolith, microservices, runtime calls vs local projections | Latency/freshness/consistency/risk trade-off |
 | SYS-DDD-05 | Hands-on code review и архитектурна диагностика | Maven/ArchUnit boundaries, stale projections, реални dependency changes |
+| SYS-DDD-06 | [EventStorming — business boundaries discovery](../../spring/architecture/strategic-ddd/04-EVENTSTORMING-WORKSHOP.md) | Timeline, domain facts, actors, pivotal events, hotspots и boundary hypotheses |
+| SYS-DDD-07 | [Spring Modulith — package contracts & module tests](../../spring/architecture/strategic-ddd/05-SPRING-MODULITH.md) | @NamedInterface, allowedDependencies, ApplicationModules.verify, @ApplicationModuleTest |
+| SYS-DDD-08 | [Case Study 004 — Port of Rotterdam](../case-studies/004-port-of-rotterdam-modular-monolith.md) | Migration by capability, trade-offs, legacy coexistence, measured vs hypothesized benefits |
 
-**Комбинирана проверка:** SYS-DDD-01–05 (архитектура на leasing платформа). Първо изучаване и CI на модул **не са оценка за усвоено знание**; оценяваме само след реални отговори на диагностика.
+**Комбинирана проверка:** SYS-DDD-01–05 (архитектура на leasing платформа), след което SYS-DDD-06–08 (port clearance EventStorming, Spring Modulith code и migration critique). Първо изучаване и CI на модул **не са оценка за усвоено знание**; оценяваме само след реални отговори на диагностика.
 
 ---
 
