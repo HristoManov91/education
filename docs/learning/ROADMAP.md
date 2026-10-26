@@ -180,6 +180,7 @@
 | JAVA-MOD-01 | P1 | [Data-Oriented Programming](../../java/language/data-oriented-programming/README.md): records, sealed sum types, exhaustive switch | Modeling invalid states, constructors, null, guards и overflow |
 | JAVA-MOD-02 | P1 | [Stream Gatherers](../../java/streams/stream-gatherers/README.md): windowing, scan/fold, custom distinctBy | Intermediate vs terminal, mutable state, encounter order, concurrency |
 | JAVA-MOD-03 | P1 | [Project Leyden / JVM Performance](../../java/jvm/performance-evolution/README.md) | Startup vs warm-up vs throughput, JDK25 AOT & compact headers with honest measurement |
+| JAVA-PERF-01 | P1 | [Benchmark Correctness & Performance Measurement](../../java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md) | Reproducibility / Realism / Relevance; open vs closed; coordinated omission, USE/RED, successful throughput, independent bottleneck evidence |
 | JAVA-MOD-04 | P2 | [Sequenced Collections](../../java/collections/sequenced-collections/README.md) | Reversed backed view vs snapshot, supported/unsupported mutators |
 | JAVA-MOD-05 | P2 | [MDC/ThreadLocal + Virtual Threads](../../java/concurrency/project-loom/MDC-CONTEXT-PROPAGATION.md) | Context snapshot per task, cleanup и ScopedValue trade-offs |
 | JAVA-MOD-06 | P2 | [JFR JDK27 sensitive-data redaction](../../java/jvm/jfr-troubleshooting/JDK-27-JFR-REDACTION.md) | Preview/version boundary, security risk in recordings |
