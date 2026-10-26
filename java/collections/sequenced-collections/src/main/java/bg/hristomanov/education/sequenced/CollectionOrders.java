@@ -1,13 +1,11 @@
 package bg.hristomanov.education.sequenced;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.SequencedCollection;
 import java.util.SequencedMap;
 import java.util.SequencedSet;
-import java.util.Set;
 
 /**
  * Since Java 21 these interfaces express an encounter-order contract instead
@@ -41,12 +39,6 @@ public final class CollectionOrders {
 
     /** The returned reversed list is a backed view, NOT a defensive copy. */
     public static SequencedCollection<String> reversedBackedView(List<String> original) {
-        return new ArrayListView(original).reversed();
-    }
-
-    private static final class ArrayListView extends ArrayList<String> {
-        private ArrayListView(List<String> original) {
-            super(original);
-        }
+        return original.reversed();
     }
 }
