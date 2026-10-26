@@ -147,6 +147,16 @@ Observed symptom → baseline recording/metrics
 
 Добавеният [Java 27 JFR data redaction note](../jfr-troubleshooting/JDK-27-JFR-REDACTION.md) описва как recording може да скрие чувствителни JVM arguments/system property values, но не гарантира, че всички custom events са автоматично safe.
 
+## Benchmark Correctness — P1 Deep Technical Lecture (Devoxx 2026)
+
+- **[Benchmark Correctness & Performance Measurement](BENCHMARK-CORRECTNESS.md)** — Reproducibility / Realism / Relevance, **Coordinated Omission**, correct p99 & throughput contracts, independent resource bottlenecks, USE/RED analysis and a documented Quarkus/Spring networking case.
+- [Java 25 executable labs](BENCHMARK-CORRECTNESS-LABS.md) — deterministic closed/open workload simulator, shared resource ceiling, successful throughput accounting, JUnit proofs.
+- [NotebookLM 30–40 min Bulgarian audio prompt](BENCHMARK-CORRECTNESS-NOTEBOOKLM-PROMPT.md).
+
+Тази тема **надгражда** нашия AOT/JVM performance материал: въпросът вече не е „как да измеря даден JVM flag?“, а **„имам ли достоверно измерване и сравнявам ли правилния workload?“**. Лабораторията е simulation, не реален network benchmark и не твърди measured speedup.
+
+---
+
 ## 6. Benchmark protocol (production-like)
 
 - Използвай **същия JDK build**, OS/CPU architecture, resource limits, GC, heap sizes и имидж.
