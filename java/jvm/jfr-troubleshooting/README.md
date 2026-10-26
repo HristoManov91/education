@@ -168,6 +168,7 @@ Spring Boot application
 | Java 25 JFR новости | [`JDK-25-JFR.md`](./JDK-25-JFR.md) | JEP 509 / 518 / 520 |
 | Java 27 JFR redaction | [`JDK-27-JFR-REDACTION.md`](./JDK-27-JFR-REDACTION.md) | JEP 536 — sensitive data protection (version note, not JDK25 executable) |
 | JVM performance / AOT | [Leyden/Compact Header lab](../performance-evolution/README.md) | Separate startup/memory hypothesis, JFR recording for evidence |
+| Benchmark validity / active measurement | [Benchmark Correctness P1](../performance-evolution/BENCHMARK-CORRECTNESS.md) | JFR/CPU/DB/network metrics prove which resource limits the result |
 
 ---
 
