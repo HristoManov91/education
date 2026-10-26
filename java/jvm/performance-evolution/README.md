@@ -36,12 +36,18 @@
 Тя компресира обичайния Java object header до 64 bits спрямо 96/128 bits в стандартния layout. Най-полезна е при милиони **малки обекти**, където header-ът е значим дял от размера. Но може да има CPU cost за unpacking, различно GC поведение и други trade-offs.
 
 ```bash
-java -Xmx2g -Xlog:gc*:file=target/gc-normal.log:time,uptime,level,tags \
-  -cp target/classes bg.hristomanov.education.performance.StartupWorkload 25000
+# Run these from the education repository root:
+mvn -pl java/jvm/performance-evolution package
+
+java -Xmx2g \
+  -Xlog:gc*:file=java/jvm/performance-evolution/target/gc-normal.log:time,uptime,level,tags \
+  -cp java/jvm/performance-evolution/target/classes \
+  bg.hristomanov.education.performance.StartupWorkload 25000
 
 java -Xmx2g -XX:+UseCompactObjectHeaders \
-  -Xlog:gc*:file=target/gc-compact.log:time,uptime,level,tags \
-  -cp target/classes bg.hristomanov.education.performance.StartupWorkload 25000
+  -Xlog:gc*:file=java/jvm/performance-evolution/target/gc-compact.log:time,uptime,level,tags \
+  -cp java/jvm/performance-evolution/target/classes \
+  bg.hristomanov.education.performance.StartupWorkload 25000
 ```
 
 **JDK 27:** Compact Object Headers вече са default enabled. Използвай `-XX:-UseCompactObjectHeaders` за контролирано сравнение, докато този flag още се поддържа; не приемай стария layout за вечен. Версията се проверява с `java -version` и текущите release notes.
