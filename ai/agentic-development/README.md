@@ -649,6 +649,17 @@ Complexity има цена:
 
 ---
 
+# Свързано P1 обучение: AI-generated tests
+
+Към общите agent/skills principles вече има специализиран практически модул:
+
+- [Spring Boot Testing in the AI Era — JUnit/MVC/HTTP, Context Caching, PIT и AI test quality](../../spring/testing/ai-assisted-testing/README.md)
+- [Четири portable testing skills](../../spring/testing/ai-assisted-testing/agent-skills/README.md) за избор на test type, deterministic unit tests, independent review и read-only CI диагностика.
+
+Те са versioned учебни примери, не автоматично активирани permissions. Основното правило: **тестовите acceptance criteria трябва да са независими от AI-generated implementation**, а CI evidence се проверява от последния commit.
+
+---
+
 # Practical checklist за нов project
 
 ```text
