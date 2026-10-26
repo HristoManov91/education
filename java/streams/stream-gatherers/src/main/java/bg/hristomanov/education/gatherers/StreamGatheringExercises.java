@@ -48,7 +48,7 @@ public final class StreamGatheringExercises {
      * the caller; mapConcurrent does not make remote operations transactional.
      */
     public static <T, R> List<R> orderedConcurrentMap(
-            List<T> input, int maxConcurrency, Function<? super T, ? extends R> mapper) {
+            List<T> input, int maxConcurrency, Function<T, R> mapper) {
         return input.stream().gather(Gatherers.mapConcurrent(maxConcurrency, mapper)).toList();
     }
 
