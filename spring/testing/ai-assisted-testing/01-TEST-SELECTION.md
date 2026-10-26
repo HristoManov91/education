@@ -63,6 +63,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 **MockMvc≠Tomcat benchmark:** не използвай `MockMvc`, за да твърдиш production throughput/connection handling. И двата начина могат да проверяват business outcome, но имат различна execution boundary.
 
+## Допълнителен real-HTTP failure: Spring Security ERROR dispatch
+
+При първото изпълнение на интеграционните тестове `@Email` коректно хвърля `MethodArgumentNotValidException`, но реалният servlet container извършва **ERROR dispatch**. Ако `SecurityFilterChain` завършва с `anyRequest().denyAll()`, без отделно правило за ERROR dispatch, security може да замени първоначалното `400 Bad Request` с `403 Forbidden`.
+
+В [SecurityConfig](src/main/java/bg/hristomanov/education/aitesting/security/SecurityConfig.java) разрешаваме само `DispatcherType.ERROR` — оригиналният HTTP `REQUEST` към `/api/customers/**` продължава да изисква роля `STAFF`. [CustomerHttpIT](src/test/java/bg/hristomanov/education/aitesting/api/CustomerHttpIT.java) е regression proof.
+
+Това е точен пример **защо само `@WebMvcTest` не е достатъчен**, когато поведението на истинския servlet dispatch и security filters е съществено.
+
 ## Maven Surefire vs Failsafe
 
 - `*Test` → Surefire по време на `mvn test`;
