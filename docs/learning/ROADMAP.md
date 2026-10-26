@@ -139,6 +139,22 @@
 
 **Налични лаборатории:** [Testcontainers](../../spring/testing/testcontainers/README.md), [Idempotency](../../spring/reliability/idempotency/README.md), [Fault tolerance](../../spring/reliability/fault-tolerance/README.md), [Outbox/Inbox](../../spring/messaging/outbox-inbox/README.md).
 
+## P1 — System Design / Strategic DDD & Context Mapping
+
+**Материал:** [Strategic DDD & Microservice Boundaries — Deep Technical Lecture + executable architecture labs](../../spring/architecture/strategic-ddd/README.md). Основен източник: Devoxx Belgium 2026 (Steven Hillaert), приоритет **Tech Radar P1**.
+
+| ID | Микро-тема | Проверяваме |
+| --- | --- | --- |
+| SYS-DDD-01 | Ownership, subdomains, bounded contexts vs deployment/team boundaries | Кой притежава decision/data/model? Кога 2 BC = 1 deployable? |
+| SYS-DDD-02 | Context Mapping — upstream/downstream vs HTTP call direction | Чий success и модел зависи от кого, Conformist vs Customer–Supplier |
+| SYS-DDD-03 | Anti-Corruption Layer, Shared Kernel, integration decisions | Собствен downstream model, mapping semantics, conscious coupling |
+| SYS-DDD-04 | Modular monolith, microservices, runtime calls vs local projections | Latency/freshness/consistency/risk trade-off |
+| SYS-DDD-05 | Hands-on code review и архитектурна диагностика | Maven/ArchUnit boundaries, stale projections, реални dependency changes |
+
+**Комбинирана проверка:** SYS-DDD-01–05 (архитектура на leasing платформа). Първо изучаване и CI на модул **не са оценка за усвоено знание**; оценяваме само след реални отговори на диагностика.
+
+---
+
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
 - **P1:** Distributed Systems/System Design; JVM Performance & Observability; DS&A (вече разделено на малки topics); Redis/Caching; Docker/CI; AI-assisted Engineering.
