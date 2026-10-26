@@ -19,6 +19,12 @@
 
 ---
 
+## Ново от Devoxx 2026 — targeted MDC/ThreadLocal extension
+
+[Context propagation към Virtual Threads — ThreadFactory + snapshot + cleanup](MDC-CONTEXT-PROPAGATION.md) допълва вече реализирания ScopedValue/StructuredTaskScope материал с **конкретен legacy logging MDC-style use case** и executable Java 25 тестове. Не дублира основните Loom лекции.
+
+---
+
 ## 1. Голямата картина: какъв проблем решава Project Loom
 
 Класическият Java/Spring backend често е написан в много естествен synchronous стил:
