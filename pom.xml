@@ -32,6 +32,7 @@
         <module>spring/events/domain-events</module>
         <module>spring/architecture/cqrs</module>
         <module>spring/architecture/hexagonal-architecture</module>
+        <module>spring/architecture/strategic-ddd</module>
         <module>spring/architecture/event-sourcing</module>
     </modules>
 </project>
