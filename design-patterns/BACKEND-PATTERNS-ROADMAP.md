@@ -103,6 +103,8 @@ Spring е excellent production context за този pattern/principle.
 
 Имаме изпълним upstream→downstream translator, compile-time Maven separation, ArchUnit architecture tests и versioned local read projection. Това е **част от стратегическия курс**, а не отделен REST/third-party production adapter.
 
+**Ново допълнение:** [EventStorming workshop](../spring/architecture/strategic-ddd/04-EVENTSTORMING-WORKSHOP.md) открива boundaries с business stakeholders, а [Spring Modulith lab](../spring/architecture/strategic-ddd/05-SPRING-MODULITH.md) прави package/module границите изпълнимо CI правило. Не смесвай design pattern Adapter с business bounded context discovery.
+
 
 
 ### Казус

@@ -43,15 +43,19 @@ Naive реакция: „да сложим Kafka и да разделим усл
 8. Кога да предпочетеш **modular monolith**, отделен deployable service или целенасочено споделена read-only data service.
 9. Как **Maven + ArchUnit + integration tests** доказват границите, а не само ги документират.
 
-## 3. Учебен ред — три самостоятелни части
+## 3. Учебен ред — пет самостоятелни части (два P1 блока, без дублиране)
 
 | Част | Фокус | Материал |
 | --- | --- | --- |
 | **1.1 Fundamentals** | Strategic DDD: model ownership, domain/subdomain, ubiquitous language, bounded contexts, deployment и risk boundaries | [01 — Strategic DDD & Service Boundaries](01-STRATEGIC-DDD-AND-BOUNDARIES.md) |
 | **1.2 Deep Dive** | Context Mapping: upstream/downstream, Conformist, ACL, Customer–Supplier, Shared Kernel, data replication, communication choices | [02 — Context Mapping & Relationships](02-CONTEXT-MAPPING.md) |
 | **1.3 Hands-on** | Java/Spring Boot executable case: различни значения на Vehicle, ACL срещу Conformist, local projection, ArchUnit и Spring integration | [03 — Practical Architecture Labs](03-LABS.md) |
+| **1.4 Workshop — P1** | EventStorming Big Picture/Process Modelling, pivotal events, hotspots, actors и boundaries discovery | [04 — EventStorming Workshop](04-EVENTSTORMING-WORKSHOP.md) |
+| **1.5 Spring Modulith — P1** | Package-based module APIs, named interfaces, allowedDependencies, verification, module tests и in-process events | [05 — Spring Modulith](05-SPRING-MODULITH.md) |
 
-За NotebookLM: [P1 аудио prompts за двете теоретични части и практическата лаборатория](NOTEBOOKLM-PROMPTS.md). Те са обвързани с **конкретните файлове и доказателства**, не със свободно генерирано резюме.
+За NotebookLM: [оригиналните три P1 аудио prompts](NOTEBOOKLM-PROMPTS.md) са допълнени с [два специализирани prompts за EventStorming и Spring Modulith](NOTEBOOKLM-EVENTSTORMING-MODULITH.md). Те са обвързани с конкретните файлове и доказателства, не със свободно генерирано резюме.
+
+**Новият Port of Rotterdam case:** [Engineering Case Study 004](../../../docs/case-studies/004-port-of-rotterdam-modular-monolith.md). Имаме [отделен modulith-lab](modulith-lab/README.md) с един Spring Boot deployable, три business packages, named event interfaces и executable Modulith boundary/module tests. Той допълва старите Maven/ArchUnit labs, не ги заменя.
 
 ## 4. Преди/след: защо един общ Vehicle модел е опасен
 
@@ -94,10 +98,14 @@ strategic-ddd/  (Maven aggregator)
 ├── quoting-domain/     pure Java model and pricing decisions
 ├── contracts-domain/   pure Java physical vehicle + contract authority
 ├── claims-domain/      pure Java claims vocabulary + ContractFactsPort
-└── integration-lab/    Spring Boot composition
-    ├── ContractToClaimsAclAdapter      (sync in-process reader)
-    ├── ReplicatedContractFactsProjection (async-like local copy)
-    └── ArchUnit / JUnit / @SpringBootTest
+├── integration-lab/    Spring Boot composition
+│   ├── ContractToClaimsAclAdapter      (sync in-process reader)
+│   ├── ReplicatedContractFactsProjection (async-like local copy)
+│   └── ArchUnit / JUnit / @SpringBootTest
+└── modulith-lab/      one Spring Boot deployable / three package-based modules
+    ├── Health Assessment / Dangerous Goods / Operational Clearance
+    ├── @NamedInterface + @ApplicationModule boundaries
+    └── ApplicationModules.verify() / @ApplicationModuleTest / full-context JUnit
 ```
 
 **Maven dependency direction:**

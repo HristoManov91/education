@@ -19,6 +19,7 @@
         <module>contracts-domain</module>
         <module>claims-domain</module>
         <module>integration-lab</module>
+        <module>modulith-lab</module>
     </modules>
     <properties>
         <java.version>25</java.version>
