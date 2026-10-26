@@ -103,6 +103,7 @@ education/
 - [P1 Data-Oriented Programming — records, sealed types, pattern matching и exhaustiveness](java/language/data-oriented-programming/README.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
+  - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
 - [P2 Sequenced Collections — encounter order и backed reversed views](java/collections/sequenced-collections/README.md)
 
 ### Java / Concurrency
