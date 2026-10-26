@@ -1,5 +1,7 @@
 package bg.hristomanov.education.aitesting.security;
 
+import jakarta.servlet.DispatcherType;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -19,6 +21,10 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Validation errors can be dispatched to /error by the
+                        // servlet container. Do not turn HTTP 400 into 403.
+                        // The original REQUEST still requires STAFF.
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/api/customers/**").hasRole("STAFF")
                         .anyRequest().denyAll())
                 .httpBasic(Customizer.withDefaults())
