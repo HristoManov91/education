@@ -155,6 +155,22 @@
 
 ---
 
+## P1 — Spring Boot Testing in the AI Era (Devoxx 2026)
+
+**Материал:** [P1 Deep Technical Lecture + executable unit/MVC/HTTP tests](../../spring/testing/ai-assisted-testing/README.md). Налага се от дългата лекция на Philip Riecks и допълва фундаменталните TEST-01–TEST-06; **не е оценено като усвоено**, докато не минем диагностични въпроси.
+
+| ID | Микро-тема | Какво доказваме |
+| --- | --- | --- |
+| TEST-AI-01 | Unit vs Spring MVC slice vs real HTTP | Correct failure boundary и Spring Boot 4 API |
+| TEST-AI-02 | Spring TestContext caching и cache keys | Profile/properties/mocks, forks, @DirtiesContext |
+| TEST-AI-03 | Surefire/Failsafe, Testcontainers, isolation и CI | Unit/IT separation, reliable feedback, parallel safety |
+| TEST-AI-04 | Independent AI test oracle, mutation testing | Boundary/negative tests, no green-by-cheating |
+| TEST-AI-05 | Versioned agent skills + production readiness | Skills, test review, CI evidence, rollback |
+
+**Практичен checkpoint:** RegistrationPolicy, MockMvc 400/401/403, HTTP auth и TestContext cache reuse. Наличието на готов модул не доказва лично владеене.
+
+---
+
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
 - **P1:** Distributed Systems/System Design; JVM Performance & Observability; DS&A (вече разделено на малки topics); Redis/Caching; Docker/CI; AI-assisted Engineering.

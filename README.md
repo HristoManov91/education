@@ -125,6 +125,10 @@ education/
 
 - [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
   - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
+- [P1 Spring Boot Testing in the AI Era — unit/slice/HTTP, TestContext cache, mutation и AI тестове](spring/testing/ai-assisted-testing/README.md)
+  - [Context caching & CI](spring/testing/ai-assisted-testing/02-CONTEXT-CACHING-CI.md)
+  - [AI testing guardrails и mutation testing](spring/testing/ai-assisted-testing/03-AI-GUARDRAILS.md)
+  - [NotebookLM P1 prompts](spring/testing/ai-assisted-testing/NOTEBOOKLM-PROMPTS.md)
 
 ### Spring / Caching
 
