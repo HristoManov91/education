@@ -661,3 +661,9 @@ for each index
 [ ] Разграничавам ли Stack, Queue и Deque като ADT?
 [ ] Мога ли да избера структура според workload operations?
 ```
+
+---
+
+## Related Java 21+ API contract
+
+За алгоритми, които изискват само encounter order и first/last (а не random indexed access), виж [Sequenced Collections — Java 25 executable lab](../../collections/sequenced-collections/README.md). Тази API тема **не** променя сложността на ArrayList/LinkedList/TreeSet; показва по-точни interfaces, reversed backed views и UnsupportedOperationException при неподдържани mutations.

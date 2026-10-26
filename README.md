@@ -96,6 +96,15 @@ education/
 
 ## Лаборатории
 
+### Modern Java (Java 25 runnable + Java 26/27 version notes)
+
+- [Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28](java/JAVA-EVOLUTION-GUIDE.md)
+- [Devoxx 2026 — P1/P2/P3 NotebookLM аудио уроци](java/MODERN-JAVA-NOTEBOOKLM-PROMPTS.md)
+- [P1 Data-Oriented Programming — records, sealed types, pattern matching и exhaustiveness](java/language/data-oriented-programming/README.md)
+- [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
+- [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
+- [P2 Sequenced Collections — encounter order и backed reversed views](java/collections/sequenced-collections/README.md)
+
 ### Java / Concurrency
 
 - [Project Loom — Virtual Threads, Structured Concurrency и Scoped Values](java/concurrency/project-loom/README.md)

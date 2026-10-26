@@ -171,6 +171,24 @@
 
 ---
 
+## P1/P2 — Modern Java in Practice (Devoxx Belgium 2026)
+
+**Навигация:** [Java Evolution Guide (17–28)](../../java/JAVA-EVOLUTION-GUIDE.md) · [NotebookLM P1/P2/P3 prompts](../../java/MODERN-JAVA-NOTEBOOKLM-PROMPTS.md). Java 25 LTS остава базовата версия за изпълнимите упражнения. Наличието на Maven tests **не е лично доказателство за усвоени знания**.
+
+| ID | Приоритет | Микро-тема | Проверяваме |
+| --- | --- | --- | --- |
+| JAVA-MOD-01 | P1 | [Data-Oriented Programming](../../java/language/data-oriented-programming/README.md): records, sealed sum types, exhaustive switch | Modeling invalid states, constructors, null, guards и overflow |
+| JAVA-MOD-02 | P1 | [Stream Gatherers](../../java/streams/stream-gatherers/README.md): windowing, scan/fold, custom distinctBy | Intermediate vs terminal, mutable state, encounter order, concurrency |
+| JAVA-MOD-03 | P1 | [Project Leyden / JVM Performance](../../java/jvm/performance-evolution/README.md) | Startup vs warm-up vs throughput, JDK25 AOT & compact headers with honest measurement |
+| JAVA-MOD-04 | P2 | [Sequenced Collections](../../java/collections/sequenced-collections/README.md) | Reversed backed view vs snapshot, supported/unsupported mutators |
+| JAVA-MOD-05 | P2 | [MDC/ThreadLocal + Virtual Threads](../../java/concurrency/project-loom/MDC-CONTEXT-PROPAGATION.md) | Context snapshot per task, cleanup и ScopedValue trade-offs |
+| JAVA-MOD-06 | P2 | [JFR JDK27 sensitive-data redaction](../../java/jvm/jfr-troubleshooting/JDK-27-JFR-REDACTION.md) | Preview/version boundary, security risk in recordings |
+| JAVA-MOD-07 | P2/P3 | Java 26/27/28 API evolution | HTTP/3, Stable Values preview, PQ TLS/PEM, JavaDoc, compatibility |
+
+**Практичен checkpoint:** Model `Dose` alternatives, write an exhaustive switch, compose two gatherers, explain a reversed backed view, and reason about AOT experiment validity. Задачи и оценки се добавят само след реален диагностичен разговор.
+
+---
+
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
 - **P1:** Distributed Systems/System Design; JVM Performance & Observability; DS&A (вече разделено на малки topics); Redis/Caching; Docker/CI; AI-assisted Engineering.
