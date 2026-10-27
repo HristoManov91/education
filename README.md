@@ -178,6 +178,7 @@ education/
 
 - [CQRS — separate write/read models, synchronous и eventual projections](spring/architecture/cqrs/README.md)
 - [Ports & Adapters / Hexagonal Architecture — build-enforced inside/outside boundaries](spring/architecture/hexagonal-architecture/README.md)
+  - [P2 The Hexagonal Hangover — architecture trade-offs, cohesion/coupling/distance/volatility и code review](spring/architecture/hexagonal-architecture/P2-ARCHITECTURE-DECISIONS.md)
 - [Strategic DDD & Microservice Boundaries — Context Mapping, ACL и executable Java/Spring labs (P1)](spring/architecture/strategic-ddd/README.md)
   - [1.1 Fundamentals — Bounded Contexts, Ownership & Boundaries](spring/architecture/strategic-ddd/01-STRATEGIC-DDD-AND-BOUNDARIES.md)
   - [1.2 Deep Dive — Context Mapping & Integration Relationships](spring/architecture/strategic-ddd/02-CONTEXT-MAPPING.md)
