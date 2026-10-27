@@ -63,7 +63,7 @@ Worker B / tenant1-tokenX → Redis PTTL > 0 → SKIP remote → synthetic 429
 Worker C / tenant2-tokenX → different key → remote CALL continues
 ```
 
-[`SharedRateLimitClient.call(...)`](./src/main/java/bg/hristomanov/education/reliability/externalapi/SharedRateLimitClient.java) първо чете [`CooldownStore.remaining(...)`](./src/main/java/bg/hristomanov/education/reliability/externalapi/SharedRateLimitClient.java). Ако има положителен TTL, връща **синтетичен 429** и задава `fromSharedCooldown=true`; caller-ът решава да отложи задачата, не да спи.
+[`SharedRateLimitClient.call(...)`](./src/main/java/bg/hristomanov/education/reliability/externalapi/SharedRateLimitClient.java) първо чете [`CooldownStore.remaining(...)`](./src/main/java/bg/hristomanov/education/reliability/externalapi/SharedRateLimitClient.java). Ако има положителен TTL, връща **синтетичен 429** и задава `localShortCircuit=true`; caller-ът решава да отложи задачата, не да спи.
 
 При реален 429 парсваме `Retry-After` (целочислени секунди **или** HTTP-date), при невалиден header използваме bounded fallback и прилагаме maximum TTL. Не кешираме body, cookies, request headers или сурови credentials.
 
@@ -221,7 +221,7 @@ Scheduled job / durable queue
    ↓ Ack / schedule retry with correct delay and idempotency
 ```
 
-**Порядъкът не е автоматичен:** ако synthetic 429 преминава през Circuit Breaker като remote failure, ще отвори breaker по грешна причина. Реалните network errors, local rate-limit skips и permanent invalid credentials трябва да са отделни категории с различни retry/metric policies. Retry, който моментално повтаря при `fromSharedCooldown=true`, също е bug.
+**Порядъкът не е автоматичен:** ако synthetic 429 преминава през Circuit Breaker като remote failure, ще отвори breaker по грешна причина. Реалните network errors, local rate-limit skips и permanent invalid credentials трябва да са отделни категории с различни retry/metric policies. Retry, който моментално повтаря при `localShortCircuit=true`, също е bug.
 
 ## Как да стартираме лабораториите
 
