@@ -37,9 +37,9 @@ class SharedRateLimitClientTest {
             return SharedRateLimitClient.Reply.remote(200, "should not run", Map.of());
         });
 
-        assertThat(first.fromSharedCooldown()).isFalse();
+        assertThat(first.localShortCircuit()).isFalse();
         assertThat(second.status()).isEqualTo(429);
-        assertThat(second.fromSharedCooldown()).isTrue();
+        assertThat(second.localShortCircuit()).isTrue();
         assertThat(second.header("Retry-After")).isEqualTo("60");
         assertThat(remoteCalls).hasValue(1);
 
