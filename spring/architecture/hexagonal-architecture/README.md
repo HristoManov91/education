@@ -16,6 +16,8 @@
 
 Целта е да разберем **dependency direction-а** и кога isolation-ът от infrastructure носи реална стойност.
 
+**P2 допълнение от Devoxx 2026:** [Architecture Decision-Making — cohesion, coupling, distance и volatility](./P2-ARCHITECTURE-DECISIONS.md). Това е кратка глава за **кога изобщо си струва** да въведем ports, adapters и допълнителни слоеве, с два Java/Spring code-review казуса.
+
 ---
 
 # ВХОД В ТЕМАТА
@@ -909,6 +911,8 @@ minimal business logic
 
 Не печелим senior points от максимален брой abstractions.
 
+За преценка в конкретен проект използвай [P2 decision checklist и сравненията на два реалистични сценария](./P2-ARCHITECTURE-DECISIONS.md).
+
 ---
 
 # Common mistakes
@@ -1180,7 +1184,7 @@ REST adapter
 7. Добави ArchUnit rule като втори architecture guard.
 8. Сравни framework-free core срещу pragmatic core с `@Service/@Transactional`.
 9. Пресметни mapping boilerplate-а при domain=JPA model и separate models.
-10. Направи architecture decision record кога този pattern не си струва.
+10. Използвай [P2 Architecture Decision-Making](./P2-ARCHITECTURE-DECISIONS.md), за да защитиш с ADR кога Hexagonal Architecture си струва и кога е прекомерна.
 
 ---
 
