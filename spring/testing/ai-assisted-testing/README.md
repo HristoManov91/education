@@ -21,6 +21,7 @@ AI агент пише endpoint за регистрация: 18+ години, �
 | **2. Context Caching & CI** | Защо mocks, profiles, forks и context lifecycle бавят CI? | [02 — Deep Dive](02-CONTEXT-CACHING-CI.md) |
 | **3. Agentic Testing** | Как AI да пише/проверява смислени тестове, а не да гони зелени чекове? | [03 — AI Guardrails](03-AI-GUARDRAILS.md) |
 | **4. Practical labs** | Java code, real MVC, context cache, HTTP security, Maven Failsafe, PIT | [04 — Labs](04-PRACTICAL-LABS.md) |
+| **5. Mutation Testing Deep Dive** | Surviving mutants, equivalent code, PIT bytecode, chunked writes, CI gates | [05 — Mutation Testing](05-MUTATION-TESTING-DEEP-DIVE.md) |
 | **NotebookLM** | 3 специализирани аудио лекции | [Audio prompts](NOTEBOOKLM-PROMPTS.md) |
 
 За процедурите, които AI agents могат да зареждат при нужда: [skills index](agent-skills/README.md).
@@ -34,7 +35,8 @@ AI агент пише endpoint за регистрация: 18+ години, �
 | @Valid, MVC routing, JSON, 401/403 | [CustomerController](src/main/java/bg/hristomanov/education/aitesting/api/CustomerController.java) | [CustomerControllerTest](src/test/java/bg/hristomanov/education/aitesting/api/CustomerControllerTest.java) |
 | Actual TestContext cache identity | Spring TestContext | [ContextCacheIdentityTest](src/test/java/bg/hristomanov/education/aitesting/context/ContextCacheIdentityTest.java) |
 | Servlet threads, HTTP Basic, status/headers | [SecurityConfig](src/main/java/bg/hristomanov/education/aitesting/security/SecurityConfig.java) | [CustomerHttpIT](src/test/java/bg/hristomanov/education/aitesting/api/CustomerHttpIT.java) |
-| Mutation quality | [Maven opt-in PIT profile](pom.xml) | RegistrationPolicyTest (PIT отчети само при реално изпълнение) |
+| Mutation quality: age boundary | [Maven opt-in PIT profile](pom.xml) | RegistrationPolicyTest (PIT отчети само при реално изпълнение) |
+| Partial writes / chunk limit | [ChunkedSender](src/main/java/bg/hristomanov/education/aitesting/mutation/ChunkedSender.java) | [ChunkedSenderTest](src/test/java/bg/hristomanov/education/aitesting/mutation/ChunkedSenderTest.java), [PIT chunking profile](pom.xml) |
 
 ## Run
 
@@ -48,11 +50,14 @@ mvn -pl spring/testing/ai-assisted-testing verify
 # Целият education repository:
 mvn --no-transfer-progress verify
 
-# Отделен optional PIT mutation run:
+# Отделен optional PIT mutation run (age boundary):
 mvn -pl spring/testing/ai-assisted-testing -Pmutation test pitest:mutationCoverage
+
+# Отделен optional PIT mutation run (chunked send):
+mvn -pl spring/testing/ai-assisted-testing -Pmutation-chunking test pitest:mutationCoverage
 ```
 
-**Важно:** За Maven Failsafe е необходима фаза `verify`, а не само `test`. PIT не е част от стандартната CI проверка; не твърдим измерен mutation score без изпълнението му.
+**Важно:** За Maven Failsafe е необходима фаза `verify`, а не само `test`. PIT не е част от стандартната CI проверка; не твърдим измерен mutation score без изпълнението му. Двата opt-in PIT профила се пускат **поотделно**, тъй като генерират резултати в една директория. За интерпретация на `SURVIVED`, `NO_COVERAGE` и equivalent mutants виж [Mutation Testing Deep Dive](05-MUTATION-TESTING-DEEP-DIVE.md).
 
 ## Testing levels — цена срещу доказателство
 
@@ -90,6 +95,7 @@ Test suite = **fast & trustworthy feedback**, не процент coverage. Ос
 ## Оригинални източници
 
 1. [Philip Riecks, Devoxx — Prompt It Right: Spring Boot Testing in the AI Era](https://www.youtube.com/watch?v=d6D8nef-32c)
+2. [Dave Aronson, Devoxx — Kill All Mutants! Intro to Mutation Testing](https://www.youtube.com/watch?v=AsVt_dzTmN4)
 2. [Spring Boot 4.1.1 — Testing](https://docs.spring.io/spring-boot/reference/testing/)
 3. [Spring Framework — TestContext Caching](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/ctx-management/caching.html)
 4. [Spring Boot — MVC test slices](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html)
