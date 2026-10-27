@@ -163,6 +163,7 @@ education/
 
 - [Idempotency — safe retries without duplicate side effects](spring/reliability/idempotency/README.md)
 - [Retry + Timeout + Circuit Breaker + Bulkhead — fault-tolerance patterns](spring/reliability/fault-tolerance/README.md)
+  - [P1 Production API Resilience — shared 429/Redis cooldown, resumable syncs, load shedding, credential recovery](spring/reliability/fault-tolerance/PRODUCTION-API-RESILIENCE-P1.md)
 
 ### Spring / Messaging
 

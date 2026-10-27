@@ -141,6 +141,8 @@
 
 **Налични лаборатории:** [Testcontainers](../../spring/testing/testcontainers/README.md), [Idempotency](../../spring/reliability/idempotency/README.md), [Fault tolerance](../../spring/reliability/fault-tolerance/README.md), [Outbox/Inbox](../../spring/messaging/outbox-inbox/README.md).
 
+**P1 production reliability (Devoxx 2026):** [Their API Went Down — четири изпълними external-API incident labs](../../spring/reliability/fault-tolerance/PRODUCTION-API-RESILIENCE-P1.md). Надгражда REL-01/REL-03 с shared Redis 429 cooldown, durable sync checkpoint, queue expiry и manual credential recovery; не променя оценките на изучените концепции.
+
 ## P1 — System Design / Strategic DDD & Context Mapping
 
 **Материал:** [Strategic DDD & Microservice Boundaries — Deep Technical Lecture + executable architecture labs](../../spring/architecture/strategic-ddd/README.md). Основен източник: Devoxx Belgium 2026 (Steven Hillaert), приоритет **Tech Radar P1**.

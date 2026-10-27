@@ -16,6 +16,8 @@
 
 ---
 
+**P1 Production follow-up (Devoxx Belgium 2026):** [Their API Went Down — 429/Redis shared cooldown, page-47 recovery, load shedding и expired credentials](./PRODUCTION-API-RESILIENCE-P1.md). Разширява този модул с **реални Java/JDBC/Redis сценарии и тестове**, вместо да повтаря Retry/Circuit Breaker теорията.
+
 # ВХОД В ТЕМАТА
 
 ## Реалният казус
@@ -823,6 +825,8 @@ TimeLimiter inside Retry
 
 # Оригинални източници
 
+- Devoxx 2026 — Ines Panker, Their API Went Down: https://www.youtube.com/watch?v=PGpKfdXZrpc
+- P1 production extension (4 executable labs): [PRODUCTION-API-RESILIENCE-P1.md](./PRODUCTION-API-RESILIENCE-P1.md)
 - Resilience4j Retry: https://resilience4j.readme.io/docs/retry
 - Resilience4j TimeLimiter: https://resilience4j.readme.io/docs/timeout
 - Resilience4j CircuitBreaker: https://resilience4j.readme.io/docs/circuitbreaker
