@@ -265,7 +265,7 @@ public record PurchaseRow(
 List<PurchaseRow> findPurchasedFacts(String username);
 ```
 
-Класът `bg.example.PurchaseRow` е **placeholder** — постави истинския fully-qualified package при пренасяне на примера. Запитването е иллюстрация на JPQL constructor expression (`select new ...`).
+Класът `bg.example.PurchaseRow` е **placeholder** — постави истинския fully-qualified package при пренасяне на примера. Запитването е илюстрация на JPQL constructor expression (`select new ...`).
 
 Ползи: очакваните полета са видими в query, не materialize-ваме ненужни managed entities, няма обхождане на graph от mapper, по-малко риск от допълнителни SELECT-и. При правилен query обичайно имаме един SQL, но **доказвай**, не приемай по презумпция.
 
@@ -315,7 +315,7 @@ logging.level.com.zaxxer.hikari=DEBUG
 # spring.jpa.properties.hibernate.generate_statistics=true
 ```
 
-Hibernate `Statistics` / `StatementInspector` са подходящи за тестови probes на броя заявкi. За pool наблюдение използвай Hikari/Actuator/Micrometer metrics или внимателно добавен checkout tracker. Не оставяй широк `root=DEBUG` в production заради overhead и data leakage.
+Hibernate `Statistics` / `StatementInspector` са подходящи за тестови probes на броя заявки. За pool наблюдение използвай Hikari/Actuator/Micrometer metrics или внимателно добавен checkout tracker. Не оставяй широк `root=DEBUG` в production заради overhead и data leakage.
 
 При race/load тестове отделяй startup/warm-up и injection-а на външни latency, и сравнявай capacity спрямо `maximumPoolSize`. Няма универсален правилен размер за pool.
 
