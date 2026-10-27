@@ -36,7 +36,7 @@ class CredentialRecoveryTest {
 
         assertThat(first.status()).isEqualTo(401);
         assertThat(second.status()).isEqualTo(503);
-        assertThat(second.fromSharedCooldown()).isTrue();
+        assertThat(second.localShortCircuit()).isTrue();
         assertThat(remoteCalls).hasValue(1);
         assertThat(notices).hasValue(1);
 
