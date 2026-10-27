@@ -80,6 +80,8 @@ mvn -pl spring/testing/ai-assisted-testing -Pmutation test pitest:mutationCovera
 
 HTML report: `target/pit-reports/`. **Не твърдим mutation score без реално изпълнение.** Започни с критичните нови правила; mutation testing за цял legacy монолит може да е твърде скъпо.
 
+За **survivor triage**, equivalent mutations, PIT bytecode mental model, отделен `ChunkedSender` пример с partial writes и разумни CI gates виж [1.5 — Mutation Testing Deep Dive](05-MUTATION-TESTING-DEEP-DIVE.md). Отчетът за оцелял mutant не е автоматично доказателство, че липсва тест: понякога production кодът е излишен или промененото поведение е equivalent.
+
 ## 5. Skills вместо случайни ad-hoc prompts
 
 Тази лекция обръща внимание на versioned project-specific testing knowledge — малки Markdown skills с ясно кога се използват, конкретна цел и примери.
