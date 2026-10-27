@@ -22,7 +22,7 @@ AI агент пише endpoint за регистрация: 18+ години, �
 | **3. Agentic Testing** | Как AI да пише/проверява смислени тестове, а не да гони зелени чекове? | [03 — AI Guardrails](03-AI-GUARDRAILS.md) |
 | **4. Practical labs** | Java code, real MVC, context cache, HTTP security, Maven Failsafe, PIT | [04 — Labs](04-PRACTICAL-LABS.md) |
 | **5. Mutation Testing Deep Dive** | Surviving mutants, equivalent code, PIT bytecode, chunked writes, CI gates | [05 — Mutation Testing](05-MUTATION-TESTING-DEEP-DIVE.md) |
-| **NotebookLM** | 3 специализирани аудио лекции | [Audio prompts](NOTEBOOKLM-PROMPTS.md) |
+| **NotebookLM** | 4 специализирани аудио лекции (A–D) | [Audio prompts](NOTEBOOKLM-PROMPTS.md) |
 
 За процедурите, които AI agents могат да зареждат при нужда: [skills index](agent-skills/README.md).
 
