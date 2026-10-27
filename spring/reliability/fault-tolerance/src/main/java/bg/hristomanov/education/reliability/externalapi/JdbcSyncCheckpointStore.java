@@ -29,11 +29,17 @@ public final class JdbcSyncCheckpointStore implements ResumableSync.PageStore {
     }
 
     public void createJob(String jobId) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO sync_checkpoint(job_id, next_page, complete) VALUES (?, 1, FALSE)")) {
-            statement.setString(1, jobId);
-            statement.executeUpdate();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO sync_checkpoint(job_id, next_page, complete) VALUES (?, 1, FALSE)")) {
+                statement.setString(1, jobId);
+                statement.executeUpdate();
+                connection.commit();
+            } catch (SQLException | RuntimeException failure) {
+                connection.rollback();
+                throw failure;
+            }
         } catch (SQLException failure) {
             throw new IllegalStateException("Cannot create sync job", failure);
         }
