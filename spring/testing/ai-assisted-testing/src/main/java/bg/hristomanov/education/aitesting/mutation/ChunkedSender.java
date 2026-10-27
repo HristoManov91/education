@@ -3,17 +3,18 @@ package bg.hristomanov.education.aitesting.mutation;
 import java.util.Objects;
 
 /**
- * A small, framework-free example of a protocol that permits partial writes.
- * The loop is required by the writer contract, not by an implementation detail.
+ * Минимален Java пример за протокол, който допуска частично записване.
+ * Цикълът е необходим заради договора на writer-а, не заради случайна особеност на имплементацията.
  */
 public final class ChunkedSender {
 
     @FunctionalInterface
     public interface ChunkWriter {
         /**
-         * Writes between one and requestedLength bytes, or reports invalid progress.
+         * Опитва да запише най-много requestedLength байта; може да запише само част от тях.
+         * Нулев, отрицателен или прекалено голям резултат се отхвърля от ChunkedSender.
          *
-         * @return the number of bytes actually consumed from source
+         * @return броят действително записани байтове от source, започвайки от offset
          */
         int write(byte[] source, int offset, int requestedLength);
     }
