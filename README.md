@@ -192,6 +192,9 @@ education/
 
 - [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)
 - [Repository + Unit of Work — JPA persistence context, dirty checking и transaction semantics](persistence/repository-unit-of-work/README.md)
+- [P1 Devoxx Deep Dive — When ORM Becomes OMG: HikariCP, transaction boundaries, N+1 и DTO projections](persistence/jpa-performance/README.md)
+  - [Практически упражнения — connection lifecycle, fetch plans и production diagnosis](persistence/jpa-performance/EXERCISES.md)
+  - [NotebookLM — аудио урок по JPA/Hibernate performance](persistence/jpa-performance/NOTEBOOKLM-PROMPT.md)
 
 ### Design Patterns
 
