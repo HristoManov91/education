@@ -141,7 +141,7 @@ Mutation testing изпълнява много тестове, потенциа�
 
 Пропуснатите байтове при голям payload остават невидими за малкия happy-path test; проверката за частичен запис прави поведението наблюдаемо. Ако реалният договор гарантира single write, вместо да трупаме безполезни тестове, опростяваме излишната логика след review.
 
-- [ ] Baseline тестовете са зелени и determinisitic; тестовете имат independent oracle.
+- [ ] Baseline тестовете са зелени и deterministic; тестовете имат independent oracle.
 - [ ] Проверени са важни boundaries, negative paths и partial/timeout cases.
 - [ ] Анализирано е **защо** всеки приоритетен mutant оцелява.
 - [ ] Equivalent/irrelevant cases са документирани, а не масово изключени.
