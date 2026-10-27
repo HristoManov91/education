@@ -8,6 +8,8 @@
 2. какво означава Unit of Work;
 3. защо при JPA/Hibernate често вече използваме Unit of Work, без да имаме class с име `UnitOfWork`.
 
+**Надграждане:** [Devoxx P1 — When ORM Becomes OMG: JPA/Hibernate performance](../jpa-performance/README.md) разширява този модул с HikariCP, connection lifecycle, OSIV, N+1, fetch plans и DTO projections, без да дублира вече наличните тестове за persistence context.
+
 ---
 
 # ВХОД В ТЕМАТА
