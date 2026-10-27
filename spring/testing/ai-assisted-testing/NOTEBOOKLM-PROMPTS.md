@@ -1,8 +1,10 @@
 # NotebookLM — Spring Boot Testing in the AI Era (P1)
 
-**Main source:** [Philip Riecks, Devoxx Belgium 2026](https://www.youtube.com/watch?v=d6D8nef-32c). Upload this entire video and the files [README](README.md), [Test Selection](01-TEST-SELECTION.md), [Context Caching](02-CONTEXT-CACHING-CI.md), [Agentic Testing](03-AI-GUARDRAILS.md), [Labs](04-PRACTICAL-LABS.md). Supplement with [Spring Boot 4 testing](https://docs.spring.io/spring-boot/reference/testing/) and [Spring TestContext caching](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/ctx-management/caching.html).
+**Core source:** [Philip Riecks, Devoxx Belgium 2026](https://www.youtube.com/watch?v=d6D8nef-32c). Upload that video and the files [README](README.md), [Test Selection](01-TEST-SELECTION.md), [Context Caching](02-CONTEXT-CACHING-CI.md), [Agentic Testing](03-AI-GUARDRAILS.md), [Labs](04-PRACTICAL-LABS.md). Supplement with [Spring Boot 4 testing](https://docs.spring.io/spring-boot/reference/testing/) and [Spring TestContext caching](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/ctx-management/caching.html).
 
-Make **three separate Bulgarian technical audio lectures**. Do not shorten important causal explanations. Keep technical terms in English but explain them in Bulgarian. Do not dictate long Java code verbatim; explain execution flow, framework responsibilities, and failure boundaries.
+**Focused mutation supplement:** [Dave Aronson — Kill All Mutants! Intro to Mutation Testing, Devoxx 2026](https://www.youtube.com/watch?v=AsVt_dzTmN4). Use this video together with [05 — Mutation Testing Deep Dive](05-MUTATION-TESTING-DEEP-DIVE.md), [ChunkedSender.java](src/main/java/bg/hristomanov/education/aitesting/mutation/ChunkedSender.java) and [ChunkedSenderTest.java](src/test/java/bg/hristomanov/education/aitesting/mutation/ChunkedSenderTest.java).
+
+Make **three core Bulgarian technical audio lectures** (A–C) and **one focused mutation deep dive** (D). Do not shorten important causal explanations. Keep technical terms in English but explain them in Bulgarian. Do not dictate long Java code verbatim; explain execution flow, framework responsibilities, and failure boundaries.
 
 ## Audio A — Spring Boot testing fundamentals (30–40 minutes)
 
@@ -46,6 +48,24 @@ Discuss test-first/TDD as a trade-off not a universal rule, current Spring Boot 
 Finish with 10 senior interview/code-review questions and a short production checklist. Do not hallucinate faster build timings, production infrastructure, or PIT results for this repo.
 ```
 
+## Audio D — Mutation Testing, survivor triage & PIT in Java (25–30 minutes)
+
+```text
+Prepare a self-contained, technically rigorous Bulgarian audio lecture for an experienced Java 25 / Spring Boot backend developer (Mid+ → early Senior) on mutation testing. Use Dave Aronson's Devoxx Belgium 2026 talk "Kill All Mutants! Intro to Mutation Testing" as the principal teaching source, plus our 05-MUTATION-TESTING-DEEP-DIVE.md, ChunkedSender.java, ChunkedSenderTest.java and the existing RegistrationPolicy boundary tests.
+
+Begin with a realistic problem: a test calls a method, gets green and high coverage, but a meaningful behavior change slips through. Explain why coverage measures execution rather than assertion strength and why mutation testing tests the test suite, not business correctness directly.
+
+Develop the mental model in causal sequence: baseline green → one change per mutant → targeted test selection → KILLED, SURVIVED, NO_COVERAGE, TIMED_OUT and invalid/error statuses. Explain that PIT mutates Java bytecode in memory, while an AST in the talk is a generic illustration. Do not claim that PIT supports all AST-style mutations or a particular "while → if" operator.
+
+Walk through the age-18 boundary (>= versus >) with a fixed Clock and an independent business oracle. Then devote at least 8 minutes to the ChunkedSender case: writer may consume fewer bytes than requested; small payload test can pass when only one write occurs; 9-byte payload with 4-byte maximum chunk and at most 2-byte writes catches missing retry/loop behavior. Explain the observable test oracle: every byte delivered in the correct order, no request above the limit and invalid progress rejected. The manually edited while → if is a *separate educational experiment*, not a guaranteed PIT mutant.
+
+Pause on the TWO valid interpretations of a survivor: weak tests vs meaningless/redundant production code. Stress the second interpretation is valid only after verifying the real downstream contract. Then distinguish equivalent mutants from truly missing tests. Discuss why 100% mutation score is not automatically desirable and how team reviews should document rational exclusions.
+
+Demonstrate both independent Maven commands: -Pmutation for RegistrationPolicy and -Pmutation-chunking for ChunkedSender. Explain reports under target/pit-reports and that no scores, surviving mutants, improved time or CI PASS may be fabricated without a real run.
+
+Finish with CPU/CI costs, targeted classes, incremental-analysis caveats, PR review and conservative threshold policies, then give 8 challenging Bulgarian diagnostic questions. Pause before answering, correct imprecise Java terminology and give the senior-level way of explaining each answer to a colleague. Do not conflate fuzzing, chaos engineering and code mutation testing.
+```
+
 ## How to use in education
 
-Audio A → use TEST-01/03/04 knowledge checks. Audio B → optimize measured CI only after baseline evidence. Audio C → apply agent skills and perform independent PR/test review. These audios are **learning artifacts, not evidence of mastery**. Use [assessment protocol](../../../docs/learning/ASSESSMENT-PROTOCOL.md) after learning.
+Audio A → TEST-01/03/04; Audio B → measured CI/context cache diagnostics; Audio C → TEST-AI-04/05 and independent AI test oracle; Audio D → **TEST-AI-06**, PIT experiments and survivor triage. Audios are **learning artifacts, not evidence of mastery**. Follow the [assessment protocol](../../../docs/learning/ASSESSMENT-PROTOCOL.md) and require actual explanations/lab evidence before marking competence.
