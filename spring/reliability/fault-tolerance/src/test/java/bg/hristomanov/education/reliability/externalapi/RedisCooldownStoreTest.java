@@ -61,7 +61,7 @@ class RedisCooldownStoreTest {
             calls.incrementAndGet();
             return SharedRateLimitClient.Reply.remote(200, "wrong", Map.of());
         });
-        assertThat(result.fromSharedCooldown()).isTrue();
+        assertThat(result.localShortCircuit()).isTrue();
         assertThat(result.status()).isEqualTo(429);
         assertThat(calls).hasValue(0);
     }
