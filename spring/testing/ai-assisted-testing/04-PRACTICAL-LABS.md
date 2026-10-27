@@ -18,6 +18,8 @@ AI generated code for user registration. We need to prove: a customer must be 18
 8. Spring TestContext with identical configuration is the **same object**; different test properties → new context.
 9. Maven Surefire runs *Test and Failsafe runs *IT during verify.
 10. Mutation testing is opt-in; a green JUnit run does **not** imply a measured PIT score.
+11. Large payloads must be fully delivered even when a writer consumes fewer bytes than requested.
+12. Survivor triage distinguishes missing test coverage from equivalent/redundant behavior.
 
 ## 1. Run
 
@@ -97,9 +99,52 @@ POM includes maven-failsafe-plugin explicitly. If it were missing, a *IT class c
 mvn -pl spring/testing/ai-assisted-testing -Pmutation test pitest:mutationCoverage
 ```
 
-Maven profile targets RegistrationPolicy and RegistrationPolicyTest. HTML output is generated only after a successful run in target/pit-reports; this is **not** in normal CI.
+The `mutation` Maven profile targets only RegistrationPolicy/RegistrationPolicyTest. The independent `mutation-chunking` profile targets only ChunkedSender/ChunkedSenderTest. HTML/XML output is generated only after a successful run in `target/pit-reports/`. Both profiles are **optional** and not part of normal CI; no percentages are claimed without a run.
 
-Do not claim any mutation percentage without executing the command.
+For the technical mental model, result statuses and survivor triage, study [Mutation Testing Deep Dive](05-MUTATION-TESTING-DEEP-DIVE.md).
+
+### Lab 8A — Mutation of a business boundary (RegistrationPolicy)
+
+**Input requirement:** someone who turns 18 *today* is eligible, if consent is granted.
+
+1. Run `mvn -pl spring/testing/ai-assisted-testing -Dtest=RegistrationPolicyTest test`. This is our clean baseline.
+2. In `RegistrationPolicy.evaluate()`, **temporarily** change `getYears() < 18` to `getYears() <= 18`.
+3. Re-run the same JUnit test: `exactlyEighteenYearsOldIsEligible` should fail. A test for an already older adult can remain green.
+4. Revert the production change and confirm green again.
+5. Run the existing **opt-in** PIT profile:
+
+```bash
+mvn -pl spring/testing/ai-assisted-testing -Pmutation test pitest:mutationCoverage
+```
+
+**Explain:** which business contract assertion catches the exact-boundary fault? How would you differentiate an equivalent mutant from a missing test? Don't assume PIT produces your exact manual source edit.
+
+### Lab 8B — ChunkedSender: observed bytes, partial writes and redundant-code hypothesis
+
+**Code:** [ChunkedSender](src/main/java/bg/hristomanov/education/aitesting/mutation/ChunkedSender.java)  
+**Proof:** [ChunkedSenderTest](src/test/java/bg/hristomanov/education/aitesting/mutation/ChunkedSenderTest.java)
+
+**Problem:** a writer promises to consume between **one** and `requestedLength` bytes, but may consume fewer than requested. A single successful writer call is **not** proof that all message bytes have been delivered.
+
+- The `smallMessageIsDeliveredInOneWrite` test checks 3 bytes with chunk limit 4.
+- The `largerMessageIsFullyDeliveredDespitePartialWrites` test checks 9 bytes with limit 4, while the fake writer consumes at most 2 bytes per call. The assertion compares the **full byte array**, not merely `verify(write)`.
+- An invalid writer response (`written <= 0` or `written > requestedLength`) must fail predictably; don't hide it inside an infinite loop or silently advance the offset.
+
+```bash
+mvn -pl spring/testing/ai-assisted-testing -Dtest=ChunkedSenderTest test
+```
+
+**Manual mutation (reversible exercise):** change only `while (offset < message.length)` to `if (offset < message.length)`. The 3-byte happy path is still green but the 9-byte partial-write test fails because only a prefix reaches the receiver. Restore the original `while` and re-run baseline.
+
+**Real PIT inspection:**
+
+```bash
+mvn -pl spring/testing/ai-assisted-testing -Pmutation-chunking test pitest:mutationCoverage
+```
+
+Compare the HTML/XML survivors and killed mutants with your test contract. `while` → `if` is a **manual illustration**, not a guaranteed PIT default mutation. Saving PIT reports from separate runs is necessary for an evidence-based before/after comparison.
+
+**Architectural decision:** If a different protocol *guaranteed* all legal messages fit a single write **and** a complete write is guaranteed, a loop might be removable after verifying the contract. That is **not** the current ChunkWriter contract, which permits partial writes. Do not delete the loop based only on the test fixture.
 
 ## 9. Senior exercises
 
@@ -113,6 +158,10 @@ Do not claim any mutation percentage without executing the command.
 
 **Exercise E:** An AI-created controller test directly calls the Java method; identify all Spring concerns it fails to test.
 
+**Exercise F:** You get a PIT `SURVIVED` report for a comparison on a critical billing threshold. Formulate an input that distinguishes original/mutant behavior and the exact independent assertion you need.
+
+**Exercise G:** A team proposes deleting ChunkedSender's loop because it survives a test with a 3-byte payload. Which writer guarantees, production constraints and negative scenarios must be checked before accepting the change?
+
 ## 10. Exit checklist
 
 - [ ] Test level matches actual failure boundary.
@@ -123,5 +172,7 @@ Do not claim any mutation percentage without executing the command.
 - [ ] Context reuse assessed without breaking isolation.
 - [ ] Production-like DB gaps documented and cross-linked.
 - [ ] No false mutation, performance or coverage claims.
+- [ ] A surviving mutant has a written hypothesis and contract-backed disposition.
+- [ ] The chunking lab covers the whole payload with partial writes, not just the happy path.
 
 **Mental model:** testing tools are selected by what they can prove, not by their annotation count or convenience.
