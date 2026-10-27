@@ -167,10 +167,11 @@
 | TEST-AI-01 | Unit vs Spring MVC slice vs real HTTP | Correct failure boundary и Spring Boot 4 API |
 | TEST-AI-02 | Spring TestContext caching и cache keys | Profile/properties/mocks, forks, @DirtiesContext |
 | TEST-AI-03 | Surefire/Failsafe, Testcontainers, isolation и CI | Unit/IT separation, reliable feedback, parallel safety |
-| TEST-AI-04 | Independent AI test oracle, mutation testing | Boundary/negative tests, no green-by-cheating |
+| TEST-AI-04 | Independent AI test oracle, mutation basics | Boundary/negative tests, no green-by-cheating, coverage ≠ correctness |
 | TEST-AI-05 | Versioned agent skills + production readiness | Skills, test review, CI evidence, rollback |
+| TEST-AI-06 | [Mutation testing: survivor triage & meaningful code](../../spring/testing/ai-assisted-testing/05-MUTATION-TESTING-DEEP-DIVE.md) (Devoxx, Dave Aronson) | PIT bytecode, KILLED/SURVIVED/NO_COVERAGE, equivalent mutants, boundary/partial writes, redundant-code hypothesis, cost/CI gates |
 
-**Практичен checkpoint:** RegistrationPolicy, MockMvc 400/401/403, HTTP auth и TestContext cache reuse. Наличието на готов модул не доказва лично владеене.
+**Практичен checkpoint:** RegistrationPolicy, MockMvc 400/401/403, HTTP auth и TestContext cache reuse. За `TEST-AI-06`: сравни `age < 18` с `age <= 18` и изследвай [ChunkedSender / ChunkedSenderTest](../../spring/testing/ai-assisted-testing/04-PRACTICAL-LABS.md#lab-8b--chunkedsender-observed-bytes-partial-writes-and-redundant-code-hypothesis) при partial writes; обясни кога `SURVIVED` означава липсващ сценарий и кога има основание за опростяване на production code. **PIT е opt-in**; не записвай score или лично усвояване без реални тестове и диагностика.
 
 ---
 
