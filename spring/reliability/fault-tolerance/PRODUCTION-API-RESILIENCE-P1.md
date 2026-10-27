@@ -202,7 +202,7 @@ Tenant B / integration 1:
 ### Коректност и безопасност
 
 - **False-positive** отключването/блокирането е опасно: provider може да върне 401 от временна грешка. Препоръчваме verified classification, token refresh ако е поддържан, наблюдение на provider-wide spikes и manual override.
-- `Redis SETNX → notifier` **не е atomic** спрямо email/broker. Ако JVM падне между тях, сигналът може да се изгуби. В production използвай persistent incident record + [Transactional Outbox](../outbox-inbox/README.md) (виж правилния линк към [Outbox/Inbox module](../../messaging/outbox-inbox/README.md)) или надеждна re-notification reconciliation.
+- `Redis SETNX → notifier` **не е atomic** спрямо email/broker. Ако JVM падне между тях, сигналът може да се изгуби. В production използвай persistent incident record + [Transactional Outbox / Inbox](../../messaging/outbox-inbox/README.md) или надеждна re-notification reconciliation.
 - Redis без TTL не значи гарантирана вечна устойчивост: configure Redis persistence/replication и reconciliation. Няма магически exactly-once notifications.
 - Customer-facing съобщение трябва да казва **какво да направи и къде да подмени token**, без да показва credentials. Не позволявай на произволен HTTP caller да извика `credentialsReplacedAndVerified` — това е privileged operation след verify.
 
