@@ -67,7 +67,7 @@ public final class SharedRateLimitClient {
         }
     }
 
-    public record Reply(int status, String body, Map<String, String> headers, boolean fromSharedCooldown) {
+    public record Reply(int status, String body, Map<String, String> headers, boolean localShortCircuit) {
         public Reply {
             headers = Map.copyOf(Objects.requireNonNull(headers, "headers"));
         }
