@@ -177,6 +177,7 @@ education/
 - [P2 Integration Patterns — REST vs Queue vs Pub/Sub, coupling, commands/events and fair multi-tenant queues](spring/messaging/integration-patterns/README.md)
   - [01 — Integration Decision Guide (P2)](spring/messaging/integration-patterns/01-INTEGRATION-DECISION-GUIDE.md)
   - [02 — Queue Fairness, Noisy Neighbor, Cells and Shuffle Sharding (Java runnable lab)](spring/messaging/integration-patterns/02-QUEUE-FAIRNESS-NOISY-NEIGHBOR.md)
+  - [03 — AsyncAPI Contract-First: OrderCreated sender/receiver specs, schema tests, CLI docs (P2)](spring/messaging/integration-patterns/03-ASYNCAPI-CONTRACT-FIRST.md)
 
 - [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
 - [Saga Pattern — orchestration, compensation и durable workflow state](spring/messaging/saga/README.md)
