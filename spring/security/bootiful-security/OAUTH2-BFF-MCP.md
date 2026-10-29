@@ -2,6 +2,20 @@
 
 > Секция по втората половина на **Bootiful Security** (мин. ~27–50). **Архитектурен материал с конфигурационни примери**, не готов multi-process demo. За работещия single-app lab виж [README](README.md).
 
+## Оригиналният код от сцената — source map
+
+Преди да навлезеш в нашите security решения, сравни с демонстрацията на лекторите (Java 27 / Boot 4.1.1 / Gateway Spring Cloud 2025.1.3):
+
+| Компонент | Реален оригинален source | Какво е важно |
+| --- | --- | --- |
+| Authorization Server + WebAuthn + OTT | [AuthApplication.java](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/blob/main/auth/src/main/java/com/example/auth/AuthApplication.java) | JDBC users, password-upgrade configuration, OIDC, WebAuthn и OTT в една security конфигурация |
+| OAuth Client + declarative HTTP interface | [ClientApplication.java](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/blob/main/client/src/main/java/com/example/client/ClientApplication.java) | @ImportHttpServices, @ClientRegistrationId, OAuth2RestClientHttpServiceGroupConfigurer, alternative RestClient interceptor |
+| JWT Resource Server | [ResourceApplication.java](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/blob/main/resource/src/main/java/com/example/resource/ResourceApplication.java) | downstream /message, principal from verified caller |
+| SPA Gateway + TokenRelay | [GatewayApplication.java](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/blob/main/gateway/src/main/java/com/example/gateway/GatewayApplication.java) | explicit API/UI route order, rewritePath и TokenRelay |
+| Статичен frontend | [ui/index.html](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/blob/main/ui/index.html) | browser flow през същия origin |
+
+**Важно:** това е *конферентен demo source*, не готов enterprise security blueprint. Част от MFA кода е коментиран, а URL адреси, credentials и локални настройки са примерни. Използвай го за сравнение на API/architecture и нашите тестове за доказване на очакваното поведение; **не копирай production настройки директно от live demo**.
+
 ## 1. Реален казус
 
 Имаме enterprise система от 20 приложения. Не искаме 20 users таблици, 20 пароли и 20 различни механизма за logout/revocation. Имаме browser SPA, която прави заявки към billing/report API. Появява се и AI агент, който може да заявява и променя appointments от името на конкретен потребител.
@@ -212,6 +226,7 @@ MCP Server --verified identity + scopes + ownership policy--> appointments
 ## Оригинални източници
 
 - [Bootiful Security — Devoxx 2026](https://www.youtube.com/watch?v=W-OKVLMtPAw), мин. ~27–50.
+- [Оригинална Bootiful Security демонстрация — Josh Long/Daniel Garnier Moiroux](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things) (auth, client, resource, gateway, ui).
 - [Spring Security — OAuth2 Client / Authorization Server / Resource Server](https://docs.spring.io/spring-security/reference/servlet/oauth2/).
 - [Spring Security — Authorized Client features](https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorized-clients.html).
 - [Spring Cloud Gateway MVC — TokenRelay](https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webmvc/filters/tokenrelay.html).
