@@ -14,6 +14,8 @@
 
 **Как избираме transport/communication pattern преди този lab:** [Integration Patterns P2 — REST vs Queue vs Pub/Sub, Command vs Event и coupling](../integration-patterns/01-INTEGRATION-DECISION-GUIDE.md). Този Outbox/Inbox модул доказва надеждната доставка и idempotent effects; новият материал не ги дублира.
 
+**Публичният contract на самото event съобщение** е отделен въпрос: виж [AsyncAPI Contract-First P2](../integration-patterns/03-ASYNCAPI-CONTRACT-FIRST.md) за единна OrderCreated схема, producer/consumer operation и contract tests. Валиден AsyncAPI документ сам по себе си **не гарантира** Outbox atomicity, dedupe или processing order.
+
 ---
 
 # ВХОД В ТЕМАТА

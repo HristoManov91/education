@@ -1,0 +1,26 @@
+# Stock Service is the consumer: "receive" is from this application's perspective.
+asyncapi: 3.1.0
+info:
+  title: Stock Service - incoming events
+  version: 1.0.0
+  description: Consumer operation referencing the same upstream OrderCreated contract.
+servers:
+  local:
+    host: localhost:9092
+    protocol: kafka
+    description: Illustrative local Kafka endpoint; no broker required for this lab.
+channels:
+  orderCreated:
+    $ref: './order-events.yaml#/channels/orderCreated'
+operations:
+  receiveOrderCreated:
+    action: receive
+    channel:
+      $ref: '#/channels/orderCreated'
+    summary: Observe new orders and update inventory in a separate transaction.
+    bindings:
+      kafka:
+        groupId:
+          type: string
+          enum:
+            - stock-service

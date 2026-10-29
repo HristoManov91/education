@@ -1,0 +1,47 @@
+name: AsyncAPI Contract Verification
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'spring/messaging/integration-patterns/src/main/resources/asyncapi/**'
+      - 'spring/messaging/integration-patterns/package.json'
+      - '.github/workflows/asyncapi-contract.yml'
+  pull_request:
+    paths:
+      - 'spring/messaging/integration-patterns/src/main/resources/asyncapi/**'
+      - 'spring/messaging/integration-patterns/package.json'
+      - '.github/workflows/asyncapi-contract.yml'
+
+jobs:
+  validate-and-generate-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: spring/messaging/integration-patterns
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Ensure npm 11
+        run: npm install --global npm@11
+      - name: Install pinned AsyncAPI CLI
+        run: npm install --no-audit --no-fund
+      - name: Validate producer and consumer AsyncAPI specifications
+        run: npm run validate
+      - name: Generate HTML docs from specifications
+        run: npm run docs
+      - name: Check generated outputs
+        run: |
+          test -f target/asyncapi-docs/order-service/index.html
+          test -f target/asyncapi-docs/stock-service/index.html
+      - name: Upload generated HTML docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: asyncapi-contract-documentation
+          path: spring/messaging/integration-patterns/target/asyncapi-docs/
+          if-no-files-found: error
