@@ -1,4 +1,4 @@
-# Integration Patterns for Distributed Systems — practical decision guide & queue fairness lab
+# Integration Patterns for Distributed Systems — decisions, queue fairness and AsyncAPI contracts
 
 > **P2 · Devoxx Belgium 2026 · Java 25 · Maven · JUnit 5 · Spring Boot 4.1.1 dependency management**  
 > Original talk: [Integration patterns for distributed systems — Dirk Fröhner, Sabarish Sekar](https://www.youtube.com/watch?v=_CtnBnmYQC0).
@@ -13,12 +13,13 @@ Separately, our SaaS has 20 tenants sharing a queue. One tenant can publish a hu
 
 **Anti-pattern:** choose "Kafka everywhere" or create one queue per tenant without expressing the business requirement and operational trade-off.
 
-## 2. Two concise learning blocks
+## 2. Three complementary learning blocks
 
 | Module | Main engineering decision | Read |
 | --- | --- | --- |
 | **01 — Integration Patterns Decision Guide (P2)** | REST vs queue vs topic; command vs event; location/format/temporal/domain coupling; push/pull, backpressure and delivery boundaries | [01 — Integration Decision Guide](01-INTEGRATION-DECISION-GUIDE.md) |
 | **02 — Queue Fairness and Noisy Neighbor (P2)** | Measure per-tenant dwell, compare FIFO and round robin, protect independent cells, understand shuffle pair collisions and SQS Fair Queues | [02 — Runnable Fairness Lab](02-QUEUE-FAIRNESS-NOISY-NEIGHBOR.md) |
+| **03 — AsyncAPI Contract-First (P2)** | Published message schema, sender/receiver operations, JSON validation, backward/forward compatibility, HTML docs and CLI validation | [03 — AsyncAPI Contract-First](03-ASYNCAPI-CONTRACT-FIRST.md) |
 
 **We intentionally do not re-teach** Saga, Outbox, Inbox, HTTP Idempotency, Event Sourcing, RabbitMQ/Kafka or the existing resilience load-shedding lab. Instead, the chapters point directly to those executable modules.
 
@@ -32,6 +33,8 @@ Separately, our SaaS has 20 tenants sharing a queue. One tenant can publish a hu
 | Independent cell queues | [CellRouter](src/main/java/bg/hristomanov/education/integrationpatterns/queue/CellRouter.java) | [CellIsolationTest](src/test/java/bg/hristomanov/education/integrationpatterns/queue/CellIsolationTest.java) |
 | Shuffle pair assignment and collision math | [ShufflePairAssigner](src/main/java/bg/hristomanov/education/integrationpatterns/queue/ShufflePairAssigner.java) | [ShufflePairAssignerTest](src/test/java/bg/hristomanov/education/integrationpatterns/queue/ShufflePairAssignerTest.java) |
 | Minimal runnable CLI | [FairnessDemo](src/main/java/bg/hristomanov/education/integrationpatterns/queue/FairnessDemo.java) | same measured result as fairness tests |
+| Shared AsyncAPI 3.1 message and send/receive operations | [order-events.yaml](src/main/resources/asyncapi/order-events.yaml), [producer](src/main/resources/asyncapi/order-events-send.yaml), [consumer](src/main/resources/asyncapi/order-events-receive.yaml) | [OrderCreatedContractTest](src/test/java/bg/hristomanov/education/integrationpatterns/event/OrderCreatedContractTest.java), [AsyncAPI CLI workflow](../../../.github/workflows/asyncapi-contract.yml) |
+| Real serialized Java event & compatibility | [OrderCreatedEvent](src/main/java/bg/hristomanov/education/integrationpatterns/event/OrderCreatedEvent.java), [fixtures](src/test/resources/asyncapi/order-created-valid.json) | [03 — AsyncAPI lesson](03-ASYNCAPI-CONTRACT-FIRST.md) |
 
 ## 4. Run (no AWS account, no credentials, no broker)
 
@@ -75,4 +78,6 @@ The p95 uses nearest rank on only five quiet messages (effectively the max) and 
 
 ## What to do next
 
-Read **01** to make a decision; read **02** to see an observable failure mode, predict results and run tests. For a real cloud migration, write down business SLOs and capacity budgets first; select the provider and its delivery semantics afterwards.
+Read **01** to make a transport decision; read **02** to predict and measure noisy-neighbor effects; read **03** to publish a verifiable message contract shared by the producer and consumer. For a real migration, define the business SLO, delivery semantics and compatibility direction separately from the spec.
+
+**Optional AsyncAPI CLI:** In this module, use Node 24 + npm 11, `npm install`, `npm run validate` for the send/receive specs and `npm run docs` to generate ignored HTML docs in `target/asyncapi-docs/`. Maven tests require no Node or Kafka. See [03 — AsyncAPI lesson](03-ASYNCAPI-CONTRACT-FIRST.md) for exact commands and limitations.
