@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DogCatalogController {
 
-    record DogV1(int id, String name) {}
-    record DogV2(int id, String name, String description) {}
+    public record DogV1(int id, String name) {}
+    public record DogV2(int id, String name, String description) {}
 
     @GetMapping(path = "/dogs", version = "1.0")
     public Map<String, List<DogV1>> dogsV1() {

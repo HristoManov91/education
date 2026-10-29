@@ -1,5 +1,7 @@
 package bg.hristomanov.education.boot4;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,6 +33,13 @@ class LazyConnectionsTest {
     @Test
     void connectionIsNotBorrowedBeforeFirstSqlButIsHeldAfterSql() throws Exception {
         HikariDataSource pool = dataSource.unwrap(HikariDataSource.class);
+        // Инициализираме Hikari предварително; при изцяло lazy startup MXBean може
+        // да е null, докато никой не е поискал физическа connection.
+        try (Connection connection = pool.getConnection();
+                Statement statement = connection.createStatement()) {
+            statement.execute("SELECT 1");
+        }
+        assertThat(pool.getHikariPoolMXBean().getActiveConnections()).isZero();
         try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
             CountDownLatch beforeEntered = new CountDownLatch(1);
             CountDownLatch beforeRelease = new CountDownLatch(1);
