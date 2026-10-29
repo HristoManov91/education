@@ -12,6 +12,8 @@
 
 Затова Outbox и Inbox са в един executable lab.
 
+**Как избираме transport/communication pattern преди този lab:** [Integration Patterns P2 — REST vs Queue vs Pub/Sub, Command vs Event и coupling](../integration-patterns/01-INTEGRATION-DECISION-GUIDE.md). Този Outbox/Inbox модул доказва надеждната доставка и idempotent effects; новият материал не ги дублира.
+
 ---
 
 # ВХОД В ТЕМАТА
