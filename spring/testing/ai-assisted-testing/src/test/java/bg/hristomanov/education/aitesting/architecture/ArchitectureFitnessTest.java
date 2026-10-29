@@ -6,6 +6,8 @@ import com.enofex.taikai.Taikai;
 import com.enofex.taikai.TaikaiRule;
 import com.enofex.taikai.configures.Customizer;
 import com.enofex.taikai.java.JavaConfigurer;
+import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.core.importer.ClassFileImporter;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
@@ -87,20 +89,31 @@ class ArchitectureFitnessTest {
     void aNarrowDocumentedExceptionDoesNotHideOtherViolations() {
         // During a migration, exclude exactly one legacy class from one rule.
         // A second invalid controller must still fail the architectural gate.
-        var exceptionForLegacyOnly = TaikaiRule.Configuration.of(
-                java.util.List.of(DirectRepositoryController.class));
+        // With Taikai.builder().classes(...), Configuration.of(List.of(...))
+        // is ignored: the global explicit classes take precedence. Bind the
+        // excluded class to an explicit per-rule JavaClasses set instead.
+        ClassFileImporter importer = new ClassFileImporter();
+        JavaClasses legacyClasses = importer.importClasses(
+                DirectRepositoryController.class, DemoRepository.class);
+        var legacyException = TaikaiRule.Configuration.of(
+                legacyClasses, java.util.List.of(DirectRepositoryController.class));
 
         Taikai legacyOnly = Taikai.builder()
-                .classes(DirectRepositoryController.class, DemoRepository.class)
+                .classes(legacyClasses)
                 .spring(spring -> spring.controllers(controllers -> controllers
-                        .shouldNotDependOnRepositories(exceptionForLegacyOnly)))
+                        .shouldNotDependOnRepositories(legacyException)))
                 .build();
         assertDoesNotThrow(legacyOnly::checkAll);
 
+        JavaClasses allFixtures = importer.importClasses(
+                DirectRepositoryController.class, StillBrokenController.class, DemoRepository.class);
+        var scopedException = TaikaiRule.Configuration.of(
+                allFixtures, java.util.List.of(DirectRepositoryController.class));
+
         Taikai withAnotherViolation = Taikai.builder()
-                .classes(DirectRepositoryController.class, StillBrokenController.class, DemoRepository.class)
+                .classes(allFixtures)
                 .spring(spring -> spring.controllers(controllers -> controllers
-                        .shouldNotDependOnRepositories(exceptionForLegacyOnly)))
+                        .shouldNotDependOnRepositories(scopedException)))
                 .build();
         AssertionError remaining = assertThrows(AssertionError.class, withAnotherViolation::checkAll);
         assertThat(remaining.getMessage()).contains("StillBrokenController");
