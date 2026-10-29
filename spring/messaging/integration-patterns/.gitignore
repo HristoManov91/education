@@ -1,0 +1,3 @@
+# Optional AsyncAPI Node.js tooling and generated HTML are not source files.
+node_modules/
+target/
