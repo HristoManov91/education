@@ -38,7 +38,7 @@ class BootifulSecurityHttpTest {
     void protectedEndpointRedirectsAnonymousUsersToLogin() throws Exception {
         mvc.perform(get("/api/me"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/login"));
+                .andExpect(redirectedUrl("/login"));
     }
 
     @Test
