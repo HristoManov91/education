@@ -3,6 +3,8 @@
 > **Devoxx Belgium 2026 · P1 · Spring / Security · Java 25 · Spring Boot 4.1.1**
 >
 > Видео: [Bootiful Security — Daniel Garnier Moiroux & Josh Long](https://www.youtube.com/watch?v=W-OKVLMtPAw) (~51 минути). Материалът следва предоставения SRT transcript; кодът е наша учебна адаптация, а не копие на сценичния пример.
+>
+> **Оригинален код от сцената:** [joshlong-attic/2026-10-08-devoxx-secure-all-the-things](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things) — [auth](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/tree/main/auth), [client](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/tree/main/client), [resource](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/tree/main/resource), [gateway](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/tree/main/gateway), [ui](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things/tree/main/ui). Оригиналът е с **Java 27** и Spring Boot **4.1.1** (Gateway: Spring Cloud **2025.1.3**); тук умишлено адаптираме **изпълнимия login/MFA lab за Java 25** и оставяме OAuth/BFF/MCP като отделно архитектурно продължение. Това са два различни учебни обхвата, а не byte-for-byte port.
 
 ## 1. Реалният казус
 
@@ -162,4 +164,4 @@ mvn -pl spring/security/bootiful-security -Dspring-boot.run.profiles=local-demo 
 9. [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
 10. [RFC 10017 — OAuth 2.0 for Browser-Based Applications](https://www.rfc-editor.org/rfc/rfc10017).
 
-**Оригинален example repository на лекторите:** не е надеждно идентифициран в транскрипта; не заместваме това с измислен линк.
+**Оригинален example repository на лекторите:** [Bootiful Spring Security — 08.10.2026](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things) (проверени оригинални source files). Допълнително: [Secure All The Things with Spring Security — безплатна книга](https://leanpub.com/secure-all-the-things-with-spring-security), посочена от авторите в оригиналния README.
