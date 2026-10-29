@@ -128,6 +128,12 @@ education/
   - [07. Graph Algorithms](java/algorithms/07-graph-algorithms/README.md)
   - [08. Algorithmic Problem Solving](java/algorithms/08-algorithmic-problem-solving/README.md)
 
+### Spring / Security
+
+- [P1 Bootiful Security — authentication, password hashes, passkeys, MFA, OAuth2, BFF и MCP](spring/security/bootiful-security/README.md)
+  - [OAuth2/OIDC, Token Relay, BFF и secured MCP — architecture](spring/security/bootiful-security/OAUTH2-BFF-MCP.md)
+  - [Hands-on exercises + Senior recall](spring/security/bootiful-security/EXERCISES.md)
+
 ### Spring / Concurrency
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
