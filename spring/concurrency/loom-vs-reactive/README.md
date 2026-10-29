@@ -1,5 +1,7 @@
 # Loom vs Reactive — кога Virtual Threads не заменят WebFlux
 
+> За съчетаването на Virtual Threads с JDBC ограничени ресурси, `@Transactional`, `connection-fetch=lazy` и изпълним Hikari proof виж [Bootiful Spring Boot 4 — transaction decision guide](../../boot4/02-TRANSACTIONS-VIRTUAL-THREADS.md). Проблемите са различни: stream backpressure тук; physical DB connection acquisition там.
+
 Практическа Spring лаборатория за **WebMVC + Virtual Threads + Structured Concurrency** срещу **WebFlux + Reactor** върху едни и същи backend проблеми.
 
 Целта не е да изберем победител, а да изградим правилен mental model: Loom прави synchronous blocking code много по-практичен при висока I/O concurrency, докато Reactive Streams дават различни свойства — streaming, demand/backpressure и pipelines без естествен край.

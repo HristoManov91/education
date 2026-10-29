@@ -1,0 +1,15 @@
+### Legacy contract — no description field
+GET http://localhost:8080/dogs
+X-Dogs-Version: 1.0
+
+### New contract — description added
+GET http://localhost:8080/dogs
+X-Dogs-Version: 2.0
+
+### Unknown version — expected HTTP 400
+GET http://localhost:8080/dogs
+X-Dogs-Version: 99.0
+
+### Missing required version — expected HTTP 400
+GET http://localhost:8080/dogs
+
