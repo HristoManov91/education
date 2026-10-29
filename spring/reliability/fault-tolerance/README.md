@@ -1,6 +1,6 @@
 # Retry + Timeout + Circuit Breaker + Bulkhead
 
-> Spring Framework 7 има и core `@Retryable`/`@ConcurrencyLimit`, различни от direct Resilience4j decorators тук. За точния `maxAttempts` contract, proxy boundary, when/when-not и изпълними tests виж [Bootiful Spring Boot 4 — API/Resilience](../../boot4/03-API-VERSIONING-RESILIENCE.md). Не смесвай двете реализации без да сравниш retry/deadline semantics.
+> Spring Framework 7 има и core `@Retryable`/`@ConcurrencyLimit`, различни от direct Resilience4j decorators тук. За точния Framework 7 `maxRetries` contract, proxy boundary, when/when-not и изпълними tests виж [Bootiful Spring Boot 4 — API/Resilience](../../boot4/03-API-VERSIONING-RESILIENCE.md). Не смесвай двете реализации без да сравниш retry/deadline semantics.
 
 Този модул е reliability laboratory върху **един и същ controllable downstream service**.
 

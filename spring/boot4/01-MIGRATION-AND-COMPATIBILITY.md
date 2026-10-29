@@ -54,7 +54,7 @@
 - Jackson 3 има отделни `JsonMapper` / `XmlMapper`; custom `ObjectMapper` в стар проект не означава непременно override на правилния mapper.
 - За external servlet container провери Servlet 6.1 съвместимост.
 - Spring Boot 4 изисква Java 17+, **не Java 27**. Java 27 е изборът на Josh Long за сценичната демонстрация.
-- Framework 7 `@Retryable(maxAttempts=2)` означава **до две повторения плюс първоначалния опит**, различно от старите Spring Retry очаквания.
+- Framework 7 `@Retryable(maxRetries=2)` означава **до две повторения плюс първоначалния опит**, различно от старите Spring Retry очаквания.
 
 ## Кога не бих мигрирал точно сега
 

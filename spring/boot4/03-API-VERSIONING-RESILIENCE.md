@@ -36,12 +36,12 @@ GET /dogs без header → HTTP 400
 
 `@Retryable` в Spring **Framework 7** е `org.springframework.resilience.annotation.Retryable`; не го смесвай с `org.springframework.retry.annotation.Retryable` от стария Spring Retry.
 
-Framework 7: `maxAttempts = 2` означава **до две повторения след първия опит**, общо до три извиквания. За сравнение, старият Spring Retry отчита началния опит в `maxAttempts`. Това е миграционен footgun (подвеждащо сходство) — провери semantics преди production migration.
+Framework 7: `maxRetries = 2` означава **до две повторения след първия опит**, общо до три извиквания. За сравнение, старият Spring Retry отчита началния опит в `maxAttempts`. Това е миграционен footgun (подвеждащо сходство) — провери semantics преди production migration.
 
 В [ResilientCatalogClient](src/main/java/bg/hristomanov/education/boot4/ResilientCatalogClient.java):
 
 ```java
-@Retryable(includes = TransientCatalogException.class, maxAttempts = 2, delay = 1)
+@Retryable(includes = TransientCatalogException.class, maxRetries = 2, delay = 1)
 public String readSafely() {
     return dependency.read();
 }
@@ -90,7 +90,7 @@ interface CatalogHttpClient {
 ## 8. Упражнения и тестова стратегия
 
 - Развали V1 contract, като добавиш `description` в V1, и виж кой regression test улавя това.
-- Промени `maxAttempts` от 2 на 1; тестът вече трябва да показва, че third-attempt success не е възможен.
+- Промени `maxRetries` от 2 на 1; тестът вече трябва да показва, че third-attempt success не е възможен.
 - Премахни `@ConcurrencyLimit`, пусни concurrency proof и виж peak >2.
 - [ ] Идемпотентна ли е операцията? Има ли общ deadline?
 - [ ] Отчитаме ли **първоначален + повторни** опити?

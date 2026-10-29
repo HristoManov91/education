@@ -13,7 +13,7 @@
 
 ## Prompt A — основен P1 епизод (30–40 мин.)
 
-> Подготви техническа аудио лекция на БЪЛГАРСКИ за опитен Java/Spring backend разработчик: „Bootiful Spring Boot 4: не нови annotations, а инженерни решения“. За всяка от темите Spring Boot 3.5→4.1 migration, API versioning, lazy JDBC acquisition, Spring Framework 7 retry и concurrency limit, използвай единен шаблон: (1) какъв production проблем решава, (2) защо naive вариантът изглежда разумен, (3) root cause, (4) кога се използва, (5) кога НЕ, (6) какво печелим, (7) какво губим и оперативни trade-offs, (8) примерен Java код и проверим тест, (9) сигнал при code review, (10) mental model. Не смесвай Java 27 демото със Spring Boot минимални Java изисквания; разграничи `maxAttempts` в Framework 7 от стария Spring Retry.
+> Подготви техническа аудио лекция на БЪЛГАРСКИ за опитен Java/Spring backend разработчик: „Bootiful Spring Boot 4: не нови annotations, а инженерни решения“. За всяка от темите Spring Boot 3.5→4.1 migration, API versioning, lazy JDBC acquisition, Spring Framework 7 retry и concurrency limit, използвай единен шаблон: (1) какъв production проблем решава, (2) защо naive вариантът изглежда разумен, (3) root cause, (4) кога се използва, (5) кога НЕ, (6) какво печелим, (7) какво губим и оперативни trade-offs, (8) примерен Java код и проверим тест, (9) сигнал при code review, (10) mental model. Не смесвай Java 27 демото със Spring Boot минимални Java изисквания; разграничи `maxRetries` във Framework 7 от `maxAttempts` в стария Spring Retry.
 
 ## Prompt B — Transaction Boundary incident review (20–30 мин.)
 
@@ -31,7 +31,7 @@
 
 1. Защо Virtual Threads могат да увеличат pool saturation?
 2. Кога lazy fetching не скъсява задържането на JDBC connection?
-3. Какво означава `maxAttempts = 2` във Framework 7?
+3. Какво означава `maxRetries = 2` във Framework 7?
 4. Защо `@ConcurrencyLimit` не е global rate limiter?
 5. Кои тестове доказват, че V1 JSON contract е стабилен?
 6. Защо не бих сменил Quartz с JobRunr само след конференционно demo?

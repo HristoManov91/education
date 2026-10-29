@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 /**
  * Retry boundary: proxy-то обгръща извикване от ДРУГ Spring bean.
  * Само read-only операция и конкретен transient exception се повтарят.
- * maxAttempts=2 означава 2 повторения СЛЕД първия опит във Framework 7.
+ * maxRetries=2 означава 2 повторения СЛЕД първия опит във Framework 7.
  */
 @Service
 public class ResilientCatalogClient {
@@ -17,7 +17,7 @@ public class ResilientCatalogClient {
         this.dependency = dependency;
     }
 
-    @Retryable(includes = TransientCatalogException.class, maxAttempts = 2, delay = 1)
+    @Retryable(includes = TransientCatalogException.class, maxRetries = 2, delay = 1)
     public String readSafely() {
         return dependency.read();
     }
