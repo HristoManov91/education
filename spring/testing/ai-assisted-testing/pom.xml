@@ -18,6 +18,7 @@
         <java.version>25</java.version>
         <maven.compiler.release>25</maven.compiler.release>
         <maven.compiler.parameters>true</maven.compiler.parameters>
+        <taikai.version>2.3.0</taikai.version>
     </properties>
     <dependencies>
         <dependency>
@@ -45,6 +46,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.enofex</groupId>
+            <artifactId>taikai</artifactId>
+            <version>${taikai.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

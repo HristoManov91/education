@@ -130,6 +130,12 @@ Contract-first / test-first може да помогне, но не замест
 
 Лекторът правилно подчертава: **typing може да се делегира; accountability остава човешка.**
 
+## 8.1 Архитектурни fitness функции срещу AI-induced drift
+
+Ако AI генерира голям PR, тестовете може да са зелени, но да има нови package цикли, controller → repository shortcuts или framework-dependent domain. Това не е повод за обща забрана на всички зависимости: първо записваме **конкретния team boundary**.
+
+В [06 — Architecture Testing + Taikai](06-ARCHITECTURE-TESTING-TAIKAI.md) демонстрираме reusable правила + project-specific ArchUnit constraint, `checkAll()`, `failOnEmpty(true)`, умишлено broken fixture и тесни изключения. Архитектурните тестове са ранен deterministic feedback, но **не заместват** business tests, SonarQube и независим преглед на AI кода.
+
 ## 9. Senior-level review questions
 
 1. Какво точно доказва зеленият тест и какво **не**?
