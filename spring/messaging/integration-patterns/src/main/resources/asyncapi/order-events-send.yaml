@@ -1,0 +1,26 @@
+# Order Service is the producer: "send" is from this application's perspective.
+asyncapi: 3.1.0
+info:
+  title: Order Service - outgoing events
+  version: 1.0.0
+  description: Kafka-facing publishing operation, using the shared OrderCreated contract.
+servers:
+  local:
+    host: localhost:9092
+    protocol: kafka
+    description: Illustrative local Kafka endpoint; no broker required for this lab.
+channels:
+  orderCreated:
+    $ref: './order-events.yaml#/channels/orderCreated'
+operations:
+  sendOrderCreated:
+    action: send
+    channel:
+      $ref: '#/channels/orderCreated'
+    summary: Publish an OrderCreated event after the business transaction has committed.
+    bindings:
+      kafka:
+        clientId:
+          type: string
+          enum:
+            - order-service
