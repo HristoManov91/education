@@ -157,13 +157,15 @@ Taikai поддържа споделени `Customizer<JavaConfigurer>` конф
 | Подход | Обхват | Кога е правилен |
 | --- | --- | --- |
 | `excludeClasses(...)` | Глобално изключване при namespace import | Само при доказано generated package / изрично външен код |
-| `Configuration.of(List.of(LegacyClass.class))` | Конкретно правило, конкретен клас | Legacy compatibility при временна миграция |
+| `Configuration.of(namespace, List.of(LegacyClass.class))` или `Configuration.of(JavaClasses, List.of(...))` | Конкретно правило, конкретен клас | Legacy compatibility при временна миграция |
 
 **Изпълним тест:** изключваме `DirectRepositoryController` само за едно правило. Вторият счупен `StillBrokenController` остава и **продължава да генерира violation**. Това е доказателство, че изключението е ограничено.
 
 За production exception запиши: **защо**, **собственик**, **условие за премахване** и **дата/issue за преглед**. Не използвай широк regex, който скрива всички бъдещи класове.
 
-**Нюанс от Taikai документацията:** global `excludeClasses(...)` се прилага само при `namespace(...)` imports. При изрично `classes(...)` се използват подадените класове; тясното правило трябва да подаде собствените изключения чрез `Configuration`.
+**Практически капан, доказан от първия CI run:** когато използваш глобално `Taikai.builder().classes(...)` и след това само `Configuration.of(List.of(Excluded.class))`, Taikai 2.3.0 **не прилага изключението** — глобалната explicit class selection се използва без този per-rule filter. Коректният вариант за изрично подадени класове е `Configuration.of(selectedJavaClasses, List.of(Excluded.class))`, който подава и **per-rule JavaClasses**, и изключенията. С `namespace(...)` може вместо това да използваш `Configuration.of(namespace, List.of(Excluded.class))`.
+
+Глобалният `excludeClasses(...)` действа само при namespace imports. В [изпълнимия тест](src/test/java/bg/hristomanov/education/aitesting/architecture/ArchitectureFitnessTest.java) този нюанс се проверява чрез два test-only controllers: изключеният не нарушава правилото, но вторият, неизключен, продължава да се открива.
 
 ## 7. Spring Configuration Properties: една конвенция, не „annotation roulette“
 
