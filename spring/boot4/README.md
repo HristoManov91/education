@@ -55,7 +55,7 @@ Client (old/new) ─► Spring MVC (versioned endpoint)
 | --- | --- | --- |
 | Съвместими V1/V2 договори | [DogCatalogController](src/main/java/bg/hristomanov/education/boot4/DogCatalogController.java), [ApiVersionConfiguration](src/main/java/bg/hristomanov/education/boot4/ApiVersionConfiguration.java) | [ApiVersioningHttpTest](src/test/java/bg/hristomanov/education/boot4/ApiVersioningHttpTest.java) |
 | Retry и точен budget | [ResilientCatalogClient](src/main/java/bg/hristomanov/education/boot4/ResilientCatalogClient.java), [fake downstream](src/main/java/bg/hristomanov/education/boot4/FlakyCatalogDependency.java) | [ResilienceBehaviorTest](src/test/java/bg/hristomanov/education/boot4/ResilienceBehaviorTest.java) |
-| Ограничена конкуренция | [ConcurrencyProbe](src/main/java/bg/hristomanov/education/boot4/ConcurrencyProbe.java) | [ResilienceBehaviorTest](src/test/java/bg/hristomanov/education/boot4/ResilienceBehaviorTest.java) |
+| Ограничена конкуренция (BLOCK/REJECT) | [ConcurrencyProbe](src/main/java/bg/hristomanov/education/boot4/ConcurrencyProbe.java) | [ResilienceBehaviorTest](src/test/java/bg/hristomanov/education/boot4/ResilienceBehaviorTest.java) |
 | Транзакция преди/след SQL | [TransactionBoundaryProbe](src/main/java/bg/hristomanov/education/boot4/TransactionBoundaryProbe.java), [Hikari config](src/main/resources/application.properties) | [LazyConnectionsTest](src/test/java/bg/hristomanov/education/boot4/LazyConnectionsTest.java) |
 | Версии по HTTP | [IntelliJ HTTP client](http/boot4.http) | същите MVC contract tests |
 

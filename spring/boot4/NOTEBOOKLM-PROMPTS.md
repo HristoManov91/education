@@ -21,7 +21,7 @@
 
 ## Prompt C — API/Resilience decision panel (20–30 мин.)
 
-> Двама Senior инженери обсъждат API versioning чрез header и `@Retryable`/`@ConcurrencyLimit`. Единият се опитва да добави retry на неидемпотентен write; другият настоява за idempotency key, ограничени attempts, deadline и telemetry. Изяснете какви гаранции има Spring AOP proxy и какво се губи при self-invocation. Сравнете с Resilience4j и пояснете, че concurrency limit не е circuit breaker, rate limit или backpressure.
+> Двама Senior инженери обсъждат API versioning чрез header и `@Retryable`/`@ConcurrencyLimit`. Единият се опитва да добави retry на неидемпотентен write; другият настоява за idempotency key, ограничени attempts, deadline и telemetry. Изяснете какви гаранции има Spring AOP proxy и какво се губи при self-invocation. Сравнете с Resilience4j и пояснете, че concurrency limit не е circuit breaker, rate limit или backpressure. Сравнете BLOCK (изчакване) срещу REJECT (незабавен отказ) от Framework 7.0.3, включително failure handling при 429/503.
 
 ## Prompt D — P2 architectural decisions (25–35 мин.)
 

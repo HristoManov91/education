@@ -7,12 +7,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.RejectedExecutionException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Проверяваме semantics, а не само че Spring context се стартира:
@@ -58,6 +60,25 @@ class ResilienceBehaviorTest {
                 assertThat(task.get(3, TimeUnit.SECONDS)).isEqualTo("ok");
             }
             assertThat(probe.peak()).isEqualTo(2);
+        }
+    }
+    @Test
+    void rejectPolicyFailsFastRatherThanQueueingAnExcessCaller() throws Exception {
+        CountDownLatch entered = new CountDownLatch(2);
+        CountDownLatch release = new CountDownLatch(1);
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            Future<String> first = executor.submit(() -> probe.callRejecting(entered, release));
+            Future<String> second = executor.submit(() -> probe.callRejecting(entered, release));
+            try {
+                assertThat(entered.await(3, TimeUnit.SECONDS)).isTrue();
+                assertThatThrownBy(() -> probe.callRejecting(
+                        new CountDownLatch(1), new CountDownLatch(0)))
+                        .isInstanceOf(RejectedExecutionException.class);
+            } finally {
+                release.countDown();
+            }
+            assertThat(first.get(3, TimeUnit.SECONDS)).isEqualTo("ok");
+            assertThat(second.get(3, TimeUnit.SECONDS)).isEqualTo("ok");
         }
     }
 }

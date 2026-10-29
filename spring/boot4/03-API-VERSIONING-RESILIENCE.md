@@ -67,6 +67,19 @@ Read operation → Spring proxy(@Retryable) → fake downstream attempt 1/2/3 �
 Load test → Spring proxy(@ConcurrencyLimit(2)) → 2 allowed + remaining waiting → release
 ```
 
+### BLOCK срещу REJECT — две различни стратегии
+
+От Spring Framework **7.0.3** `@ConcurrencyLimit` предлага `policy`; по подразбиране е `ConcurrencyLimit.ThrottlePolicy.BLOCK`:
+
+| Policy | При претоварване | Кога бих го избрал | Цена / риск |
+| --- | --- | --- | --- |
+| `BLOCK` | допълнителните callers **чакат**, докато се освободи слот | вътрешни short-lived задачи с контролирана входяща конкуренция | може да задържи Virtual Threads след клиентски timeout; липсва fairness гаранция |
+| `REJECT` | извън лимита се хвърля `InvocationRejectedException` (подтип на `RejectedExecutionException`) | HTTP edge или downstream, където fail-fast и 429/503 е по-добро от безкрайно изчакване | caller трябва да обработи отказа; retry без backoff може да влоши претоварването |
+
+**Работеща проверка:** [ConcurrencyProbe.callRejecting](src/main/java/bg/hristomanov/education/boot4/ConcurrencyProbe.java) + [ResilienceBehaviorTest.rejectPolicyFailsFastRatherThanQueueingAnExcessCaller](src/test/java/bg/hristomanov/education/boot4/ResilienceBehaviorTest.java). Първите две задачи държат permits; трета получава незабавен отказ, а не стои на опашка. Тестът за `BLOCK` доказва обратното — всички четири задачи в крайна сметка завършват, но пикът остава две едновременни.
+
+Това е **per-method / per-Spring bean** throttle; ако имаш N инстанции с лимит 2, общата конкуренция може да достигне приблизително 2×N. За глобални ограничения използвай отделен distributed rate/concurrency control.
+
 ## 6. Declarative HTTP clients — границата на нашия лабораторен обхват
 
 Лекцията показва декларативен клиент, базиран на `@HttpExchange`/`@GetExchange`. В Spring Boot 4 клиентските интерфейси могат да се регистрират с `@ImportHttpServices`; конкретният транспорт/timeout/observability се конфигурира отделно.
@@ -92,6 +105,7 @@ interface CatalogHttpClient {
 - Развали V1 contract, като добавиш `description` в V1, и виж кой regression test улавя това.
 - Промени `maxRetries` от 2 на 1; тестът вече трябва да показва, че third-attempt success не е възможен.
 - Премахни `@ConcurrencyLimit`, пусни concurrency proof и виж peak >2.
+- Промени `REJECT` на `BLOCK` и обясни защо negative test за отказ вече не е валиден и може да увисне без timeout.
 - [ ] Идемпотентна ли е операцията? Има ли общ deadline?
 - [ ] Отчитаме ли **първоначален + повторни** опити?
 - [ ] Наистина ли Spring proxy intercept-ва external invocation?
@@ -106,5 +120,5 @@ interface CatalogHttpClient {
 - [Bootiful Spring Boot 4 — Josh Long](https://www.youtube.com/watch?v=1PtdpItmzTo).
 - [API versioning — Spring Framework](https://docs.spring.io/spring-framework/reference/7.0/web/webmvc/mvc-config/api-version.html).
 - [Spring Boot HTTP services](https://docs.spring.io/spring-boot/reference/io/rest-client.html).
-- [Spring Framework 7 Resilience](https://spring.io/blog/2025/09/09/core-spring-resilience-features/).
+- [Spring Framework 7 Resilience (актуална референтна документация)](https://docs.spring.io/spring-framework/reference/7.0/core/resilience.html).
 

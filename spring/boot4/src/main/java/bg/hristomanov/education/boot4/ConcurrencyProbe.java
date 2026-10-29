@@ -20,6 +20,10 @@ public class ConcurrencyProbe {
 
     @ConcurrencyLimit(2)
     public String call(CountDownLatch entered, CountDownLatch release) {
+        return runCall(entered, release);
+    }
+
+    private String runCall(CountDownLatch entered, CountDownLatch release) {
         int current = active.incrementAndGet();
         peak.accumulateAndGet(current, Math::max);
         try {
@@ -34,6 +38,15 @@ public class ConcurrencyProbe {
         } finally {
             active.decrementAndGet();
         }
+    }
+
+    /**
+     * От Spring Framework 7.0.3: алтернатива на BLOCK.
+     * При претоварване REJECT отхвърля веднага, вместо да държи задачата в чакане.
+     */
+    @ConcurrencyLimit(value = 2, policy = ConcurrencyLimit.ThrottlePolicy.REJECT)
+    public String callRejecting(CountDownLatch entered, CountDownLatch release) {
+        return runCall(entered, release);
     }
 
     public int peak() {
