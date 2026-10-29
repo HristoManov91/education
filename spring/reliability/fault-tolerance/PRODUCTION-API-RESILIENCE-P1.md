@@ -130,6 +130,8 @@ fetch(50, hasMore=false) → commit data + complete=true
 
 # 3. Load shedding — кога е правилно да НЕ изпълним задача
 
+**Съседен P2 материал:** [Queue Fairness, Noisy Neighbor, Cells и Shuffle Sharding](../../messaging/integration-patterns/02-QUEUE-FAIRNESS-NOISY-NEIGHBOR.md) разглежда *справедливостта между tenants*, докато текущата лаборатория моделира *отпадане на заменими задачи при ограничен капацитет*. Това са различни политики; fairness не легитимира безусловно drop-ване на бизнес събития.
+
 ## BAD: „първо обработваме всяка стара периодична задача“
 
 След outage имаме 10 000 изчакващи `refresh current metrics` jobs. Когато API оздравее, workers наваксват вчерашните показатели, докато актуалните стоят отзад.
