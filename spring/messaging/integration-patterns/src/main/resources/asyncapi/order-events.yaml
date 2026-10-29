@@ -1,0 +1,65 @@
+# Shared published contract, owned by Order Service.
+# The producer and consumer documents reference the SAME channel and payload.
+asyncapi: 3.1.0
+info:
+  title: OrderCreated shared event contract
+  version: 1.0.0
+  description: Canonical message and channel definitions. No broker is started by this module.
+channels:
+  orderCreated:
+    address: orders.created
+    messages:
+      OrderCreated:
+        $ref: '#/components/messages/OrderCreated'
+components:
+  messages:
+    OrderCreated:
+      name: OrderCreated
+      title: A new order has been accepted
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderCreated'
+      examples:
+        - name: validOrder
+          payload:
+            id: 'f1451166-a896-4f02-a741-69a51b19b277'
+            source: CUSTOMER
+            items:
+              - productId: 'SKU-123'
+                quantity: 2
+  schemas:
+    OrderCreated:
+      type: object
+      description: Event payload published by Order Service.
+      additionalProperties: false
+      required:
+        - id
+        - source
+        - items
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Stable order identifier, not a broker delivery ID.
+        source:
+          type: string
+          enum:
+            - CUSTOMER
+            - WAREHOUSE
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              - productId
+              - quantity
+            properties:
+              productId:
+                type: string
+                minLength: 1
+              quantity:
+                type: integer
+                minimum: 1
+                maximum: 10
