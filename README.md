@@ -9,6 +9,7 @@
 - Кодът, имената на класове, методи, полета и package-и са на английски.
 - README документацията и обяснителните коментари са на български.
 - Всеки пример трябва да показва **какъв проблем решава**, **защо възниква**, **как можем да го докажем** и **как изглежда доброто решение**.
+- **Задължителен decision contract за всяка нова техника:** какъв проблем решава; кога я използваме; кога НЕ; какво печелим; какво губим (latency, ресурси, сложност, цена, operational burden); по-проста алтернатива; работещ пример и тест. Ако дадена глава е само архитектурна бележка без runnable lab, изрично я обозначаваме като такава.
 - Всеки учебен модул следва задължителен flow: **реален входен казус → разбиране на проблема → bad/good решение → доказателство → изходно обобщение**.
 - README не започва директно с API или код. Първо трябва да е ясно **каква реална ситуация имаме, какво може да се обърка, защо проблемът е важен и какво ще научим**.
 - README не приключва само с описание на API. В края се връщаме към първоначалния казус и описваме **какво решихме, защо решението е по-добро, ограниченията му, кога да го използваме/не използваме, mental model и practical checklist за реален проект/code review**.
@@ -127,6 +128,16 @@ education/
   - [06. Graph Fundamentals](java/algorithms/06-graph-fundamentals/README.md)
   - [07. Graph Algorithms](java/algorithms/07-graph-algorithms/README.md)
   - [08. Algorithmic Problem Solving](java/algorithms/08-algorithmic-problem-solving/README.md)
+
+### Spring / Framework & Platform
+
+- [P1 Bootiful Spring Boot 4 — миграция, API versioning, lazy JDBC, retry, concurrency и decision labs](spring/boot4/README.md)
+  - [Boot 3.5 → 4.1 migration & compatibility](spring/boot4/01-MIGRATION-AND-COMPATIBILITY.md)
+  - [Virtual Threads, transaction boundaries & Hikari proof](spring/boot4/02-TRANSACTIONS-VIRTUAL-THREADS.md)
+  - [API Versioning, Retry & Concurrency Limits](spring/boot4/03-API-VERSIONING-RESILIENCE.md)
+  - [P2 gRPC / Quartz vs JobRunr / BeanRegistrar — decision guides](spring/boot4/04-GRPC-JOBS-BEAN-REGISTRATION.md)
+  - [P2 Observability, SSRF, JVM/Leyden — измерване и ограничения](spring/boot4/05-OBSERVABILITY-SECURITY-JVM.md)
+  - [NotebookLM prompts и упражнения](spring/boot4/NOTEBOOKLM-PROMPTS.md)
 
 ### Spring / Security
 
