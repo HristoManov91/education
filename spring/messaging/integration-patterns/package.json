@@ -1,0 +1,21 @@
+{
+  "name": "education-asyncapi-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Optional AsyncAPI spec validation and HTML documentation generation",
+  "scripts": {
+    "validate": "npm run validate:send && npm run validate:receive",
+    "validate:send": "asyncapi validate src/main/resources/asyncapi/order-events-send.yaml",
+    "validate:receive": "asyncapi validate src/main/resources/asyncapi/order-events-receive.yaml",
+    "docs": "npm run docs:send && npm run docs:receive",
+    "docs:send": "asyncapi generate fromTemplate src/main/resources/asyncapi/order-events-send.yaml @asyncapi/html-template@3.5.4 -o target/asyncapi-docs/order-service --force-write --no-interactive",
+    "docs:receive": "asyncapi generate fromTemplate src/main/resources/asyncapi/order-events-receive.yaml @asyncapi/html-template@3.5.4 -o target/asyncapi-docs/stock-service --force-write --no-interactive"
+  },
+  "devDependencies": {
+    "@asyncapi/cli": "6.2.2"
+  },
+  "engines": {
+    "node": ">=24 <26",
+    "npm": ">=11"
+  }
+}
