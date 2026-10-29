@@ -84,18 +84,26 @@ class ArchitectureFitnessTest {
     }
 
     @Test
-    void aNarrowDocumentedExceptionDoesNotDisableTheWholeTest() {
-        // When migrating a legacy class, exclude exactly that class for exactly
-        // one rule. Do not add global exclusions for entire application packages.
-        Taikai narrowException = Taikai.builder()
+    void aNarrowDocumentedExceptionDoesNotHideOtherViolations() {
+        // During a migration, exclude exactly one legacy class from one rule.
+        // A second invalid controller must still fail the architectural gate.
+        var exceptionForLegacyOnly = TaikaiRule.Configuration.of(
+                java.util.List.of(DirectRepositoryController.class));
+
+        Taikai legacyOnly = Taikai.builder()
                 .classes(DirectRepositoryController.class, DemoRepository.class)
                 .spring(spring -> spring.controllers(controllers -> controllers
-                        .shouldNotDependOnRepositories(
-                                TaikaiRule.Configuration.of(
-                                        java.util.List.of(DirectRepositoryController.class)))))
+                        .shouldNotDependOnRepositories(exceptionForLegacyOnly)))
                 .build();
+        assertDoesNotThrow(legacyOnly::checkAll);
 
-        assertDoesNotThrow(narrowException::checkAll);
+        Taikai withAnotherViolation = Taikai.builder()
+                .classes(DirectRepositoryController.class, StillBrokenController.class, DemoRepository.class)
+                .spring(spring -> spring.controllers(controllers -> controllers
+                        .shouldNotDependOnRepositories(exceptionForLegacyOnly)))
+                .build();
+        AssertionError remaining = assertThrows(AssertionError.class, withAnotherViolation::checkAll);
+        assertThat(remaining.getMessage()).contains("StillBrokenController");
     }
 
     @Repository
@@ -108,6 +116,15 @@ class ArchitectureFitnessTest {
         public final DemoRepository repository;
 
         DirectRepositoryController(DemoRepository repository) {
+            this.repository = repository;
+        }
+    }
+
+    @RestController
+    static class StillBrokenController {
+        private final DemoRepository repository;
+
+        StillBrokenController(DemoRepository repository) {
             this.repository = repository;
         }
     }
