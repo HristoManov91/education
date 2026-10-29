@@ -174,6 +174,10 @@ education/
 
 ### Spring / Messaging
 
+- [P2 Integration Patterns — REST vs Queue vs Pub/Sub, coupling, commands/events and fair multi-tenant queues](spring/messaging/integration-patterns/README.md)
+  - [01 — Integration Decision Guide (P2)](spring/messaging/integration-patterns/01-INTEGRATION-DECISION-GUIDE.md)
+  - [02 — Queue Fairness, Noisy Neighbor, Cells and Shuffle Sharding (Java runnable lab)](spring/messaging/integration-patterns/02-QUEUE-FAIRNESS-NOISY-NEIGHBOR.md)
+
 - [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
 - [Saga Pattern — orchestration, compensation и durable workflow state](spring/messaging/saga/README.md)
   - [Temporal Saga — cancellation, unknown outcomes и reconciliation (P1 Deep Dive)](spring/messaging/saga/TEMPORAL-CANCELLATION-DEEP-DIVE.md)
