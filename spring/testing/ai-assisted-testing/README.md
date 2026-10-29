@@ -22,6 +22,7 @@ AI агент пише endpoint за регистрация: 18+ години, �
 | **3. Agentic Testing** | Как AI да пише/проверява смислени тестове, а не да гони зелени чекове? | [03 — AI Guardrails](03-AI-GUARDRAILS.md) |
 | **4. Practical labs** | Java code, real MVC, context cache, HTTP security, Maven Failsafe, PIT | [04 — Labs](04-PRACTICAL-LABS.md) |
 | **5. Mutation Testing Deep Dive** | Surviving mutants, equivalent code, PIT bytecode, chunked writes, CI gates | [05 — Mutation Testing](05-MUTATION-TESTING-DEEP-DIVE.md) |
+| **6. Architecture Fitness Tests — P2** | ArchUnit vs Taikai, checkAll, no false-green, scoped rules и AI/SonarQube feedback | [06 — Architecture Testing + Taikai](06-ARCHITECTURE-TESTING-TAIKAI.md) |
 | **NotebookLM** | 4 специализирани аудио лекции (A–D) | [Audio prompts](NOTEBOOKLM-PROMPTS.md) |
 
 За процедурите, които AI agents могат да зареждат при нужда: [skills index](agent-skills/README.md).
@@ -36,6 +37,7 @@ AI агент пише endpoint за регистрация: 18+ години, �
 | Actual TestContext cache identity | Spring TestContext | [ContextCacheIdentityTest](src/test/java/bg/hristomanov/education/aitesting/context/ContextCacheIdentityTest.java) |
 | Servlet threads, HTTP Basic, status/headers | [SecurityConfig](src/main/java/bg/hristomanov/education/aitesting/security/SecurityConfig.java) | [CustomerHttpIT](src/test/java/bg/hristomanov/education/aitesting/api/CustomerHttpIT.java) |
 | Mutation quality: age boundary | [Maven opt-in PIT profile](pom.xml) | RegistrationPolicyTest (PIT отчети само при реално изпълнение) |
+| Architecture fitness rules, controlled negative fixtures | [ArchitectureFitnessTest](src/test/java/bg/hristomanov/education/aitesting/architecture/ArchitectureFitnessTest.java) | [06 — Taikai Lab](06-ARCHITECTURE-TESTING-TAIKAI.md) |
 | Partial writes / chunk limit | [ChunkedSender](src/main/java/bg/hristomanov/education/aitesting/mutation/ChunkedSender.java) | [ChunkedSenderTest](src/test/java/bg/hristomanov/education/aitesting/mutation/ChunkedSenderTest.java), [PIT chunking profile](pom.xml) |
 
 ## Run
@@ -49,6 +51,9 @@ mvn -pl spring/testing/ai-assisted-testing verify
 
 # Целият education repository:
 mvn --no-transfer-progress verify
+
+# Само бързите Architecture Fitness Tests (Taikai):
+mvn -pl spring/testing/ai-assisted-testing -Dtest=ArchitectureFitnessTest test
 
 # Отделен optional PIT mutation run (age boundary):
 mvn -pl spring/testing/ai-assisted-testing -Pmutation test pitest:mutationCoverage
@@ -103,3 +108,6 @@ Test suite = **fast & trustworthy feedback**, не процент coverage. Ос
 7. [PIT Mutation Testing](https://pitest.org/quickstart/maven/)
 8. [Testcontainers Java](https://java.testcontainers.org/)
 9. [Spring Security testing](https://docs.spring.io/spring-security/reference/servlet/test/index.html)
+10. [Gunter Rotsaert, Devoxx — Testing Architecture Made Simple](https://www.youtube.com/watch?v=asAxisu6EQ0)
+11. [Taikai — официална документация](https://enofex.github.io/taikai/documentation/)
+12. [ArchUnit — User Guide](https://www.archunit.org/userguide/html/000_Index.html)
