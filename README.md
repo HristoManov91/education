@@ -117,6 +117,11 @@ education/
 
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
 
+### Java / Build Engineering & CI/CD
+
+- [P2 Reproducible Builds & Build Integrity with Maven — Spring Boot JAR, determinism, two clean builds, SHA-256 и negative lab](java/build/reproducible-maven/README.md)
+  - [NotebookLM audio prompt — Maven reproducibility и build integrity](java/build/reproducible-maven/NOTEBOOKLM-PROMPT.md)
+
 ### Java / Algorithms
 
 - [Data Structures & Algorithms — Java 25 roadmap](java/algorithms/README.md)
