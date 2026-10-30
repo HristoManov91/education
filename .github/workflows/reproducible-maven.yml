@@ -1,0 +1,67 @@
+name: Reproducible Maven Lab
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "java/build/reproducible-maven/**"
+      - "pom.xml"
+      - ".github/workflows/reproducible-maven.yml"
+  pull_request:
+    paths:
+      - "java/build/reproducible-maven/**"
+      - "pom.xml"
+      - ".github/workflows/reproducible-maven.yml"
+
+jobs:
+  compare-jar-builds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Clean checkout A
+        uses: actions/checkout@v4
+        with:
+          path: checkout-a
+
+      - name: Clean checkout B
+        uses: actions/checkout@v4
+        with:
+          path: checkout-b
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+          cache-dependency-path: checkout-a/java/build/reproducible-maven/pom.xml
+
+      - name: Build both clean copies and compare JAR bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mvn -B --no-transfer-progress -f checkout-a/java/build/reproducible-maven/pom.xml clean package
+          mvn -B --no-transfer-progress -f checkout-b/java/build/reproducible-maven/pom.xml clean package
+          a="checkout-a/java/build/reproducible-maven/target/reproducible-maven-1.0-SNAPSHOT.jar"
+          b="checkout-b/java/build/reproducible-maven/target/reproducible-maven-1.0-SNAPSHOT.jar"
+          sha256sum "$a" "$b"
+          cmp "$a" "$b"
+
+      - name: Negative control — clock leakage changes a packaged resource
+        shell: bash
+        run: |
+          set -euo pipefail
+          pom="checkout-a/java/build/reproducible-maven/pom.xml"
+          jar="checkout-a/java/build/reproducible-maven/target/reproducible-maven-1.0-SNAPSHOT.jar"
+          mvn -B --no-transfer-progress -f "$pom" -Pdemo-nondeterministic clean package
+          first="$(unzip -p "$jar" BOOT-INF/classes/build-time.properties)"
+          echo "$first" | grep -E '^generated\.at=[0-9]{4}-'
+          sleep 3
+          mvn -B --no-transfer-progress -f "$pom" -Pdemo-nondeterministic clean package
+          second="$(unzip -p "$jar" BOOT-INF/classes/build-time.properties)"
+          echo "$second" | grep -E '^generated\.at=[0-9]{4}-'
+          if [ "$first" = "$second" ]; then
+            echo "Expected different build timestamps, but resource filtering did not change."
+            exit 1
+          fi
+          echo "PASS: the opt-in negative example is non-reproducible."
