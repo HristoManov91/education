@@ -168,6 +168,7 @@ Spring Boot application
 | Java 25 JFR новости | [`JDK-25-JFR.md`](./JDK-25-JFR.md) | JEP 509 / 518 / 520 |
 | Java 27 JFR redaction | [`JDK-27-JFR-REDACTION.md`](./JDK-27-JFR-REDACTION.md) | JEP 536 — sensitive data protection (version note, not JDK25 executable) |
 | JVM performance / AOT | [Leyden/Compact Header lab](../performance-evolution/README.md) | Separate startup/memory hypothesis, JFR recording for evidence |
+| JIT runtime specialization | [Big Runtimes P1](../performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md) / [RuntimeAreaService.java](./src/main/java/bg/hristomanov/education/jfr/service/RuntimeAreaService.java) | [RuntimeAreaServiceTest.java](./src/test/java/bg/hristomanov/education/jfr/service/RuntimeAreaServiceTest.java) / [.http](./http/jfr-lab.http) |
 | Benchmark validity / active measurement | [Benchmark Correctness P1](../performance-evolution/BENCHMARK-CORRECTNESS.md) | JFR/CPU/DB/network metrics prove which resource limits the result |
 
 ---
@@ -269,8 +270,16 @@ mvn --no-transfer-progress verify
 Само този модул:
 
 ```bash
-mvn -pl java/jvm/jfr-troubleshooting test
+mvn -pl java/jvm/jfr-troubleshooting -am test
 ```
+
+---
+
+### P1 runtime efficiency — същият core Java метод през HTTP
+
+Нов endpoint в наличния Spring Boot/JFR lab: **GET /api/jfr/runtime/areas?shapeTypes=1&rounds=5000** (или shapeTypes=3). В [jfr-lab.http](./http/jfr-lab.http) има готови заявки за двата случая и невалиден параметър (HTTP 400).
+
+[RuntimeAreaService.java](./src/main/java/bg/hristomanov/education/jfr/service/RuntimeAreaService.java) извиква **същия ShapeDispatch.sumDoubleAreas**, който измерва [standalone JMH lab](../performance-evolution-benchmarks/README.md). Response връща checksum и брой операции, **не** ns/op или HTTP p99. За измерване на request lifecycle, GC и CPU използвай JFR recording и отделен load generator. Виж [Big Runtimes P1](../performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md).
 
 ---
 
@@ -279,6 +288,7 @@ mvn -pl java/jvm/jfr-troubleshooting test
 От root директорията:
 
 ```bash
+mvn -pl java/jvm/jfr-troubleshooting -am -DskipTests install
 mvn -pl java/jvm/jfr-troubleshooting spring-boot:run
 ```
 

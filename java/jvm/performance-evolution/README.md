@@ -147,6 +147,14 @@ Observed symptom → baseline recording/metrics
 
 Добавеният [Java 27 JFR data redaction note](../jfr-troubleshooting/JDK-27-JFR-REDACTION.md) описва как recording може да скрие чувствителни JVM arguments/system property values, но не гарантира, че всички custom events са автоматично safe.
 
+## P1 · Big Runtimes Make Efficient Programs — Ron Pressler, Devoxx 2026
+
+- **[The Cost of Abstraction: JIT, GC и efficient Java programs](BIG-RUNTIMES-JIT-ABSTRACTIONS.md)** — практически урок за HotSpot profiling, speculative inlining, deoptimization и allocation vs reuse, с JUnit, отделен [JMH module](../performance-evolution-benchmarks/README.md) и Spring Boot/JFR workload.
+- [NotebookLM P1 български audio prompt](BIG-RUNTIMES-NOTEBOOKLM-PROMPT.md).
+- Надграждаме този модул, а не дублираме Leyden, JFR или Benchmark Correctness.
+
+---
+
 ## Benchmark Correctness — P1 Deep Technical Lecture (Devoxx 2026)
 
 - **[Benchmark Correctness & Performance Measurement](BENCHMARK-CORRECTNESS.md)** — Reproducibility / Realism / Relevance, **Coordinated Omission**, correct p99 & throughput contracts, independent resource bottlenecks, USE/RED analysis and a documented Quarkus/Spring networking case.
