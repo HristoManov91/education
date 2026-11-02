@@ -56,7 +56,7 @@ public final class CiWorkPlanner {
 
     /**
      * A reusable artifact belongs to exactly one source/toolchain identity.
-     * This is a model of the checks performed by ci/check-compiled-artifact.sh.
+     * This is a model of the checks performed by ci/compiled-artifact.sh.
      */
     public static boolean mayReuse(ArtifactIdentity expected, ArtifactIdentity downloaded) {
         return Objects.requireNonNull(expected, "expected")
