@@ -44,7 +44,7 @@ Java computation (подходящ ограничен kernel)
 
 ## 2. Detroit — какво е, и защо не сега
 
-[49:57–50:31](https://youtu.be/ufhs9THbYZI?t=2997). Detroit е нов OpenJDK проект за **\`javax.script\` / JSR-223 engine** интеграция с **V8 JavaScript** и **CPython Python**, а не нов Java езиков syntax и не еквивалент на GraalVM polyglot.
+[49:57–50:31](https://youtu.be/ufhs9THbYZI?t=2997). Detroit е нов OpenJDK проект за **`javax.script` / JSR-223 engine** интеграция с **V8 JavaScript** и **CPython Python**, а не нов Java езиков syntax и не еквивалент на GraalVM polyglot.
 
 Това е ранно engineering направление. За production въпросите са:
 - Какъв е API contract и lifecycle за V8/CPython instances?
