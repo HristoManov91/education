@@ -29,6 +29,7 @@
 | Един Java 25 class file, две JDK 28 поведения | [IdentityPreviewProbe.java](jdk28-ea/IdentityPreviewProbe.java) | [JDK 28 EA workflow](../../../.github/workflows/valhalla-jdk28-ea.yml), preview OFF и ON |
 | Новият JDK 28 \`value record\` | [ValueObjectsPreview.java](jdk28-ea/ValueObjectsPreview.java) | compilation + executable assertions на JDK 28 EA |
 | Ръчно повторение на preview lab | [JDK28-EA-LAB.md](JDK28-EA-LAB.md) | terminal commands / очаквани резултати |
+| Record constructor early-\`this\`: Java 25 bytecode работи, JDK 28 preview source отказва | [LegacyRecordConstructorProbe.java](jdk28-ea/LegacyRecordConstructorProbe.java) | [EA workflow](../../../.github/workflows/valhalla-jdk28-ea.yml): positive runtime и expected compilation failure |
 
 ## 3. Какво се променя в type system
 
