@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import static bg.hristomanov.education.performance.hardwood.PagePruningPolicy.Decision.*;
 import static org.assertj.core.api.Assertions.assertThat;
