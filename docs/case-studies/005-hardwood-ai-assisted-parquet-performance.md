@@ -3,7 +3,7 @@
 > **P1 — AI Engineering / correctness ownership; P2 — Java Performance & parallelism.**  
 > **Оригинална лекция:** [Gunnar Morling — Hardwood: Building a Parquet Parser From Scratch (With a Little Help From AI), Devoxx Belgium 2026](https://www.youtube.com/watch?v=6mzvcPr30kg).  
 > **Публични първични източници:** [официалните слайдове от 09.10.2026](https://speakerdeck.com/gunnarmorling/hardwood-building-a-parquet-library-from-scratch-with-a-little-help-from-ai-devoxx-belgium-2026), [авторска публикация от 26.02.2026](https://www.morling.dev/blog/hardwood-new-parser-for-apache-parquet/), [Hardwood 1.0 — 25.06.2026](https://www.morling.dev/blog/hardwood-1-0-fast-lightweight-apache-parquet-reader-for-the-jvm/), [Hardwood 1.1 Beta1 — 31.08.2026](https://www.morling.dev/blog/parquet-file-write-support-bloom-filters-improved-performance-hardwood-1-1-0-beta1/) и [изходен код](https://github.com/hardwood-hq/hardwood).  
-> **Граница на достоверността:** нямаме предоставен пълен транскрипт на видеото. Фактите по-долу са от публичните слайдове и текстовете на автора; инженерните уроци и лабораторията са **наши адаптации**. Не приписваме произволни изводи/числа/точни минути на говорителя.
+> **Граница на достоверността:** използван е и наличният автоматичен SRT транскрипт на лекцията (около 51 минути), сверен по основните теми с публичните слайдове и текстовете на автора. Автоматичното разпознаване бърка имена като Parquet, DuckDB и JFR; термините тук са нормализирани. Инженерните препоръки и лабораторията са **наши адаптации**; не приписваме наши тестове или performance резултати на говорителя.
 
 ## 1. Симптом и контекст: защо въобще нов parser?
 
@@ -85,6 +85,29 @@ GOOD:
 В реален parser: спецификация + фиксиран test corpus + независимо извършено четене (например `parquet-java`/DuckDB) и проверка на logical values, types, nulls, nested structures, ordering. При изненадващ failure **не махай реда от теста**; запази regression fixture и изолирай разликата.
 
 В **нашата** учебна лаборатория oracle е независимото обхождане на стойностите, което **никога** не разглежда metadata за skip. Това е умишлено по-прост модел от Parquet conformance.
+
+### Конкретни AI engineering механизми от транскрипта
+
+| Време във видеото | Наблюдаван подход | Защо това е важно за нас |
+| --- | --- | --- |
+| [35:36–37:10](https://youtu.be/6mzvcPr30kg?t=2136) | Format specification, стотици conformance файлове, **differential testing** с parquet-java и DuckDB | Reference oracle е независим от AI-generated implementation; disagreement се разследва, а не се прикрива |
+| [37:11–38:55](https://youtu.be/6mzvcPr30kg?t=2231) | Agent skill с достъп до отделна profiling машина; анализ до machine assembly и hot-loop field access | Първо намираме реалния bottleneck, после правим **целева** промяна (примерът field → local variable не е универсален speedup) |
+| [38:55–39:41](https://youtu.be/6mzvcPr30kg?t=2335) | Performance regression test suite, agent-assisted `git bisect` | Отхвърляме оптимизация, ако влошава друг workload, дори локалният случай да изглежда по-бърз |
+| [39:47–41:09](https://youtu.be/6mzvcPr30kg?t=2387) | Дублирана логика в CLI, неудобни edge-case поправки и опити за изключване на тест | Coding agent не решава кой тест е истината и не замества човешкото ownership |
+| [43:30–46:45](https://youtu.be/6mzvcPr30kg?t=2610) | Review „пирамида“: необратими/public API решения по-важни от style; agent skill генерира findings за човек | При PR review prioritization е по **risk и reversibility**, не по броя коментари |
+| [48:27–49:12](https://youtu.be/6mzvcPr30kg?t=2907) | Авторът приема собствената поддръжка на SigV4 + upstream test vectors; нови vectors могат да счупят suite | „По-малко зависимости“ не означава „без бъдеща поддръжка“ |
+
+**Важно разграничение:** лекторът не обещава, че всеки agent може да оптимизира до assembly ниво. Той описва своя **конкретен setup**: отделна измервателна машина, подходящи инструменти, повтаряеми workloads и regression gate. За нашите Java/Spring услуги това е практическа идея, не готова универсална конфигурация.
+
+#### Review by reversibility: какво гледаме първо
+
+1. **Трудно обратими решения:** публичен API, файлов формат, schema compatibility, security/trust boundaries, ownership и memory layout. Тук изисквай силно обоснование и независими тестове.
+2. **Operational contracts:** threading/backpressure, exception propagation, release dependencies, profiling evidence. Тук първо изисквай наблюдаеми invariants.
+3. **Лесно обратими детайли:** стил, локално име, тестова библиотека, вътрешен helper. Не превръщай PR review в style contest, ако рисковият API дизайн остава непроверен.
+
+Пример от лекцията: авторът допуска по-малко дълбоко познаване на някои тесни encoders, **защото** има силни съществуващи conformance fixtures и съвпадение с независими readers. За публичния API и архитектурата е много по-взискателен. Това **не** означава „можем да не разбираме critical code“, а че различни промени изискват различно ниво на преглед според риска и измеримата проверимост.
+
+---
 
 ## 4. Failed mitigations — какво изглежда разумно, но не е достатъчно
 
