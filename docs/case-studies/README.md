@@ -18,6 +18,7 @@ Case study **не се брои за преминат урок или доказ
 | [002](002-commerzbank-exadata-performance-incident.md) | Commerzbank — Oracle Exadata 11 TB | Cold cache + скъпа read-side дедупликация след DR; HTTP 200, но клиентски timeout | Валидиран query window → write-side integrity; план за поетапна Oracle → PostgreSQL миграция | SQL/Oracle, Performance, Reliability, System Design, CDC vs dual-write |
 | [003](003-skyro-temporal-saga-cancellation.md) | Skyro — Temporal Saga / payment holds | Workflow cancellation не е external hold cancellation; release-before-hold race | Compensation before activity, detached scopes, cancellation checks + reconciliation | Temporal, Saga, Idempotency, Fintech, Distributed Systems |
 | [004](004-port-of-rotterdam-modular-monolith.md) | Port of Rotterdam — microservice overload | 90+ services, 5 teams, responsibilities crossing multiple deployables | EventStorming/DDD boundaries, Spring Modulith, capability-by-capability migration | Strategic DDD, EventStorming, Spring Modulith, Legacy Modernization |
+| [005](005-hardwood-ai-parquet-engineering.md) | Hardwood — AI-assisted Parquet parser (open-source case, НЕ incident) | Hadoop dependency footprint, single-threaded reader, сложна specification и AI-generated code risks | Page-level parallelism, conservative pruning, differential fixtures, profiling и independent review | AI Engineering, Java Performance, Parquet, JFR/JMH, Make-or-Buy |
 
 ## Какво изискваме от всеки казус
 
@@ -38,6 +39,7 @@ Case study **не се брои за преминат урок или доказ
 - **Temporal / Saga / payment hold:** [Case 003](003-skyro-temporal-saga-cancellation.md) — cancellation pitfalls, late hold, detached compensation и reconciliation.
 - **Oracle / Exadata / SQL cold cache / миграция:** [Case 002](002-commerzbank-exadata-performance-incident.md) — диагностичен runbook, read vs write deduplication, canary и ограничения на CDC.
 - **Microservice overload / modular monolith:** [Case 004](004-port-of-rotterdam-modular-monolith.md) — discovery на domain boundaries, incremental migration и връзка с [Spring Modulith lab](../../spring/architecture/strategic-ddd/modulith-lab/README.md).
+- **AI-assisted engineering / Parquet / Java performance:** [Case 005](005-hardwood-ai-parquet-engineering.md) — specification + differential fixtures, bounded page tasks, no-false-negative pruning, profiling, API review; [Java25/JUnit labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md).
 - **Сравни 001 ↔ 002:** при Decathlon е избран **CDC**, а при Commerzbank той не е приемлив в конкретната среда и е предложен **app-level dual-write**; всеки избор има различни consistency и operational рискове.
 - За бъдещи примери използваме кратки имена, последователен номер и searchable ключови думи.
 - Общият [учебен roadmap](../learning/ROADMAP.md) определя кога да задълбочаваме фундаментите. Case studies остават достъпни като справочник независимо от текущата диагностична сесия.
