@@ -101,11 +101,15 @@ education/
 ### Modern Java (Java 25 runnable + Java 26/27 version notes)
 
 - [Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28](java/JAVA-EVOLUTION-GUIDE.md)
+  - [P3 Java Next Tech Radar — Babylon, Detroit и статуса на Panama/Loom/Lilliput](java/JAVA-NEXT-TECH-RADAR.md)
 - [Devoxx 2026 — P1/P2/P3 NotebookLM аудио уроци](java/MODERN-JAVA-NOTEBOOKLM-PROMPTS.md)
 - [P1 Data-Oriented Programming — records, sealed types, pattern matching и exhaustiveness](java/language/data-oriented-programming/README.md)
+  - [P1 Project Valhalla — JDK 28 Value Objects, identity и migration (Java 25 tests + JDK 28 EA)](java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md)
+  - [P2 Project Amber — primitive patterns, proposed withers и deconstructible classes](java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
+  - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
   - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
 - [P2 Sequenced Collections — encounter order и backed reversed views](java/collections/sequenced-collections/README.md)
 
