@@ -14,11 +14,11 @@ if [[ ! -d target/classes || ! -d target/test-classes ]]; then
   echo "Missing compiled classes/test-classes" >&2
   exit 1
 fi
-if ! find target/classes -name '*.class' -type f | grep -q .; then
+if ! find target/classes -name '*.class' -type f -print -quit | grep -q .; then
   echo "Missing main .class files" >&2
   exit 1
 fi
-if ! find target/test-classes -name '*.class' -type f | grep -q .; then
+if ! find target/test-classes -name '*.class' -type f -print -quit | grep -q .; then
   echo "Missing test .class files" >&2
   exit 1
 fi
