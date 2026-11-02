@@ -152,6 +152,19 @@ mvn -pl java/language/data-oriented-programming test
 
 **Изход:** моделирай състоянието така, че да е възможно най-трудно да създадеш invalid object; използвай exhaustive compiler checking, когато списъкът с alternatives е намерено-ограничен и контролиран.
 
+## P1 advanced extension — Valhalla, JDK 28 preview и Amber
+
+След като овладеем стабилните \`records/sealed/pattern matching\` възможности на Java 25, **не** приемаме, че всеки record е value object (без identity). В новия урок [P1 Project Valhalla](VALHALLA-VALUE-OBJECTS.md) разглеждаме JEP 401 preview в JDK 28, \`==\` срещу \`equals()\`, монитор/weak-reference проблеми, JVM flattening ограничения и реален migration риск за вече компилиран bytecode.
+
+- [Java 25 MoneySnapshot/PaymentSnapshot/ValueSafeOperations + JUnit](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java) — функционална baseline проверка.
+- [JDK 28 EA lab](JDK28-EA-LAB.md) — preview OFF/ON на един Java 25 class file и \`value record\` preview.
+- [P2 Amber — proposed withers, carrier/deconstructible classes и primitive patterns](AMBER-FUTURE-DESIGN.md) — без да копираме недоставен syntax.
+- [NotebookLM — P1 Valhalla аудио prompt](VALHALLA-NOTEBOOKLM-PROMPT.md).
+
+Това е **надграждане, не подмяна** на текущия Java 25 стабилен DOP урок.
+
+---
+
 ## Оригинални източници
 
 - [Devoxx 2026 — Modern Java in Practice](https://youtu.be/zC2tbq7S5UE)
