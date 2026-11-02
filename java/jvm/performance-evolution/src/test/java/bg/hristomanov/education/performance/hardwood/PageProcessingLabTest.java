@@ -27,7 +27,7 @@ class PageProcessingLabTest {
     }
 
     @Test
-    void inclusiveBoundaryMustNotDiscardMatchingValue() {
+    void inclusiveBoundaryMustNotDiscardMatchingValue() throws Exception {
         Page page = page(0, true, 10, 20, 10, 15, 20);
         assertThat(PageProcessingLab.sequential(List.of(page), new Range(20, 20))
                 .matchingRows()).isEqualTo(1);
