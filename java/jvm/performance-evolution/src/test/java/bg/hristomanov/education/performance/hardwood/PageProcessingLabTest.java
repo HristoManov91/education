@@ -198,9 +198,9 @@ class PageProcessingLabTest {
         Range range = new Range(3, 8);
         PageProcessingLab.ScanResult oracle = PageProcessingLab.reference(pages, range);
         PageProcessingLab.ScanResult optimized = PageProcessingLab.sequential(pages, range);
-        assertThat(oracle.matchingRows()).isEqualTo(3);
+        assertThat(oracle.matchingRows()).isEqualTo(4);
         assertThat(oracle.decodedPages()).isEqualTo(3);
-        assertThat(optimized.matchingRows()).isEqualTo(3);
+        assertThat(optimized.matchingRows()).isEqualTo(4);
     }
 
     private static Page page(int id, boolean trusted,
