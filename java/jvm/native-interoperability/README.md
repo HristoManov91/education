@@ -34,6 +34,7 @@
 | Какво доказваме | Java 25 код | Реален тест |
 | --- | --- | --- |
 | C function downcall + MethodHandle | [NativeCStringLength.java](src/main/java/bg/hristomanov/education/ffi/NativeCStringLength.java) | [NativeCStringLengthTest.java](src/test/java/bg/hristomanov/education/ffi/NativeCStringLengthTest.java) |
+| Runnable standalone Java 25 main | [FfmDemo.java](src/main/java/bg/hristomanov/education/ffi/FfmDemo.java) | C downcall + off-heap sum in terminal (Linux x64 CI platform) |
 | UTF-8 байтове срещу Java UTF-16 символи | `NativeCStringLength.utf8Length` | Unicode тест, без изкуствени benchmark стойности |
 | Не допускаме embedded NUL и null | `NativeCStringLength` | Негативни JUnit тестове |
 | Off-heap memory / ValueLayout / int arithmetic | [NativeIntBuffer.java](src/main/java/bg/hristomanov/education/ffi/NativeIntBuffer.java) | [NativeMemorySafetyTest.java](src/test/java/bg/hristomanov/education/ffi/NativeMemorySafetyTest.java) |
@@ -68,10 +69,14 @@ mvn -pl java/jvm/native-interoperability test
 
 `pom.xml` задава `--enable-native-access=ALL-UNNAMED` **само на тестовата JVM**. В production модул с `module-info.java` предпочитай по-тесен `--enable-native-access=<module-name>`; не изискваме включване на native access глобално за всички образователни модули.
 
-За не-модулен standalone запуск (ако добавиш `main()` към кода):
+За **реален standalone Java 25 запуск** от repository root (с включен native access само за тази JVM):
 ```bash
-java --enable-native-access=ALL-UNNAMED -cp target/classes <YourMainClass>
+mvn -pl java/jvm/native-interoperability -DskipTests package
+java --enable-native-access=ALL-UNNAMED \
+  -cp java/jvm/native-interoperability/target/classes \
+  bg.hristomanov.education.ffi.FfmDemo
 ```
+Очакваш `UTF-8 bytes via C strlen: 5` и `Off-heap int sum: 42` при поддържана 64-битова платформа с наличен `strlen`.
 
 **Native access** е силна capability: FFM downcalls са restricted, а неправилен C signature/unsafe pointer usage може да повреди паметта. Този flag не sandbox-ва native библиотеката. Никога не зареждай непроверен binary от непознат източник.
 
