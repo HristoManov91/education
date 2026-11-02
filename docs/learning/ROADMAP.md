@@ -186,6 +186,10 @@
 | ID | Приоритет | Микро-тема | Проверяваме |
 | --- | --- | --- | --- |
 | JAVA-MOD-01 | P1 | [Data-Oriented Programming](../../java/language/data-oriented-programming/README.md): records, sealed sum types, exhaustive switch | Modeling invalid states, constructors, null, guards и overflow |
+| JAVA-MOD-07 | P1 | [Valhalla — Value Objects & JDK 28 EA migration](../../java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) | identity vs statewise ==/equals, value-based 30 JDK classes, weak refs, record constructors, Java 25/JUnit + EA dual-mode proof |
+| JAVA-MOD-08 | P2 | [Leyden AOT code compilation — JDK 28](../../java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md) | Native code vs profiles, same CPU features/GC, training correctness and separate startup/warm-up measurements |
+| JAVA-MOD-09 | P2 | [Amber — future design](../../java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | Primitive patterns, withers, deconstructible classes: delivered vs proposed; manual Java 25 solution |
+| JAVA-MOD-10 | P3 | [Babylon / Detroit — Java Next Tech Radar](../../java/JAVA-NEXT-TECH-RADAR.md) | When to monitor vs adopt; no lab without concrete backend workload |
 | JAVA-MOD-02 | P1 | [Stream Gatherers](../../java/streams/stream-gatherers/README.md): windowing, scan/fold, custom distinctBy | Intermediate vs terminal, mutable state, encounter order, concurrency |
 | JAVA-MOD-03 | P1 | [Project Leyden / JVM Performance](../../java/jvm/performance-evolution/README.md) | Startup vs warm-up vs throughput, JDK25 AOT & compact headers with honest measurement |
 | JAVA-PERF-01 | P1 | [Benchmark Correctness & Performance Measurement](../../java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md) | Reproducibility / Realism / Relevance; open vs closed; coordinated omission, USE/RED, successful throughput, independent bottleneck evidence |
