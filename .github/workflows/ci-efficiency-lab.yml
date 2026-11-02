@@ -89,7 +89,17 @@ jobs:
           fi
           cp "$RUNNER_TEMP/saved.class" "$CLASS_FILE"
           bash ci/compiled-artifact.sh verify
-          echo "PASS: stale/tampered compiled output was rejected"
+
+          # A checksum manifest for the original files MUST NOT accept an
+          # unexpected extra class in the restored target/ directory.
+          printf 'unlisted-bytecode' > target/classes/Unexpected.class
+          if bash ci/compiled-artifact.sh verify; then
+            echo "ERROR: unlisted .class was incorrectly accepted"
+            exit 1
+          fi
+          rm target/classes/Unexpected.class
+          bash ci/compiled-artifact.sh verify
+          echo "PASS: changed and unexpected compiled outputs were rejected"
 
   parallel-fixture:
     if: ${{ inputs.run_parallel_fixture }}
