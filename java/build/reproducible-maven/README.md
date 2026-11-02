@@ -126,6 +126,20 @@ Reproducibility **не е**:
 
 **Алтернативи:** при малък вътрешен проект започни с pinned dependencies, Maven Wrapper и clean CI release; при high-assurance pipeline добави независим rebuild, checksum verification against deployed artifact, SBOM и attestation. Не превръщай всеки commit build в скъп release verification без бизнес основание.
 
+## P2 разширение: Green Maven Builds — Efficient CI Pipelines
+
+Когато имаме детерминиран JAR, следва въпросът **дали не компилираме/тестстваме повторно без причина**. От лекцията на [Jan Boonen — Green Maven Builds, Devoxx 2026](https://www.youtube.com/watch?v=Mdu5_gndYn0) добавихме **[P2 практическо обучение CI Efficiency](CI-EFFICIENCY.md)**, вместо да създаваме отделен Maven курс.
+
+- [CI Efficiency — проблем → bad/good pipeline → компромиси → code review checklist](CI-EFFICIENCY.md);
+- [Практически лаборатории, команди и отрицателни контроли](CI-EFFICIENCY-LABS.md);
+- [CiWorkPlanner.java](src/main/java/bg/hristomanov/education/build/ci/CiWorkPlanner.java) + [CiWorkPlannerTest.java](src/test/java/bg/hristomanov/education/build/ci/CiWorkPlannerTest.java) — PR/main/release policy, fail-closed и проверка на artifact identity;
+- [ParallelCiFixtureTest.java](src/test/java/bg/hristomanov/education/build/ci/ParallelCiFixtureTest.java) — JUnit concurrency и безопасна изолация;
+- [Ръчен GitHub Actions compile-once lab](../../../.github/workflows/ci-efficiency-lab.yml) + [artifact checksum script](ci/compiled-artifact.sh) — отделни jobs, bytecode reuse и очакван отказ при tampering.
+
+**Не сме променяли required `Verify`** или reproducibility workflow. Експерименталният pipeline се изпълнява **само с workflow_dispatch**, след като се появи в default branch. Това не е доказателство за измерени runner-minute спестявания.
+
+---
+
 ## 6. Упражнения и проверка на разбирането
 
 1. Изпълни `clean package` два пъти и сравни SHA-256. Какво доказва това и какво **не**?
