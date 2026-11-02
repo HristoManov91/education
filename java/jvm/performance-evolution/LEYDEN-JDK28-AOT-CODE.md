@@ -24,7 +24,7 @@ JDK 25 Leyden вече има AOT класове/линкване и предв�
 | JDK 25 AOT cache workflow | [StartupWorkload.java](src/main/java/bg/hristomanov/education/performance/StartupWorkload.java) | [PerformanceExperimentsTest.java](src/test/java/bg/hristomanov/education/performance/PerformanceExperimentsTest.java) |
 | Повторни отделни JVM стартирания | [AotProcessComparison.java](src/main/java/bg/hristomanov/education/performance/AotProcessComparison.java) | [BenchmarkStatistics.java](src/main/java/bg/hristomanov/education/performance/BenchmarkStatistics.java) |
 | JIT inlining/бързо деградиране при нов профил | [Big Runtimes P1](BIG-RUNTIMES-JIT-ABSTRACTIONS.md) | [ShapeDispatchBenchmark.java](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/ShapeDispatchBenchmark.java) |
-| Production-like JVM profiling | [JFR Troubleshooting](../jfr-troubleshooting/README.md) | \`jcmd\`, \`jfr\`, JMC |
+| Production-like JVM profiling | [JFR Troubleshooting](../jfr-troubleshooting/README.md) | `jcmd`, `jfr`, JMC |
 
 ## Версии и еволюция — без смесване
 
@@ -51,7 +51,7 @@ Production process
                                while preserving other AOT data
 ~~~
 
-**Training → assembly → production** може да бъде управлявано от едностъпковия \`-XX:AOTCacheOutput\` флаг. Едностъпковият workflow е наличен още в JDK 25; новото в JDK 28 е **какво допълнително се кешира**.
+**Training → assembly → production** може да бъде управлявано от едностъпковия `-XX:AOTCacheOutput` флаг. Едностъпковият workflow е наличен още в JDK 25; новото в JDK 28 е **какво допълнително се кешира**.
 
 ## Примерен JDK 28 EA smoke test (ръчен, не Java 25 CI)
 
@@ -70,7 +70,7 @@ java -Xlog:aot=info -XX:AOTCache=target/java28-workload.aot \
     -cp target/classes bg.hristomanov.education.performance.StartupWorkload 25000
 ~~~
 
-**Задължителни ограничения:** този synthetic workload е прекалено кратък за надежден warm-up benchmark и не гарантира, че конкретни методи ще бъдат AOT-compiled. \`-Xlog:aot=info\` помага за диагностика, но **не е само по себе си доказателство за измерено ускорение или изпълнена AOT функция**. За целта са нужни достатъчно training requests и profile/compilation logs, сравнение с контролен run без cache, със същите условия.
+**Задължителни ограничения:** този synthetic workload е прекалено кратък за надежден warm-up benchmark и не гарантира, че конкретни методи ще бъдат AOT-compiled. `-Xlog:aot=info` помага за диагностика, но **не е само по себе си доказателство за измерено ускорение или изпълнена AOT функция**. За целта са нужни достатъчно training requests и profile/compilation logs, сравнение с контролен run без cache, със същите условия.
 
 ### Compatibility contract
 
@@ -97,7 +97,7 @@ java -Xlog:aot=info -XX:AOTCache=target/java28-workload.aot \
 - Baseline: JDK 28 без cache; trained run: същия artifact/JDK/CPU/GC с AOT code.
 - 7+ независими fork процеса за контрол и лечение, редувано, с еднакъв ready/HTTP endpoint contract.
 - Метрики: process-to-first successful response, 1–100–1000 request warm-up curve, steady throughput, p95/p99, CPU/RSS/GC.
-- Изрично отбележи environment и run artifacts; не сравнявай само \`main()\` duration.
+- Изрично отбележи environment и run artifacts; не сравнявай само `main()` duration.
 - Canary и rollback: ако mismatch на CPU/GC обезсили AOT native code, това не бива да се превръща в мълчалива performance регресия.
 
 **Постоянният принцип:** Leyden измества работа извън критичния път на startup, но не променя правилата за коректност. Production ефектът се доказва с workload, не с процент от keynote.
