@@ -21,9 +21,18 @@ public final class ValueSafeOperations {
     public static Map<LocalDate, Long> sumByDueDate(Iterable<PaymentSnapshot> payments) {
         Objects.requireNonNull(payments, "payments");
         Map<LocalDate, Long> totals = new HashMap<>();
+        String batchCurrency = null;
         for (PaymentSnapshot payment : payments) {
             Objects.requireNonNull(payment, "payment");
-            totals.merge(payment.dueDate(), payment.amount().cents(), Math::addExact);
+            MoneySnapshot amount = payment.amount();
+            // Сумиране само по дата е коректно единствено за едновалутен batch.
+            // Иначе бихме събрали 100 EUR + 100 USD като 200 без единица.
+            if (batchCurrency == null) {
+                batchCurrency = amount.currency();
+            } else if (!batchCurrency.equals(amount.currency())) {
+                throw new IllegalArgumentException("Mixed currencies cannot share date-only totals");
+            }
+            totals.merge(payment.dueDate(), amount.cents(), Math::addExact);
         }
         return Map.copyOf(totals);
     }
