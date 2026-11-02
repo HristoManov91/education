@@ -1,0 +1,61 @@
+name: Valhalla JDK 28 EA
+
+on:
+  pull_request:
+    paths:
+      - 'java/language/data-oriented-programming/**'
+      - '.github/workflows/valhalla-jdk28-ea.yml'
+  workflow_dispatch:
+
+jobs:
+  value-objects-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up official OpenJDK 28 Early Access
+        uses: actions/setup-java@v6
+        with:
+          distribution: oracle-openjdk
+          java-version: '28-ea'
+
+      - name: Show actual JDK under test
+        run: java -version
+
+      - name: Compile preview-independent source as Java 25 bytecode
+        run: |
+          LAB="java/language/data-oriented-programming/jdk28-ea"
+          mkdir -p "$RUNNER_TEMP/valhalla-25"
+          javac --release 25 -d "$RUNNER_TEMP/valhalla-25" "$LAB/IdentityPreviewProbe.java"
+
+      - name: Run same Java 25 class file with preview disabled
+        run: java -cp "$RUNNER_TEMP/valhalla-25" IdentityPreviewProbe identity
+
+      - name: Run same Java 25 class file with preview enabled
+        run: java --enable-preview -cp "$RUNNER_TEMP/valhalla-25" IdentityPreviewProbe value
+
+      - name: Compile and run custom JEP 401 value records
+        run: |
+          LAB="java/language/data-oriented-programming/jdk28-ea"
+          mkdir -p "$RUNNER_TEMP/valhalla-28"
+          javac --release 28 --enable-preview -d "$RUNNER_TEMP/valhalla-28" "$LAB/ValueObjectsPreview.java"
+          java --enable-preview -cp "$RUNNER_TEMP/valhalla-28" ValueObjectsPreview
+
+      - name: Run existing Java 25 record constructor bytecode with JDK 28 preview
+        run: |
+          LAB="java/language/data-oriented-programming/jdk28-ea"
+          javac --release 25 -d "$RUNNER_TEMP/valhalla-25" "$LAB/LegacyRecordConstructorProbe.java"
+          java --enable-preview -cp "$RUNNER_TEMP/valhalla-25" LegacyRecordConstructorProbe
+
+      - name: Assert JDK 28 preview rejects unsafe record early-this source
+        run: |
+          LAB="java/language/data-oriented-programming/jdk28-ea"
+          if javac --release 28 --enable-preview -d "$RUNNER_TEMP/valhalla-28" \
+              "$LAB/LegacyRecordConstructorProbe.java" 2>"$RUNNER_TEMP/legacy-record-error.txt"; then
+            echo "Unexpected success: JDK 28 preview should reject early this access"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/legacy-record-error.txt"
+          grep -q 'error:' "$RUNNER_TEMP/legacy-record-error.txt"

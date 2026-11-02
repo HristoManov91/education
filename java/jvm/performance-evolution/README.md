@@ -155,6 +155,13 @@ Observed symptom → baseline recording/metrics
 
 ---
 
+## P2 · Project Leyden on JDK 28: AOT Native Code Compilation (JEP 544)
+
+- [Leyden JDK 28 AOT Code Compilation — training, CPU/GC compatibility и честно startup/warm-up измерване](LEYDEN-JDK28-AOT-CODE.md) надгражда Java 25 AOT cache с подготвен native code. **JDK 28 е Early Access**, а Java 25 примерите тук остават стабилни.
+- Свързано: [Valhalla Value Objects (JDK 28 preview)](../../language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) и [Big Runtimes](BIG-RUNTIMES-JIT-ABSTRACTIONS.md).
+
+---
+
 ## Benchmark Correctness — P1 Deep Technical Lecture (Devoxx 2026)
 
 - **[Benchmark Correctness & Performance Measurement](BENCHMARK-CORRECTNESS.md)** — Reproducibility / Realism / Relevance, **Coordinated Omission**, correct p99 & throughput contracts, independent resource bottlenecks, USE/RED analysis and a documented Quarkus/Spring networking case.
