@@ -17,8 +17,12 @@ public final class MutableEvent {
     }
 
     public void overwrite(String key, String detail, long amount) {
-        this.key = Objects.requireNonNull(key, "key");
-        this.detail = Objects.requireNonNull(detail, "detail");
+        // Валидираме всички входове преди първата mutation, за да не оставим
+        // частично променен обект при exception.
+        String nextKey = Objects.requireNonNull(key, "key");
+        String nextDetail = Objects.requireNonNull(detail, "detail");
+        this.key = nextKey;
+        this.detail = nextDetail;
         this.amount = amount;
     }
 
