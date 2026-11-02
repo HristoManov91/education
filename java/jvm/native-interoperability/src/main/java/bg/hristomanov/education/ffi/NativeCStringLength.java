@@ -24,8 +24,7 @@ public final class NativeCStringLength {
     public static boolean isSupported() {
         Linker linker = Linker.nativeLinker();
         MemoryLayout sizeT = linker.canonicalLayouts().get("size_t");
-        return sizeT != null
-                && sizeT.byteSize() == Long.BYTES
+        return sizeT instanceof ValueLayout.OfLong
                 && linker.defaultLookup().find("strlen").isPresent();
     }
 
@@ -39,7 +38,7 @@ public final class NativeCStringLength {
 
         Linker linker = Linker.nativeLinker();
         MemoryLayout sizeT = linker.canonicalLayouts().get("size_t");
-        if (sizeT == null || sizeT.byteSize() != Long.BYTES) {
+        if (!(sizeT instanceof ValueLayout.OfLong canonicalSizeT)) {
             throw new UnsupportedOperationException("Only 64-bit C size_t is demonstrated");
         }
         SymbolLookup lookup = linker.defaultLookup();
@@ -48,7 +47,7 @@ public final class NativeCStringLength {
 
         // On a supported 64-bit ABI: size_t strlen(const char *value).
         MethodHandle strlen = linker.downcallHandle(symbol,
-                FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+                FunctionDescriptor.of(canonicalSizeT, ValueLayout.ADDRESS));
 
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment cString = arena.allocateFrom(text);
