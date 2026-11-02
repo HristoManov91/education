@@ -37,7 +37,7 @@
 
 ### 2.1 Java Next — status boundaries and migration check (Devoxx 2026)
 
-- **[Project Valhalla P1](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md):** JDK 28 EA preview changes \`==\`, synchronization and weak-reference behavior for certain existing JDK classes even on pre-28 bytecode. Use [dual-mode compatibility lab](language/data-oriented-programming/JDK28-EA-LAB.md) before deciding adoption.
+- **[Project Valhalla P1](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md):** JDK 28 EA preview changes `==`, synchronization and weak-reference behavior for certain existing JDK classes even on pre-28 bytecode. Use [dual-mode compatibility lab](language/data-oriented-programming/JDK28-EA-LAB.md) before deciding adoption.
 - **[Leyden JEP 544 P2](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md):** JDK 28 stores optimized native code in existing AOT cache; architecture+CPU features and collector must match for native code, despite GC-agnostic cached objects since JDK 26.
 - **[Amber P2](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md):** primitive patterns have preview lineage, but proposed withers/deconstructible classes are not a Java 25 stable API.
 - **[Babylon / Detroit P3 Watch](JAVA-NEXT-TECH-RADAR.md):** prototype interop/Code Reflection, no adoption before real use case.
