@@ -190,6 +190,9 @@
 | JAVA-MOD-08 | P2 | [Leyden AOT code compilation — JDK 28](../../java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md) | Native code vs profiles, same CPU features/GC, training correctness and separate startup/warm-up measurements |
 | JAVA-MOD-09 | P2 | [Amber — future design](../../java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | Primitive patterns, withers, deconstructible classes: delivered vs proposed; manual Java 25 solution |
 | JAVA-MOD-10 | P3 | [Babylon / Detroit — Java Next Tech Radar](../../java/JAVA-NEXT-TECH-RADAR.md) | When to monitor vs adopt; no lab without concrete backend workload |
+| JAVA-MOD-11 | P2 | [FFM API & Java Native Interoperability](../../java/jvm/native-interoperability/README.md) | Real C downcall, ABI and size_t, explicit Arena lifetime, bounds/thread safety, Java 25 JUnit evidence |
+| JAVA-MOD-12 | P2 optional | [jextract — generated bindings](../../java/jvm/native-interoperability/JEXTRACT-LAB.md) | C headers → source generation → local native lib → smoke run; toolchain compatibility and limitations |
+| JAVA-MOD-13 | P3 | [Babylon Code Reflection → ONNX graph case study](../../java/JAVA-NEXT-TECH-RADAR.md) | @Reflect/FuncOp, graph translation vs FFM downcall, Protobuf/ONNX boundaries; no unsupported stable API claims |
 | JAVA-MOD-02 | P1 | [Stream Gatherers](../../java/streams/stream-gatherers/README.md): windowing, scan/fold, custom distinctBy | Intermediate vs terminal, mutable state, encounter order, concurrency |
 | JAVA-MOD-03 | P1 | [Project Leyden / JVM Performance](../../java/jvm/performance-evolution/README.md) | Startup vs warm-up vs throughput, JDK25 AOT & compact headers with honest measurement |
 | JAVA-PERF-01 | P1 | [Benchmark Correctness & Performance Measurement](../../java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md) | Reproducibility / Realism / Relevance; open vs closed; coordinated omission, USE/RED, successful throughput, independent bottleneck evidence |
