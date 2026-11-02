@@ -11,6 +11,7 @@
 | **P1 Valhalla JDK 28 EA** | [Value Objects and compatibility](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) | Java 25 JUnit baseline + separate JDK 28 EA preview lab (not compiled by main reactor) |
 | **P2 Amber roadmap** | [Proposed withers/carrier classes and primitive patterns](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | Stable manual record reconstruction in Java 25; proposals are NOT compilable |
 | **P3 Babylon/Detroit** | [Java Next Tech Radar](JAVA-NEXT-TECH-RADAR.md) | Watch only; no new production API |
+| **P2 Java 25 native interop** | [FFM API & jextract hands-on](jvm/native-interoperability/README.md) | FFM final since Java 22; Java 25 native downcall + JUnit; jextract is separately installed and optional |
 | **P1 Stream Gatherers** | [Gatherers](streams/stream-gatherers/README.md) | Five built-ins + custom stateful Gatherer |
 | **P1 JVM performance** | [Project Leyden + Compact Object Headers](jvm/performance-evolution/README.md) | Synthetic workload, JDK 25 AOT training/compare, object-header opt-in |
 | **P2 Leyden JDK 28** | [JEP 544 AOT code compilation](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md) | JDK 28 EA manual experiment only; JDK 25 AOT cache unchanged |
