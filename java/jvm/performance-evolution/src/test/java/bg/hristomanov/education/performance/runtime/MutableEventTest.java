@@ -36,5 +36,8 @@ class MutableEventTest {
         MutableEvent event = new MutableEvent("id", "ok", 1);
         assertThatThrownBy(() -> event.overwrite("id", null, 2))
                 .isInstanceOf(NullPointerException.class);
+        assertThat(event.key()).isEqualTo("id");
+        assertThat(event.detail()).isEqualTo("ok");
+        assertThat(event.amount()).isEqualTo(1);
     }
 }
