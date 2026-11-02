@@ -60,7 +60,7 @@ cache.put(LocalDate.of(2026, 11, 2), "batch");
 String result = cache.get(LocalDate.of(2026, 11, 2)); // may be null
 ~~~
 
-GOOD — `Map<LocalDate, Long>` в [ValueSafeOperations.sumByDueDate](src/main/java/bg/hristomanov/education/dop/valhalla/ValueSafeOperations.java), `Objects.equals` и immutable snapshots. Тестът доказва, че две логически равни дати попадат в една група.
+GOOD — `Map<LocalDate, Long>` в [ValueSafeOperations.sumByDueDate](src/main/java/bg/hristomanov/education/dop/valhalla/ValueSafeOperations.java), `Objects.equals` и immutable snapshots. Тестът доказва, че две логически равни дати попадат в една група. **Важен бизнес инвариант:** групиране само по дата допуска **единствена валута в batch-а**; методът изрично отхвърля смесване EUR/USD. За многовалутни справки използвай композитен ключ `(dueDate, currency)` или отделни суми по валута — никога не събирай различни валути като безразмерни числа.
 
 BAD — ръчно изменяне на shared snapshot, вместо нов immutable object; alias-ът у другата нишка вижда неочаквана промяна.
 
@@ -70,7 +70,7 @@ GOOD — [PaymentSnapshot.withAmount](src/main/java/bg/hristomanov/education/dop
 mvn -pl java/language/data-oriented-programming test
 ~~~
 
-[Пет JUnit теста](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java) проверяват equality, копиране, групиране, домейн ограничения и overflow; **не** фиксират performance speedups.
+[Шест JUnit теста](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java) проверяват equality, копиране, групиране, домейн ограничения и overflow; **не** фиксират performance speedups.
 
 ## 5. Лаборатория: един class file, два runtime режима
 
