@@ -211,6 +211,10 @@
 | BUILD-MVN-01 | Same commit ≠ same artifact; ZIP timestamps и build inputs | Разлика между зелен build, функционална еквивалентност и битова идентичност |
 | BUILD-MVN-02 | Effective POM, dependencies/plugins и `outputTimestamp` | Кой управлява версиите; Maven 3.9 vs 3.10+; Spring Boot repackage/build-info |
 | BUILD-MVN-03 | Maven artifact plugin, two-clean-checkout SHA-256 gate, clock/environment leakage | Отрицателен пример, диагностика и граници на local vs independent verification |
+| BUILD-MVN-04 | [P2 Green Maven Builds — compile-once jobs](../../java/build/reproducible-maven/CI-EFFICIENCY.md) | Maven lifecycle срещу директен Surefire, artifacts/needs, provenance и отрицателен checksum тест |
+| BUILD-MVN-05 | [Safe JUnit parallelism](../../java/build/reproducible-maven/CI-EFFICIENCY-LABS.md) | JUnit 5 @Execution/@ResourceLock, shared-state hazards, измерване без fake speedups |
+| BUILD-MVN-06 | PR/main/release work-selection & runner resources | Fail-closed check selection, PR-only cancel, required statuses, wall time срещу runner-minutes |
+| BUILD-MVN-07 | P3 Green CI energy/carbon estimates | EcoCI/Kepler assumptions и ограничения, без незадължителни production integrations |
 
 **Практичен checkpoint:** изпълни positive и negative build profile, провери `artifact:compare` и обясни защо независима attestation изисква нещо повече от два clean checkout-а на един runner. Няма автоматично оценяване на лично усвояване; тестовете са доказателство само за кода.
 
