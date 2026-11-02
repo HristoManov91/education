@@ -50,6 +50,17 @@ class ValhallaReadinessTest {
     }
 
     @Test
+    void dateOnlyTotalsRejectMixedCurrenciesInsteadOfSilentlyAddingAmounts() {
+        LocalDate date = LocalDate.of(2026, 11, 2);
+        PaymentSnapshot euro = new PaymentSnapshot(1, new MoneySnapshot(500, "EUR"), date);
+        PaymentSnapshot dollar = new PaymentSnapshot(2, new MoneySnapshot(200, "USD"), date);
+
+        assertThatThrownBy(() -> ValueSafeOperations.sumByDueDate(List.of(euro, dollar)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Mixed currencies");
+    }
+
+    @Test
     void validationsAndCurrencyBoundariesSurviveCopies() {
         MoneySnapshot amount = new MoneySnapshot(100, "EUR");
         PaymentSnapshot payment = new PaymentSnapshot(1, amount, LocalDate.of(2026, 11, 2));
