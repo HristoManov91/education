@@ -50,6 +50,7 @@
 - [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
 - [Skyro — Temporal Saga cancellation и orphaned holds (Case 003)](docs/case-studies/003-skyro-temporal-saga-cancellation.md)
 - [Port of Rotterdam — microservice overload → domain-first modular monolith migration (Case 004)](docs/case-studies/004-port-of-rotterdam-modular-monolith.md)
+- [Hardwood — AI-assisted Parquet engineering, test oracles и page-level performance (Case 005)](docs/case-studies/005-hardwood-ai-parquet-engineering.md)
 
 ## Персонален учебен план и диагностика
 
@@ -111,6 +112,7 @@ education/
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
   - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
   - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
+  - [P2 Hardwood engineering lab — bounded page pipeline, conservative pruning, independent JUnit oracle](java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md)
 - [P2 Sequenced Collections — encounter order и backed reversed views](java/collections/sequenced-collections/README.md)
 
 ### Java / Concurrency
