@@ -42,3 +42,20 @@ jobs:
           mkdir -p "$RUNNER_TEMP/valhalla-28"
           javac --release 28 --enable-preview -d "$RUNNER_TEMP/valhalla-28" "$LAB/ValueObjectsPreview.java"
           java --enable-preview -cp "$RUNNER_TEMP/valhalla-28" ValueObjectsPreview
+
+      - name: Run existing Java 25 record constructor bytecode with JDK 28 preview
+        run: |
+          LAB="java/language/data-oriented-programming/jdk28-ea"
+          javac --release 25 -d "$RUNNER_TEMP/valhalla-25" "$LAB/LegacyRecordConstructorProbe.java"
+          java --enable-preview -cp "$RUNNER_TEMP/valhalla-25" LegacyRecordConstructorProbe
+
+      - name: Assert JDK 28 preview rejects unsafe record early-this source
+        run: |
+          LAB="java/language/data-oriented-programming/jdk28-ea"
+          if javac --release 28 --enable-preview -d "$RUNNER_TEMP/valhalla-28" \
+              "$LAB/LegacyRecordConstructorProbe.java" 2>"$RUNNER_TEMP/legacy-record-error.txt"; then
+            echo "Unexpected success: JDK 28 preview should reject early this access"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/legacy-record-error.txt"
+          grep -q 'error:' "$RUNNER_TEMP/legacy-record-error.txt"
