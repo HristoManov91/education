@@ -7,9 +7,9 @@
 
 ## Реален казус
 
-Имаме immutable \`PaymentSnapshot\` record с 3 components. Искаме да променим сумата, без да загубим validation, но boilerplate-ът расте и често погрешно правим mutable DTO.
+Имаме immutable `PaymentSnapshot` record с 3 components. Искаме да променим сумата, без да загубим validation, но boilerplate-ът расте и често погрешно правим mutable DTO.
 
-Вече имаме [Java 25 работещ пример](src/main/java/bg/hristomanov/education/dop/valhalla/PaymentSnapshot.java) с \`withAmount\`, който извиква canonical constructor, не променя оригинала, проверява business invariants и има [JUnit тест](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java). Това е **по-простото стабилно решение днес**.
+Вече имаме [Java 25 работещ пример](src/main/java/bg/hristomanov/education/dop/valhalla/PaymentSnapshot.java) с `withAmount`, който извиква canonical constructor, не променя оригинала, проверява business invariants и има [JUnit тест](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java). Това е **по-простото стабилно решение днес**.
 
 ## README → код
 
@@ -21,7 +21,7 @@
 
 ## 1. Primitive patterns: точна/lossless conversion
 
-[JEP 530](https://openjdk.org/jeps/530) е **четвърти preview в JDK 26**; JDK 27 продължава preview еволюцията. В лекцията Nicolai показва \`int x = 16_777_217\` и проверка \`x instanceof float f\`. Това не е lossless conversion, защото стойността не може да бъде точно представена в \`float\`.
+[JEP 530](https://openjdk.org/jeps/530) е **четвърти preview в JDK 26**; JDK 27 продължава preview еволюцията. В лекцията Nicolai показва `int x = 16_777_217` и проверка `x instanceof float f`. Това не е lossless conversion, защото стойността не може да бъде точно представена в `float`.
 
 **Идея, НЕ Java 25 snippet:**
 
@@ -52,7 +52,7 @@ Point changed = point with { x = 1; };
 
 ## 3. Constant patterns, deconstruction assignments, carrier classes
 
-- **Constant patterns** — позволяват \`case Point(0, int y)\` вместо \`case Point(int x, int y) when x == 0\`. В лекцията синтаксисът е представен като sketch; следи JEP draft. Днес използвай \`when\`.
+- **Constant patterns** — позволяват `case Point(0, int y)` вместо `case Point(int x, int y) when x == 0`. В лекцията синтаксисът е представен като sketch; следи JEP draft. Днес използвай `when`.
 - **Deconstruction assignment** — идеи за деконструиране към съществуващи променливи; синтаксисът и scope правилата още се уточняват.
 - **Deconstructible / carrier classes** — идеи за класове, които описват публично своето state shape, но не са record. Изискват ясни правила за encapsulation, invariant checking и construction symmetry.
 - **String templates** — остават design effort, не ги въвеждаме като налична Java 25 функция; не обещаваме конкретен ship date.
@@ -67,13 +67,13 @@ Point changed = point with { x = 1; };
 | Derived record creation proposal | Boilerplate при реконструкция | Да се следи като roadmap | Да се копира syntax в production | Кратък код ↔ недоставена спецификация |
 | Carrier/deconstructible classes proposal | Explicit data shape за някои non-record класове | Design research / Tech Radar | За backend service с капсулирани side effects | По-богато pattern matching ↔ неизвестни семантични граници |
 
-**Практично:** ако трябва да добавиш трети вариант на \`PaymentSnapshot\`, напиши и тествай явен factory/wither вместо да чакаш proposal. Реалната задача е да запазиш domain invariants, не да минимизираш символи.
+**Практично:** ако трябва да добавиш трети вариант на `PaymentSnapshot`, напиши и тествай явен factory/wither вместо да чакаш proposal. Реалната задача е да запазиш domain invariants, не да минимизираш символи.
 
 ## Senior checkpoint
 
-1. Защо \`withAmount()\` трябва да извиква constructor и какво става при invalid currency?
-2. Защо \`record Point(int x,int y)\` с \`case Point(0, int y)\` не е валиден Java 25 код?
-3. Как \`instanceof float\` се различава от explicit cast?
+1. Защо `withAmount()` трябва да извиква constructor и какво става при invalid currency?
+2. Защо `record Point(int x,int y)` с `case Point(0, int y)` не е валиден Java 25 код?
+3. Как `instanceof float` се различава от explicit cast?
 4. Кои ограничения бихме изисквали от публичен deconstructible class?
 
 ## Оригинални източници
