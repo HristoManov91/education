@@ -75,6 +75,22 @@ jobs:
         working-directory: java/build/reproducible-maven
         run: bash ci/compiled-artifact.sh verify
 
+      - name: Negative control - stale compiled output must be rejected
+        working-directory: java/build/reproducible-maven
+        shell: bash
+        run: |
+          set -euo pipefail
+          CLASS_FILE="$(find target/classes -name '*.class' -type f -print -quit)"
+          cp "$CLASS_FILE" "$RUNNER_TEMP/saved.class"
+          printf 'tampered' >> "$CLASS_FILE"
+          if bash ci/compiled-artifact.sh verify; then
+            echo "ERROR: modified bytecode was incorrectly accepted"
+            exit 1
+          fi
+          cp "$RUNNER_TEMP/saved.class" "$CLASS_FILE"
+          bash ci/compiled-artifact.sh verify
+          echo "PASS: stale/tampered compiled output was rejected"
+
   parallel-fixture:
     if: ${{ inputs.run_parallel_fixture }}
     needs: compile-once
