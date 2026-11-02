@@ -63,4 +63,17 @@ if [[ "$expected" != "$actual" ]]; then
   exit 1
 fi
 sha256sum -c --quiet target/ci-classes.sha256
-echo "PASS: bytecode unchanged and bound to compilation inputs"
+
+# sha256sum -c validates only entries already present in the manifest.
+# Reject newly added files as well: a stray .class or test resource must never
+# be silently accepted when restoring target/ in another CI job.
+if ! diff -u target/ci-classes.sha256 <(
+    find target/classes target/test-classes -type f -print0 |
+      LC_ALL=C sort -z |
+      xargs -0 sha256sum
+  ); then
+  echo "Refusing unlisted, missing or modified files in compiled output" >&2
+  exit 1
+fi
+
+echo "PASS: bytecode file set, checksums and build inputs all match"
