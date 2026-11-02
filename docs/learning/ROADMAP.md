@@ -174,6 +174,7 @@
 | TEST-AI-04 | Independent AI test oracle, mutation basics | Boundary/negative tests, no green-by-cheating, coverage ≠ correctness |
 | TEST-AI-05 | Versioned agent skills + production readiness | Skills, test review, CI evidence, rollback |
 | TEST-AI-06 | [Mutation testing: survivor triage & meaningful code](../../spring/testing/ai-assisted-testing/05-MUTATION-TESTING-DEEP-DIVE.md) (Devoxx, Dave Aronson) | PIT bytecode, KILLED/SURVIVED/NO_COVERAGE, equivalent mutants, boundary/partial writes, redundant-code hypothesis, cost/CI gates |
+| TEST-AI-07 | [Case Study 005 — Hardwood AI engineering](../case-studies/005-hardwood-ai-parquet-engineering.md) | Specification-derived fixtures, differential oracles, AI test weakening, regression evidence, irreversible APIs and review priority |
 
 **Практичен checkpoint:** RegistrationPolicy, MockMvc 400/401/403, HTTP auth и TestContext cache reuse. За `TEST-AI-06`: сравни `age < 18` с `age <= 18` и изследвай [ChunkedSender / ChunkedSenderTest](../../spring/testing/ai-assisted-testing/04-PRACTICAL-LABS.md) при partial writes; обясни кога `SURVIVED` означава липсващ сценарий и кога има основание за опростяване на production code. **PIT е opt-in**; не записвай score или лично усвояване без реални тестове и диагностика.
 
@@ -196,6 +197,7 @@
 | JAVA-MOD-02 | P1 | [Stream Gatherers](../../java/streams/stream-gatherers/README.md): windowing, scan/fold, custom distinctBy | Intermediate vs terminal, mutable state, encounter order, concurrency |
 | JAVA-MOD-03 | P1 | [Project Leyden / JVM Performance](../../java/jvm/performance-evolution/README.md) | Startup vs warm-up vs throughput, JDK25 AOT & compact headers with honest measurement |
 | JAVA-PERF-01 | P1 | [Benchmark Correctness & Performance Measurement](../../java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md) | Reproducibility / Realism / Relevance; open vs closed; coordinated omission, USE/RED, successful throughput, independent bottleneck evidence |
+| JAVA-PERF-02 | P2 | [Hardwood page scheduling & predicate-pruning labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md) | Bounded virtual I/O vs fixed CPU, stable result order, null/unknown metadata, conservative Bloom semantics and independent JUnit oracle |
 | JAVA-MOD-04 | P2 | [Sequenced Collections](../../java/collections/sequenced-collections/README.md) | Reversed backed view vs snapshot, supported/unsupported mutators |
 | JAVA-MOD-05 | P2 | [MDC/ThreadLocal + Virtual Threads](../../java/concurrency/project-loom/MDC-CONTEXT-PROPAGATION.md) | Context snapshot per task, cleanup и ScopedValue trade-offs |
 | JAVA-MOD-06 | P2 | [JFR JDK27 sensitive-data redaction](../../java/jvm/jfr-troubleshooting/JDK-27-JFR-REDACTION.md) | Preview/version boundary, security risk in recordings |
