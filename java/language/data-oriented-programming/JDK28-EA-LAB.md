@@ -48,6 +48,21 @@ PASS: JDK 28 value records / statewise == / record.equals
 | \`value record\` и \`==\` | [ValueObjectsPreview.java](jdk28-ea/ValueObjectsPreview.java) | EA preview compile, standalone executable assertions |
 | Бизнес логика без reference identity | [MoneySnapshot.java](src/main/java/bg/hristomanov/education/dop/valhalla/MoneySnapshot.java), [ValueSafeOperations.java](src/main/java/bg/hristomanov/education/dop/valhalla/ValueSafeOperations.java) | [ValhallaReadinessTest.java](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java) (Java 25 JUnit) |
 
+### Допълнителен regression test: record constructor source breakage
+
+[LegacyRecordConstructorProbe.java](jdk28-ea/LegacyRecordConstructorProbe.java) е **умишлен legacy antipattern**: compact constructor извиква \`this.toString()\`, преди compiler-generated component assignment. Една и съща source програма се компилира с Java 25 mode, но трябва да бъде отхвърлена при Java 28 preview compilation. Вече компилираният без preview class file **продължава да се изпълнява** при JDK28 с preview ON.
+
+~~~bash
+# JDK 28 Early Access, от директорията на DOP модула
+javac --release 25 -d target/valhalla-25 jdk28-ea/LegacyRecordConstructorProbe.java
+java --enable-preview -cp target/valhalla-25 LegacyRecordConstructorProbe
+
+# EXPECTED COMPILATION ERROR — early access to this:
+javac --release 28 --enable-preview -d target/valhalla-28 jdk28-ea/LegacyRecordConstructorProbe.java
+~~~
+
+Точно този expected-failure contract се проверява и в [GitHub Actions workflow](../../../.github/workflows/valhalla-jdk28-ea.yml). Не го мести в \`src/main/java\` — целта е да моделира source incompatibility, не production-код.
+
 ## Какво доказва и какво не
 
 - Доказва runtime различия на \`LocalDate\` при \`==\` и \`WeakReference\` за **текущия изпълнен EA build**, и разграничението \`equals\`/statewise \`==\`.
