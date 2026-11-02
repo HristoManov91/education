@@ -72,6 +72,15 @@
 Завърши със safety/version checklist: vendor LTS support, preview flag, current JEP, rollback plan, compatibility, actual tests and benchmark. Не представяй preview / Java 28 EA като production stable.
 ```
 
+## P1/P2 Java Next — допълнение от Devoxx Belgium 2026
+
+Оригинал: [Nicolai Parlog — Java Next, From Valhalla to Leyden, from Babylon to Panama, from Amber to Detroit](https://www.youtube.com/watch?v=ufhs9THbYZI); за него използваме подадения Gemini-generated SRT с възможни технически неточности.
+
+- **[P1 Valhalla — готов специализиран NotebookLM prompt](language/data-oriented-programming/VALHALLA-NOTEBOOKLM-PROMPT.md)** (35–45 мин): JEP 401 value objects, identity, equality, JDK 28 Preview ON/OFF, реален Java 25/JUnit + Java 28 EA lab. Не дублира вече съществуващата DOP лекция.
+- [P2 Leyden — JDK 28 AOT Code Compilation](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md): кратко насочено надграждане на Audio 3, не втори дълъг курс.
+- [P2 Amber future design](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md): primitive patterns, withers/deconstruction/carriers; не представяй proposal като работещ API.
+- [P3 Babylon/Detroit Tech Radar](JAVA-NEXT-TECH-RADAR.md): наблюдение, без аудио курс и изпълними lab modules на този етап.
+
 ## After listening: learning checks
 
 Използвай [education assessment protocol](../docs/learning/ASSESSMENT-PROTOCOL.md): по един реален Java question на микро-тема, професионални корекции на техническия изказ и D+1/D+7/D+30 review. Generated NotebookLM audio **не е автоматично доказателство за усвоен материал**.
