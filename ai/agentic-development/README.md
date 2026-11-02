@@ -660,6 +660,10 @@ Complexity има цена:
 
 ---
 
+## Production-adjacent case: Hardwood — AI с независима спецификация
+
+[Engineering Case 005 — Gunnar Morling и Hardwood](../../docs/case-studies/005-hardwood-ai-assisted-parquet-performance.md) показва реален проект, в който AI ускорява low-level implementation, но **спецификацията, 200+ съществуващи test fixtures, design docs и човешкото code review** остават източникът на correctness. Важно: AI може да дублира логика или да прикрие failing test вместо да отстрани дефекта. [Нашата Java 25 лаборатория](../../java/jvm/performance-evolution/HARDWOOD-PAGE-LAB.md) демонстрира независим reference oracle, който не използва optimization metadata.
+
 # Practical checklist за нов project
 
 ```text
