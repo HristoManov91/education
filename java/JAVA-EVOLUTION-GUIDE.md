@@ -1,4 +1,4 @@
-# Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28 (as of 2026-10-26)
+# Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28 (as of 2026-11-02)
 
 > **P2 focused reference + P3 API notes**, based on [Modern Java in Practice — Nicolai Parlog & Falk Sippach, Devoxx 2026](https://youtu.be/zC2tbq7S5UE).  
 > Main education/ CI baseline is **Java 25 LTS**. We distinguish **released and final**, **released preview/opt-in**, and **proposed/EA** features; code that requires 26/27/28 **is not compiled in Java 25 modules**.
@@ -8,8 +8,12 @@
 | Concern | Module | What is runnable in Java 25? |
 | --- | --- | --- |
 | **P1 Data-Oriented Programming** | [DOP lesson](language/data-oriented-programming/README.md) | Records, sealed variants, switch/record patterns, guards |
+| **P1 Valhalla JDK 28 EA** | [Value Objects and compatibility](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) | Java 25 JUnit baseline + separate JDK 28 EA preview lab (not compiled by main reactor) |
+| **P2 Amber roadmap** | [Proposed withers/carrier classes and primitive patterns](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | Stable manual record reconstruction in Java 25; proposals are NOT compilable |
+| **P3 Babylon/Detroit** | [Java Next Tech Radar](JAVA-NEXT-TECH-RADAR.md) | Watch only; no new production API |
 | **P1 Stream Gatherers** | [Gatherers](streams/stream-gatherers/README.md) | Five built-ins + custom stateful Gatherer |
 | **P1 JVM performance** | [Project Leyden + Compact Object Headers](jvm/performance-evolution/README.md) | Synthetic workload, JDK 25 AOT training/compare, object-header opt-in |
+| **P2 Leyden JDK 28** | [JEP 544 AOT code compilation](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md) | JDK 28 EA manual experiment only; JDK 25 AOT cache unchanged |
 | **P2 Sequenced Collections** | [SequencedCollections](collections/sequenced-collections/README.md) | Live reversed views, LinkedHashSet, LinkedHashMap, TreeSet unsupported operations |
 | **Targeted Loom expansion** | [MDC/ThreadLocal context](concurrency/project-loom/MDC-CONTEXT-PROPAGATION.md) | Virtual ThreadFactory propagation + cleanup tests |
 | **Targeted JFR expansion** | [JDK 27 redaction](jvm/jfr-troubleshooting/JDK-27-JFR-REDACTION.md) | Conceptual note, JDK 27 runtime only |
@@ -26,10 +30,18 @@
 | **Java 25 LTS** | Scoped Values (506), Compact Object Headers (519, opt-in), AOT ergonomics/profiling (514/515), JFR timing/tracing (520) | Stable, some VM options opt-in | Main runnable modules and tests |
 | **Java 26** | HTTP/3 in java.net.http client (517) | Available, **opt-in** | Version-specific reference, no Java 25 source compilation |
 | **Java 27 (Sept 2026)** | Compact Object Headers **default on** (534), JFR In-Process Data Redaction (536), hybrid TLS post-quantum, PEM APIs preview | Released; preview APIs remain opt-in | Security/JFR review notes; no baseline migration |
-| **Java 28 (planned 2027)** | Structured Concurrency proposed final via JEP 543; JSON APIs being explored | **Not GA** as of this guide | Track official JEP status; no Java 28 production claims |
+| **Java 28 (EA; GA planned March 2027)** | JEP 401 Value Objects (Preview), JEP 539 strict field initialization (Preview), JEP 544 AOT Code Compilation, JEP 543 Structured Concurrency and GC enhancements JEP 545/546 | **EA, NOT GA**; value-object preview affects 30 JDK classes only with preview enabled | [Valhalla EA dual-mode lab](language/data-oriented-programming/JDK28-EA-LAB.md), [Leyden JEP 544 note](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md) |
 | **Java 29 (planned Sept 2027)** | Prospective LTS adoption target | Future | Re-evaluate vendor support, JEPs, dependencies and CI when available |
 
 **Technical distinction:** LTS is a support promise from a JDK vendor; OpenJDK project releases are not intrinsically maintained forever. Always check the concrete distribution/support contract.
+
+### 2.1 Java Next — status boundaries and migration check (Devoxx 2026)
+
+- **[Project Valhalla P1](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md):** JDK 28 EA preview changes \`==\`, synchronization and weak-reference behavior for certain existing JDK classes even on pre-28 bytecode. Use [dual-mode compatibility lab](language/data-oriented-programming/JDK28-EA-LAB.md) before deciding adoption.
+- **[Leyden JEP 544 P2](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md):** JDK 28 stores optimized native code in existing AOT cache; architecture+CPU features and collector must match for native code, despite GC-agnostic cached objects since JDK 26.
+- **[Amber P2](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md):** primitive patterns have preview lineage, but proposed withers/deconstructible classes are not a Java 25 stable API.
+- **[Babylon / Detroit P3 Watch](JAVA-NEXT-TECH-RADAR.md):** prototype interop/Code Reflection, no adoption before real use case.
+- **Original lecture:** [Java Next — Nicolai Parlog, Devoxx 2026](https://www.youtube.com/watch?v=ufhs9THbYZI) and [author slides](https://slides.nipafx.dev/java-next/2026-10-02-jcp/). Java 25 remains the tested production learning baseline.
 
 ## 3. P3 — Java 25 compact source files and instance main methods
 
