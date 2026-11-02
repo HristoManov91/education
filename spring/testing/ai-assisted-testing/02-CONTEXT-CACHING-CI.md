@@ -121,6 +121,14 @@ validate → compile → test-compile
 
 **Не твърдим, че съществуващият education build е ускорен**, докато няма измерване върху неговата реална pipeline. Резултатът 26→12 минути в лекцията е **пример, съобщен от лектора за друг проект**, не доказана стойност за нашия repository.
 
+## Съпътстващо P2 обучение — Maven CI efficiency (без дублиране)
+
+[Green Maven Builds — Efficient CI](../../../java/build/reproducible-maven/CI-EFFICIENCY.md) надгражда темата за бавните тестове отвъд Spring TestContext: compile-once artifacts между GitHub Actions jobs, Maven lifecycle/surefire разграничение, resource-efficient PR policies и opt-in JUnit parallelism. За код и тестове използвай [CI Efficiency Labs](../../../java/build/reproducible-maven/CI-EFFICIENCY-LABS.md).
+
+**Разлика:** Spring Context cache съществува **само в една JVM**, докато CI artifact се предава между отделни runners; кеширане на dependency JARs не кешира Java test output. Не включвай глобална паралелизация без изолация.
+
+---
+
 ## Self-check
 
 - Защо добавяне на `@MockitoBean` може да увеличи броя Spring contexts?

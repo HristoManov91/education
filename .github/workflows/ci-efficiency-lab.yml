@@ -1,0 +1,137 @@
+name: CI Efficiency Maven Lab (manual)
+
+# Educational opt-in workflow; the required PR/main Verify pipeline is unchanged.
+on:
+  workflow_dispatch:
+    inputs:
+      run_parallel_fixture:
+        description: 'Also run the isolated JUnit concurrency fixture'
+        type: boolean
+        default: true
+        required: true
+
+permissions:
+  contents: read
+
+# Only superseded feature-branch experiments are canceled. Do not cancel
+# main, tags or release branches. Include workflow name to avoid cross-canceling.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && github.ref_type != 'tag' && !startsWith(github.ref, 'refs/heads/release/') }}
+
+jobs:
+  compile-once:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Compile main and test classes once
+        run: mvn -B --no-transfer-progress -f java/build/reproducible-maven/pom.xml test-compile
+
+      - name: Record compilation inputs and bytecode checksums
+        working-directory: java/build/reproducible-maven
+        run: bash ci/compiled-artifact.sh record
+
+      - name: Upload immutable compile-once output
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-ci-lab-${{ github.sha }}
+          path: java/build/reproducible-maven/target/
+          if-no-files-found: error
+          retention-days: 1
+
+  unit-tests:
+    needs: compile-once
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - uses: actions/download-artifact@v4
+        with:
+          name: compiled-ci-lab-${{ github.sha }}
+          path: java/build/reproducible-maven/target/
+
+      - name: Reject compiled output from a different commit/toolchain
+        working-directory: java/build/reproducible-maven
+        run: bash ci/compiled-artifact.sh verify
+
+      # Direct surefire:test does not invoke compile or test-compile lifecycle.
+      # Dependencies/plugins are still resolved by Maven.
+      - name: Run unit and CI-plan regression tests without recompilation
+        run: mvn -B --no-transfer-progress -f java/build/reproducible-maven/pom.xml -Dtest=ReleaseMetadataTest,CiWorkPlannerTest surefire:test
+
+      - name: Ensure class files were not changed by the test job
+        working-directory: java/build/reproducible-maven
+        run: bash ci/compiled-artifact.sh verify
+
+      - name: Negative control - stale compiled output must be rejected
+        working-directory: java/build/reproducible-maven
+        shell: bash
+        run: |
+          set -euo pipefail
+          CLASS_FILE="$(find target/classes -name '*.class' -type f -print -quit)"
+          cp "$CLASS_FILE" "$RUNNER_TEMP/saved.class"
+          printf 'tampered' >> "$CLASS_FILE"
+          if bash ci/compiled-artifact.sh verify; then
+            echo "ERROR: modified bytecode was incorrectly accepted"
+            exit 1
+          fi
+          cp "$RUNNER_TEMP/saved.class" "$CLASS_FILE"
+          bash ci/compiled-artifact.sh verify
+
+          # A checksum manifest for the original files MUST NOT accept an
+          # unexpected extra class in the restored target/ directory.
+          printf 'unlisted-bytecode' > target/classes/Unexpected.class
+          if bash ci/compiled-artifact.sh verify; then
+            echo "ERROR: unlisted .class was incorrectly accepted"
+            exit 1
+          fi
+          rm target/classes/Unexpected.class
+          bash ci/compiled-artifact.sh verify
+          echo "PASS: changed and unexpected compiled outputs were rejected"
+
+  parallel-fixture:
+    if: ${{ inputs.run_parallel_fixture }}
+    needs: compile-once
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - uses: actions/download-artifact@v4
+        with:
+          name: compiled-ci-lab-${{ github.sha }}
+          path: java/build/reproducible-maven/target/
+
+      - name: Validate restored artifact
+        working-directory: java/build/reproducible-maven
+        run: bash ci/compiled-artifact.sh verify
+
+      - name: Run only the explicitly isolated JUnit parallel fixture
+        run: >-
+          mvn -B --no-transfer-progress -f java/build/reproducible-maven/pom.xml
+          -Dtest=ParallelCiFixtureTest
+          -Djunit.jupiter.execution.parallel.enabled=true
+          -Djunit.jupiter.execution.parallel.mode.default=concurrent
+          -Djunit.jupiter.execution.parallel.config.strategy=fixed
+          -Djunit.jupiter.execution.parallel.config.fixed.parallelism=3
+          surefire:test
+
+      - name: Confirm no recompilation happened
+        working-directory: java/build/reproducible-maven
+        run: bash ci/compiled-artifact.sh verify

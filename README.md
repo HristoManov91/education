@@ -125,6 +125,8 @@ education/
 ### Java / Build Engineering & CI/CD
 
 - [P2 Reproducible Builds & Build Integrity with Maven — Spring Boot JAR, determinism, two clean builds, SHA-256 и negative lab](java/build/reproducible-maven/README.md)
+  - [P2 Green Maven Builds — CI Efficiency, compile-once artifact reuse, JUnit parallelism и safe workflow rules](java/build/reproducible-maven/CI-EFFICIENCY.md)
+  - [CI Efficiency — runnable labs и отрицателни контроли](java/build/reproducible-maven/CI-EFFICIENCY-LABS.md)
   - [NotebookLM audio prompt — Maven reproducibility и build integrity](java/build/reproducible-maven/NOTEBOOKLM-PROMPT.md)
 
 ### Java / Algorithms
