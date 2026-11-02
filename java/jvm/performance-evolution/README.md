@@ -15,6 +15,10 @@
 
 **Цел:** да разберем какво *може* да се подобри, с кой JVM feature, как да го измерим честно и какво от измерването не следва.
 
+## Съпътстващ реален P1/P2 казус: Hardwood (AI + performance)
+
+**[Case Study 005 — Hardwood](../../../docs/case-studies/005-hardwood-ai-assisted-parquet-performance.md)** свързва реални Java/Parquet оптимизации, AI-assisted programming, JFR и независими тестове. [Java 25 практическа лаборатория](HARDWOOD-PAGE-LAB.md) с [PageProcessingLab.java](src/main/java/bg/hristomanov/education/performance/hardwood/PageProcessingLab.java) и [JUnit тестове](src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java) демонстрира *bounded CPU worker pool*, `CANNOT_MATCH/ALL_MATCH/MAY_MATCH` metadata decisions и независим reference oracle. **Това НЕ е истински Parquet decoder и не доказва speedup.**
+
 ## 1. Performance dimensions — фундаментален mental model
 
 | Метрика | Какво мери | Грешно обобщение |
