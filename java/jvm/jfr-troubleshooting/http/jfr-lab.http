@@ -35,3 +35,15 @@ POST {{baseUrl}}/api/jfr/io?megabytes=16
 ### 9. Business operation с custom OrderProcessing JFR event
 # @name order
 POST {{baseUrl}}/api/jfr/order?itemCount=10
+
+### 10. P1 runtime specialization — един receiver type
+# @name runtimeSingleShape
+GET {{baseUrl}}/api/jfr/runtime/areas?shapeTypes=1&rounds=5000
+
+### 11. P1 runtime specialization — три receiver типа
+# @name runtimeThreeShapes
+GET {{baseUrl}}/api/jfr/runtime/areas?shapeTypes=3&rounds=5000
+
+### 12. Невалиден workload — очакван HTTP 400
+# @name runtimeInvalidRounds
+GET {{baseUrl}}/api/jfr/runtime/areas?shapeTypes=2&rounds=100001
