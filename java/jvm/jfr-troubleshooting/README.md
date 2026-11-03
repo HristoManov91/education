@@ -6,6 +6,10 @@
 
 ---
 
+**P1 practical companion:** [IntelliJ Debugger Playbook — Logpoints, Stream Debugger, Evaluate & AI safeguards](INTELLIJ-DEBUGGER-PLAYBOOK.md). Това е guided IDE walkthrough, а не нов JFR/JUnit модул и не заместител на production profiling.
+
+---
+
 # ВХОД В ТЕМАТА
 
 ## 1. Реалният казус: „приложението понякога е бавно“

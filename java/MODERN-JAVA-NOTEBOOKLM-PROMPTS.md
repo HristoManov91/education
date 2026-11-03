@@ -81,6 +81,8 @@
 - [P2 Amber future design](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md): primitive patterns, withers/deconstruction/carriers; не представяй proposal като работещ API.
 - [P3 Babylon/Detroit Tech Radar](JAVA-NEXT-TECH-RADAR.md): наблюдение, без аудио курс и изпълними lab modules на този етап.
 
+**Отделна лекция — без ново дублиращо audio:** [Learning modern Java the playful way, Devoxx 2026 — целеви P1/P2/P3 допълнения и runnable labs](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md). Използвай оригиналния транскрипт само за фактическа справка; избери едно упражнение (ForkJoin starvation, debugger или Toxiproxy) вместо общо резюме от 3 часа.
+
 ## After listening: learning checks
 
 Използвай [education assessment protocol](../docs/learning/ASSESSMENT-PROTOCOL.md): по един реален Java question на микро-тема, професионални корекции на техническия изказ и D+1/D+7/D+30 review. Generated NotebookLM audio **не е автоматично доказателство за усвоен материал**.

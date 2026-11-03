@@ -12,6 +12,8 @@
 
 Целта не е да запаметяваме implementation на осем алгоритъма, а да разбираме **search space, input assumptions, preprocessing cost, stability, memory trade-offs и причината различните sorting family-та да съществуват**.
 
+**Devoxx P3 допълнение:** [Hybrid Search + Reciprocal Rank Fusion (RRF)](HYBRID-RANK-FUSION.md) — изпълним Java25/JUnit пример за обединяване на keyword и semantic **rankings** без да смесваме raw scores. Не изисква Elasticsearch или AI model.
+
 ---
 
 # 1. Реалният казус

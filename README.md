@@ -102,12 +102,17 @@ education/
 ### Modern Java (Java 25 runnable + Java 26/27 version notes)
 
 - [Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28](java/JAVA-EVOLUTION-GUIDE.md)
+  - [Devoxx 2026 Playful Modern Java — targeted additions, без дублиране](java/MODERN-JAVA-PLAYFUL-FOLLOWUPS.md)
+  - [P2 JDK27 Lazy Constants — preview self-check и CI](java/experiments/jdk27-lazy-constants/README.md)
+  - [P3 JDK28 Simple JSON — incubator Tech Radar](java/experiments/jdk28-simple-json/README.md)
   - [P3 Java Next Tech Radar — Babylon, Detroit и статуса на Panama/Loom/Lilliput](java/JAVA-NEXT-TECH-RADAR.md)
 - [Devoxx 2026 — P1/P2/P3 NotebookLM аудио уроци](java/MODERN-JAVA-NOTEBOOKLM-PROMPTS.md)
 - [P1 Data-Oriented Programming — records, sealed types, pattern matching и exhaustiveness](java/language/data-oriented-programming/README.md)
+  - [P2 Flexible Constructor Bodies — JEP513 Java25 runnable tests](java/language/data-oriented-programming/FLEXIBLE-CONSTRUCTOR-BODIES.md)
   - [P1 Project Valhalla — JDK 28 Value Objects, identity и migration (Java 25 tests + JDK 28 EA)](java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md)
   - [P2 Project Amber — primitive patterns, proposed withers и deconstructible classes](java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
+  - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
   - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
@@ -129,6 +134,7 @@ education/
 - [P2 Java Native Interoperability — FFM API, Arena/MemorySegment, C downcalls, JUnit and optional jextract](java/jvm/native-interoperability/README.md)
   - [jextract — optional self-built C header → Java binding lab](java/jvm/native-interoperability/JEXTRACT-LAB.md)
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
+  - [P1 IntelliJ IDEA Logpoints / Stream Debugger / AI debugging safety playbook](java/jvm/jfr-troubleshooting/INTELLIJ-DEBUGGER-PLAYBOOK.md)
 
 ### Java / Build Engineering & CI/CD
 
@@ -144,6 +150,7 @@ education/
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)
   - [04. Searching & Sorting](java/algorithms/04-searching-sorting/README.md)
+    - [P3 Hybrid Search / Reciprocal Rank Fusion Java25 algorithm & tests](java/algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md)
   - [05. Trees & Heaps](java/algorithms/05-trees-heaps/README.md)
   - [06. Graph Fundamentals](java/algorithms/06-graph-fundamentals/README.md)
   - [07. Graph Algorithms](java/algorithms/07-graph-algorithms/README.md)
@@ -172,6 +179,7 @@ education/
 ### Spring / Testing
 
 - [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
+  - [P2 Toxiproxy latency & JDK21/25 virtual-thread pinning lab](spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md)
   - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
 - [P1 Spring Boot Testing in the AI Era — unit/slice/HTTP, TestContext cache, mutation и AI тестове](spring/testing/ai-assisted-testing/README.md)
   - [P2 Architecture Testing — ArchUnit + Taikai, CI fitness rules и AI/SonarQube guardrails](spring/testing/ai-assisted-testing/06-ARCHITECTURE-TESTING-TAIKAI.md)

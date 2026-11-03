@@ -35,6 +35,8 @@ JUnit
 → application code
 ```
 
+**Нова P2 лаборатория от Devoxx 2026:** [Testcontainers + Toxiproxy — simulated network latency and Virtual Thread pinning](TOXIPROXY-VIRTUAL-THREADS.md). Java25 Docker integration test, с opt-in Java21/JDK25 probe за diagnostic comparison; без недоказани speedup claims.
+
 ## Как да учиш модула
 
 1. Прочети секции 1–10.
