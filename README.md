@@ -112,6 +112,10 @@ education/
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
   - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
   - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
+  - [P1 SIMD / ILP Benchmark Fairness — доказване на реален performance gain](java/jvm/performance-evolution/SIMD-ILP-BENCHMARKING.md)
+  - [P2 Java SIMD Vector API — runnable Java 25 lab, JUnit и JMH](java/jvm/vector-api/README.md)
+    - [NotebookLM български аудио prompt](java/jvm/vector-api/NOTEBOOKLM-PROMPT.md)
+  - [P3 Elasticsearch/Lucene case study — BBQ, simdvec/FFM, ES|QL Swiss hashing](java/jvm/performance-evolution/ELASTICSEARCH-SIMD-CASE-STUDY.md)
   - [P2 Hardwood engineering lab — bounded page pipeline, conservative pruning, independent JUnit oracle](java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md)
 - [P2 Sequenced Collections — encounter order и backed reversed views](java/collections/sequenced-collections/README.md)
 
