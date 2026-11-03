@@ -180,6 +180,15 @@ Observed symptom → baseline recording/metrics
 
 ---
 
+## Devoxx 2026 · SIMD / Vector API — допълнение без дублиране
+
+- **[P1 Benchmark Fairness: ILP, JIT и FMA](SIMD-ILP-BENCHMARKING.md)** — честен scalar ILP baseline срещу SIMD, numerical correctness и JMH.
+- **[P2 Java Vector API — runnable lab](../vector-api/README.md)** — `FloatVector`, species, 4 independent accumulators, scalar tail, FMA и JUnit.
+- **[P3 Elasticsearch / Lucene production case study](ELASTICSEARCH-SIMD-CASE-STUDY.md)** — BBQ, native `simdvec` през FFM, ES|QL Swiss-style hashing и production fallback. Архитектурен анализ, а не отделен Elasticsearch модул.
+- [NotebookLM аудио prompt](../vector-api/NOTEBOOKLM-PROMPT.md) и [JMH harness](../performance-evolution-benchmarks/README.md).
+
+---
+
 ## 6. Benchmark protocol (production-like)
 
 - Използвай **същия JDK build**, OS/CPU architecture, resource limits, GC, heap sizes и имидж.

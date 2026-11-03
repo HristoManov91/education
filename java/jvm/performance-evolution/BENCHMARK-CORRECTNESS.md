@@ -6,6 +6,8 @@
 >
 > **Място в education:** допълва [JVM Performance / Project Leyden](README.md), [JFR Troubleshooting](../jfr-troubleshooting/README.md) и [AI Era Spring Boot Testing](../../../spring/testing/ai-assisted-testing/README.md). Не дублираме нов JVM или Testcontainers курс.
 
+**Свързан P1 SIMD case:** [ILP, JIT, FMA и честен benchmark baseline](SIMD-ILP-BENCHMARKING.md) добавя контроли за „SIMD+ILP срещу scalar без ILP“, с [JUnit и JMH](../vector-api/README.md). Този локален microbenchmark не подменя описаните тук end-to-end/arrival-model тестове.
+
 ## 1. Реалният проблем: зелени числа, грешно инженерно решение
 
 Колега твърди: „Преминах от Thread Pools към Virtual Threads. throughput се подобри с 40%, p99 е едва 10 ms — внедряваме!“

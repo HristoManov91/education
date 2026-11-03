@@ -41,8 +41,10 @@ jobs:
         run: |
           JMH_JAR="java/jvm/performance-evolution-benchmarks/target/benchmarks.jar"
           test -s "$JMH_JAR"
-          java -jar "$JMH_JAR" -l | tee "$RUNNER_TEMP/jmh-benchmarks.txt"
+          java --add-modules jdk.incubator.vector -jar "$JMH_JAR" -l | tee "$RUNNER_TEMP/jmh-benchmarks.txt"
           grep -Fq 'ShapeDispatchBenchmark.virtualDispatch' "$RUNNER_TEMP/jmh-benchmarks.txt"
           grep -Fq 'ShapeDispatchBenchmark.explicitTypeChecks' "$RUNNER_TEMP/jmh-benchmarks.txt"
           grep -Fq 'AllocationReuseBenchmark.allocateFresh' "$RUNNER_TEMP/jmh-benchmarks.txt"
           grep -Fq 'AllocationReuseBenchmark.overwriteExisting' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'DotProductBenchmark.vectorMulAdd' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'DotProductBenchmark.vectorFma' "$RUNNER_TEMP/jmh-benchmarks.txt"
