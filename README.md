@@ -46,6 +46,7 @@
 ## Реални production казуси (Engineering Case Studies)
 
 - [Case Studies — индекс на реални инженерни проблеми и решения](docs/case-studies/README.md)
+- [Case 006 — Brewlet: Java OCI artifact + node-managed JDK, Kubernetes RuntimeClass и рисковете на preview архитектурата](docs/case-studies/006-brewlet-java-oci-runtime.md)
 - [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
 - [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
 - [Skyro — Temporal Saga cancellation и orphaned holds (Case 003)](docs/case-studies/003-skyro-temporal-saga-cancellation.md)
@@ -114,6 +115,7 @@ education/
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
   - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
+  - [P1 JVM в контейнер — CPU/memory cgroups, OOMKilled, heap vs RSS, jlink, AOT, diagnostics](java/jvm/performance-evolution/JVM-IN-CONTAINERS.md)
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
   - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
   - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
@@ -176,9 +178,16 @@ education/
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
 
+### Infrastructure / Kubernetes for Java Developers
+
+- [P1 Kubernetes for Java Backend Developers — Spring Boot 4 / kind, Deployments, probes, security, resource limits и rolling updates](infrastructure/kubernetes/README.md)
+  - [Kubernetes operations — restart, OOMKilled, graceful shutdown, troubleshooting](infrastructure/kubernetes/OPERATIONS.md)
+  - [P2 Advanced Kubernetes — Flox, mirrord, runtime sandboxes, admission и resource resize](infrastructure/kubernetes/ADVANCED-WATCH.md)
+
 ### Spring / Testing
 
 - [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
+  - [P1 Java container image hardening — minimal images, SBOM, signatures, CVE triage, reproducibility](spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md)
   - [P2 Toxiproxy latency & JDK21/25 virtual-thread pinning lab](spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md)
   - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
 - [P1 Spring Boot Testing in the AI Era — unit/slice/HTTP, TestContext cache, mutation и AI тестове](spring/testing/ai-assisted-testing/README.md)

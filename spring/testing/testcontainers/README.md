@@ -35,6 +35,8 @@ JUnit
 → application code
 ```
 
+**P1 extension от Devoxx 2026 — [Java image hardening, SBOM/signatures, minimal builds и CVE triage](JAVA-IMAGE-HARDENING.md)**. След Docker основите продължи с [работещия Kubernetes for Java lab](../../../infrastructure/kubernetes/README.md). Security checklist и container runtime са различни от Testcontainers integration tests.
+
 **Нова P2 лаборатория от Devoxx 2026:** [Testcontainers + Toxiproxy — simulated network latency and Virtual Thread pinning](TOXIPROXY-VIRTUAL-THREADS.md). Java25 Docker integration test, с opt-in Java21/JDK25 probe за diagnostic comparison; без недоказани speedup claims.
 
 ## Как да учиш модула

@@ -14,7 +14,7 @@
 | **P1** | Performance & Observability | JFR, metrics/traces/logs, profiling и debugging |
 | **P1** | Algorithms & Data Structures | Основи, след това по-дълбоки задачи и общи тестове |
 | **P1** | Caching / Redis | Eviction, consistency, distributed caching |
-| **P1** | Containers / CI / Testcontainers (advanced) | Runtime, deployment, testing |
+| **P1** | Containers / Kubernetes / CI / Testcontainers (advanced) | [Kubernetes for Java lab](../../infrastructure/kubernetes/README.md): Pod, Service, probes, rollout, security, resource limits; [image hardening](../../spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md) и JVM в container |
 | **P1** | AI-assisted Engineering | Безопасна, проверима и възпроизводима AI работа |
 | **P2** | Design Patterns / Advanced Architecture | Усъвършенстване след ключовите основи |
 
