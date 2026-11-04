@@ -1,6 +1,6 @@
 # P1 · Java Container Image Hardening: security, SBOM и доказуем supply chain
 
-> **Източник:** [Pasha Finkelshtein — Mission Possible: The 45 Minute Path to Bullet Proof Java Container Images](https://www.youtube.com/watch?v=1yndLHw9mbo), Devoxx Belgium 2026 (00:00–42:55), предоставен SRT; допълва се от [Albert Attard — Production Ready Java Containers](https://www.youtube.com/watch?v=LPhGSgO5eKE). **Практическо разширение на Docker/Testcontainers**, не нова зависимост в Maven reactor. Използвай [Kubernetes Dockerfile](../../infrastructure/kubernetes/Dockerfile), [Deployment securityContext](../../infrastructure/kubernetes/manifests/30-deployment.yaml) и съществуващия [Dockerfile.bad](Dockerfile.bad).
+> **Източник:** [Pasha Finkelshtein — Mission Possible: The 45 Minute Path to Bullet Proof Java Container Images](https://www.youtube.com/watch?v=1yndLHw9mbo), Devoxx Belgium 2026 (00:00–42:55), предоставен SRT; допълва се от [Albert Attard — Production Ready Java Containers](https://www.youtube.com/watch?v=LPhGSgO5eKE). **Практическо разширение на Docker/Testcontainers**, не нова зависимост в Maven reactor. Използвай [Kubernetes Dockerfile](../../../infrastructure/kubernetes/Dockerfile), [Deployment securityContext](../../../infrastructure/kubernetes/manifests/30-deployment.yaml) и съществуващия [Dockerfile.bad](Dockerfile.bad).
 
 ## 1. Реалният казус — „образът се стартира, но кой го поддържа?“
 
@@ -38,7 +38,7 @@ docker image inspect education-kubernetes-lab:dev --format '{{.Config.User}}'
 # Очаквано: 10001:10001
 ```
 
-[Multi-stage Dockerfile](../../infrastructure/kubernetes/Dockerfile) използва JDK 25 само за Maven compile/package, JRE 25 за изпълнение, exec-form ENTRYPOINT с Java PID 1 и отделен Pod SecurityContext. Docker tags са **демонстрационни mutable тагове**, не се преструваме, че са immutable. За production използвай проверени, **multi-platform image digests** със source/owner и автоматизирано предлагане на нови digest-и.
+[Multi-stage Dockerfile](../../../infrastructure/kubernetes/Dockerfile) използва JDK 25 само за Maven compile/package, JRE 25 за изпълнение, exec-form ENTRYPOINT с Java PID 1 и отделен Pod SecurityContext. Docker tags са **демонстрационни mutable тагове**, не се преструваме, че са immutable. За production използвай проверени, **multi-platform image digests** със source/owner и автоматизирано предлагане на нови digest-и.
 
 Защо не започваме от `FROM scratch`? Трябва правилно да разрешим native libraries, CA certificates, timezone/locale, fonts, DNS resolver, JFR и diagnostics. Минимизирай едва когато имаш smoke/regression доказателства. Не е вярно, че „по-малък image = нула опасни проблеми“.
 
@@ -103,7 +103,7 @@ CVE ID, компонент/версия, точен image digest
 - **Печалба:** по-малка attack surface, идентичност на tested artifact, проверим risk response.
 - **Цена:** scanning false positives, tooling, re-builds, trust-key policy, специализирана поддръжка.
 - **По-просто:** малък trusted base + non-root + verified dependency updates + собствени тестове; добавяй supply-chain controls пропорционално на риска.
-- **Proof:** мрежов [kind smoke](../../infrastructure/kubernetes/scripts/kind-smoke.sh), [offline negative security tests](../../infrastructure/kubernetes/scripts/test_validate_manifests.py), **manual** SBOM+scan+verification с действителни изходи.
+- **Proof:** мрежов [kind smoke](../../../infrastructure/kubernetes/scripts/kind-smoke.sh), [offline negative security tests](../../../infrastructure/kubernetes/scripts/test_validate_manifests.py), **manual** SBOM+scan+verification с действителни изходи.
 
 ## Оригинални източници
 
