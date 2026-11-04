@@ -2,6 +2,8 @@
 
 > **Source:** Devoxx 2026, [2:05:00–2:13:00](https://youtu.be/zC2tbq7S5UE?t=7500). Stream Gatherers финализирани чрез [JEP 485 в Java 24](https://openjdk.org/jeps/485). Тук използваме stable Java 25 API без preview.
 
+**Devoxx 2026 extension — [P1 parallelStream starvation и ForkJoinPool contention](PARALLEL-STREAM-STARVATION.md)**: изпълним negative/positive JUnit lab за pool saturation, `parallelStream()` срещу `Gatherers.mapConcurrent`. Не дублира основната Gatherers теория.
+
 ## Production-like problem
 
 Обработваме event stream: трябва да правим **пакети**, **sliding windows**, **running totals**, **dedupe по business key** и евентуално да обогатяваме записите чрез I/O с **ограничен concurrency**, без да губим encounter order.

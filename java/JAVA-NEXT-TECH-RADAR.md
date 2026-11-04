@@ -105,6 +105,12 @@ Java method annotated @Reflect (experimental Babylon)
 
 След стабилен engine lifecycle API, предсказуем dependency/build и licensing модел, интеграционни тестове и доказана безопасна изолация за нашия deployment.
 
+## Devoxx 2026 P3 watch — Simple JSON и Hybrid Search
+
+- **JEP 540 / JDK 28 EA:** [Simple JSON API, incubator `jdk.incubator.json`](experiments/jdk28-simple-json/README.md) — подходящ за малки CLI/прототипи, **не** замества Jackson за Java25 Spring Boot. Няма compiled production module.
+- **Hybrid Search:** [RRF runnable ranking-lab](algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md) — обединява само rank positions от отделни retrievers, **без** Elasticsearch dependency, cross-tenant data или внушени retrieval quality gains.
+- [Map на всички точкови follow-ups от Marit van Dijk / Piotr Przybył](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md).
+
 ## 3. Неща, които НЕ дублираме
 
 - [Panama / Vector API — Java Evolution Guide](JAVA-EVOLUTION-GUIDE.md) — FFM е final от Java 22; Vector API остава в incubation. [P2 FFM+jextract](jvm/native-interoperability/README.md) вече е runnable модул от лекцията на Ana-Maria, без да изграждаме голям ONNX/GPU проект.

@@ -300,6 +300,22 @@ docker ps
 
 ---
 
+# Lab 17 — Real network latency и JDK21/25 pinning (Devoxx 2026)
+
+[Пълният walkthrough с decision contract, Java source и наблюдения](TOXIPROXY-VIRTUAL-THREADS.md).
+
+```bash
+# Normal Docker integration contract (ако Docker е достъпен):
+mvn -pl spring/testing/testcontainers -Dtest=ToxiproxyLatencyIntegrationTest test
+
+# Optional heavier test — Linux/macOS. Windows PowerShell вариантът е в README:
+RUN_JDK_COMPARISON=true mvn -pl spring/testing/testcontainers -Dtest=VirtualThreadPinningJdkComparisonTest test
+```
+
+Не приемай времето от единичен test като гаранция за production throughput; следи JFR, pinned stacks, elapsed, CPU, JVM version и network route.
+
+---
+
 # Cleanup checklist
 
 ```bash

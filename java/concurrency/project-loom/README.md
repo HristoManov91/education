@@ -668,6 +668,8 @@ Native/foreign code и специфични blocking случаи все още 
 
 ---
 
+**Практическо доказване вместо преразказ:** [Testcontainers + Toxiproxy, real HTTP latency и JDK21/25 pinning probe](../../../spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md). Normal CI проверява network fault injection; opt-in cross-JDK test не твърди универсални throughput числа.
+
 ## 19. Production ограничения, които Loom не премахва
 
 - **DB pool:** 20 connections пак означават около 20 едновременни DB операции.
