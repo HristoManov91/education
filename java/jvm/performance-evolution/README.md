@@ -1,5 +1,7 @@
 # P1 · Modern JVM Performance / Project Leyden & Compact Object Headers
 
+**P1 Devoxx 2026 companion:** [JVM в контейнери — container-aware heap/RSS, OOMKilled vs OutOfMemoryError, jlink, custom Java runtime, diagnostics](JVM-IN-CONTAINERS.md). Това е отделен operating/runtime lab от Leyden AOT startup сравнението.
+
 > **Source:** [Modern Java in Practice, Devoxx 2026 — performance](https://youtu.be/zC2tbq7S5UE?t=2220), Nicolai Parlog and Falk Sippach.
 >
 > Java 25 LTS code and **repeatable manual experiment**. No unmeasured performance claims. This complements, rather than duplicates, [our JFR troubleshooting lab](../jfr-troubleshooting/README.md).

@@ -19,6 +19,7 @@ Case study **не се брои за преминат урок или доказ
 | [003](003-skyro-temporal-saga-cancellation.md) | Skyro — Temporal Saga / payment holds | Workflow cancellation не е external hold cancellation; release-before-hold race | Compensation before activity, detached scopes, cancellation checks + reconciliation | Temporal, Saga, Idempotency, Fintech, Distributed Systems |
 | [004](004-port-of-rotterdam-modular-monolith.md) | Port of Rotterdam — microservice overload | 90+ services, 5 teams, responsibilities crossing multiple deployables | EventStorming/DDD boundaries, Spring Modulith, capability-by-capability migration | Strategic DDD, EventStorming, Spring Modulith, Legacy Modernization |
 | [005](005-hardwood-ai-parquet-engineering.md) | Hardwood — AI-assisted Parquet parser (open-source case, НЕ incident) | Hadoop dependency footprint, single-threaded reader, сложна specification и AI-generated code risks | Page-level parallelism, conservative pruning, differential fixtures, profiling и independent review | AI Engineering, Java Performance, Parquet, JFR/JMH, Make-or-Buy |
+| [006](006-brewlet-java-oci-runtime.md) | Microsoft Brewlet / Java OCI artifacts (preview case, не инцидент) | Per-app JDK duplication, memory/startup tradeoffs, native/container runtime integration | OCI JAR artifacts + node-managed JDK чрез Kubernetes RuntimeClass/containerd shim; **не** Java→Wasm | Kubernetes, Java runtime, supply chain, isolation, deployment choices |
 
 ## Какво изискваме от всеки казус
 
@@ -34,6 +35,8 @@ Case study **не се брои за преминат урок или доказ
 10. **Original sources:** видео, официална документация, implementation references.
 
 ## Откриване и свързване
+
+- **Kubernetes / node-managed JVM / Brewlet preview:** [Case 006](006-brewlet-java-oci-runtime.md), [runnable Java/Kubernetes baseline](../../infrastructure/kubernetes/README.md) и [image hardening](../../spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md).
 
 - **Kafka / Outbox / Idempotency / CDC:** [Case 001](001-decathlon-kafka-business-table-cdc.md) и [изпълнимата ни Outbox/Inbox лаборатория](../../spring/messaging/outbox-inbox/README.md).
 - **Temporal / Saga / payment hold:** [Case 003](003-skyro-temporal-saga-cancellation.md) — cancellation pitfalls, late hold, detached compensation и reconciliation.

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: java-kubernetes-config
+  namespace: education
+data:
+  APP_GREETING: "Hello from a Kubernetes ConfigMap"
+  # JVM flags are injected at runtime; do not bake environment-specific flags into images.
+  # 60% is educational, not a universal production sizing recommendation.
+  JDK_JAVA_OPTIONS: "-XX:MaxRAMPercentage=60.0 -XX:+ExitOnOutOfMemoryError -Djava.io.tmpdir=/tmp"
