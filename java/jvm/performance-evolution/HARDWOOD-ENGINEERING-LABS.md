@@ -17,6 +17,7 @@
 | --- | --- | --- |
 | Page-level scheduling / ordered consumption / failure | [PagePipelineLab.java](src/main/java/bg/hristomanov/education/performance/hardwood/PagePipelineLab.java) | [PagePipelineLabTest.java](src/test/java/bg/hristomanov/education/performance/hardwood/PagePipelineLabTest.java) |
 | Page predicate decisions / nulls / Bloom | [PagePruningPolicy.java](src/main/java/bg/hristomanov/education/performance/hardwood/PagePruningPolicy.java) | [PagePruningPolicyTest.java](src/test/java/bg/hristomanov/education/performance/hardwood/PagePruningPolicyTest.java) |
+| **Integrated range count** — oracle vs sequential vs fixed CPU pool | [PageProcessingLab.java](src/main/java/bg/hristomanov/education/performance/hardwood/PageProcessingLab.java) | [PageProcessingLabTest.java](src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java) — 12 JUnit cases, regression corpus and trust-boundary negative proof |
 | Overall case and context | [Case 005](../../../docs/case-studies/005-hardwood-ai-parquet-engineering.md) | Транскрипт + author/source links |
 | Existing performance proof rules | [Benchmark Correctness](BENCHMARK-CORRECTNESS.md) | [Benchmark labs](BENCHMARK-CORRECTNESS-LABS.md) |
 
@@ -27,7 +28,7 @@
 ```bash
 # Всички нови тестове по тази тема:
 mvn -B --no-transfer-progress -pl java/jvm/performance-evolution \
-  -Dtest=PagePruningPolicyTest,PagePipelineLabTest test
+  -Dtest=PagePruningPolicyTest,PagePipelineLabTest,PageProcessingLabTest test
 
 # Всички тестове за съществуващия performance-evolution module:
 mvn -B --no-transfer-progress -pl java/jvm/performance-evolution verify
@@ -90,6 +91,62 @@ run(pages, maxInFlight=2, cpuWorkers=2)
 3. Напиши Bloom predicate, който връща false за реално съществуваща стойност — защо това би било **недопустим false negative**, а не Bloom optimization?
 4. Върни `CANNOT_MATCH` когато min/max липсват: покажи с fixture защо това може да загуби редове.
 5. Кои метаданни ти трябват, за да поддържаш SQL `IS NULL` правилно? Нашият модел не го имплементира.
+
+## 5.1 Integrated experiment C — доказваме един и същ резултат по три пътя
+
+Тази лаборатория е пренесена от [стария PR #74](https://github.com/HristoManov91/education/pull/74) след сравнение с по-новото Case Study 005. Не добавяме втори кейс или нов Maven module. Тя свързва две вече изучавани идеи — metadata pruning (пропускане по статистики) и ограничено паралелно CPU сканиране — в **една наблюдаема операция**.
+
+**Реален въпрос:** искаме броя стойности в затворен диапазон `[fromInclusive, toInclusive]` в поредица от `long[]` pages. Може ли optimized execution да пропусне сигурно несъвпадащи страници и да преброи изцяло съвпадащите, без да променя резултата?
+
+```text
+Raw page values ────────────────────────────────> reference()  ─────> count
+      │                                       (ignores all metadata)
+      ├── trusted min/max ──> sequential()  ────────────────────────> count
+      └── trusted min/max ──> parallel(workers) ── fixed CPU pool ─> count
+                                  | at most 2 * workers outstanding tasks
+              ALL_MATCH: add page length; CANNOT_MATCH: skip; MAY_MATCH: scan
+```
+
+**Source:** [PageProcessingLab.java](src/main/java/bg/hristomanov/education/performance/hardwood/PageProcessingLab.java). **Independent proof:** [PageProcessingLabTest.java](src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java).
+
+Двата първи подхода `PagePruningPolicy` и `PagePipelineLab` са **отделни, по-специализирани** механизми. Третият пример не използва Bloom, SQL nulls, real Parquet index, compressed pages, virtual I/O или Java file formats. `Page` копира входния `long[]`, за да не може caller да го промени под сканиращите нишки. Самото `trustedStatistics=true` е **предположение за коректност**, не автоматична проверка на metadata.
+
+### Bad / good и отрицателно доказателство
+
+- **BAD:** изключваме страница, щом `min/max` изглежда несъвместима, дори когато metadata е непроверена. При стойности `[42]`, но *погрешно обявени за trusted* `min=0,max=1`, fast path връща **0**, а независимият scanner връща **1**. Това е тест за **trust-boundary риск**, не твърдение за реална повреда в Hardwood.
+- **GOOD:** пропускаме само при изрично доверени статистики; при неизвестни винаги сканираме. Сравняваме `reference()`, `sequential()` и `parallel()` върху **48 фиксирано генерирани pages, шест ranges и 1/2/4/7 workers**; positive и negative scenarios защитават inclusive граници, empty pages, peak in-flight tasks `<= 2*workers`, invalid inputs и defensive copies.
+- **При failure:** `ExecutionException`/interruption трябва да се разглеждат като отказ, не частичен успех. Учебният `ExecutorService` е scoped, но това НЕ е готова политика за cancellation на production decoder с native I/O.
+
+```bash
+mvn -B --no-transfer-progress -pl java/jvm/performance-evolution \
+  -Dtest=PageProcessingLabTest test
+```
+
+<details>
+<summary>Примерна резултатна проверка (семантика, не performance)</summary>
+
+```text
+raw pages [10,15,20], trusted min=10/max=20
+predicate [20,20] ⇒ reference=1, sequential=1, parallel=1
+
+raw page [42], untrusted min=0/max=1
+predicate [42,42] ⇒ reference=1, sequential=1, parallel=1
+```
+
+</details>
+
+**Кога:** при metadata оптимизации, при които грешен skip е по-опасен от излишна работа; при ограничено количество CPU workers и много independent pages. **Кога НЕ:** nullable/nested Parquet или непроверена metadata; при много малки набори или I/O dominated workloads. **Печалба:** независим correctness oracle + bounded in-flight work. **Цена:** допълнителна сложност, copying, pool scheduling и GC. **По-проста алтернатива:** `reference()` или `sequential()` при малък dataset. Не правим JMH speedup claim.
+
+### Какво научихме / code review
+
+**Преди:** метаданните и concurrency бяха две независими оптимизации. **След:** доказваме, че тяхната композиция запазва крайния резултат за ясно дефиниран subset от данни. **Но:** само външен, спецификационно съвместим Parquet oracle може да докаже истински Parquet correctness.
+
+- [ ] Може ли metadata да е null/unknown/corrupt? Правилно ли е маркирана като trustworthy?
+- [ ] Reference implementation сканира ли *всички* стойности и игнорира ли optimized code?
+- [ ] Проверени ли са граници, празни страници, mutated input buffers и различни worker counts?
+- [ ] Peak pending tasks ограничени ли са, и знаем ли отделно byte memory budget?
+- [ ] Какво става при exception/interruption? Има ли production cancellation/resource policy?
+- [ ] Няма ли фалшиво performance твърдение от зелен функционален тест?
 
 ## 6. P1 Task contract за coding agent (не vendor-specific prompt)
 

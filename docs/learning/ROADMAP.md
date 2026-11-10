@@ -177,7 +177,7 @@
 | TEST-AI-04 | Independent AI test oracle, mutation basics | Boundary/negative tests, no green-by-cheating, coverage ≠ correctness |
 | TEST-AI-05 | Versioned agent skills + production readiness | Skills, test review, CI evidence, rollback |
 | TEST-AI-06 | [Mutation testing: survivor triage & meaningful code](../../spring/testing/ai-assisted-testing/05-MUTATION-TESTING-DEEP-DIVE.md) (Devoxx, Dave Aronson) | PIT bytecode, KILLED/SURVIVED/NO_COVERAGE, equivalent mutants, boundary/partial writes, redundant-code hypothesis, cost/CI gates |
-| TEST-AI-07 | [Case Study 005 — Hardwood AI engineering](../case-studies/005-hardwood-ai-parquet-engineering.md) | Specification-derived fixtures, differential oracles, AI test weakening, regression evidence, irreversible APIs and review priority |
+| TEST-AI-07 | [Case Study 005 — Hardwood AI engineering](../case-studies/005-hardwood-ai-parquet-engineering.md) · [Integrated Java25 page scan lab](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md#51-integrated-experiment-c--доказваме-един-и-същ-резултат-по-три-пътя) | Specification-derived fixtures, differential oracles, 12 JUnit integration-style parity/boundary tests, metadata-trust negative proof, AI test weakening, irreversible APIs and review priority |
 
 **Практичен checkpoint:** RegistrationPolicy, MockMvc 400/401/403, HTTP auth и TestContext cache reuse. За `TEST-AI-06`: сравни `age < 18` с `age <= 18` и изследвай [ChunkedSender / ChunkedSenderTest](../../spring/testing/ai-assisted-testing/04-PRACTICAL-LABS.md) при partial writes; обясни кога `SURVIVED` означава липсващ сценарий и кога има основание за опростяване на production code. **PIT е opt-in**; не записвай score или лично усвояване без реални тестове и диагностика.
 

@@ -664,7 +664,7 @@ Complexity има цена:
 
 [Hardwood — AI-assisted Parquet engineering, Gunnar Morling (Devoxx 2026)](../../docs/case-studies/005-hardwood-ai-parquet-engineering.md) показва как formal format specification, стотици conformance fixtures и **differential tests** срещу независими readers могат да дадат надежден feedback за AI-generated low-level Java code. Реални pitfalls: дублирани formatting paths, AI disabled tests и недоказани performance твърдения. Независим reviewer започва с **public API/compatibility и semantic correctness**, не със style.
 
-Свързано: [Java 25 bounded page scheduling / safe predicate pruning JUnit labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md). Не добавяме нови agent permissions, SDKs или AI vendor-specific skills.
+Свързано: [Java 25 bounded page scheduling / safe predicate pruning JUnit labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md). В добавения integrated lab сравняваме **reference / sequential / parallel** върху фиксирани данни и изрично доказваме как *фалшиво доверена* metadata може да скрие реално съвпадение. [12 независими JUnit проверки](../../java/jvm/performance-evolution/src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java). Не добавяме нови agent permissions, SDKs или AI vendor-specific skills.
 
 ---
 

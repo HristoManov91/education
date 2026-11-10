@@ -178,7 +178,7 @@ Observed symptom → baseline recording/metrics
 ## P2 · Hardwood: bounded page work, conservative pruning & AI correctness
 
 - [Engineering Case 005 — Hardwood, Gunnar Morling (Devoxx Belgium 2026)](../../../docs/case-studies/005-hardwood-ai-parquet-engineering.md): page-level parallelism vs row groups/columns; predicate pushdown; JFR custom events; independent AI-generated parser tests; make-or-buy trade-offs.
-- [Runnable Java 25 / JUnit labs](HARDWOOD-ENGINEERING-LABS.md): [PagePipelineLab](src/main/java/bg/hristomanov/education/performance/hardwood/PagePipelineLab.java) with virtual I/O and fixed CPU workers; [PagePruningPolicy](src/main/java/bg/hristomanov/education/performance/hardwood/PagePruningPolicy.java) with conservative tri-state metadata decisions.
+- [Runnable Java 25 / JUnit labs](HARDWOOD-ENGINEERING-LABS.md): [PagePipelineLab](src/main/java/bg/hristomanov/education/performance/hardwood/PagePipelineLab.java) with virtual I/O and fixed CPU workers; [PagePruningPolicy](src/main/java/bg/hristomanov/education/performance/hardwood/PagePruningPolicy.java) with conservative tri-state metadata decisions; **[PageProcessingLab](src/main/java/bg/hristomanov/education/performance/hardwood/PageProcessingLab.java)** integrates range counting, independent oracle and bounded parallel scan with [12 JUnit tests](src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java).
 - **Не дублираме** реален Parquet parser, JFR/JMH урок, нов Maven module или NotebookLM prompt. Това са teaching contracts, не benchmark на Hardwood.
 
 ---
