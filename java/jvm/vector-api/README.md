@@ -81,6 +81,11 @@ java --add-modules jdk.incubator.vector \
 
 **Правило за code review:** ако имаме CPU профил + числен договор + честен benchmark — обмисли SIMD; ако не — по-прост scalar/JIT path е предпочитан. Ако специализираният native kernel дава предимство, сравни го със стабилна библиотека и отчети native deployment/ABI риска.
 
+## P2 · JDK27 SuperWord: subword casts без нов Vector API
+
+[Targeted C2 auto-vectorization chapter](JDK27-SUBWORD-AUTO-VECTORIZATION.md): кога обикновен Java25 `int→byte` / `short→int` loop може да се компилира по-добре в JDK27. [Код](src/main/java/bg/hristomanov/education/vector/SubwordLoops.java) · [length/sign/tail tests](src/test/java/bg/hristomanov/education/vector/SubwordLoopsTest.java) · [JMH](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/SubwordLoopsBenchmark.java). SIMD machine code не се доказва само чрез elapsed time.
+
+
 ## Оригинални източници
 
 1. [Devoxx 2026 — Piotr Przybył, SIMD for Java](https://www.youtube.com/watch?v=adFS-_sCTQ4) (автоматичен SRT транскрипт, предоставен за този урок).

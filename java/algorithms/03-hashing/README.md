@@ -615,6 +615,11 @@ must preserve probe chain
 
 ---
 
+# P2 · JDK 26/27 record hashing и HashMap copy
+
+[Кратък decision урок с реален Java25 код](JDK26-27-MAP-PERFORMANCE.md), [functional JUnit](src/test/java/bg/hristomanov/education/algorithms/hashing/model/MapCopyLabTest.java) и [JMH в съществуващия benchmark модул](../../jvm/performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/MapCopyAndRecordHashBenchmark.java). Защо: concrete source type и generated `record.hashCode()` имат runtime цена; JDK optimization не променя correctness/shallow-copy договора. Не пишем custom map implementation само за проценти от лекцията.
+
+
 # Оригинални източници
 
 ## MIT 6.006 — Introduction to Algorithms, Spring 2020

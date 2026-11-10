@@ -52,7 +52,7 @@ Checklist: [ ] class initialized в кой thread; [ ] wait за чужд class 
 
 ## Оригинални източници
 
-- [Bruce? Не — Per-Åke Minborg, Devoxx 2026](https://www.youtube.com/watch?v=rNOzf12RORI) — предоставен SRT; не смесваме лекциите.
+- [Per-Åke Minborg, Devoxx 2026](https://www.youtube.com/watch?v=rNOzf12RORI) — предоставен SRT; не смесваме лекциите.
 - [Oracle JDK 26 Release Notes: JDK-8369238](https://www.oracle.com/java/technologies/javase/26-relnote-issues.html).
 - [JDK-8369238 — Allow virtual thread preemption on class initialization](https://bugs.openjdk.org/browse/JDK-8369238).
 - [Java 26 Virtual Threads official guide](https://docs.oracle.com/en/java/javase/26/core/virtual-threads.html).

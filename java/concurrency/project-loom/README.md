@@ -873,6 +873,11 @@ curl -X POST http://localhost:8080/api/loan-applications \
 
 ---
 
+## P2 · JDK26 class initialization wait и Virtual Thread carriers
+
+[JDK-8369238 targeted lab](JDK26-CLASS-INITIALIZATION-WAIT.md) — защо virtual thread може да блокира carrier при чакане на чужд static initializer в JDK25 и как JDK26+ подобрява общите случаи. [Java25 source](loom-labs/src/main/java/bg/hristomanov/education/loom/labs/classinit/ClassInitializationWaitLab.java), [JUnit](loom-labs/src/test/java/bg/hristomanov/education/loom/labs/classinit/ClassInitializationWaitLabTest.java), optional JFR comparison. Без нов Loom/Structured Concurrency курс.
+
+
 ## 26. Java 25 → Java 26 → Java 28
 
 Основният runnable код е Java 25. Upstream примерът вече използва Java 26 и Structured Concurrency API-то се е променило:

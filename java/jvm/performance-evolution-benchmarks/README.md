@@ -44,6 +44,25 @@ java --add-modules jdk.incubator.vector -jar java/jvm/performance-evolution-benc
 
 **Не смесвай scalar без ILP с vector+ILP, когато искаш да изолираш SIMD ефекта.** За числена коректност виж JUnit, а за production impact е нужен реален workload. Няма фиксирана очаквана скорост.
 
+## JDK 26–28 допълнения към същия JMH harness
+
+| Java25/JDK27/28 experiment | JMH source | Коректност и ограничения |
+| --- | --- | --- |
+| Record `hashCode()` и `HashMap` constructor / `putAll` | [MapCopyAndRecordHashBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/MapCopyAndRecordHashBenchmark.java) | [Hashing lab](../../algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md): HashMap, unmodifiable wrapper, LinkedHashMap |
+| C2 SuperWord subword casts (16/65/4096 items) | [SubwordLoopsBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/SubwordLoopsBenchmark.java) | [Vector lab](../vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md): signedness, tail |
+| Tiny confined native arena allocations (8/32/64/128 bytes) | [ConfinedArenaPoolBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/ConfinedArenaPoolBenchmark.java) | [FFM lab](../native-interoperability/JDK28-CONFINED-ARENA-POOLS.md): zero-init, lifetime |
+
+```bash
+mvn -pl java/jvm/performance-evolution-benchmarks -am -DskipTests package
+"$JDK25_HOME/bin/java" -jar java/jvm/performance-evolution-benchmarks/target/benchmarks.jar \
+  MapCopyAndRecordHashBenchmark -wi 3 -i 5 -f 2 -prof gc
+"$JDK27_HOME/bin/java" -jar java/jvm/performance-evolution-benchmarks/target/benchmarks.jar \
+  MapCopyAndRecordHashBenchmark -wi 3 -i 5 -f 2 -prof gc
+```
+
+Не сравнявай различни method names като еднотипни операции. Няма фиксиран performance threshold в CI, JMH не доказва наличието на конкретни SIMD инструкции.
+
+
 ## Източници
 
 - [Ron Pressler — Devoxx 2026](https://www.youtube.com/watch?v=vhDwy1eCXbs).
