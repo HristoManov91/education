@@ -113,6 +113,11 @@ Record има final reference към components, но `record Prescription(List<
 
 Разграничи DOP от **DTO с public mutable fields**: прозрачната форма на данните не означава липса на invariants.
 
+## Java 25 constructor lifecycle — P2 extension
+
+- [Flexible Constructor Bodies (JEP 513) — validation before `super(...)`, negative rules, Java25 JUnit](FLEXIBLE-CONSTRUCTOR-BODIES.md).
+- [ValidatedSearchQuery.java](src/main/java/bg/hristomanov/education/dop/ValidatedSearchQuery.java) и [ValidatedSearchQueryTest.java](src/test/java/bg/hristomanov/education/dop/ValidatedSearchQueryTest.java) показват JDK 25 stable syntax. Това е наследяване/constructor lifecycle, а не нов DTO API.
+
 ## Runnable labs
 
 | Какво доказваме | Код | JUnit |

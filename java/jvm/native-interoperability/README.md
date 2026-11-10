@@ -156,6 +156,11 @@ java --enable-native-access=ALL-UNNAMED \
 
 **Изход:** вече знаем как да прекосим Java/native boundary с FFM, какво точно пази MemorySegment/Arena, кога генераторът jextract е полезен и защо Babylon/ONNX code transformation е друга, по-незряла архитектурна тема.
 
+## P2 · JDK28 EA confined arena pooling
+
+[FFM допълнение за 64-byte lazy native pools](JDK28-CONFINED-ARENA-POOLS.md) не променя Java25 API. [Arena test code](src/main/java/bg/hristomanov/education/ffi/ConfinedArenaAllocationLab.java), [JUnit zero-init/after-close](src/test/java/bg/hristomanov/education/ffi/ConfinedArenaAllocationLabTest.java) и [optional JDK28 EA JMH](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/ConfinedArenaPoolBenchmark.java). Не замества lifetime/ownership правилата и не обещава universal speedup.
+
+
 ## Оригинални източници
 
 - [Ana-Maria Mihalceanu — Java and the Next Generation of Programming Models](https://www.youtube.com/watch?v=kuUeHD_k5fs) — FFM/jextract/ONNX GenAI и Babylon Code Reflection (с транскрипт, предоставен за анализа).

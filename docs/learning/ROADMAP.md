@@ -14,7 +14,7 @@
 | **P1** | Performance & Observability | JFR, metrics/traces/logs, profiling и debugging |
 | **P1** | Algorithms & Data Structures | Основи, след това по-дълбоки задачи и общи тестове |
 | **P1** | Caching / Redis | Eviction, consistency, distributed caching |
-| **P1** | Containers / CI / Testcontainers (advanced) | Runtime, deployment, testing |
+| **P1** | Containers / Kubernetes / CI / Testcontainers (advanced) | [Kubernetes for Java lab](../../infrastructure/kubernetes/README.md): Pod, Service, probes, rollout, security, resource limits; [image hardening](../../spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md) и JVM в container |
 | **P1** | AI-assisted Engineering | Безопасна, проверима и възпроизводима AI работа |
 | **P2** | Design Patterns / Advanced Architecture | Усъвършенстване след ключовите основи |
 
@@ -66,6 +66,9 @@
 | JAVA-JVM-02 | Classloading, initialization, memory basics | Lifetime and linkage |
 | JAVA-JVM-03 | GC symptoms, memory/CPU diagnostics intro | From symptom to evidence |
 | JAVA-JVM-04 | JFR and production troubleshooting | Event-based diagnosis |
+| JAVA-JVM-05 | [Java Agents, Byte Buddy и OTel](../../java/jvm/java-agent-instrumentation/README.md) | premain, bytecode proof, business invariants и overhead |
+| JAVA-JVM-06 | [JDK26/27 GC upgrade](../../java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) | defaults, JEP522 write barriers, checksum + flags + GC logs |
+| JAVA-JVM-07 | [Map](../../java/algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) / [C2](../../java/jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) / [FFM](../../java/jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) / [Loom](../../java/concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md) | Java25 functional proof и JMH без фиксирани performance твърдения |
 
 **Комбинирани тестове:** JAVA-FND (след FND-05), JAVA-OOP/EXC, JAVA-COL (след COL-04/08), JAVA-GEN/STM, JAVA-CON (след CON-04/06), JAVA-JVM. Финален: Java Core troubleshooting + explanation challenge.
 
@@ -174,6 +177,7 @@
 | TEST-AI-04 | Independent AI test oracle, mutation basics | Boundary/negative tests, no green-by-cheating, coverage ≠ correctness |
 | TEST-AI-05 | Versioned agent skills + production readiness | Skills, test review, CI evidence, rollback |
 | TEST-AI-06 | [Mutation testing: survivor triage & meaningful code](../../spring/testing/ai-assisted-testing/05-MUTATION-TESTING-DEEP-DIVE.md) (Devoxx, Dave Aronson) | PIT bytecode, KILLED/SURVIVED/NO_COVERAGE, equivalent mutants, boundary/partial writes, redundant-code hypothesis, cost/CI gates |
+| TEST-AI-07 | [Case Study 005 — Hardwood AI engineering](../case-studies/005-hardwood-ai-parquet-engineering.md) · [Integrated Java25 page scan lab](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md#51-integrated-experiment-c--доказваме-един-и-същ-резултат-по-три-пътя) | Specification-derived fixtures, differential oracles, 12 JUnit integration-style parity/boundary tests, metadata-trust negative proof, AI test weakening, irreversible APIs and review priority |
 
 **Практичен checkpoint:** RegistrationPolicy, MockMvc 400/401/403, HTTP auth и TestContext cache reuse. За `TEST-AI-06`: сравни `age < 18` с `age <= 18` и изследвай [ChunkedSender / ChunkedSenderTest](../../spring/testing/ai-assisted-testing/04-PRACTICAL-LABS.md) при partial writes; обясни кога `SURVIVED` означава липсващ сценарий и кога има основание за опростяване на production code. **PIT е opt-in**; не записвай score или лично усвояване без реални тестове и диагностика.
 
@@ -196,8 +200,7 @@
 | JAVA-MOD-02 | P1 | [Stream Gatherers](../../java/streams/stream-gatherers/README.md): windowing, scan/fold, custom distinctBy | Intermediate vs terminal, mutable state, encounter order, concurrency |
 | JAVA-MOD-03 | P1 | [Project Leyden / JVM Performance](../../java/jvm/performance-evolution/README.md) | Startup vs warm-up vs throughput, JDK25 AOT & compact headers with honest measurement |
 | JAVA-PERF-01 | P1 | [Benchmark Correctness & Performance Measurement](../../java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md) | Reproducibility / Realism / Relevance; open vs closed; coordinated omission, USE/RED, successful throughput, independent bottleneck evidence |
-| JAVA-PERF-02 | P2 | [Hardwood — bounded pages and metadata pruning](../../java/jvm/performance-evolution/HARDWOOD-PAGE-LAB.md) | Independent reference oracle, no false skip with unknown metadata, 2× worker backpressure and deterministic JUnit proofs |
-| AI-CASE-005 | P1 | [Hardwood — AI engineering case study](../case-studies/005-hardwood-ai-assisted-parquet-performance.md) | Human-owned spec/design, 200+ Parquet fixtures, AI regression traps, Java perf trade-offs, no fake speedup |
+| JAVA-PERF-02 | P2 | [Hardwood page scheduling & predicate-pruning labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md) | Bounded virtual I/O vs fixed CPU, stable result order, null/unknown metadata, conservative Bloom semantics and independent JUnit oracle |
 | JAVA-MOD-04 | P2 | [Sequenced Collections](../../java/collections/sequenced-collections/README.md) | Reversed backed view vs snapshot, supported/unsupported mutators |
 | JAVA-MOD-05 | P2 | [MDC/ThreadLocal + Virtual Threads](../../java/concurrency/project-loom/MDC-CONTEXT-PROPAGATION.md) | Context snapshot per task, cleanup и ScopedValue trade-offs |
 | JAVA-MOD-06 | P2 | [JFR JDK27 sensitive-data redaction](../../java/jvm/jfr-troubleshooting/JDK-27-JFR-REDACTION.md) | Preview/version boundary, security risk in recordings |

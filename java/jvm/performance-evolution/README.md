@@ -1,5 +1,8 @@
 # P1 · Modern JVM Performance / Project Leyden & Compact Object Headers
 
+**P1 Devoxx 2026 companion:** [JVM в контейнери — container-aware heap/RSS, OOMKilled vs OutOfMemoryError, jlink, custom Java runtime, diagnostics](JVM-IN-CONTAINERS.md). Това е отделен operating/runtime lab от Leyden AOT startup сравнението.
+**P1 JDK 26/27 update:** [G1 write barriers, default GC, Compact Object Headers, monitor table и Java25↔27 лаборатория](JDK26-27-GC-UPGRADE.md) с [Java25 test](src/test/java/bg/hristomanov/education/performance/gc/ReferenceUpdateWorkloadTest.java) и [сравнителен скрипт](scripts/compare-jdks.sh). Не дублира JFR/Leyden.
+
 > **Source:** [Modern Java in Practice, Devoxx 2026 — performance](https://youtu.be/zC2tbq7S5UE?t=2220), Nicolai Parlog and Falk Sippach.
 >
 > Java 25 LTS code and **repeatable manual experiment**. No unmeasured performance claims. This complements, rather than duplicates, [our JFR troubleshooting lab](../jfr-troubleshooting/README.md).
@@ -14,10 +17,6 @@
 И трите твърдения могат да са **неверни за конкретния workload**, защото смесват различни performance характеристики.
 
 **Цел:** да разберем какво *може* да се подобри, с кой JVM feature, как да го измерим честно и какво от измерването не следва.
-
-## Съпътстващ реален P1/P2 казус: Hardwood (AI + performance)
-
-**[Case Study 005 — Hardwood](../../../docs/case-studies/005-hardwood-ai-assisted-parquet-performance.md)** свързва реални Java/Parquet оптимизации, AI-assisted programming, JFR и независими тестове. [Java 25 практическа лаборатория](HARDWOOD-PAGE-LAB.md) с [PageProcessingLab.java](src/main/java/bg/hristomanov/education/performance/hardwood/PageProcessingLab.java) и [JUnit тестове](src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java) демонстрира *bounded CPU worker pool*, `CANNOT_MATCH/ALL_MATCH/MAY_MATCH` metadata decisions и независим reference oracle. **Това НЕ е истински Parquet decoder и не доказва speedup.**
 
 ## 1. Performance dimensions — фундаментален mental model
 
@@ -173,6 +172,23 @@ Observed symptom → baseline recording/metrics
 - [NotebookLM 30–40 min Bulgarian audio prompt](BENCHMARK-CORRECTNESS-NOTEBOOKLM-PROMPT.md).
 
 Тази тема **надгражда** нашия AOT/JVM performance материал: въпросът вече не е „как да измеря даден JVM flag?“, а **„имам ли достоверно измерване и сравнявам ли правилния workload?“**. Лабораторията е simulation, не реален network benchmark и не твърди measured speedup.
+
+---
+
+## P2 · Hardwood: bounded page work, conservative pruning & AI correctness
+
+- [Engineering Case 005 — Hardwood, Gunnar Morling (Devoxx Belgium 2026)](../../../docs/case-studies/005-hardwood-ai-parquet-engineering.md): page-level parallelism vs row groups/columns; predicate pushdown; JFR custom events; independent AI-generated parser tests; make-or-buy trade-offs.
+- [Runnable Java 25 / JUnit labs](HARDWOOD-ENGINEERING-LABS.md): [PagePipelineLab](src/main/java/bg/hristomanov/education/performance/hardwood/PagePipelineLab.java) with virtual I/O and fixed CPU workers; [PagePruningPolicy](src/main/java/bg/hristomanov/education/performance/hardwood/PagePruningPolicy.java) with conservative tri-state metadata decisions; **[PageProcessingLab](src/main/java/bg/hristomanov/education/performance/hardwood/PageProcessingLab.java)** integrates range counting, independent oracle and bounded parallel scan with [12 JUnit tests](src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java).
+- **Не дублираме** реален Parquet parser, JFR/JMH урок, нов Maven module или NotebookLM prompt. Това са teaching contracts, не benchmark на Hardwood.
+
+---
+
+## Devoxx 2026 · SIMD / Vector API — допълнение без дублиране
+
+- **[P1 Benchmark Fairness: ILP, JIT и FMA](SIMD-ILP-BENCHMARKING.md)** — честен scalar ILP baseline срещу SIMD, numerical correctness и JMH.
+- **[P2 Java Vector API — runnable lab](../vector-api/README.md)** — `FloatVector`, species, 4 independent accumulators, scalar tail, FMA и JUnit.
+- **[P3 Elasticsearch / Lucene production case study](ELASTICSEARCH-SIMD-CASE-STUDY.md)** — BBQ, native `simdvec` през FFM, ES|QL Swiss-style hashing и production fallback. Архитектурен анализ, а не отделен Elasticsearch модул.
+- [NotebookLM аудио prompt](../vector-api/NOTEBOOKLM-PROMPT.md) и [JMH harness](../performance-evolution-benchmarks/README.md).
 
 ---
 

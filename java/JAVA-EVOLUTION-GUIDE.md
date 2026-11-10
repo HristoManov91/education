@@ -3,6 +3,9 @@
 > **P2 focused reference + P3 API notes**, based on [Modern Java in Practice — Nicolai Parlog & Falk Sippach, Devoxx 2026](https://youtu.be/zC2tbq7S5UE).  
 > Main education/ CI baseline is **Java 25 LTS**. We distinguish **released and final**, **released preview/opt-in**, and **proposed/EA** features; code that requires 26/27/28 **is not compiled in Java 25 modules**.
 
+**JDK 26/27 performance лекция (Per-Åke Minborg):** [GC+upgrade P1](jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) · [HashMap/record P2](algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) · [C2 P2](jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) · [FFM 28 EA P2](jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) · [Loom class-init P2](concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md). Наличните Leyden, Lazy Constants и Valhalla лаборатории не се дублират.
+
+
 ## 1. How to navigate this guide
 
 | Concern | Module | What is runnable in Java 25? |
@@ -87,27 +90,25 @@ HttpRequest request = HttpRequest.newBuilder(URI.create("https://example.com"))
 
 Sources: [JEP 517](https://openjdk.org/jeps/517), [JDK 26 HttpClient.Version](https://docs.oracle.com/en/java/javase/26/docs/api/java.net.http/java/net/http/HttpClient.Version.html), [Inside Java HTTP client 26](https://inside.java/2026/03/04/jdk-26-http-client/).
 
-## 5. P2 — Lazy Constants / Stable Values
+## 5. P2 — Lazy Constants / Stable Values (JDK25 → 27)
 
-Java 25–27 expose evolving **preview** Stable Values APIs for safely publishing lazily initialized immutable references (exact signatures change between previews).
+**Точен version boundary:** JDK 25: [JEP 502 — Stable Values (preview)](https://openjdk.org/jeps/502); JDK 26/27: развиващ се `java.lang.LazyConstant<T>`; JDK 27 [JEP 531 — Third Preview](https://openjdk.org/jeps/531). Това са **version-specific preview API** и пример от Java27 не бива да се компилира с Java25.
 
-Problem:
+**Production-like проблем:** eager construction на скъп lookup table/codec/AI model забавя startup дори за HTTP requests, които никога не го използват. `LazyConstant.of(supplier)` създава празен holder, а `.get()` изчислява стойността on demand; конкуриращи се първи извиквания получават една безопасно публикувана reference. JVM може да оптимизира известни стабилни holder-и, особено при `static final`/final graph.
 
-```text
-Start application
-→ eagerly load giant lookup table / ML model
-→ slow startup even if no request needs it
-```
+**Съществен отрицателен тест за JDK27:** при thrown exception/null/recursive initialization holder-ът влиза в sticky error state и `.get()` хвърля `NoSuchElementException`; supplier-ът **не се retry-ва**. Не обещава timeout/cancellation и силно задържа стойността. Първият request може да получи по-висока latency, а failure да остане до рестарт/нов holder.
 
-Lazy initialization moves cost to first use, so:
-- improves startup if value is rarely needed;
-- **first access may become slower** and initialization failures move to runtime;
-- thread-safe single successful initialization must be guaranteed;
-- JIT can sometimes optimize stable references better than hand-written double-checked locking.
+- [P2 Java27 self-checking preview probe + CI](experiments/jdk27-lazy-constants/README.md): concurrent initialization и sticky failure; **не влиза** в Java25 Maven reactor.
+- **Кога не:** за стандартни Spring Boot Java25 services избери по-прост `static` holder или `@Lazy` bean; използвай JDK27 preview само като контролиран експеримент със съвместим build и startup/p99 измерване.
+- [Java 27 LazyConstant официална документация](https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/LazyConstant.html).
 
-**Do not** copy a Java 27 preview `StableValue` snippet into Java 25 main modules. Keep the capability in this guide until release becomes final, and compare against ordinary safe Java lazy holder idiom when designing code.
+### 5.1 P3 — Simple JSON API / JDK 28 EA (JEP 540)
 
-Source: [JEP 502 — Stable Values (Preview)](https://openjdk.org/jeps/502).
+**JDK28 EA incubator `jdk.incubator.json`** предлага basic JSON tree parsing/generation за малки CLI и прототипи. Не дава автоматична замяна на Jackson custom deserializers, data binding, streaming или Spring MVC integration. Java25 baseline и CI не го компилират. [Tech Radar note, кога/кога не, upgrade checklist](experiments/jdk28-simple-json/README.md). [JEP 540](https://openjdk.org/jeps/540).
+
+### 5.2 Debugger / JDK switching / migration workflow
+
+[Devoxx 2026 targeted follow-ups](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md): IntelliJ logpoints, Stream Debugger, Evaluate Expression, JDK switching и риск при AI agent debugging. **Version flags:** `--enable-preview` трябва да се използва за matching JDK при compile+run; incubators са отделни модули с `--add-modules`. Не бъркай LTS vendor support със security patch cadence; прави реален dependency/CI compatibility matrix.
 
 ## 6. P2 — Security: post-quantum, PEM and migration
 

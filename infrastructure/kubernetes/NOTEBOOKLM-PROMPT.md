@@ -1,0 +1,11 @@
+# NotebookLM audio prompt — Kubernetes + Java Container Production Engineering (Български)
+
+Използвай **четирите оригинални Devoxx 2026 лекции** и нашите конкретни локални материали: [Kubernetes for Java Developers](README.md), [Operations](OPERATIONS.md), [Advanced Watch](ADVANCED-WATCH.md), [Image Hardening](../../spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md), [JVM in Containers](../../java/jvm/performance-evolution/JVM-IN-CONTAINERS.md) и [Brewlet Case Study](../../docs/case-studies/006-brewlet-java-oci-runtime.md).
+
+Създай задълбочена разговорна **аудио лекция на български** за Java/Spring Backend разработчик с практически казус: след успешен локален `java -jar` deployment на Kubernetes Pod получава ранни 503, а след няколко минути `OOMKilled`. Обясни стъпка по стъпка контейнер vs Pod vs Deployment vs Service, readiness/liveness/startup, graceful shutdown и SIGTERM, JVM heap/native memory и cgroup limits, image layers, CVE triage, digest pinning, SBOM/provenance, безопасно debug-ване. За всяка технология задължително: проблем, кога използваме, кога не, ползи и компромиси, по-прост алтернативен подход, точно изпълнима команда/код от repo и тестове.
+
+Не повтаряй Docker fundamentals/Testcontainers лекцията: дай 2-минутен prerequisite recap и премини към новите Kubernetes mechanics. Не представяй единична stopwatch демонстрация като benchmark, `readiness` като причина за restart, Java OOME и container OOMKilled като идентични, nor `requests` като абсолютна CPU reservation. При `jlink` пази диагностичните модули, а при `JDK_JAVA_OPTIONS` не обещавай hot reload на `Xmx`.
+
+За Brewlet отдели 5 минути: *WebAssembly-inspired model*, Java остава JVM bytecode, OCI application artifact + node-managed JDK, Kubernetes RuntimeClass/containerd shim, deployment при JDK patch, централизирано ownership, рискове и preview. Подчертавай, че live swap в демото **replaces Pods** и managed dependency bundles все още не са били доказани с live patch в Q&A.
+
+Финален изпит: анализирай 4 кратки казуса с етикети (`ImagePullBackOff`, `Readiness 503`, `OOMKilled`, CVE without a fix), предложи първите две команди, root-cause hypothesis и trade-off. Отдели preview/experimental API от Kubernetes/Java стабилните възможности и разграничай „лекторът казва“ от „проверено в официалната документация“.

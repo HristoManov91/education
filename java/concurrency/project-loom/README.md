@@ -668,6 +668,8 @@ Native/foreign code и специфични blocking случаи все още 
 
 ---
 
+**Практическо доказване вместо преразказ:** [Testcontainers + Toxiproxy, real HTTP latency и JDK21/25 pinning probe](../../../spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md). Normal CI проверява network fault injection; opt-in cross-JDK test не твърди универсални throughput числа.
+
 ## 19. Production ограничения, които Loom не премахва
 
 - **DB pool:** 20 connections пак означават около 20 едновременни DB операции.
@@ -870,6 +872,11 @@ curl -X POST http://localhost:8080/api/loan-applications \
 13. Пусни `PartialResultsUntilDeadlineDemo` и провери защо не използваме scope timeout директно за partial results в Java 25.
 
 ---
+
+## P2 · JDK26 class initialization wait и Virtual Thread carriers
+
+[JDK-8369238 targeted lab](JDK26-CLASS-INITIALIZATION-WAIT.md) — защо virtual thread може да блокира carrier при чакане на чужд static initializer в JDK25 и как JDK26+ подобрява общите случаи. [Java25 source](loom-labs/src/main/java/bg/hristomanov/education/loom/labs/classinit/ClassInitializationWaitLab.java), [JUnit](loom-labs/src/test/java/bg/hristomanov/education/loom/labs/classinit/ClassInitializationWaitLabTest.java), optional JFR comparison. Без нов Loom/Structured Concurrency курс.
+
 
 ## 26. Java 25 → Java 26 → Java 28
 

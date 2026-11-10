@@ -17,7 +17,7 @@ Java backend получава изискване „да използваме GP
 | **Babylon — Code Reflection / HAT** | Представя Java код като code model за анализ/трансформация към чужди execution models (GPU, DSL, data processing) | Малък, изчислително тежък kernel с доказан bottleneck | Обикновени CRUD/SQL/HTTP услуги; не приемай, че OOP код автоматично работи на GPU | **P3 Watch** |
 | **Detroit — JSR-223 engines for V8/CPython** | Експериментална интеграция на JavaScript/Python runtimes през Java scripting API | Контролирани scripts за локална автоматизация/изчисления | Недоверени скриптове в production без изолация, memory/CPU limits, permission model и support plan | **P3 Watch** |
 | **Panama — FFM (Final)** | Safe-ish, explicit native calls и memory segments без JNI boilerplate | Вече съществуваща C library с осмислен интерфейс | Ако Java библиотека покрива задачата; изисква native lifecycle/ABI error review | **[P2 runnable FFM/jextract](jvm/native-interoperability/README.md)** |
-| **Panama — Vector API (Incubator)** | Явен SIMD за data-parallel loops | Числови масиви, image/signal workloads с измерен bottleneck | Обичайна бизнес логика, API stability constraints | **Покрито / версия note** |
+| **Panama — Vector API (Incubator)** | Явен SIMD за data-parallel loops | Числови масиви, image/signal workloads с измерен bottleneck | Обичайна бизнес логика, API stability constraints | **[P2 runnable lab](jvm/vector-api/README.md)** |
 | **Loom — Virtual Threads / Structured Concurrency** | По-прост concurrent blocking I/O, parent-child task lifecycle | Висок concurrency с I/O waiting | CPU-bound работа без resources; външните pool limits остават | **Покрито** |
 | **Lilliput — Compact Headers** | Намалява object header footprint | Много малки heap objects | Оптимизация без heap/GC baseline; CPU trade-off | **Покрито** |
 
@@ -104,6 +104,12 @@ Java method annotated @Reflect (experimental Babylon)
 ### Кога да се преоцени
 
 След стабилен engine lifecycle API, предсказуем dependency/build и licensing модел, интеграционни тестове и доказана безопасна изолация за нашия deployment.
+
+## Devoxx 2026 P3 watch — Simple JSON и Hybrid Search
+
+- **JEP 540 / JDK 28 EA:** [Simple JSON API, incubator `jdk.incubator.json`](experiments/jdk28-simple-json/README.md) — подходящ за малки CLI/прототипи, **не** замества Jackson за Java25 Spring Boot. Няма compiled production module.
+- **Hybrid Search:** [RRF runnable ranking-lab](algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md) — обединява само rank positions от отделни retrievers, **без** Elasticsearch dependency, cross-tenant data или внушени retrieval quality gains.
+- [Map на всички точкови follow-ups от Marit van Dijk / Piotr Przybył](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md).
 
 ## 3. Неща, които НЕ дублираме
 

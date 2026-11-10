@@ -18,7 +18,8 @@ Case study **не се брои за преминат урок или доказ
 | [002](002-commerzbank-exadata-performance-incident.md) | Commerzbank — Oracle Exadata 11 TB | Cold cache + скъпа read-side дедупликация след DR; HTTP 200, но клиентски timeout | Валидиран query window → write-side integrity; план за поетапна Oracle → PostgreSQL миграция | SQL/Oracle, Performance, Reliability, System Design, CDC vs dual-write |
 | [003](003-skyro-temporal-saga-cancellation.md) | Skyro — Temporal Saga / payment holds | Workflow cancellation не е external hold cancellation; release-before-hold race | Compensation before activity, detached scopes, cancellation checks + reconciliation | Temporal, Saga, Idempotency, Fintech, Distributed Systems |
 | [004](004-port-of-rotterdam-modular-monolith.md) | Port of Rotterdam — microservice overload | 90+ services, 5 teams, responsibilities crossing multiple deployables | EventStorming/DDD boundaries, Spring Modulith, capability-by-capability migration | Strategic DDD, EventStorming, Spring Modulith, Legacy Modernization |
-| [005](005-hardwood-ai-assisted-parquet-performance.md) | Hardwood — AI-assisted Java/Parquet performance | Dependency-heavy/single-threaded baseline, conformance and CPU parallelism | Spec + reference fixtures, page-level processing, JFR, bounded work, human-owned AI review | AI Engineering, Parquet, Concurrency, Benchmark Correctness, Make-or-Buy |
+| [005](005-hardwood-ai-parquet-engineering.md) | Hardwood — AI-assisted Parquet parser (open-source case, НЕ incident) | Hadoop dependency footprint, single-threaded reader, сложна specification и AI-generated code risks | Page-level parallelism, conservative pruning, differential fixtures, profiling и independent review | AI Engineering, Java Performance, Parquet, JFR/JMH, Make-or-Buy |
+| [006](006-brewlet-java-oci-runtime.md) | Microsoft Brewlet / Java OCI artifacts (preview case, не инцидент) | Per-app JDK duplication, memory/startup tradeoffs, native/container runtime integration | OCI JAR artifacts + node-managed JDK чрез Kubernetes RuntimeClass/containerd shim; **не** Java→Wasm | Kubernetes, Java runtime, supply chain, isolation, deployment choices |
 
 ## Какво изискваме от всеки казус
 
@@ -35,11 +36,13 @@ Case study **не се брои за преминат урок или доказ
 
 ## Откриване и свързване
 
+- **Kubernetes / node-managed JVM / Brewlet preview:** [Case 006](006-brewlet-java-oci-runtime.md), [runnable Java/Kubernetes baseline](../../infrastructure/kubernetes/README.md) и [image hardening](../../spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md).
+
 - **Kafka / Outbox / Idempotency / CDC:** [Case 001](001-decathlon-kafka-business-table-cdc.md) и [изпълнимата ни Outbox/Inbox лаборатория](../../spring/messaging/outbox-inbox/README.md).
 - **Temporal / Saga / payment hold:** [Case 003](003-skyro-temporal-saga-cancellation.md) — cancellation pitfalls, late hold, detached compensation и reconciliation.
 - **Oracle / Exadata / SQL cold cache / миграция:** [Case 002](002-commerzbank-exadata-performance-incident.md) — диагностичен runbook, read vs write deduplication, canary и ограничения на CDC.
-- **AI-assisted low-level Java/Parquet performance:** [Case 005](005-hardwood-ai-assisted-parquet-performance.md) — независим correctness oracle, AI code review, page-level parallelism и [Java 25 lab](../../java/jvm/performance-evolution/HARDWOOD-PAGE-LAB.md).
 - **Microservice overload / modular monolith:** [Case 004](004-port-of-rotterdam-modular-monolith.md) — discovery на domain boundaries, incremental migration и връзка с [Spring Modulith lab](../../spring/architecture/strategic-ddd/modulith-lab/README.md).
+- **AI-assisted engineering / Parquet / Java performance:** [Case 005](005-hardwood-ai-parquet-engineering.md) — specification + differential fixtures, bounded page tasks, no-false-negative pruning, profiling, API review; [Java25/JUnit labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md).
 - **Сравни 001 ↔ 002:** при Decathlon е избран **CDC**, а при Commerzbank той не е приемлив в конкретната среда и е предложен **app-level dual-write**; всеки избор има различни consistency и operational рискове.
 - За бъдещи примери използваме кратки имена, последователен номер и searchable ключови думи.
 - Общият [учебен roadmap](../learning/ROADMAP.md) определя кога да задълбочаваме фундаментите. Case studies остават достъпни като справочник независимо от текущата диагностична сесия.

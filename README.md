@@ -46,11 +46,12 @@
 ## Реални production казуси (Engineering Case Studies)
 
 - [Case Studies — индекс на реални инженерни проблеми и решения](docs/case-studies/README.md)
-- [Case 005 — Hardwood: AI-assisted Parquet parser, page-level parallelism и независими проверки](docs/case-studies/005-hardwood-ai-assisted-parquet-performance.md)
+- [Case 006 — Brewlet: Java OCI artifact + node-managed JDK, Kubernetes RuntimeClass и рисковете на preview архитектурата](docs/case-studies/006-brewlet-java-oci-runtime.md)
 - [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
 - [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
 - [Skyro — Temporal Saga cancellation и orphaned holds (Case 003)](docs/case-studies/003-skyro-temporal-saga-cancellation.md)
 - [Port of Rotterdam — microservice overload → domain-first modular monolith migration (Case 004)](docs/case-studies/004-port-of-rotterdam-modular-monolith.md)
+- [Hardwood — AI-assisted Parquet engineering, test oracles и page-level performance (Case 005)](docs/case-studies/005-hardwood-ai-parquet-engineering.md)
 
 ## Персонален учебен план и диагностика
 
@@ -102,28 +103,49 @@ education/
 ### Modern Java (Java 25 runnable + Java 26/27 version notes)
 
 - [Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28](java/JAVA-EVOLUTION-GUIDE.md)
+  - [Devoxx 2026 Playful Modern Java — targeted additions, без дублиране](java/MODERN-JAVA-PLAYFUL-FOLLOWUPS.md)
+  - [P2 JDK27 Lazy Constants — preview self-check и CI](java/experiments/jdk27-lazy-constants/README.md)
+  - [P3 JDK28 Simple JSON — incubator Tech Radar](java/experiments/jdk28-simple-json/README.md)
   - [P3 Java Next Tech Radar — Babylon, Detroit и статуса на Panama/Loom/Lilliput](java/JAVA-NEXT-TECH-RADAR.md)
 - [Devoxx 2026 — P1/P2/P3 NotebookLM аудио уроци](java/MODERN-JAVA-NOTEBOOKLM-PROMPTS.md)
 - [P1 Data-Oriented Programming — records, sealed types, pattern matching и exhaustiveness](java/language/data-oriented-programming/README.md)
+  - [P2 Flexible Constructor Bodies — JEP513 Java25 runnable tests](java/language/data-oriented-programming/FLEXIBLE-CONSTRUCTOR-BODIES.md)
   - [P1 Project Valhalla — JDK 28 Value Objects, identity и migration (Java 25 tests + JDK 28 EA)](java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md)
   - [P2 Project Amber — primitive patterns, proposed withers и deconstructible classes](java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
+  - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
+  - [P1 JDK26/27 GC, G1 default и cross-JDK upgrade lab](java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md)
+  - [P1 JVM в контейнер — CPU/memory cgroups, OOMKilled, heap vs RSS, jlink, AOT, diagnostics](java/jvm/performance-evolution/JVM-IN-CONTAINERS.md)
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
   - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
   - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
+  - [P1 SIMD / ILP Benchmark Fairness — доказване на реален performance gain](java/jvm/performance-evolution/SIMD-ILP-BENCHMARKING.md)
+  - [P2 Java SIMD Vector API — runnable Java 25 lab, JUnit и JMH](java/jvm/vector-api/README.md)
+    - [P2 JDK27 C2 subword auto-vectorization](java/jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md)
+    - [NotebookLM български аудио prompt](java/jvm/vector-api/NOTEBOOKLM-PROMPT.md)
+  - [P3 Elasticsearch/Lucene case study — BBQ, simdvec/FFM, ES|QL Swiss hashing](java/jvm/performance-evolution/ELASTICSEARCH-SIMD-CASE-STUDY.md)
+  - [P2 Hardwood engineering lab — bounded page pipeline, conservative pruning, independent JUnit oracle](java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md)
 - [P2 Sequenced Collections — encounter order и backed reversed views](java/collections/sequenced-collections/README.md)
 
 ### Java / Concurrency
 
 - [Project Loom — Virtual Threads, Structured Concurrency и Scoped Values](java/concurrency/project-loom/README.md)
+  - [P2 JDK26 Virtual Threads и class initializer wait](java/concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md)
   - [Допълнителни Virtual Threads labs — custom Joiner, context, load и observability](java/concurrency/project-loom/VIRTUAL-THREADS-LABS.md)
 
 ### Java / JVM
 
+- [P1 Java Agents, Byte Buddy и OpenTelemetry instrumentation](java/jvm/java-agent-instrumentation/README.md) — реален bytecode и JUnit child-JVM tests
+  - [Benchmark и decision guide](java/jvm/java-agent-instrumentation/BENCHMARK-AND-DECISIONS.md)
+  - [Spring Boot 4 + OpenTelemetry HTTP/Redis demo](spring/observability/otel-agent-demo/README.md)
+
+
 - [P2 Java Native Interoperability — FFM API, Arena/MemorySegment, C downcalls, JUnit and optional jextract](java/jvm/native-interoperability/README.md)
+  - [P2 JDK28 EA confined Arena pools — safety + benchmark](java/jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md)
   - [jextract — optional self-built C header → Java binding lab](java/jvm/native-interoperability/JEXTRACT-LAB.md)
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
+  - [P1 IntelliJ IDEA Logpoints / Stream Debugger / AI debugging safety playbook](java/jvm/jfr-troubleshooting/INTELLIJ-DEBUGGER-PLAYBOOK.md)
 
 ### Java / Build Engineering & CI/CD
 
@@ -138,7 +160,9 @@ education/
   - [01. Algorithmic Thinking & Complexity](java/algorithms/01-algorithmic-thinking-complexity/README.md)
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)
+    - [P2 JDK26/27 record hashing и HashMap bulk copy](java/algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md)
   - [04. Searching & Sorting](java/algorithms/04-searching-sorting/README.md)
+    - [P3 Hybrid Search / Reciprocal Rank Fusion Java25 algorithm & tests](java/algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md)
   - [05. Trees & Heaps](java/algorithms/05-trees-heaps/README.md)
   - [06. Graph Fundamentals](java/algorithms/06-graph-fundamentals/README.md)
   - [07. Graph Algorithms](java/algorithms/07-graph-algorithms/README.md)
@@ -164,9 +188,17 @@ education/
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
 
+### Infrastructure / Kubernetes for Java Developers
+
+- [P1 Kubernetes for Java Backend Developers — Spring Boot 4 / kind, Deployments, probes, security, resource limits и rolling updates](infrastructure/kubernetes/README.md)
+  - [Kubernetes operations — restart, OOMKilled, graceful shutdown, troubleshooting](infrastructure/kubernetes/OPERATIONS.md)
+  - [P2 Advanced Kubernetes — Flox, mirrord, runtime sandboxes, admission и resource resize](infrastructure/kubernetes/ADVANCED-WATCH.md)
+
 ### Spring / Testing
 
 - [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
+  - [P1 Java container image hardening — minimal images, SBOM, signatures, CVE triage, reproducibility](spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md)
+  - [P2 Toxiproxy latency & JDK21/25 virtual-thread pinning lab](spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md)
   - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
 - [P1 Spring Boot Testing in the AI Era — unit/slice/HTTP, TestContext cache, mutation и AI тестове](spring/testing/ai-assisted-testing/README.md)
   - [P2 Architecture Testing — ArchUnit + Taikai, CI fitness rules и AI/SonarQube guardrails](spring/testing/ai-assisted-testing/06-ARCHITECTURE-TESTING-TAIKAI.md)

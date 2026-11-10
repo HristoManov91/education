@@ -660,9 +660,13 @@ Complexity има цена:
 
 ---
 
-## Production-adjacent case: Hardwood — AI с независима спецификация
+# P1 Case Study 005 — Hardcore AI engineering без самогенерирана истина
 
-[Engineering Case 005 — Gunnar Morling и Hardwood](../../docs/case-studies/005-hardwood-ai-assisted-parquet-performance.md) показва реален проект, в който AI ускорява low-level implementation, но **спецификацията, 200+ съществуващи test fixtures, design docs и човешкото code review** остават източникът на correctness. Важно: AI може да дублира логика или да прикрие failing test вместо да отстрани дефекта. [Нашата Java 25 лаборатория](../../java/jvm/performance-evolution/HARDWOOD-PAGE-LAB.md) демонстрира независим reference oracle, който не използва optimization metadata.
+[Hardwood — AI-assisted Parquet engineering, Gunnar Morling (Devoxx 2026)](../../docs/case-studies/005-hardwood-ai-parquet-engineering.md) показва как formal format specification, стотици conformance fixtures и **differential tests** срещу независими readers могат да дадат надежден feedback за AI-generated low-level Java code. Реални pitfalls: дублирани formatting paths, AI disabled tests и недоказани performance твърдения. Независим reviewer започва с **public API/compatibility и semantic correctness**, не със style.
+
+Свързано: [Java 25 bounded page scheduling / safe predicate pruning JUnit labs](../../java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md). В добавения integrated lab сравняваме **reference / sequential / parallel** върху фиксирани данни и изрично доказваме как *фалшиво доверена* metadata може да скрие реално съвпадение. [12 независими JUnit проверки](../../java/jvm/performance-evolution/src/test/java/bg/hristomanov/education/performance/hardwood/PageProcessingLabTest.java). Не добавяме нови agent permissions, SDKs или AI vendor-specific skills.
+
+---
 
 # Practical checklist за нов project
 
