@@ -19,7 +19,9 @@ class SubwordLoopsTest {
             }
             byte[] expectedNarrow = new byte[size];
             int[] expectedWide = new int[size];
-            Arrays.setAll(expectedNarrow, index -> (byte) original[index]);
+            for (int index = 0; index < size; index++) {
+                expectedNarrow[index] = (byte) original[index];
+            }
             Arrays.setAll(expectedWide, index -> (int) shorts[index]);
             assertArrayEquals(expectedNarrow, SubwordLoops.narrowInts(original));
             assertArrayEquals(expectedWide, SubwordLoops.widenShorts(shorts));

@@ -15,6 +15,14 @@ public final class ConfinedArenaAllocationLab {
     }
 
     public static int allocateWriteRead(int bytes) {
+        return allocateWriteRead(bytes, 90);
+    }
+
+    /**
+     * writeValue се променя от JMH при всяко извикване; резултатът е наблюдаем.
+     * Това намалява риска benchmark-ът да измерва само константна операция.
+     */
+    public static int allocateWriteRead(int bytes, int writeValue) {
         if (bytes <= 0) {
             throw new IllegalArgumentException("bytes must be positive");
         }
@@ -24,7 +32,7 @@ public final class ConfinedArenaAllocationLab {
             if (segment.get(ValueLayout.JAVA_BYTE, lastOffset) != 0) {
                 throw new IllegalStateException("Fresh arena allocation must be zero-initialized");
             }
-            segment.set(ValueLayout.JAVA_BYTE, lastOffset, (byte) 90);
+            segment.set(ValueLayout.JAVA_BYTE, lastOffset, (byte) writeValue);
             return Byte.toUnsignedInt(segment.get(ValueLayout.JAVA_BYTE, lastOffset));
         }
     }
