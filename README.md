@@ -133,6 +133,11 @@ education/
 
 ### Java / JVM
 
+- [P1 Java Agents, Byte Buddy и OpenTelemetry instrumentation](java/jvm/java-agent-instrumentation/README.md) — реален bytecode и JUnit child-JVM tests
+  - [Benchmark и decision guide](java/jvm/java-agent-instrumentation/BENCHMARK-AND-DECISIONS.md)
+  - [Spring Boot 4 + OpenTelemetry HTTP/Redis demo](spring/observability/otel-agent-demo/README.md)
+
+
 - [P2 Java Native Interoperability — FFM API, Arena/MemorySegment, C downcalls, JUnit and optional jextract](java/jvm/native-interoperability/README.md)
   - [jextract — optional self-built C header → Java binding lab](java/jvm/native-interoperability/JEXTRACT-LAB.md)
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
