@@ -1,0 +1,11 @@
+### Първо без агент, след това с -javaagent (виж README)
+GET http://localhost:8086/api/quotes/widget
+Accept: application/json
+
+### Fake upstream; не е публичен production endpoint
+GET http://localhost:8086/internal/prices/widget
+Accept: application/json
+
+### Отрицателен сценарий: несъществуващ продукт
+GET http://localhost:8086/internal/prices/unknown
+Accept: application/json
