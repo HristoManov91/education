@@ -24,7 +24,7 @@ jobs:
           java-version: '25'
           cache: maven
 
-      - name: Unit and integration tests, shaded agent
+      - name: Unit and integration tests, assembled agent
         run: mvn --batch-mode --no-transfer-progress -pl java/jvm/java-agent-instrumentation,spring/observability/otel-agent-demo verify
 
       - name: Download pinned official OTel Agent

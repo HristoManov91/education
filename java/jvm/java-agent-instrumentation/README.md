@@ -44,7 +44,7 @@ java -javaagent:...-agent.jar -cp target/classes PriceApplication
 | Процесен startup benchmark | [AgentStartupComparison.java](src/main/java/bg/hristomanov/education/instrumentation/benchmark/AgentStartupComparison.java) | [AgentStartupComparisonTest.java](src/test/java/bg/hristomanov/education/instrumentation/benchmark/AgentStartupComparisonTest.java) |
 | Истински OpenTelemetry agent | [Spring Boot / Redis demo](../../../spring/observability/otel-agent-demo/README.md) | [реален HTTP тест](../../../spring/observability/otel-agent-demo/src/test/java/bg/hristomanov/education/otel/TelemetryDemoHttpTest.java), [smoke script](../../../spring/observability/otel-agent-demo/scripts/otel-smoke.sh) |
 
-[Maven конфигурацията](pom.xml) генерира **shaded agent JAR** (с Byte Buddy и `Premain-Class`), вместо да разчита на application classpath да предоставя зависимостите на агента.
+[Maven конфигурацията](pom.xml) генерира **standalone agent JAR** с Maven Assembly (Byte Buddy и `Premain-Class`), вместо да разчита на application classpath да предоставя зависимостите на агента.
 
 ## 4. Лаборатория A: реален Java Agent, не имитация
 

@@ -30,7 +30,7 @@ class AgentProcessIT {
 
     @Test
     void manifestAndRealBytecodeTransformationPreserveTheBusinessOutput() throws Exception {
-        assertTrue(Files.isRegularFile(AGENT), "Maven shade must create the -agent.jar in package");
+        assertTrue(Files.isRegularFile(AGENT), "Maven Assembly must create the -agent.jar in package");
         try (JarFile jar = new JarFile(AGENT.toFile())) {
             assertEquals("bg.hristomanov.education.instrumentation.agent.PriceTimingAgent",
                     jar.getManifest().getMainAttributes().getValue("Premain-Class"));
