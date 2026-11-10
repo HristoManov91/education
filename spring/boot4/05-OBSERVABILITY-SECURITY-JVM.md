@@ -24,6 +24,14 @@ Josh демонстрира starter за OpenTelemetry и готов Grafana set
 
 [Spring Boot observability](https://docs.spring.io/spring-boot/reference/actuator/observability.html) · [OpenTelemetry concepts](https://opentelemetry.io/docs/concepts/).
 
+### P1 допълнение от лекцията на Bruce Bujon — работещи Java Agent labs
+
+- [premain, ClassFileTransformer, Byte Buddy и child-JVM тестове](../../java/jvm/java-agent-instrumentation/README.md)
+- [Истински OTel agent, real HTTP и optional Redis](../observability/otel-agent-demo/README.md)
+- [Измерване на overhead, decision guide и ограничения](../../java/jvm/java-agent-instrumentation/BENCHMARK-AND-DECISIONS.md)
+
+Това е надграждане на механизма, без дублиране на общата observability глава.
+
 ## 2. SSRF: изборът на HTTP client не е security boundary
 
 **Проблем:** нападател контролира URL, който backend извиква, например `http://169.254.169.254` или частен адрес.

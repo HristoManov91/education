@@ -66,6 +66,7 @@
 | JAVA-JVM-02 | Classloading, initialization, memory basics | Lifetime and linkage |
 | JAVA-JVM-03 | GC symptoms, memory/CPU diagnostics intro | From symptom to evidence |
 | JAVA-JVM-04 | JFR and production troubleshooting | Event-based diagnosis |
+| JAVA-JVM-05 | [Java Agents, Byte Buddy и OTel](../../java/jvm/java-agent-instrumentation/README.md) | premain, bytecode proof, business invariants и overhead |
 
 **Комбинирани тестове:** JAVA-FND (след FND-05), JAVA-OOP/EXC, JAVA-COL (след COL-04/08), JAVA-GEN/STM, JAVA-CON (след CON-04/06), JAVA-JVM. Финален: Java Core troubleshooting + explanation challenge.
 
