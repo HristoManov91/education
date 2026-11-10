@@ -35,22 +35,24 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.1</version>
+                <!-- The Boot parent configures shade transformers. Do not merge their
+                     <resource> fields into our ManifestResourceTransformer (MSHADE-324). -->
+                <configuration combine.self="override">
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>agent</shadedClassifierName>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Premain-Class>bg.hristomanov.education.instrumentation.agent.PriceTimingAgent</Premain-Class>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals><goal>shade</goal></goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>agent</shadedClassifierName>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Premain-Class>bg.hristomanov.education.instrumentation.agent.PriceTimingAgent</Premain-Class>
-                                    </manifestEntries>
-                                </transformer>
-                            </transformers>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
