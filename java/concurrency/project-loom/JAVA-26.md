@@ -55,6 +55,11 @@ public CreditScore getFirstSuccessfulScore(UUID customerId) {
 
 За всички основни Java 25 Joiner policy-та виж [`JOINER-POLICIES.md`](./JOINER-POLICIES.md).
 
+## JVM промяна, не preview API: class initialization wait
+
+[JDK26 class-init virtual thread lab](JDK26-CLASS-INITIALIZATION-WAIT.md) обяснява `JDK-8369238` и safe Java25/JDK27 execution с JUnit correctness, без твърдение за универсално отстраняване на pinning.
+
+
 ## Java 25 → Java 26: важни API промени
 
 | Тема | Java 25 | Java 26 | Практическо значение |

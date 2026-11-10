@@ -3,6 +3,9 @@
 > **P2 focused reference + P3 API notes**, based on [Modern Java in Practice — Nicolai Parlog & Falk Sippach, Devoxx 2026](https://youtu.be/zC2tbq7S5UE).  
 > Main education/ CI baseline is **Java 25 LTS**. We distinguish **released and final**, **released preview/opt-in**, and **proposed/EA** features; code that requires 26/27/28 **is not compiled in Java 25 modules**.
 
+**JDK 26/27 performance лекция (Per-Åke Minborg):** [GC+upgrade P1](jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) · [HashMap/record P2](algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) · [C2 P2](jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) · [FFM 28 EA P2](jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) · [Loom class-init P2](concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md). Наличните Leyden, Lazy Constants и Valhalla лаборатории не се дублират.
+
+
 ## 1. How to navigate this guide
 
 | Concern | Module | What is runnable in Java 25? |

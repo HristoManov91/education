@@ -115,12 +115,14 @@ education/
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
   - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
+  - [P1 JDK26/27 GC, G1 default и cross-JDK upgrade lab](java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md)
   - [P1 JVM в контейнер — CPU/memory cgroups, OOMKilled, heap vs RSS, jlink, AOT, diagnostics](java/jvm/performance-evolution/JVM-IN-CONTAINERS.md)
   - [P1 Big Runtimes — JIT, abstraction cost, deoptimization, GC, JMH и Spring Boot/JFR labs](java/jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md)
   - [P2 JDK 28 Leyden — AOT native code compilation, compatibility и честно измерване](java/jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md)
   - [P1 Benchmark Correctness — Coordinated Omission, bottlenecks, честни p99/throughput измервания](java/jvm/performance-evolution/BENCHMARK-CORRECTNESS.md)
   - [P1 SIMD / ILP Benchmark Fairness — доказване на реален performance gain](java/jvm/performance-evolution/SIMD-ILP-BENCHMARKING.md)
   - [P2 Java SIMD Vector API — runnable Java 25 lab, JUnit и JMH](java/jvm/vector-api/README.md)
+    - [P2 JDK27 C2 subword auto-vectorization](java/jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md)
     - [NotebookLM български аудио prompt](java/jvm/vector-api/NOTEBOOKLM-PROMPT.md)
   - [P3 Elasticsearch/Lucene case study — BBQ, simdvec/FFM, ES|QL Swiss hashing](java/jvm/performance-evolution/ELASTICSEARCH-SIMD-CASE-STUDY.md)
   - [P2 Hardwood engineering lab — bounded page pipeline, conservative pruning, independent JUnit oracle](java/jvm/performance-evolution/HARDWOOD-ENGINEERING-LABS.md)
@@ -129,6 +131,7 @@ education/
 ### Java / Concurrency
 
 - [Project Loom — Virtual Threads, Structured Concurrency и Scoped Values](java/concurrency/project-loom/README.md)
+  - [P2 JDK26 Virtual Threads и class initializer wait](java/concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md)
   - [Допълнителни Virtual Threads labs — custom Joiner, context, load и observability](java/concurrency/project-loom/VIRTUAL-THREADS-LABS.md)
 
 ### Java / JVM
@@ -139,6 +142,7 @@ education/
 
 
 - [P2 Java Native Interoperability — FFM API, Arena/MemorySegment, C downcalls, JUnit and optional jextract](java/jvm/native-interoperability/README.md)
+  - [P2 JDK28 EA confined Arena pools — safety + benchmark](java/jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md)
   - [jextract — optional self-built C header → Java binding lab](java/jvm/native-interoperability/JEXTRACT-LAB.md)
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
   - [P1 IntelliJ IDEA Logpoints / Stream Debugger / AI debugging safety playbook](java/jvm/jfr-troubleshooting/INTELLIJ-DEBUGGER-PLAYBOOK.md)
@@ -156,6 +160,7 @@ education/
   - [01. Algorithmic Thinking & Complexity](java/algorithms/01-algorithmic-thinking-complexity/README.md)
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)
+    - [P2 JDK26/27 record hashing и HashMap bulk copy](java/algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md)
   - [04. Searching & Sorting](java/algorithms/04-searching-sorting/README.md)
     - [P3 Hybrid Search / Reciprocal Rank Fusion Java25 algorithm & tests](java/algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md)
   - [05. Trees & Heaps](java/algorithms/05-trees-heaps/README.md)

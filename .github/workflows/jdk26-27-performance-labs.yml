@@ -1,0 +1,81 @@
+name: JDK 26-28 Performance Education Labs
+
+on:
+  pull_request:
+    paths:
+      - 'java/jvm/performance-evolution/**'
+      - 'java/jvm/performance-evolution-benchmarks/**'
+      - 'java/jvm/vector-api/**'
+      - 'java/jvm/native-interoperability/**'
+      - 'java/algorithms/03-hashing/**'
+      - 'java/concurrency/project-loom/**'
+      - '.github/workflows/jdk26-27-performance-labs.yml'
+  workflow_dispatch:
+
+jobs:
+  jdk-performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 25 LTS baseline
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Java25 correctness and JMH packaging
+        run: |
+          mvn --batch-mode --no-transfer-progress \
+            -pl java/jvm/performance-evolution-benchmarks,java/concurrency/project-loom/loom-labs \
+            -am verify
+
+      - name: Verify new benchmarks are executable
+        run: |
+          JAR="java/jvm/performance-evolution-benchmarks/target/benchmarks.jar"
+          test -s "$JAR"
+          java --add-modules jdk.incubator.vector -jar "$JAR" -l | tee "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'MapCopyAndRecordHashBenchmark.mapConstructor' "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'SubwordLoopsBenchmark.narrowInts' "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'ConfinedArenaPoolBenchmark.confinedArenaAllocateWriteRead' "$RUNNER_TEMP/benchmarks.txt"
+
+      - name: Setup Java 27 for runtime-only comparison
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '27'
+
+      - name: JDK25 vs JDK27 deterministic business and GC flags
+        run: |
+          test -x "$JAVA_HOME_25_X64/bin/java"
+          test -x "$JAVA_HOME_27_X64/bin/java"
+          bash java/jvm/performance-evolution/scripts/compare-jdks.sh \
+            "$JAVA_HOME_25_X64/bin/java" "$JAVA_HOME_27_X64/bin/java"
+
+      - name: Reject the wrong JDK major (negative control)
+        run: |
+          set +e
+          bash java/jvm/performance-evolution/scripts/compare-jdks.sh \
+            "$JAVA_HOME_25_X64/bin/java" "$JAVA_HOME_25_X64/bin/java" \
+            > "$RUNNER_TEMP/invalid-jdk.log" 2>&1
+          exit_code="$?"
+          set -e
+          test "$exit_code" -eq 2
+          grep -Fq 'Expected JDK major 27' "$RUNNER_TEMP/invalid-jdk.log"
+
+      - name: JDK25 vs JDK27 virtual-thread class initialization control
+        run: |
+          CLASS="bg.hristomanov.education.loom.labs.classinit.ClassInitializationWaitLab"
+          CP="java/concurrency/project-loom/loom-labs/target/classes"
+          for JDK in "$JAVA_HOME_25_X64/bin/java" "$JAVA_HOME_27_X64/bin/java"; do
+            RESULT="$("$JDK" -Djdk.virtualThreadScheduler.parallelism=1 \
+              -cp "$CP" "$CLASS" 8)"
+            echo "$RESULT"
+            test "$RESULT" = 'INITIAL_VALUE=42 WAITERS=8 SUM=336 INIT_COUNT=1'
+          done
+
+# JDK 28 Early Access FFM microbenchmark remains opt-in/manual because its
+# flags/implementations are still moving. No CI assertion on benchmark speedups.

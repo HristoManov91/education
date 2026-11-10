@@ -96,6 +96,13 @@ docker run --rm --memory=512m --cpus=1 --env JDK_JAVA_OPTIONS=-XX:MaxRAMPercenta
 
 Spring Boot `server.shutdown=graceful` и timeout per phase се съобразяват с K8s `terminationGracePeriodSeconds`. `preStop` sleep е counted в същия budget и SIGKILL не предоставя Java cleanup. В момента Kubernetes container-level CPU/memory resize може да се направи без Pod recreation при допустимите условия (stable 1.35), но **Java heap maximum е фиксиран в startup context**, освен ако конкретен runtime feature изрично не го управлява. При промяна на memory budget практическата безопасна опция често е controlled rollout.
 
+## P1 · Java 25 → 27 в малък контейнер: смяна на default GC
+
+**Нова version-specific проверка:** JDK 27 прави G1 default и за 1-vCPU environments (JEP 523), а Compact Object Headers стават default (JEP 534). След upgrade не приемай, че същите `--memory=512m --cpus=1` означават същия heap/RSS/p95, GC startup или CPU budget.
+
+[GC Upgrade deep dive](JDK26-27-GC-UPGRADE.md) включва [реален reference-write workload](src/main/java/bg/hristomanov/education/performance/gc/ReferenceUpdateWorkload.java), [JUnit](src/test/java/bg/hristomanov/education/performance/gc/ReferenceUpdateWorkloadTest.java) и [JDK25/27 comparison script](scripts/compare-jdks.sh). Скриптът доказва избраните flags и еднакъв checksum, но **не** production latency. Кога — след upgrade/регресия; кога НЕ — не налагай G1/Serial flags без измерване; печалба — диагностика; цена — двоен runtime test; алтернатива — стандартни defaults + monitoring.
+
+
 ## 8. Decision contract
 
 - **Проблем:** JVM не е контейнер; неговите heap/native/GC настройки трябва да се наблюдават спрямо real container limits.

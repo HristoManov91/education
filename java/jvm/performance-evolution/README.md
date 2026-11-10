@@ -1,6 +1,7 @@
 # P1 · Modern JVM Performance / Project Leyden & Compact Object Headers
 
 **P1 Devoxx 2026 companion:** [JVM в контейнери — container-aware heap/RSS, OOMKilled vs OutOfMemoryError, jlink, custom Java runtime, diagnostics](JVM-IN-CONTAINERS.md). Това е отделен operating/runtime lab от Leyden AOT startup сравнението.
+**P1 JDK 26/27 update:** [G1 write barriers, default GC, Compact Object Headers, monitor table и Java25↔27 лаборатория](JDK26-27-GC-UPGRADE.md) с [Java25 test](src/test/java/bg/hristomanov/education/performance/gc/ReferenceUpdateWorkloadTest.java) и [сравнителен скрипт](scripts/compare-jdks.sh). Не дублира JFR/Leyden.
 
 > **Source:** [Modern Java in Practice, Devoxx 2026 — performance](https://youtu.be/zC2tbq7S5UE?t=2220), Nicolai Parlog and Falk Sippach.
 >
