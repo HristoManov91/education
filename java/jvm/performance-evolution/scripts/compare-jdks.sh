@@ -24,6 +24,18 @@ run_one() {
   fi
   echo "=== $label ===" >&2
   "$java_bin" -version >&2
+
+  # Без този guard подаването на същия JDK два пъти може да даде
+  # фалшиво зелено "JDK25 vs JDK27" сравнение.
+  local expected_major="${label#jdk}"
+  local actual_major
+  actual_major="$("$java_bin" -XshowSettings:properties -version 2>&1 \
+    | sed -nE 's/^[[:space:]]*java\.specification\.version[[:space:]]*=[[:space:]]*([0-9]+).*$/\1/p')"
+  if [[ "$actual_major" != "$expected_major" ]]; then
+    echo "Expected JDK major $expected_major for $label, got ${actual_major:-unknown}: $java_bin" >&2
+    exit 2
+  fi
+
   local flags
   flags="$("$java_bin" -XX:ActiveProcessorCount=1 -XX:+PrintFlagsFinal -version 2>&1 \
     | grep -E ' (UseG1GC|UseSerialGC|UseCompactObjectHeaders|UseObjectMonitorTable) ' || true)"

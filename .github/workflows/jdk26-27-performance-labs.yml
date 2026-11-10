@@ -55,6 +55,17 @@ jobs:
           bash java/jvm/performance-evolution/scripts/compare-jdks.sh \
             "$JAVA_HOME_25_X64/bin/java" "$JAVA_HOME_27_X64/bin/java"
 
+      - name: Reject the wrong JDK major (negative control)
+        run: |
+          set +e
+          bash java/jvm/performance-evolution/scripts/compare-jdks.sh \
+            "$JAVA_HOME_25_X64/bin/java" "$JAVA_HOME_25_X64/bin/java" \
+            > "$RUNNER_TEMP/invalid-jdk.log" 2>&1
+          exit_code="$?"
+          set -e
+          test "$exit_code" -eq 2
+          grep -Fq 'Expected JDK major 27' "$RUNNER_TEMP/invalid-jdk.log"
+
       - name: JDK25 vs JDK27 virtual-thread class initialization control
         run: |
           CLASS="bg.hristomanov.education.loom.labs.classinit.ClassInitializationWaitLab"

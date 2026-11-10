@@ -45,7 +45,7 @@ bash java/jvm/performance-evolution/scripts/compare-jdks.sh \
   "$JDK25_HOME/bin/java" "$JDK27_HOME/bin/java"
 ```
 
-Скриптът стартира еднакъв workload с 1 видим CPU, `Xms=Xmx=128m`, еднакви входни данни, извежда действителните `UseG1GC`/`UseSerialGC`/`UseCompactObjectHeaders` flags, запазва GC логове и **изисква идентичен CHECKSUM**. Извеждането на flags НЕ гарантира достатъчно статистика за throughput/p99; за тях следва отделен HTTP production-like experiment.
+Скриптът проверява и реалната `java.specification.version` (25/27) и отказва подаден грешен бинарен файл (negative CI test), така че сравнение на една и съща версия два пъти не може да мине като успешно. Стартира еднакъв workload с 1 видим CPU, `Xms=Xmx=128m`, еднакви входни данни, извежда действителните `UseG1GC`/`UseSerialGC`/`UseCompactObjectHeaders` flags, запазва GC логове и **изисква идентичен CHECKSUM**. Извеждането на flags НЕ гарантира достатъчно статистика за throughput/p99; за тях следва отделен HTTP production-like experiment.
 
 Изолирай конкретни решения чрез manual control, без да смесваш версии и flags:
 
