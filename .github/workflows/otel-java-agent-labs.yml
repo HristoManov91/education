@@ -1,0 +1,40 @@
+name: OpenTelemetry Java Agent Labs
+
+on:
+  pull_request:
+    paths:
+      - 'java/jvm/java-agent-instrumentation/**'
+      - 'spring/observability/otel-agent-demo/**'
+      - '.github/workflows/otel-java-agent-labs.yml'
+      - 'pom.xml'
+  workflow_dispatch:
+
+jobs:
+  agent-and-otel-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Unit and integration tests, shaded agent
+        run: mvn --batch-mode --no-transfer-progress -pl java/jvm/java-agent-instrumentation,spring/observability/otel-agent-demo verify
+
+      - name: Download pinned official OTel Agent
+        run: |
+          mvn --batch-mode --no-transfer-progress dependency:copy \
+            -Dartifact=io.opentelemetry.javaagent:opentelemetry-javaagent:2.33.1 \
+            -DoutputDirectory="$RUNNER_TEMP/otel-agent"
+          test -s "$RUNNER_TEMP/otel-agent/opentelemetry-javaagent-2.33.1.jar"
+
+      - name: Real agent HTTP span smoke
+        env:
+          OTEL_AGENT_JAR: ${{ runner.temp }}/otel-agent/opentelemetry-javaagent-2.33.1.jar
+        run: bash spring/observability/otel-agent-demo/scripts/otel-smoke.sh
