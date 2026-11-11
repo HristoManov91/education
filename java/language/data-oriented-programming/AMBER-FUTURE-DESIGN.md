@@ -65,15 +65,11 @@ Point changed = point with { x = 1; };
 
 ## 3. Constant patterns, deconstruction assignments, carrier classes
 
-- **Constant patterns (все още proposal към 11.11.2026)** — лекцията показва вложени literal patterns като бъдеща композиция, а официалният [withdrawal announcement](https://inside.java/2026/11/11/withdraw-primitive-patterns-preview/) ги определя като отделно направление, а **не** като вече доставен replacement. Стабилната Java25 алтернатива е `case Point(int x, int y) when x == 0 && y == 0`, когато е подходящо.
-- **Constant patterns** — позволяват `case Point(0, int y)` вместо `case Point(int x, int y) when x == 0`. В лекцията синтаксисът е представен като sketch; следи JEP draft. Днес използвай `when`.
-- **Pattern declarations и deconstruction in `for` (предложение)** — Gavin разглежда как pattern може да се използва и извън `switch`, но Java25 не поддържа произволен pattern assignment или `for (Point(int x,int y) : points)` като stable general-purpose syntax. Използвай `for (Point point : points) { int x = point.x(); ... }` или record pattern в наличните legal contexts.
-- **Deconstruction assignment** — идеи за деконструиране към съществуващи променливи; синтаксисът и scope правилата още се уточняват.
-- **Record reconstruction** — [по-новата дискусия на Brian Goetz](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00877.html) подчертава нуждата от final-state constructor invariant при промени в няколко компонента; *with* и *record.new* остават варианти за дизайн. [Java25 runnable lab](RECORD-RECONSTRUCTION-INVARIANTS.md) показва защо два последователни wither-а могат да бъдат грешни.
-- **Data interfaces / user-defined deconstruction** — [P2 архитектурно допълнение](DATA-INTERFACES-AND-DECONSTRUCTION.md) с реален публичен Java25 interface и скрита concrete реализация. Не представяме обикновен интерфейс с getters за deconstructible record.
-- **Deconstructible / carrier classes** — идеи за класове, които описват публично своето state shape, но не са record. Изискват ясни правила за encapsulation, invariant checking и construction symmetry.
-- **String templates** — остават design effort, не ги въвеждаме като налична Java 25 функция; не обещаваме конкретен ship date.
-- **Type classes / user-defined arithmetic** — по-далечни идеи на Valhalla; не ги приписвай на доставен Amber release.
+- **Constant Patterns (предложение към 11.11.2026)** — бъдещо вложено `case Point(0, int y)` вместо `case Point(int x, int y) when x == 0`. Официалният [withdrawal announcement](https://inside.java/2026/11/11/withdraw-primitive-patterns-preview/) ги посочва като **отделна посока**, не като доставен replacement. В Java25 използвай стабилен `when` guard.
+- **Pattern declarations и deconstruction assignments (предложения)** — желаното използване на pattern извън `switch`, включително в `for`, има незавършени scope/type правила. `for (Point(int x, int y) : points)` **не е стабилен Java25 syntax**; използвай обикновен `for (Point point : points)` и accessors.
+- **Record reconstruction (предложение)** — [Brian Goetz, March 2026](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00877.html) подчертава final-state constructor invariants при промени в няколко компонента; `with` и `record.new` са evolving design, не Java25 API. [Runnable Java25 lab](RECORD-RECONSTRUCTION-INVARIANTS.md) показва защо два независими wither-а не са достатъчни.
+- **Data interfaces / carrier classes (предложения)** — публичното state shape и user-defined deconstruction биха позволили pattern matching върху типове, които не са records, но изискват ясни правила за encapsulation, invariants и compatibility. [P2 Java25 пример](DATA-INTERFACES-AND-DECONSTRUCTION.md) показва само публичен accessor interface и скрита реализация, **не** бъдещ pattern API.
+- **String Templates и type-class/user-defined arithmetic идеи** — развиващи се или оттеглени дизайни. Не ги представяме като Java25 final features; Valhalla generics/numerics могат допълнително да променят primitive-pattern посоката.
 
 ## 4. Decision contract
 
