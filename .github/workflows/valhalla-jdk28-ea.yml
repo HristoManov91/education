@@ -16,10 +16,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up official OpenJDK 28 Early Access
-        uses: actions/setup-java@v6
+        # actions/setup-java oracle-openjdk metadata resolver can report
+        # "No matching version for 28" even while jdk.java.net/28 serves EA.
+        # The Oracle-maintained action reads the current official EA catalog.
+        uses: oracle-actions/setup-java@v1
         with:
-          distribution: oracle-openjdk
-          java-version: '28-ea'
+          website: jdk.java.net
+          release: '28'
+          version: latest
 
       - name: Show actual JDK under test
         run: java -version
