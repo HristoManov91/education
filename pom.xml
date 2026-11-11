@@ -17,6 +17,7 @@
         <module>java/language/data-oriented-programming</module>
         <module>java/streams/stream-gatherers</module>
         <module>java/collections/sequenced-collections</module>
+        <module>java/jvm/method-handles</module>
         <module>java/jvm/native-interoperability</module>
         <module>java/jvm/performance-evolution</module>
         <module>java/jvm/java-agent-instrumentation</module>
