@@ -257,6 +257,19 @@
 
 **Изходна проверка:** отличи сигурен от предположен JVM behavior, soft workaround от root cause и feature от preview/proposal. Лабораториите доказват само декларираните contracts, не throughput/p99.
 
+## P1/P2 — Gavin Bierman: Project Amber, Devoxx Belgium 2026
+
+**Основа:** [лекция](https://www.youtube.com/watch?v=Go76-9Q51wU) + предоставен автоматичен SRT. Новите примери използват стабилен Java25; имат отделни JUnit и не предполагат, че evolving language design вече съществува.
+
+| ID | Приоритет | Материал | Проверяваме |
+| --- | --- | --- | --- |
+| JAVA-AMBER-01 | **P1** | [Record reconstruction invariants](../../java/language/data-oriented-programming/RECORD-RECONSTRUCTION-INVARIANTS.md) | interdependent components, canonical constructor, no invalid intermediate, defensive copy и structured `List<TaskPriority>` |
+| JAVA-AMBER-02 | **P1** | [Exact numeric conversion](../../java/language/data-oriented-programming/NUMERIC-CONVERSION-EXACTNESS.md) | `Integer.MAX_VALUE` saturating cast trap, 2^24 boundary, IEEE754 oracle 10 000 values |
+| JAVA-AMBER-03 | **P2** | [Data interfaces / deconstruction](../../java/language/data-oriented-programming/DATA-INTERFACES-AND-DECONSTRUCTION.md) | public interface + package-private implementation, client-substitutability, proposal vs Java25 |
+| JAVA-AMBER-04 | **P3 watch** | [Amber Future Design](../../java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | withdrawn primitive patterns in JDK28, Constant Patterns, pattern declarations, reconstruction proposals |
+
+**Checkpoint:** защо двата последователни wither-а могат да се провалят при дължини 2→3? Кога `List<Pair>` е по-добър от два списъка? Защо `int→float→int` не доказва точност? Защо public interface не дава автоматично record pattern за скрита класа?
+
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
 - **P1:** Distributed Systems/System Design; JVM Performance & Observability; DS&A (вече разделено на малки topics); Redis/Caching; Docker/CI; AI-assisted Engineering.

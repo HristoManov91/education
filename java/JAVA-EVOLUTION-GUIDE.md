@@ -16,6 +16,14 @@
 - **String Templates:** JEP465 беше оттеглен преди JDK23; nested composition/eager processing са част от техническото обяснение в панела. **Няма stable String Templates API в JDK25/27.** [Tech radar](JAVA-NEXT-TECH-RADAR.md).
 - **Valhalla:** layout/flattening не е Java specification contract и няма преносима гаранция за конкретно представяне; [съществуващият Valhalla P1 курс](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) обяснява това.
 
+## November 2026 — Amber: source-backed design, executable Java 25
+
+[What's happening with Project Amber?](https://www.youtube.com/watch?v=Go76-9Q51wU), Gavin Bierman (Devoxx Belgium 2026), заедно с [официалния Amber announcement от 11 ноември](https://inside.java/2026/11/11/withdraw-primitive-patterns-preview/):
+
+- **P1 stable Java25:** [Record reconstruction / invariant lab](language/data-oriented-programming/RECORD-RECONSTRUCTION-INVARIANTS.md), [Numeric Conversion Exactness](language/data-oriented-programming/NUMERIC-CONVERSION-EXACTNESS.md) — real code и independent JUnit; **не** изискват preview flags.
+- **P2 design:** [Data Interfaces and User-defined Deconstruction](language/data-oriented-programming/DATA-INTERFACES-AND-DECONSTRUCTION.md) — Java25 public interface + hidden class, **не** недостъпен бъдещ pattern syntax.
+- **P3 watch:** [Amber future design](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md): record reconstruction, nested Constant Patterns, pattern declarations и custom deconstruction остават proposals. Primitive Types in Patterns previews от JDK23–27 **няма** да бъдат налични в JDK28. Не обещаваме автоматично бъдещи release dates.
+
 ## 1. How to navigate this guide
 
 | Concern | Module | What is runnable in Java 25? |

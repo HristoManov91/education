@@ -102,6 +102,25 @@ Record има final reference към components, но `record Prescription(List<
 
 Таблетният compact constructor проверява nonnegative counts, nonzero total и използва `Math.addExact`, за да не превърне integer overflow в на пръв поглед коректен резултат. Това надгражда вече изучаваните primitive overflow и record invariants от [Concept Notes](../../../docs/learning/concepts/README.md).
 
+## P1 · Gavin Bierman (Devoxx 2026): два нови Java 25 correctness казуса
+
+По [What's happening with Project Amber?](https://www.youtube.com/watch?v=Go76-9Q51wU) и предоставения транскрипт добавихме **две целеви executable labs** без нов Maven module и без невалидни JDK28 syntax claims:
+
+| Какъв проблем решаваме | Пълна лекция | Java25 source | Test |
+| --- | --- | --- | --- |
+| Взаимозависими record компоненти и валиден final snapshot — two-field update без междинно невалидно състояние | [Record reconstruction и invariants](RECORD-RECONSTRUCTION-INVARIANTS.md) | [RecordReconstructionInvariantLab](src/main/java/bg/hristomanov/education/dop/amber/RecordReconstructionInvariantLab.java) | [JUnit](src/test/java/bg/hristomanov/education/dop/amber/RecordReconstructionInvariantLabTest.java) |
+| Кога `int → float` губи точност, въпреки `int → float → int` equality | [Numeric Conversion Exactness](NUMERIC-CONVERSION-EXACTNESS.md) | [NumericConversionExactnessLab](src/main/java/bg/hristomanov/education/dop/amber/NumericConversionExactnessLab.java) | [JUnit + independent bit oracle](src/test/java/bg/hristomanov/education/dop/amber/NumericConversionExactnessLabTest.java) |
+
+**P2 архитектурна връзка:** [Data interfaces / user-defined deconstruction](DATA-INTERFACES-AND-DECONSTRUCTION.md) използва реален Java25 [CoordinateView](src/main/java/bg/hristomanov/education/dop/amber/CoordinateView.java), [скрита имплементация](src/main/java/bg/hristomanov/education/dop/amber/CoordinateViews.java) и [JUnit](src/test/java/bg/hristomanov/education/dop/amber/CoordinateViewsTest.java). Показва защо public API не е задължително да излага public `record` type.
+
+**Строг version boundary:** Record Reconstruction / Constant Patterns / Data Interfaces са разработки и предложения, **не** Java25 final syntax. Primitive Types in Patterns preview от JDK23–27 е [официално оттеглен за JDK28 (11.11.2026)](https://inside.java/2026/11/11/withdraw-primitive-patterns-preview/). В Java25 примера за числа се използват само stable casts и проверки; [съществуващият Amber Radar](AMBER-FUTURE-DESIGN.md) проследява бъдещия синтаксис, вместо да компилира proposals като реален API.
+
+```bash
+mvn -pl java/language/data-oriented-programming verify
+```
+
+**Изход и checklist:** избягваме ли invalid intermediate state? Има ли по-добър домейн тип като `List<TaskPriority>` вместо паралелни списъци? Спазваме ли invariants на canonical constructor? Предпазваме ли numeric boundary от silent lossy conversion? Има ли независим тестов oracle, а не дублирана production логика?
+
 ## 1.3 OOP vs DOP — trade-off, не религия
 
 | Въпрос | Класически polymorphic OOP | Data-Oriented Programming |

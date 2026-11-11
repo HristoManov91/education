@@ -11,6 +11,16 @@
 
 Вече имаме [Java 25 работещ пример](src/main/java/bg/hristomanov/education/dop/valhalla/PaymentSnapshot.java) с `withAmount`, който извиква canonical constructor, не променя оригинала, проверява business invariants и има [JUnit тест](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java). Това е **по-простото стабилно решение днес**.
 
+## Devoxx 2026 — Gavin Bierman: проверимо обучение срещу proposal статус
+
+[What's happening with Project Amber?](https://www.youtube.com/watch?v=Go76-9Q51wU) (приблизително 52 мин, предоставен автоматичен SRT) надгражда data-oriented programming с exact numeric conversions, реконструкция на записи и идеи за data interfaces/user-defined deconstruction. **През ноември 2026 това не са три нови финализирани Java25 възможности.**
+
+- **P1 / Java25 runnable:** [Record Reconstruction & Invariants](RECORD-RECONSTRUCTION-INVARIANTS.md) — `ParallelTaskBatch.replaceTogether` валидира едновременно зависими компоненти; `List<TaskPriority>` е структурно по-сигурна алтернатива. [Source](src/main/java/bg/hristomanov/education/dop/amber/RecordReconstructionInvariantLab.java) + [JUnit](src/test/java/bg/hristomanov/education/dop/amber/RecordReconstructionInvariantLabTest.java).
+- **P1 / Java25 runnable:** [Numeric Conversion Exactness](NUMERIC-CONVERSION-EXACTNESS.md) — `int → float → int` може лъжливо да изглежда без загуба поради saturating narrowing. [Source](src/main/java/bg/hristomanov/education/dop/amber/NumericConversionExactnessLab.java) + [10 000 независими IEEE754 oracle cases](src/test/java/bg/hristomanov/education/dop/amber/NumericConversionExactnessLabTest.java). Няма preview `instanceof float` в Java25 пример.
+- **P2 / стабилен Java25 API + предложение:** [Data interfaces и deconstruction](DATA-INTERFACES-AND-DECONSTRUCTION.md) — [CoordinateView](src/main/java/bg/hristomanov/education/dop/amber/CoordinateView.java) и [package-private concrete class](src/main/java/bg/hristomanov/education/dop/amber/CoordinateViews.java) с [JUnit](src/test/java/bg/hristomanov/education/dop/amber/CoordinateViewsTest.java); `case CoordinateView(int x,int y)` **не е валиден Java25 record pattern**.
+
+**Извод:** „данните първо“ значи правилни типове и валидни състояния, не автоматично разкриване на всеки internal field. Невъведен синтаксис не е production dependency.
+
 ## README → код
 
 | Идея | Реален Java 25 код | Доказателство |
@@ -55,11 +65,11 @@ Point changed = point with { x = 1; };
 
 ## 3. Constant patterns, deconstruction assignments, carrier classes
 
-- **Constant patterns** — позволяват `case Point(0, int y)` вместо `case Point(int x, int y) when x == 0`. В лекцията синтаксисът е представен като sketch; следи JEP draft. Днес използвай `when`.
-- **Deconstruction assignment** — идеи за деконструиране към съществуващи променливи; синтаксисът и scope правилата още се уточняват.
-- **Deconstructible / carrier classes** — идеи за класове, които описват публично своето state shape, но не са record. Изискват ясни правила за encapsulation, invariant checking и construction symmetry.
-- **String templates** — остават design effort, не ги въвеждаме като налична Java 25 функция; не обещаваме конкретен ship date.
-- **Type classes / user-defined arithmetic** — по-далечни идеи на Valhalla; не ги приписвай на доставен Amber release.
+- **Constant Patterns (предложение към 11.11.2026)** — бъдещо вложено `case Point(0, int y)` вместо `case Point(int x, int y) when x == 0`. Официалният [withdrawal announcement](https://inside.java/2026/11/11/withdraw-primitive-patterns-preview/) ги посочва като **отделна посока**, не като доставен replacement. В Java25 използвай стабилен `when` guard.
+- **Pattern declarations и deconstruction assignments (предложения)** — желаното използване на pattern извън `switch`, включително в `for`, има незавършени scope/type правила. `for (Point(int x, int y) : points)` **не е стабилен Java25 syntax**; използвай обикновен `for (Point point : points)` и accessors.
+- **Record reconstruction (предложение)** — [Brian Goetz, March 2026](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00877.html) подчертава final-state constructor invariants при промени в няколко компонента; `with` и `record.new` са evolving design, не Java25 API. [Runnable Java25 lab](RECORD-RECONSTRUCTION-INVARIANTS.md) показва защо два независими wither-а не са достатъчни.
+- **Data interfaces / carrier classes (предложения)** — публичното state shape и user-defined deconstruction биха позволили pattern matching върху типове, които не са records, но изискват ясни правила за encapsulation, invariants и compatibility. [P2 Java25 пример](DATA-INTERFACES-AND-DECONSTRUCTION.md) показва само публичен accessor interface и скрита реализация, **не** бъдещ pattern API.
+- **String Templates и type-class/user-defined arithmetic идеи** — развиващи се или оттеглени дизайни. Не ги представяме като Java25 final features; Valhalla generics/numerics могат допълнително да променят primitive-pattern посоката.
 
 ## 4. Decision contract
 
@@ -85,4 +95,8 @@ Point changed = point with { x = 1; };
 - [OpenJDK Amber](https://openjdk.org/projects/amber/) · [JEP 468](https://openjdk.org/jeps/468) · [JEP 530](https://openjdk.org/jeps/530).
 - [Oracle JDK 26 Primitive Patterns — Preview](https://docs.oracle.com/en/java/javase/26/language/primitive-types-patterns-instanceof-switch.html).
 - [Gavin Bierman/Angelos Bimpoudis, 11.11.2026 — official Amber mailing-list notice](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00923.html).
+- [Gavin Bierman — What's happening with Project Amber? (Devoxx 2026)](https://www.youtube.com/watch?v=Go76-9Q51wU), provided transcript.
+- [Devoxx 2026 official abstract](https://m.devoxx.com/events/dvbe26/talks/21655/whats-happening-with-project-amber).
+- [Brian Goetz — Derived Record Creation / Reconstruction update (March 2026)](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00877.html).
+- [Amber — Data Oriented Programming, Beyond Records](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00829.html).
 - [Data-Oriented Programming — existing executable lab](README.md).

@@ -128,6 +128,16 @@ Viktor разглежда **разработвана marshalling концепц�
 
 **Какво печелим:** technology radar без фалшива adoption инструкция. **Кога не:** не пренаписваме production код за proposal/withdrawn feature. **Цена:** периодично проследяване на release notes; **по-просто:** стабилни Java25 records/patterns и нормален interpolation/SQL parameterization.
 
+## P2/P3 — Gavin Bierman, Project Amber: reconstruction и data interfaces
+
+[What's happening with Project Amber? (Devoxx 2026)](https://www.youtube.com/watch?v=Go76-9Q51wU) показва защо pattern matching / reconstruction дизайнът трябва да запазва type invariants и encapsulation. **Разликата между предложението и стабилния Java25 код** е документирована в [Amber Future Design](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md).
+
+- **P1 изпълнимо с Java25:** [Record Reconstruction Invariants](language/data-oriented-programming/RECORD-RECONSTRUCTION-INVARIANTS.md), [Numeric Conversion Exactness](language/data-oriented-programming/NUMERIC-CONVERSION-EXACTNESS.md) и [JUnit с independent oracle](language/data-oriented-programming/src/test/java/bg/hristomanov/education/dop/amber/NumericConversionExactnessLabTest.java).
+- **P2 публичен API срещу скрита реализация:** [Data Interfaces & Deconstruction](language/data-oriented-programming/DATA-INTERFACES-AND-DECONSTRUCTION.md); не се използва preview syntax.
+- **P3 без adoption:** Constant Patterns, record reconstruction grammar, pattern declarations и data-interface patterns още са предложения към 11.11.2026; Primitive Types in Patterns preview **се премахва** от JDK28. [Официално](https://inside.java/2026/11/11/withdraw-primitive-patterns-preview/).
+
+**Кога:** когато имаш точен contract за данни и искаш по-чист дизайн. **Кога НЕ:** когато трябва да пренапишеш production код за неиздаден синтаксис. **Печалба:** type-safe immutable boundaries; **цена:** повече моделиране и compatibility review. **По-просто:** стабилен Java25 record, manual constructor/factory, явни проверки.
+
 ## 3. Неща, които НЕ дублираме
 
 - [Panama / Vector API — Java Evolution Guide](JAVA-EVOLUTION-GUIDE.md) — FFM е final от Java 22; Vector API остава в incubation. [P2 FFM+jextract](jvm/native-interoperability/README.md) вече е runnable модул от лекцията на Ana-Maria, без да изграждаме голям ONNX/GPU проект.
