@@ -74,6 +74,10 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива pattern recognition, two pointers, sliding window, prefix sums, backtracking и Dynamic Programming от state/transition fundamentals до LCS, LIS, coin change, interval DP и pseudopolynomial state spaces.
 
+### P1/P2. Constraint Optimization — отделна практическа област
+
+**[Java 25 Timefold Solver 2.8 — Constraint Optimization](../optimization/constraint-solving/README.md)** покрива `@PlanningEntity`/`@PlanningVariable`, hard/medium/soft score, impossible schedules, unassigned penalty, независим score oracle и `@PlanningPin` replanning. Това не заменя backtracking/DP; разглежда **много ограничения и големи combinatorial solution spaces**, където специализиран solver е полезен. [P2 Routing + Replanning](../optimization/constraint-solving/ROUTING-AND-REPLANNING.md) показва малък exact time-window oracle и честно обозначава `@PlanningListVariable` като все още неимплементиран executable route solver.
+
 Следващите модули ще се добавят **само когато реално стигнем до тях**, вместо предварително да създаваме празни директории.
 
 ## Как ще учим всяка тема

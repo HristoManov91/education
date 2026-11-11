@@ -227,6 +227,20 @@
 
 **Практичен checkpoint:** изпълни positive и negative build profile, провери `artifact:compare` и обясни защо независима attestation изисква нещо повече от два clean checkout-а на един runner. Няма автоматично оценяване на лично усвояване; тестовете са доказателство само за кода.
 
+## P1/P2 — Constraint Optimization (Devoxx 2026, Tom Cools / Geoffrey De Smet)
+
+**Източник:** [„You May Now Optimize the Wedding“](https://www.youtube.com/watch?v=lsvVJaigNp8), предоставен SRT. Този учебен блок има собствен [Java 25 / Timefold 2.8 runnable module](../../java/optimization/constraint-solving/README.md), не е част от DP лекцията и **не означава вече усвоено ниво**.
+
+| ID | Приоритет | Материал | Какво проверяваме |
+| --- | --- | --- | --- |
+| OPT-CSP-01 | P1 | [Assignment model + hard/medium/soft](../../java/optimization/constraint-solving/README.md) | PlanningEntity/Variable/Solution, hard feasibility, unassigned penalty, trade-offs с greedy |
+| OPT-CSP-02 | P1 | [ConstraintVerifier + independent oracle](../../java/optimization/constraint-solving/README.md#3-readme--код--доказателство) | hard mismatch/conflict, soft score, 9 exhaustive states, negative `all unassigned` |
+| OPT-CSP-03 | P2 | [Time windows / route reference](../../java/optimization/constraint-solving/ROUTING-AND-REPLANNING.md) | required vs optional visit, travel time, why `@PlanningListVariable` is different |
+| OPT-CSP-04 | P2 | [Pinned batch replanning](../../java/optimization/constraint-solving/ROUTING-AND-REPLANNING.md#3-batch-replanning-pinning-на-вече-поети-назначения) | fixed commitments, new tasks, missing option rejection, snapshot integrity |
+| OPT-CSP-05 | P2 architectural | [Spring SolverManager integration](../../java/optimization/constraint-solving/ASYNC-SPRING-INTEGRATION.md) | async job lifecycle, persistence, cancel/status, ProblemChange vs batch; **non-runnable design only** |
+
+**Practitioner checkpoint:** explain why `0hard/-1medium` is feasible but incomplete, why `0hard/-10medium/-100soft` outranks `-1hard/0medium/0soft`, what happens if `forEachIncludingUnassigned` is omitted, and why no DB calls may occur inside constraints.
+
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
 - **P1:** Distributed Systems/System Design; JVM Performance & Observability; DS&A (вече разделено на малки topics); Redis/Caching; Docker/CI; AI-assisted Engineering.
