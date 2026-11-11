@@ -20,7 +20,13 @@ jdeprscan "$BUILD/legacy" | tee "$BUILD/legacy-deprecated.txt"
 grep -Fq 'java/lang/Integer' "$BUILD/legacy-deprecated.txt"
 
 jdeprscan "$BUILD/modern" | tee "$BUILD/modern-deprecated.txt"
-test ! -s "$BUILD/modern-deprecated.txt"
+# jdeprscan prints a directory heading even if the artifact is clean.
+# Accept that header, but reject ANY actual deprecated JDK API finding.
+if grep -Eq '^class .* uses (deprecated |type .* deprecated|method .* deprecated)' \
+    "$BUILD/modern-deprecated.txt"; then
+  echo 'FAIL: the modern replacement still uses a deprecated JDK API' >&2
+  exit 1
+fi
 
 jdeps --list-deps "$BUILD/legacy" | tee "$BUILD/jdeps.txt"
 grep -Fq 'java.base' "$BUILD/jdeps.txt"
