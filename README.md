@@ -161,6 +161,9 @@ education/
 ### Java / Algorithms
 
 - [Data Structures & Algorithms — Java 25 roadmap](java/algorithms/README.md)
+- **[P1 Constraint Optimization — Timefold Solver 2.8 (Java 25)](java/optimization/constraint-solving/README.md)**: hard/medium/soft, `@PlanningEntity`, AssignmentOption, JUnit `ConstraintVerifier`, independent score oracle
+  - [P2 Routing & Replanning](java/optimization/constraint-solving/ROUTING-AND-REPLANNING.md): time windows reference search, `@PlanningPin`, pinned batch replanning
+  - [P2 Spring Async SolverManager — architecture (non-runnable note)](java/optimization/constraint-solving/ASYNC-SPRING-INTEGRATION.md)
   - [01. Algorithmic Thinking & Complexity](java/algorithms/01-algorithmic-thinking-complexity/README.md)
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)

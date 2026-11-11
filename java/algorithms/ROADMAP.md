@@ -254,6 +254,13 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - encoded input size vs numeric value;
 - state-space feasibility and memory reduction.
 
+## 9. Constraint Optimization (P1/P2 separate module)
+
+- [**P1 Timefold Solver 2.8, Java25 executable**](../optimization/constraint-solving/README.md): `@PlanningEntity`, `@PlanningVariable`, hard/medium/soft score, `ConstraintVerifier`, explicit unassigned penalty, pinned entity, independent oracle.
+- [**P2 Routing & Replanning**](../optimization/constraint-solving/ROUTING-AND-REPLANNING.md): exhaustive tiny routing reference with time windows, `@PlanningPin` batch snapshot; Timefold `@PlanningListVariable` is described but not implemented as executable route solver.
+- Alternative skills: greedy, exhaustive backtracking for small cases, DP if optimal substructure exists, MILP/CP-SAT for different constraint structures.
+- **Decision:** not every algorithmic problem needs a constraint solver; benchmark meaningful dataset, validate hard constraints and unassigned work.
+
 ## Финална цел
 
 ```text

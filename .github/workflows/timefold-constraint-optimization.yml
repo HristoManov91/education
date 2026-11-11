@@ -1,0 +1,45 @@
+name: Timefold Constraint Optimization Lab
+
+on:
+  pull_request:
+    paths:
+      - 'java/optimization/constraint-solving/**'
+      - 'pom.xml'
+      - '.github/workflows/timefold-constraint-optimization.yml'
+  workflow_dispatch:
+
+jobs:
+  timefold-java25:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: JDK 25 LTS
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Run all solver, constraint, oracle and routing JUnit tests
+        run: |
+          mvn --batch-mode --no-transfer-progress \
+            -pl java/optimization/constraint-solving -am verify
+
+      - name: Run actual bounded Timefold CLI and assert oracle/feasibility
+        run: |
+          mvn --batch-mode --no-transfer-progress \
+            -pl java/optimization/constraint-solving \
+            org.codehaus.mojo:exec-maven-plugin:3.6.4:java \
+            -Dexec.mainClass=bg.hristomanov.education.optimization.solver.ScheduleDemoMain \
+            | tee "$RUNNER_TEMP/timefold-demo.txt"
+          grep -Fq 'FEASIBLE=true' "$RUNNER_TEMP/timefold-demo.txt"
+          grep -Fq 'ORACLE_MATCHES=true' "$RUNNER_TEMP/timefold-demo.txt"
+          grep -Fq 'GATE-CHECK=' "$RUNNER_TEMP/timefold-demo.txt"
+          grep -Fq 'SENSOR-MAINT=' "$RUNNER_TEMP/timefold-demo.txt"
+          grep -Fq 'RAMP-CHECK=' "$RUNNER_TEMP/timefold-demo.txt"
+
+# Correctness assertions only: no universal optimality/ns/op guarantees.

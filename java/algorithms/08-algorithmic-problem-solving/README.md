@@ -980,6 +980,14 @@ state = exact target amount
 
 ---
 
+# P1 връзка — кога DP/backtracking отстъпва на Constraint Solver
+
+Тук изучаваме ръчно построени алгоритми, за да разбираме search space, base cases и complexity. При много взаимозависими задачи (десетки служители, времеви прозорци и ограничения) exhaustive backtracking расте рязко, а greedy може да наруши hard правила. [**Timefold 2.8 Constraint Optimization lab**](../../optimization/constraint-solving/README.md) надгражда тези базови принципи с planning variables и incremental hard/medium/soft score. Java25 кодът и JUnit oracle остават обясними: няма магически гарантиран optimum, а проверка на invariants, ограничения и най-доброто намерено решение.
+
+**Кога НЕ:** ако имаме trivial sorting, проста SQL заявка или DP с малък state space, solver добавя dependency/CPU/оперативна сложност без необходимост.
+
+---
+
 # 34. Практичен checklist
 
 ```text
