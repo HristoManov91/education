@@ -26,7 +26,7 @@ class TaskScheduleSolverTest {
                 .solve(ScheduleDemoData.create());
         assertNotNull(solved.getScore());
         assertTrue(TaskScheduleSolver.isFeasible(solved));
-        assertEquals(0, solved.getScore().getMediumScore());
+        assertEquals(0, solved.getScore().mediumScore());
         assertEquals(3, solved.getTasks().stream()
                 .filter(t -> t.getAssignment() != null).count());
         assertEquals(IndependentScoreOracle.calculate(solved), solved.getScore());
@@ -53,7 +53,7 @@ class TaskScheduleSolverTest {
                 .filter(t -> t.getId().equals("NEW")).findFirst().orElseThrow();
         assertEquals(option, pinned.getAssignment());
         assertEquals(null, other.getAssignment());
-        assertTrue(solution.getScore().getMediumScore() < 0);
+        assertTrue(solution.getScore().mediumScore() < 0);
         assertEquals(IndependentScoreOracle.calculate(solution), solution.getScore());
     }
 

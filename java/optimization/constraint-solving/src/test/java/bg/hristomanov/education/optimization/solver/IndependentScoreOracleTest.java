@@ -1,6 +1,6 @@
 package bg.hristomanov.education.optimization.solver;
 
-import ai.timefold.solver.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
+import ai.timefold.solver.core.api.score.HardMediumSoftScore;
 import ai.timefold.solver.core.api.score.stream.test.ConstraintVerifier;
 import bg.hristomanov.education.optimization.model.AssignmentOption;
 import bg.hristomanov.education.optimization.model.Employee;
@@ -72,6 +72,6 @@ class IndependentScoreOracleTest {
         }
         // Only one task may be assigned, the lower-priority one is omitted.
         assertEquals(HardMediumSoftScore.of(0, -3, 0), best);
-        assertTrue(best.getHardScore() == 0 && best.getMediumScore() < 0);
+        assertTrue(best.hardScore() == 0 && best.mediumScore() < 0);
     }
 }

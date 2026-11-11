@@ -1,6 +1,6 @@
 package bg.hristomanov.education.optimization.solver;
 
-import ai.timefold.solver.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
+import ai.timefold.solver.core.api.score.HardMediumSoftScore;
 import bg.hristomanov.education.optimization.model.AssignmentOption;
 import bg.hristomanov.education.optimization.model.TaskSchedule;
 import bg.hristomanov.education.optimization.model.WorkTask;

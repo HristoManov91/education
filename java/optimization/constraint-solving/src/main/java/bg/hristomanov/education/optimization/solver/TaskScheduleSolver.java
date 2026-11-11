@@ -1,6 +1,6 @@
 package bg.hristomanov.education.optimization.solver;
 
-import ai.timefold.solver.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
+import ai.timefold.solver.core.api.score.HardMediumSoftScore;
 import ai.timefold.solver.core.api.solver.Solver;
 import ai.timefold.solver.core.api.solver.SolverFactory;
 import ai.timefold.solver.core.config.solver.SolverConfig;
@@ -42,7 +42,7 @@ public final class TaskScheduleSolver {
     /** Distinguish an initialized plan from a plan respecting all HARD rules. */
     public static boolean isFeasible(TaskSchedule solution) {
         HardMediumSoftScore score = Objects.requireNonNull(solution.getScore(), "score");
-        return score.getHardScore() == 0 && score.isSolutionInitialized();
+        return score.hardScore() == 0;
     }
 
     public SolverFactory<TaskSchedule> getFactory() {
