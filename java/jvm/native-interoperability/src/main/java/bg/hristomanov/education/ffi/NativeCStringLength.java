@@ -9,14 +9,20 @@ import java.lang.foreign.SymbolLookup;
 import java.lang.foreign.ValueLayout;
 import java.lang.invoke.MethodHandle;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Calls the platform C library's strlen(const char*) through a downcall handle.
+ * Calls platform C strlen(const char*) through a cached FFM downcall handle.
  *
- * <p>Educational example for 64-bit native ABIs. An incorrect FunctionDescriptor
- * can crash the process, so ABI constraints are checked before linking.
+ * <p>Links lazily on the first valid operation: a missing symbol/unsupported
+ * ABI does not make class initialization fail. Never invent a C ABI signature;
+ * invalid descriptors can cause memory corruption or crash the JVM.
  */
 public final class NativeCStringLength {
+
+    private static final Object LINK_MONITOR = new Object();
+    private static volatile MethodHandle cachedStrlen;
+    private static final AtomicInteger SUCCESSFUL_LINKS = new AtomicInteger();
 
     private NativeCStringLength() {
     }
@@ -28,27 +34,66 @@ public final class NativeCStringLength {
                 && linker.defaultLookup().find("strlen").isPresent();
     }
 
+    /**
+     * Preferred production-style path: validate on every call but link the
+     * native function at most once per classloader.
+     */
     public static long utf8Length(String text) {
+        validateText(text);
+        return invokeStrlen(linkedStrlen(), text);
+    }
+
+    /**
+     * Educational control: same business operation but the historical
+     * per-invocation linker path. Avoid in normal application code.
+     */
+    public static long utf8LengthWithoutCacheForComparison(String text) {
+        validateText(text);
+        return invokeStrlen(createStrlenHandle(), text);
+    }
+
+    private static void validateText(String text) {
         Objects.requireNonNull(text, "text");
-        // C strlen stops at the first NUL, unlike Java String.length().
-        // Reject embedded NUL to avoid a silent semantic truncation.
         if (text.indexOf('\0') >= 0) {
+            // Native strlen stops at NUL; rejecting it preserves the contract.
             throw new IllegalArgumentException("Embedded NUL cannot be encoded as a C string");
         }
+    }
 
+    private static MethodHandle linkedStrlen() {
+        MethodHandle handle = cachedStrlen;
+        if (handle != null) {
+            return handle;
+        }
+        synchronized (LINK_MONITOR) {
+            handle = cachedStrlen;
+            if (handle == null) {
+                // Assignment only AFTER successful ABI checking / linking.
+                handle = createStrlenHandle();
+                cachedStrlen = handle;
+                SUCCESSFUL_LINKS.incrementAndGet();
+            }
+        }
+        return handle;
+    }
+
+    private static MethodHandle createStrlenHandle() {
         Linker linker = Linker.nativeLinker();
         MemoryLayout sizeT = linker.canonicalLayouts().get("size_t");
         if (!(sizeT instanceof ValueLayout.OfLong canonicalSizeT)) {
             throw new UnsupportedOperationException("Only 64-bit C size_t is demonstrated");
         }
+
         SymbolLookup lookup = linker.defaultLookup();
         MemorySegment symbol = lookup.find("strlen")
                 .orElseThrow(() -> new UnsupportedOperationException("C strlen symbol unavailable"));
 
-        // On a supported 64-bit ABI: size_t strlen(const char *value).
-        MethodHandle strlen = linker.downcallHandle(symbol,
+        // Validate the ABI against an explicitly supported platform shape.
+        return linker.downcallHandle(symbol,
                 FunctionDescriptor.of(canonicalSizeT, ValueLayout.ADDRESS));
+    }
 
+    private static long invokeStrlen(MethodHandle strlen, String text) {
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment cString = arena.allocateFrom(text);
             try {
@@ -59,5 +104,13 @@ public final class NativeCStringLength {
                 throw new IllegalStateException("Native strlen downcall failed", throwable);
             }
         }
+    }
+
+    /**
+     * Package-local observable contract for the JUnit concurrency test;
+     * intentionally does not expose a privileged native MethodHandle.
+     */
+    static int successfulCachedLinksForTesting() {
+        return SUCCESSFUL_LINKS.get();
     }
 }

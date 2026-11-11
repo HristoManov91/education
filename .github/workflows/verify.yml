@@ -52,3 +52,8 @@ jobs:
           grep -Fq 'MapCopyAndRecordHashBenchmark.defaultRecordHash' "$RUNNER_TEMP/jmh-benchmarks.txt"
           grep -Fq 'SubwordLoopsBenchmark.narrowInts' "$RUNNER_TEMP/jmh-benchmarks.txt"
           grep -Fq 'ConfinedArenaPoolBenchmark.confinedArenaAllocateWriteRead' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'MethodDispatchBenchmark.direct' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'MethodDispatchBenchmark.cachedReflection' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'MethodDispatchBenchmark.cachedMethodHandle' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'FfmLinkageBenchmark.cachedStrlen' "$RUNNER_TEMP/jmh-benchmarks.txt"
+          grep -Fq 'FfmLinkageBenchmark.relinkStrlenEveryCall' "$RUNNER_TEMP/jmh-benchmarks.txt"

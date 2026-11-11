@@ -14,6 +14,8 @@ JMH е benchmark harness (контролирано изпълнение на mic
 | Fresh vs reused mutable event, GC allocations/op | [AllocationReuseBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/AllocationReuseBenchmark.java) | [MutableEventTest.java](../performance-evolution/src/test/java/bg/hristomanov/education/performance/runtime/MutableEventTest.java) |
 | Dot product scalar/ILP4/FMA срещу Vector API върху идентични данни | [DotProductBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/DotProductBenchmark.java) | [DotProductsTest.java](../vector-api/src/test/java/bg/hristomanov/education/vector/DotProductsTest.java) |
 | Annotation processing + executable JAR | [pom.xml](pom.xml) | JMH generated benchmark list |
+| Reflection/MethodHandles (link vs execute) | [MethodDispatchBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/MethodDispatchBenchmark.java) | [Method Handles Java25/JUnit](../method-handles/README.md) |
+| FFM native strlen cached vs repeated linkage | [FfmLinkageBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/FfmLinkageBenchmark.java) | [NativeCStringLengthTest.java](../native-interoperability/src/test/java/bg/hristomanov/education/ffi/NativeCStringLengthTest.java) |
 
 ## Стартиране от repository root
 
@@ -62,6 +64,30 @@ mvn -pl java/jvm/performance-evolution-benchmarks -am -DskipTests package
 
 Не сравнявай различни method names като еднотипни операции. Няма фиксиран performance threshold в CI, JMH не доказва наличието на конкретни SIMD инструкции.
 
+
+## Devoxx 2026 · Method Handles / Reflection / FFM linkage (ново P1/P2)
+
+**Входен проблем:** една и съща typed operation изпълнява много заявки. Предварителната подготовка може да се измерва отделно от самата invocation. Не правим нов benchmark Maven module.
+
+```bash
+mvn -pl java/jvm/performance-evolution-benchmarks -am -DskipTests package
+
+# Direct / cached Method.invoke / cached MethodHandle / new lookup-per-call.
+java --add-modules jdk.incubator.vector \
+  -jar java/jvm/performance-evolution-benchmarks/target/benchmarks.jar \
+  MethodDispatchBenchmark -wi 3 -i 5 -f 2 -prof gc
+
+# Only on a platform with supported 64-bit C strlen ABI (native access opt-in):
+java --enable-native-access=ALL-UNNAMED --add-modules jdk.incubator.vector \
+  -jar java/jvm/performance-evolution-benchmarks/target/benchmarks.jar \
+  FfmLinkageBenchmark -wi 3 -i 5 -f 2 -prof gc
+```
+
+- [MethodDispatchBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/MethodDispatchBenchmark.java): една и съща `Point.translate` операция. Методите не са взаимозаменяеми за **exception wrapping**, затова correctness договорът е в [JUnit](../method-handles/src/test/java/bg/hristomanov/education/handles/HandleInvocationLabTest.java). JEP 416 (Java 18) означава, че Core Reflection вече използва MH — не обещаваме универсално по-ниски ns/op за всяка комбинация.
+- [FfmLinkageBenchmark.java](src/main/java/bg/hristomanov/education/performance/benchmarks/FfmLinkageBenchmark.java): еднакъв `strlen` workload, но разходът за native symbol/ABI linking присъства само при uncached variant. И двата варианта създават и затварят `Arena.ofConfined()` на всяка операция. Няма JMH assertion за скорост.
+- **Benchmark correctness:** JVM build, CPU/ABI, GC, warmup, forks, компилаторни optimizations и `-prof gc` трябва да бъдат документирани. Външен HTTP/Spring workload, а не microbenchmark, доказва effect on p99. Виж [Benchmark Correctness](../performance-evolution/BENCHMARK-CORRECTNESS.md).
+
+**Източници:** [оригинална Devoxx лекция](https://www.youtube.com/watch?v=4ck-T2gaMQ4) · [JEP 416](https://openjdk.org/jeps/416) · [JMH](https://github.com/openjdk/jmh).
 
 ## Източници
 

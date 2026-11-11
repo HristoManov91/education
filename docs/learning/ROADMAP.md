@@ -69,6 +69,7 @@
 | JAVA-JVM-05 | [Java Agents, Byte Buddy и OTel](../../java/jvm/java-agent-instrumentation/README.md) | premain, bytecode proof, business invariants и overhead |
 | JAVA-JVM-06 | [JDK26/27 GC upgrade](../../java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) | defaults, JEP522 write barriers, checksum + flags + GC logs |
 | JAVA-JVM-07 | [Map](../../java/algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) / [C2](../../java/jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) / [FFM](../../java/jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) / [Loom](../../java/concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md) | Java25 functional proof и JMH без фиксирани performance твърдения |
+| JAVA-JVM-08 | **P1** [Method Handles / Reflection / native linkage](../../java/jvm/method-handles/README.md) + [P2 marshalling prototype](../../java/jvm/method-handles/MARSHALLING-PROTOTYPE.md) | Lookup/MethodType, invokeExact return type, capability security, JEP416, StringConcatFactory, FFM link-once, allowlisted V1/V2 и JMH |
 
 **Комбинирани тестове:** JAVA-FND (след FND-05), JAVA-OOP/EXC, JAVA-COL (след COL-04/08), JAVA-GEN/STM, JAVA-CON (след CON-04/06), JAVA-JVM. Финален: Java Core troubleshooting + explanation challenge.
 

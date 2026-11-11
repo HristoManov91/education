@@ -15,6 +15,8 @@
 | **P2 Amber roadmap** | [Proposed withers/carrier classes and primitive patterns](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | Stable manual record reconstruction in Java 25; proposals are NOT compilable |
 | **P3 Babylon/Detroit** | [Java Next Tech Radar](JAVA-NEXT-TECH-RADAR.md) | Watch only; no new production API |
 | **P2 Java 25 native interop** | [FFM API & jextract hands-on](jvm/native-interoperability/README.md) | FFM final since Java 22; Java 25 native downcall + JUnit; jextract is separately installed and optional |
+| **P1 Method Handles, Core Reflection, CallSites** | [Java 25 executable lab](jvm/method-handles/README.md) | Lookup, invokeExact, combinators, reflection differences, StringConcatFactory, ABI link-once + JUnit/JMH |
+| **P2 marshalling exploration** | [Explicit versioned Point schema prototype](jvm/method-handles/MARSHALLING-PROTOTYPE.md) | User-allowlisted V1/V2 format; NOT a finalized JDK marshalling API |
 | **P1 Stream Gatherers** | [Gatherers](streams/stream-gatherers/README.md) | Five built-ins + custom stateful Gatherer |
 | **P1 JVM performance** | [Project Leyden + Compact Object Headers](jvm/performance-evolution/README.md) | Synthetic workload, JDK 25 AOT training/compare, object-header opt-in |
 | **P2 Leyden JDK 28** | [JEP 544 AOT code compilation](jvm/performance-evolution/LEYDEN-JDK28-AOT-CODE.md) | JDK 28 EA manual experiment only; JDK 25 AOT cache unchanged |

@@ -150,6 +150,10 @@ Observed symptom → baseline recording/metrics
 
 Добавеният [Java 27 JFR data redaction note](../jfr-troubleshooting/JDK-27-JFR-REDACTION.md) описва как recording може да скрие чувствителни JVM arguments/system property values, но не гарантира, че всички custom events са автоматично safe.
 
+## P1 · Method Handles като HotSpot linkage primitive (Devoxx 2026)
+
+[**Java Method Handles: Reflection → FFM, Link Once Execute Many**](../method-handles/README.md) е **собствен Java25 Maven/JUnit модул**, защото предишният FFM курс използваше `invokeExact`, но не обясняваше `Lookup`/`MethodType`, access capabilities, JEP 416 или `StringConcatFactory`. [Source+negative tests](../method-handles/src/test/java/bg/hristomanov/education/handles/HandleInvocationLabTest.java) и [съществуващ JMH harness](../performance-evolution-benchmarks/README.md) сравняват direct/Reflection/MH, разделят linkage и execution. Компилаторният `invokedynamic` за `String +` се инспектира с `javap -v`. Няма автоматично вярно „MethodHandle винаги е по-бърз“: от JDK18 Reflection вече е реализиран върху handles и резултатът зависи от JIT shape.
+
 ## P1 · Big Runtimes Make Efficient Programs — Ron Pressler, Devoxx 2026
 
 - **[The Cost of Abstraction: JIT, GC и efficient Java programs](BIG-RUNTIMES-JIT-ABSTRACTIONS.md)** — практически урок за HotSpot profiling, speculative inlining, deoptimization и allocation vs reuse, с JUnit, отделен [JMH module](../performance-evolution-benchmarks/README.md) и Spring Boot/JFR workload.
