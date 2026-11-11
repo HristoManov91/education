@@ -14,6 +14,7 @@
 
     <modules>
         <module>java/algorithms</module>
+        <module>java/optimization/constraint-solving</module>
         <module>java/language/data-oriented-programming</module>
         <module>java/streams/stream-gatherers</module>
         <module>java/collections/sequenced-collections</module>
