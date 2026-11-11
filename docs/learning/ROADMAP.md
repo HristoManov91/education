@@ -70,6 +70,9 @@
 | JAVA-JVM-06 | [JDK26/27 GC upgrade](../../java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) | defaults, JEP522 write barriers, checksum + flags + GC logs |
 | JAVA-JVM-07 | [Map](../../java/algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) / [C2](../../java/jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) / [FFM](../../java/jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) / [Loom](../../java/concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md) | Java25 functional proof и JMH без фиксирани performance твърдения |
 | JAVA-JVM-08 | **P1** [Method Handles / Reflection / native linkage](../../java/jvm/method-handles/README.md) + [P2 marshalling prototype](../../java/jvm/method-handles/MARSHALLING-PROTOTYPE.md) | Lookup/MethodType, invokeExact return type, capability security, JEP416, StringConcatFactory, FFM link-once, allowlisted V1/V2 и JMH |
+| JAVA-JVM-09 | **P1** [JPMS: modules / exports / opens](../../java/jvm/jpms-encapsulation/README.md) | real module-path, allowed framework reflection, forbidden Java consumer access, explicit --add-opens |
+| JAVA-JVM-10 | **P1** [Safe JDK upgrade: jdeprscan / jdeps](../../java/jvm/jdk-upgrade-tooling/README.md) | deprecated vs for-removal, compiled bytecode analysis, old vs new API parity |
+| JAVA-JVM-11 | **P2** [JDK28 EA adaptive ZGC](../../java/jvm/performance-evolution/JDK28-ZGC-ADAPTIVE-HEAP.md) | manual JVM flag probe, no Java25 dependency, unchanged checksum, representative metrics |
 
 **Комбинирани тестове:** JAVA-FND (след FND-05), JAVA-OOP/EXC, JAVA-COL (след COL-04/08), JAVA-GEN/STM, JAVA-CON (след CON-04/06), JAVA-JVM. Финален: Java Core troubleshooting + explanation challenge.
 
@@ -240,6 +243,19 @@
 | OPT-CSP-05 | P2 architectural | [Spring SolverManager integration](../../java/optimization/constraint-solving/ASYNC-SPRING-INTEGRATION.md) | async job lifecycle, persistence, cancel/status, ProblemChange vs batch; **non-runnable design only** |
 
 **Practitioner checkpoint:** explain why `0hard/-1medium` is feasible but incomplete, why `0hard/-10medium/-100soft` outranks `-1hard/0medium/0soft`, what happens if `forEachIncludingUnassigned` is omitted, and why no DB calls may occur inside constraints.
+
+## P1/P2 — Ask the Architects (Devoxx 2026)
+
+Източник: [панелът Ask the Architects](https://www.youtube.com/watch?v=ewCPBgOrLAE) и предоставеният SRT. **Не е нов общ Java курс**, а отделни проверими допълнения с актуални API/status бележки към 11.11.2026.
+
+| ID | Приоритет | Материал | Проверяваме |
+| --- | --- | --- | --- |
+| JAVA-ARCH-01 | P1 | [Virtual Threads schedulers и Netty event loops](../../java/concurrency/project-loom/CUSTOM-SCHEDULERS-AND-EVENT-LOOPS.md) | 2 resource caps, virtual tasks и защо няма Java25 custom scheduler API |
+| JAVA-ARCH-02 | P1 | [Modern Java agent review](../../ai/agentic-development/MODERN-JAVA-REVIEW-CONTRACT.md) | record vs class, permissions, tests, no fake perf |
+| JAVA-ARCH-03 | P2 | [FFM String / native copy](../../java/jvm/native-interoperability/STRING-NATIVE-COPY-BOUNDARY.md) | UTF-16/UTF-8, NUL, native lifetime, independent copy |
+| JAVA-ARCH-04 | P3 | [Primitive patterns withdrawal / String Templates](../../java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | JDK25–27 preview vs removal in JDK28, proposed syntax not runnable |
+
+**Изходна проверка:** отличи сигурен от предположен JVM behavior, soft workaround от root cause и feature от preview/proposal. Лабораториите доказват само декларираните contracts, не throughput/p99.
 
 ## P1 и P2 — след P0 основата, без да ги забравяме
 

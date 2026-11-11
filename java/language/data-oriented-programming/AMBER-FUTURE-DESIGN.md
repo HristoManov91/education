@@ -21,12 +21,15 @@
 
 ## 1. Primitive patterns: точна/lossless conversion
 
-[JEP 530](https://openjdk.org/jeps/530) е **четвърти preview в JDK 26**; JDK 27 продължава preview еволюцията. В лекцията Nicolai показва `int x = 16_777_217` и проверка `x instanceof float f`. Това не е lossless conversion, защото стойността не може да бъде точно представена в `float`.
+> **Важно обновление — 11.11.2026:** [Gavin Bierman и Angelos Bimpoudis обявяват](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00923.html), че preview функционалността **Primitive Types in Patterns, instanceof, and switch** няма да продължи: 6th-preview draft е withdrawn, а feature ще бъде премахната от **JDK 28**, дори с `--enable-preview`. JDK23/24/25/26/27 previews са исторически достъпни *само на съответните JDK версии*. Не препоръчваме adoption, migration към този syntax или JDK28 code samples с primitive patterns.
+
+
+[JEP 530](https://openjdk.org/jeps/530) е **четвърти preview в JDK 26**; JDK 27 има пети preview ([JEP 532](https://openjdk.org/jeps/532)). **Тази lineage вече НЕ води към JDK28 preview или окончателен API.** В лекцията Nicolai показва `int x = 16_777_217` и проверка `x instanceof float f`. Това не е lossless conversion, защото стойността не може да бъде точно представена в `float`.
 
 **Идея, НЕ Java 25 snippet:**
 
 ~~~java
-// JDK 26+ preview, не Java 25:
+// Исторически JDK 26/27 preview, НЕ е валидно за JDK 28:
 int number = 16_777_217;
 if (number instanceof float exactValue) {
     // Този branch не се изпълнява за тази стойност.
@@ -63,7 +66,7 @@ Point changed = point with { x = 1; };
 | Техника | Решава | Кога | Кога НЕ | Печалба ↔ цена |
 | --- | --- | --- | --- | --- |
 | Stable Java 25 records + manual withers | Immutable state updates с invariants | Сега, production | Бизнес update изисква aggregate command, не snapshot | Ясно поведение ↔ повторение на код |
-| Primitive patterns preview | Safe primitive matching | Експеримент в съответната JDK версия | Java 25 production | Изразителност ↔ preview maintenance |
+| Primitive patterns preview **withdrawn for JDK28** | Safe primitive matching (historical JDK23–27 preview only) | Анализ на стар preview код, не нов adoption | Java25 production и **всякакъв JDK28 build** | Изразителност ↔ feature е изтеглена; използвай explicit conversion checks |
 | Derived record creation proposal | Boilerplate при реконструкция | Да се следи като roadmap | Да се копира syntax в production | Кратък код ↔ недоставена спецификация |
 | Carrier/deconstructible classes proposal | Explicit data shape за някои non-record класове | Design research / Tech Radar | За backend service с капсулирани side effects | По-богато pattern matching ↔ неизвестни семантични граници |
 
@@ -81,4 +84,5 @@ Point changed = point with { x = 1; };
 - [Devoxx Java Next](https://www.youtube.com/watch?v=ufhs9THbYZI) · [слайдове на автора](https://slides.nipafx.dev/java-next/2026-10-02-jcp/).
 - [OpenJDK Amber](https://openjdk.org/projects/amber/) · [JEP 468](https://openjdk.org/jeps/468) · [JEP 530](https://openjdk.org/jeps/530).
 - [Oracle JDK 26 Primitive Patterns — Preview](https://docs.oracle.com/en/java/javase/26/language/primitive-types-patterns-instanceof-switch.html).
+- [Gavin Bierman/Angelos Bimpoudis, 11.11.2026 — official Amber mailing-list notice](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00923.html).
 - [Data-Oriented Programming — existing executable lab](README.md).

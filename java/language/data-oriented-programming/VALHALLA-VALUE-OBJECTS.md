@@ -104,6 +104,9 @@ mvn -pl java/language/data-oriented-programming test
 
 ## 7. Performance: защо flattening НЕ е гарантирано
 
+**Допълнение от [Ask the Architects, ~41–44 мин](https://www.youtube.com/watch?v=ewCPBgOrLAE?t=2460):** за даден `value class` реалното разположение в heap и scalarization/flattening са **HotSpot implementation choices**, не Java spec гаранции и не задължително видими през публично преносимо API. Архитектите споменават JVM-specific debug flags, но **не обявяват нов стандартизиран layout inspector**. Използвай JFR/JOL (с ясни ограничения) и VM diagnostics за конкретен build; не градѝ бизнес correctness или serialized binary format върху наблюдаван layout.
+
+
 [29:30–35:20 от лекцията](https://youtu.be/ufhs9THbYZI?t=1770) прави най-важното разграничение. **Value semantics** дава възможност на JVM да представя данни по-компактно, но не гарантира **flattening** (съхранение на полетата директно вместо чрез reference). Има ограничения за nullable references, atomicity (атомарност на обновяването), indirection, arrays, boxing/erasure и static type visibility.
 
 Дори с `value record Complex(double real, double imaginary)`:

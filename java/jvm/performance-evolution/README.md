@@ -131,6 +131,10 @@ Java 25/26/27 включват GC и runtime оптимизации, които 
 
 **Vector API / FFM:** могат да бъдат по-полезни от GC tuning за data-heavy или native interaction workflows. Не ги внедрявай без профилиран hotspot и compatibility review.
 
+## P2 · JDK 28 EA ZGC Adaptive Heap Sizing (JEP 546)
+
+[**JEP 546 version note + opt-in comparison script**](JDK28-ZGC-ADAPTIVE-HEAP.md) по [Ask the Architects, ~47–50 мин](https://www.youtube.com/watch?v=ewCPBgOrLAE?t=2820). `-XX:+ZAdaptiveHeapSizing` е **JDK28 EA и изключен по подразбиране**; Java25 baseline не е променен. Manual script сравнява флага ON/OFF в **един и същ** Java28 EA build и проверява само business checksum; RSS, CPU/p99 и memory contention се измерват **отделно**. Не твърдим automatic ZGC default или измерен speedup.
+
 ## 5. Как използваме JFR
 
 [Съществуващият JFR модул](../jfr-troubleshooting/README.md) показва:

@@ -169,6 +169,10 @@ java --enable-native-access=ALL-UNNAMED \
 
 **Изход:** вече знаем как да прекосим Java/native boundary с FFM, какво точно пази MemorySegment/Arena, кога генераторът jextract е полезен и защо Babylon/ONNX code transformation е друга, по-незряла архитектурна тема.
 
+## P2 · Ask the Architects: `String` и zero-copy native boundary
+
+[**String → native UTF-8 memory is an explicit copy, not a raw pointer to String internals**](STRING-NATIVE-COPY-BOUNDARY.md), по [Devoxx Ask the Architects](https://www.youtube.com/watch?v=ewCPBgOrLAE?t=1740), ~29–36 мин. [Runnable Java25 source](src/main/java/bg/hristomanov/education/ffi/StringCopyBoundaryLab.java) + [4 JUnit negative/positive tests](src/test/java/bg/hristomanov/education/ffi/StringCopyBoundaryLabTest.java) за UTF-16/UTF-8, NUL, independence from `String`, native lifetime. Старият `NativeCStringLength` ABI/downcall и jextract материал остават без дублиране.
+
 ## P2 · JDK28 EA confined arena pooling
 
 [FFM допълнение за 64-byte lazy native pools](JDK28-CONFINED-ARENA-POOLS.md) не променя Java25 API. [Arena test code](src/main/java/bg/hristomanov/education/ffi/ConfinedArenaAllocationLab.java), [JUnit zero-init/after-close](src/test/java/bg/hristomanov/education/ffi/ConfinedArenaAllocationLabTest.java) и [optional JDK28 EA JMH](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/ConfinedArenaPoolBenchmark.java). Не замества lifetime/ownership правилата и не обещава universal speedup.

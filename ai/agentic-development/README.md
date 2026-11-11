@@ -668,6 +668,12 @@ Complexity има цена:
 
 ---
 
+# P1 · Modern Java Code Review Contract (Ask the Architects, Devoxx 2026)
+
+[**Нов contract за agent-generated Java 25 code**](MODERN-JAVA-REVIEW-CONTRACT.md) е практическа адаптация по дискусията [Ask the Architects](https://www.youtube.com/watch?v=ewCPBgOrLAE?t=1050), ~18–28 мин: type modeling, API/encapsulation, deprecated JDK calls, executor resource limits, FFM ownership и независими acceptance tests. Има преки връзки към **реално работещи Java25 labs** за JPMS, upgrade tooling, Loom и FFM; не сме добавили глобални agent permissions или нови vendor instructions.
+
+---
+
 # Practical checklist за нов project
 
 ```text
