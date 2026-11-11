@@ -130,11 +130,17 @@ education/
 
 ### Java / Concurrency
 
+- **[P1 Virtual Threads: custom schedulers, Netty boundaries и resource bulkheads](java/concurrency/project-loom/CUSTOM-SCHEDULERS-AND-EVENT-LOOPS.md)** — [Java25 JUnit](java/concurrency/project-loom/loom-labs/src/test/java/bg/hristomanov/education/loom/labs/limit/ResourceBulkheadsOnVirtualThreadsTest.java); без нестабилни custom scheduler API
+
 - [Project Loom — Virtual Threads, Structured Concurrency и Scoped Values](java/concurrency/project-loom/README.md)
   - [P2 JDK26 Virtual Threads и class initializer wait](java/concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md)
   - [Допълнителни Virtual Threads labs — custom Joiner, context, load и observability](java/concurrency/project-loom/VIRTUAL-THREADS-LABS.md)
 
 ### Java / JVM
+
+- **[P1 JPMS и strong encapsulation — `exports`, `opens`, module path](java/jvm/jpms-encapsulation/README.md)** — 3 реални Java25 named modules, negative javac + runtime reflection denial
+- **[P1 Java upgrade — `jdeprscan`/`jdeps` и deprecated API](java/jvm/jdk-upgrade-tooling/README.md)** — negative compiler/bytecode tests
+- **[P2 JDK28 EA ZGC Adaptive Heap Sizing (JEP 546)](java/jvm/performance-evolution/JDK28-ZGC-ADAPTIVE-HEAP.md)** — manual opt-in сравнение, без измислен benchmark
 
 - [**P1 Method Handles: Reflection → FFM, Lookup, MethodType, invokeExact, CallSite и security**](java/jvm/method-handles/README.md) — Java 25 tests, bytecode inspection и cross-links към [JMH](java/jvm/performance-evolution-benchmarks/README.md)
   - [P2 експериментален marshalling модел: кеширани record accessors, allowlist и schema V1/V2](java/jvm/method-handles/MARSHALLING-PROTOTYPE.md)
@@ -148,6 +154,7 @@ education/
 - [P2 Java Native Interoperability — FFM API, Arena/MemorySegment, C downcalls, JUnit and optional jextract](java/jvm/native-interoperability/README.md)
   - [P2 JDK28 EA confined Arena pools — safety + benchmark](java/jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md)
   - [jextract — optional self-built C header → Java binding lab](java/jvm/native-interoperability/JEXTRACT-LAB.md)
+  - [P2 `String` → native UTF-8: защо mutable zero-copy API е опасен](java/jvm/native-interoperability/STRING-NATIVE-COPY-BOUNDARY.md)
 - [JDK Flight Recorder — production profiling и troubleshooting](java/jvm/jfr-troubleshooting/README.md)
   - [P1 IntelliJ IDEA Logpoints / Stream Debugger / AI debugging safety playbook](java/jvm/jfr-troubleshooting/INTELLIJ-DEBUGGER-PLAYBOOK.md)
 
@@ -225,6 +232,8 @@ education/
 - [Semantic Caching — exact vs semantic cache, thresholds и context isolation](spring/ai/semantic-caching/README.md)
 
 ### AI / Agentic Development
+
+- **[P1 Modern Java 25 Code Review Contract за coding agents](ai/agentic-development/MODERN-JAVA-REVIEW-CONTRACT.md)** — semantics, security, tools, независими тестове и compatibility
 
 - [AI-assisted development — instructions, skills, planning, agents и orchestration](ai/agentic-development/README.md)
   - [Project setup guide — от празен repository до организирана AI работа](ai/agentic-development/PROJECT-SETUP-GUIDE.md)

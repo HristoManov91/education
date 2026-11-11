@@ -119,6 +119,15 @@ Viktor разглежда **разработвана marshalling концепц�
 
 **Decision contract:** използвай Method Handles при повтаряща се динамична операция с известна сигнатура; не ги използвай вместо обикновен direct call без проблем. Заложи нормален Jackson/Protobuf при реален versioned wire protocol, освен ако имаш доказана нужда и owner на собствен формат. Генериран bytecode/Babylon е **отделно експериментално направление**, а не задължителен upgrade от MH. Печалба — reusable linkage; цена — exact typing, capability leakage и compatibility/format ownership.
 
+## P3 — Ask the Architects: String Templates и withdrawn Primitive Patterns
+
+От [Ask the Architects, Devoxx 2026](https://www.youtube.com/watch?v=ewCPBgOrLAE) (~44–47 мин):
+- **String Templates:** JEP 465 беше withdrawn; въпросът за **composability на nested templates** и твърде ранно материализиране/валидиране е важен design insight. Това не означава, че в Java25/27 има stable `STR` API. **Не правим runnable lab** за неиздаден syntax; стандартна `String +`, `StringConcatFactory` и безопасна parameterization са покрити в [Method Handles](jvm/method-handles/README.md).
+- **Primitive patterns:** **ново развитие на 11.11.2026 след панела:** [официално уведомление на Amber екипа](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00923.html) — 6th preview canceled, feature **removed in JDK28, including `--enable-preview`**. Старите JDK23–27 previews не са обещание за нов API. [Подробности](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md).
+- **Valhalla:** специализацията на generics/physical flattening е evolving design/VM optimization, не JDK28 production contract. [Valhalla P1 guide](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) остава единственият каноничен урок за value semantics.
+
+**Какво печелим:** technology radar без фалшива adoption инструкция. **Кога не:** не пренаписваме production код за proposal/withdrawn feature. **Цена:** периодично проследяване на release notes; **по-просто:** стабилни Java25 records/patterns и нормален interpolation/SQL parameterization.
+
 ## 3. Неща, които НЕ дублираме
 
 - [Panama / Vector API — Java Evolution Guide](JAVA-EVOLUTION-GUIDE.md) — FFM е final от Java 22; Vector API остава в incubation. [P2 FFM+jextract](jvm/native-interoperability/README.md) вече е runnable модул от лекцията на Ana-Maria, без да изграждаме голям ONNX/GPU проект.

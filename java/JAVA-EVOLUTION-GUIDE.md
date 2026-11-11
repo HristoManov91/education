@@ -1,10 +1,20 @@
-# Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28 (as of 2026-11-02)
+# Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28 (as of 2026-11-11)
 
 > **P2 focused reference + P3 API notes**, based on [Modern Java in Practice — Nicolai Parlog & Falk Sippach, Devoxx 2026](https://youtu.be/zC2tbq7S5UE).  
 > Main education/ CI baseline is **Java 25 LTS**. We distinguish **released and final**, **released preview/opt-in**, and **proposed/EA** features; code that requires 26/27/28 **is not compiled in Java 25 modules**.
 
 **JDK 26/27 performance лекция (Per-Åke Minborg):** [GC+upgrade P1](jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) · [HashMap/record P2](algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) · [C2 P2](jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) · [FFM 28 EA P2](jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) · [Loom class-init P2](concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md). Наличните Leyden, Lazy Constants и Valhalla лаборатории не се дублират.
 
+
+## November 2026 — Ask the Architects: verified changes, not predictions
+
+От [панела Devoxx 2026](https://www.youtube.com/watch?v=ewCPBgOrLAE) (~09–17 и ~44–50 мин) следват две практични задачи: безопасно мигриране на deprecated APIs и експериментите по JDK28 ZGC. Сверено с публикации **след конференцията**:
+
+- **JDK25 P1, executable:** [`jdeprscan`/`jdeps` migration lab](jvm/jdk-upgrade-tooling/README.md), включително negative test, който доказва legacy Java API usage, и replacement с еднакъв резултат. **JPMS:** [3 real named modules](jvm/jpms-encapsulation/README.md) с `exports`/`opens` и runtime/compiler denial.
+- **JDK28 EA, P2 manual:** [JEP 546 — ZGC Adaptive Heap Sizing](jvm/performance-evolution/JDK28-ZGC-ADAPTIVE-HEAP.md), `-XX:+ZAdaptiveHeapSizing` е **off by default**, не използвай JDK25/27 за доказване на флага.
+- **Amber P3, актуално на 11 ноември:** [Primitive Types in Patterns, `instanceof` and `switch`](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) от JDK23–27 preview **ще бъде премахнато от JDK28**, включително при `--enable-preview`; [официален екипен анонс](https://www.mail-archive.com/amber-spec-experts%40openjdk.org/msg00923.html). Няма осигурен стабилен replacement syntax. Това не премахва общите stable record/type patterns.
+- **String Templates:** JEP465 беше оттеглен преди JDK23; nested composition/eager processing са част от техническото обяснение в панела. **Няма stable String Templates API в JDK25/27.** [Tech radar](JAVA-NEXT-TECH-RADAR.md).
+- **Valhalla:** layout/flattening не е Java specification contract и няма преносима гаранция за конкретно представяне; [съществуващият Valhalla P1 курс](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) обяснява това.
 
 ## 1. How to navigate this guide
 
@@ -132,6 +142,9 @@ Always validate key format, provider, encryption and authorization; PEM is a ser
 Version sources: [Inside Java 27 Security](https://inside.java/2026/09/16/jdk27-security-enhancements/), [PEMDecoder Java 27](https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/security/PEMDecoder.html), [Oracle JDK 27 release notes](https://www.oracle.com/java/technologies/javase/27all-relnotes.html).
 
 ### Removal / deprecation watch
+
+**Runnable Java25 upgrade proof:** [jdeprscan/jdeps lab](jvm/jdk-upgrade-tooling/README.md) и [JPMS access-control lab](jvm/jpms-encapsulation/README.md). `@Deprecated` и `forRemoval=true` **не** означават автоматично една и съща версия/дата на премахване. `jdeprscan` засича JDK deprecated dependencies в bytecode, не произволни library deprecations; `jdeps` няма пълна видимост върху reflection. От JDK26 `Thread.stop()` е премахнат (проверено в [Oracle release notes](https://www.oracle.com/java/technologies/javase/26-relnote-issues.html)), така че запази compatibility tests върху реалния използван JDK.
+
 
 - Finalization is being retired; avoid cleanup semantics based on finalizers. Prefer try-with-resources and explicit lifecycle.
 - Unsafe native/memory access requires review; changes in defaults may surface warnings/errors.

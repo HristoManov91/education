@@ -873,6 +873,10 @@ curl -X POST http://localhost:8080/api/loan-applications \
 
 ---
 
+## P1 · Ask the Architects: schedulers, Netty event loops и resource bulkheads
+
+[**Новият практичен decision guide**](CUSTOM-SCHEDULERS-AND-EVENT-LOOPS.md) разглежда защо separate carrier schedulers не са общо решение за JDBC/HTTP лимити, какви са trade-offs при Netty event loops и как да ограничим scarce resources с `Semaphore`. [Нов Java25 JUnit с два независими bulkheads](loom-labs/src/test/java/bg/hristomanov/education/loom/labs/limit/ResourceBulkheadsOnVirtualThreadsTest.java) **доказва correctness**, не p99/fairness. Панелът описва custom scheduler experimental prototypes, не public Java25 API. [Оригиналната дискусия](https://www.youtube.com/watch?v=ewCPBgOrLAE?t=120), ~02–09 мин.
+
 ## P2 · JDK26 class initialization wait и Virtual Thread carriers
 
 [JDK-8369238 targeted lab](JDK26-CLASS-INITIALIZATION-WAIT.md) — защо virtual thread може да блокира carrier при чакане на чужд static initializer в JDK25 и как JDK26+ подобрява общите случаи. [Java25 source](loom-labs/src/main/java/bg/hristomanov/education/loom/labs/classinit/ClassInitializationWaitLab.java), [JUnit](loom-labs/src/test/java/bg/hristomanov/education/loom/labs/classinit/ClassInitializationWaitLabTest.java), optional JFR comparison. Без нов Loom/Structured Concurrency курс.
