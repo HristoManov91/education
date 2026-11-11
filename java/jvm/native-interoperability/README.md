@@ -33,7 +33,7 @@
 
 | Какво доказваме | Java 25 код | Реален тест |
 | --- | --- | --- |
-| C function downcall + MethodHandle | [NativeCStringLength.java](src/main/java/bg/hristomanov/education/ffi/NativeCStringLength.java) | [NativeCStringLengthTest.java](src/test/java/bg/hristomanov/education/ffi/NativeCStringLengthTest.java) |
+| C function downcall + **cached MethodHandle**, native ABI checked at first valid call | [NativeCStringLength.java](src/main/java/bg/hristomanov/education/ffi/NativeCStringLength.java) | [NativeCStringLengthTest.java](src/test/java/bg/hristomanov/education/ffi/NativeCStringLengthTest.java) — repeated + concurrent calls, one link; cached/uncached parity |
 | Runnable standalone Java 25 main | [FfmDemo.java](src/main/java/bg/hristomanov/education/ffi/FfmDemo.java) | C downcall + off-heap sum in terminal (Linux x64 CI platform) |
 | UTF-8 байтове срещу Java UTF-16 символи | `NativeCStringLength.utf8Length` | Unicode тест, без изкуствени benchmark стойности |
 | Не допускаме embedded NUL и null | `NativeCStringLength` | Негативни JUnit тестове |
@@ -47,14 +47,17 @@
 [Реалният пример](src/main/java/bg/hristomanov/education/ffi/NativeCStringLength.java) извиква `size_t strlen(const char *value)`. Потокът е:
 
 ```text
-Java String
-   → validate null / embedded NUL
-   → Arena.ofConfined() + arena.allocateFrom(text)  [UTF-8 + terminator]
-   → Linker.nativeLinker() + defaultLookup("strlen")
-   → FunctionDescriptor(size_t, pointer) + MethodHandle
-   → C strlen(...)
-   → Java long result
-   → try-with-resources closes arena and invalidates memory
+One-time lazy linkage (first valid call):
+    Linker.nativeLinker() -> validate canonical size_t (64-bit C ABI)
+    -> defaultLookup("strlen") -> FunctionDescriptor(size_t, pointer)
+    -> downcallHandle -> cached MethodHandle, published thread-safely
+
+Every invocation:
+    Java String -> validate null / embedded NUL
+    -> Arena.ofConfined() + UTF-8 C string / terminator
+    -> cached MethodHandle.invokeExact(MemorySegment)
+    -> C strlen(...) -> Java long result
+    -> Arena.close() invalidates temporary native memory
 ```
 
 При 64-битовата демонстрационна ABI предпоставка `size_t` е 8 bytes; **това не е универсално правило за всеки C target**. Примерът проверява `Linker.canonicalLayouts().get("size_t")`. Ако платформата е друга, отказваме вместо да извикваме C функция с грешна signature. Symbology/availability на `strlen` в default lookup зависи от платформата; JUnit приема този изричен capability boundary.
@@ -79,6 +82,16 @@ java --enable-native-access=ALL-UNNAMED \
 Очакваш `UTF-8 bytes via C strlen: 5` и `Off-heap int sum: 42` при поддържана 64-битова платформа с наличен `strlen`.
 
 **Native access** е силна capability: FFM downcalls са restricted, а неправилен C signature/unsafe pointer usage може да повреди паметта. Този flag не sandbox-ва native библиотеката. Никога не зареждай непроверен binary от непознат източник.
+
+### P1 · Link once, execute many (от Maurizio Cimadamore & Viktor Klang)
+
+[Новият Method Handles урок](../method-handles/README.md) стъпва върху **точно този** C downcall. В старата версия на `utf8Length` извършвахме `Linker.nativeLinker()`, `defaultLookup` и `downcallHandle` при **всяко** извикване. Това е допустимо за рядка операция, но е излишна linkage работа при многократни native calls.
+
+Сега [`NativeCStringLength.utf8Length`](src/main/java/bg/hristomanov/education/ffi/NativeCStringLength.java) използва lazy, synchronized, `volatile`-published **immutable cached handle**, за който ABI и symbol са били проверени. Това не кешира **`MemorySegment`** — всеки request продължава да има собствен `Arena.ofConfined()`, с правилно затваряне. При неподдържана ABI не инициализираме статично failing handle; отказваме явно, когато операцията действително бъде поискана.
+
+[`NativeCStringLength.utf8LengthWithoutCacheForComparison`](src/main/java/bg/hristomanov/education/ffi/NativeCStringLength.java) пази оригиналния per-call re-link вариант, **само като учебен контрол**. [JUnit](src/test/java/bg/hristomanov/education/ffi/NativeCStringLengthTest.java) доказва UTF-8/empty/invalid-input parity, че handle-ът се създава само веднъж при 24 concurrent calls, и че native memory lifecycle остава валиден. [Съществуващият JMH harness](../performance-evolution-benchmarks/README.md) добавя `FfmLinkageBenchmark`; не твърдим универсално ускорение. Run only with `--enable-native-access=ALL-UNNAMED` на поддържана 64-bit ABI.
+
+**Кога:** много FFM calls към стабилен symbol/signature, където linkage overhead е реален. **Кога НЕ:** еднократна операция, динамична версия/ABI, неизвестно ownership. **Печалба:** повторно използван безопасно проверен handle. **Цена:** cache/lifecycle код, capability/ABI security и classloader constraints. **По-просто:** обичайна Java библиотека, direct call или `jextract` когато е подходящо.
 
 ## 4. Deep dive — ownership, bounds и lifetime
 

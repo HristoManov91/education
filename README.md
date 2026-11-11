@@ -136,6 +136,10 @@ education/
 
 ### Java / JVM
 
+- [**P1 Method Handles: Reflection → FFM, Lookup, MethodType, invokeExact, CallSite и security**](java/jvm/method-handles/README.md) — Java 25 tests, bytecode inspection и cross-links към [JMH](java/jvm/performance-evolution-benchmarks/README.md)
+  - [P2 експериментален marshalling модел: кеширани record accessors, allowlist и schema V1/V2](java/jvm/method-handles/MARSHALLING-PROTOTYPE.md)
+
+
 - [P1 Java Agents, Byte Buddy и OpenTelemetry instrumentation](java/jvm/java-agent-instrumentation/README.md) — реален bytecode и JUnit child-JVM tests
   - [Benchmark и decision guide](java/jvm/java-agent-instrumentation/BENCHMARK-AND-DECISIONS.md)
   - [Spring Boot 4 + OpenTelemetry HTTP/Redis demo](spring/observability/otel-agent-demo/README.md)

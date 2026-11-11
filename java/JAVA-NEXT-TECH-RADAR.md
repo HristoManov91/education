@@ -111,6 +111,14 @@ Java method annotated @Reflect (experimental Babylon)
 - **Hybrid Search:** [RRF runnable ranking-lab](algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md) — обединява само rank positions от отделни retrievers, **без** Elasticsearch dependency, cross-tenant data или внушени retrieval quality gains.
 - [Map на всички точкови follow-ups от Marit van Dijk / Piotr Przybył](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md).
 
+## P2/P3 — Method Handles и експериментален marshalling дизайн (Devoxx 2026)
+
+[Teaching an Old Handle New Tricks — Maurizio Cimadamore & Viktor Klang](https://www.youtube.com/watch?v=4ck-T2gaMQ4) обяснява основен **стабилен** Java механизъм, върху който стъпват Core Reflection (JEP 416), `StringConcatFactory` и FFM downcalls: `Lookup`/`MethodType` → linked `MethodHandle` → много typed invocations. За **стабилната част** вече имаме [P1 Java25 runnable lesson/JUnit](jvm/method-handles/README.md) и [FFM cached strlen](jvm/native-interoperability/README.md). Това е практическо обучение, не P3 API.
+
+Viktor разглежда **разработвана marshalling концепция**: извличане на record schema и предварително свързани getters/constructors, explicit schema versions и контрол на типовете. **Няма финализиран JDK marshalling API в Java 25, който преподаваме като production готов.** Виж [P2 Java25 строго allowlisted V1/V2 прототип](jvm/method-handles/MARSHALLING-PROTOTYPE.md). Той не е форматът от предложението, не е стандартна Java serialization и не приема произволни class names.
+
+**Decision contract:** използвай Method Handles при повтаряща се динамична операция с известна сигнатура; не ги използвай вместо обикновен direct call без проблем. Заложи нормален Jackson/Protobuf при реален versioned wire protocol, освен ако имаш доказана нужда и owner на собствен формат. Генериран bytecode/Babylon е **отделно експериментално направление**, а не задължителен upgrade от MH. Печалба — reusable linkage; цена — exact typing, capability leakage и compatibility/format ownership.
+
 ## 3. Неща, които НЕ дублираме
 
 - [Panama / Vector API — Java Evolution Guide](JAVA-EVOLUTION-GUIDE.md) — FFM е final от Java 22; Vector API остава в incubation. [P2 FFM+jextract](jvm/native-interoperability/README.md) вече е runnable модул от лекцията на Ana-Maria, без да изграждаме голям ONNX/GPU проект.

@@ -1,0 +1,62 @@
+name: Method Handles and FFM Linkage Labs
+
+on:
+  pull_request:
+    paths:
+      - 'java/jvm/method-handles/**'
+      - 'java/jvm/native-interoperability/**'
+      - 'java/jvm/performance-evolution-benchmarks/**'
+      - 'pom.xml'
+      - '.github/workflows/method-handles-labs.yml'
+  workflow_dispatch:
+
+jobs:
+  handles-and-ffm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 25 LTS
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Maven unit tests and JMH build
+        run: |
+          mvn --batch-mode --no-transfer-progress \
+            -pl java/jvm/performance-evolution-benchmarks -am verify
+
+      - name: Run standalone MethodHandle lesson and assert business contract
+        run: |
+          RESULT="$(java -cp java/jvm/method-handles/target/classes \
+            bg.hristomanov.education.handles.HandleLessonMain)"
+          echo "$RESULT"
+          echo "$RESULT" | grep -Fxq 'POINT=Point[x=4, y=6]'
+          echo "$RESULT" | grep -Fxq 'CONCAT=order=widget qty=3'
+          echo "$RESULT" | grep -Fxq 'ROUND_TRIP=PointV2[x=3, y=4, z=5]'
+
+      - name: Verify String concat invokedynamic bootstrap
+        run: |
+          javap -v -p -classpath java/jvm/method-handles/target/classes \
+            bg.hristomanov.education.handles.StringConcatLab \
+            | tee "$RUNNER_TEMP/string-concat-bytecode.txt"
+          grep -Fq 'InvokeDynamic' "$RUNNER_TEMP/string-concat-bytecode.txt"
+          grep -Fq 'StringConcatFactory' "$RUNNER_TEMP/string-concat-bytecode.txt"
+
+      - name: Verify the reusable JMH harness includes both new benchmark families
+        run: |
+          JAR="java/jvm/performance-evolution-benchmarks/target/benchmarks.jar"
+          test -s "$JAR"
+          java --add-modules jdk.incubator.vector -jar "$JAR" -l \
+            | tee "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'MethodDispatchBenchmark.direct' "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'MethodDispatchBenchmark.cachedMethodHandle' "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'FfmLinkageBenchmark.cachedStrlen' "$RUNNER_TEMP/benchmarks.txt"
+          grep -Fq 'FfmLinkageBenchmark.relinkStrlenEveryCall' "$RUNNER_TEMP/benchmarks.txt"
+
+# JMH measurements are opt-in/manual: do not create fake performance thresholds.
