@@ -1,0 +1,41 @@
+name: Amber Java25 Reconstruction and Numeric Exactness
+
+on:
+  pull_request:
+    paths:
+      - 'java/language/data-oriented-programming/**'
+      - '.github/workflows/amber-reconstruction-exactness.yml'
+  workflow_dispatch:
+
+jobs:
+  amber-java25:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Java 25 full Data-Oriented Programming module verification
+        run: mvn --batch-mode --no-transfer-progress -pl java/language/data-oriented-programming -am verify
+
+      - name: Assert the new educational scenarios were actually discovered
+        run: |
+          REPORTS=java/language/data-oriented-programming/target/surefire-reports
+          for TEST in RecordReconstructionInvariantLabTest NumericConversionExactnessLabTest CoordinateViewsTest; do
+            REPORT="$REPORTS/TEST-bg.hristomanov.education.dop.amber.$TEST.xml"
+            test -s "$REPORT" || {
+              echo "Missing actual JUnit report: $REPORT" >&2
+              exit 1
+            }
+            ! grep -Eq 'failures="[1-9]|errors="[1-9]|skipped="[1-9]' "$REPORT"
+          done
+          echo "PASS: Amber's new JUnit suites executed successfully"
+
+# No JDK28 primitive-pattern preview or unsupported reconstruction syntax is compiled.
