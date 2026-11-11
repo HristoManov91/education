@@ -43,6 +43,20 @@ class TaskReplanningTest {
     }
 
     @Test
+    void unassignedExistingTasksRemainUnassignedWhenTakingNewSnapshot() {
+        TaskSchedule old = ScheduleDemoData.create();
+        assertTrue(old.getTasks().stream().allMatch(task -> task.getAssignment() == null));
+
+        TaskSchedule snapshot = TaskReplanning.newSnapshot(
+                old, old.getOptions(), List.of(), Set.of());
+
+        assertEquals(old.getTasks().size(), snapshot.getTasks().size());
+        assertTrue(snapshot.getTasks().stream()
+                .allMatch(task -> task.getAssignment() == null && !task.isPinned()));
+        assertNotSame(old.getTasks().getFirst(), snapshot.getTasks().getFirst());
+    }
+
+    @Test
     void removingAnOptionRequiredByAPinnedAssignmentFailsClosed() {
         TaskSchedule old = ScheduleDemoData.create();
         AssignmentOption committed = old.getOptions().getFirst();

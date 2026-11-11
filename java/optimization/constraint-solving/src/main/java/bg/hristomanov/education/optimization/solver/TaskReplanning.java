@@ -54,7 +54,9 @@ public final class TaskReplanning {
                 entity.setAssignment(current);
                 entity.setPinned(true);
             } else {
-                entity.setAssignment(options.contains(current) ? current : null);
+                // Immutable List.copyOf().contains(null) throws NullPointerException.
+                // Unassigned is a legitimate planning state and must remain null.
+                entity.setAssignment(current != null && options.contains(current) ? current : null);
             }
             copied.add(entity);
         }
