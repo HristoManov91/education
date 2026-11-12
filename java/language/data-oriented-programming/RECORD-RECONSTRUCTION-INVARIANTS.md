@@ -61,6 +61,12 @@ Gavin описва бъдеща синтактична форма за създ�
 
 Тази „атомарност“ е **за създаването на един immutable обект**, не е database transaction, concurrency control, optimistic locking или атомарна замяна на snapshot в shared mutable cache. Последните изискват собствена координация.
 
+## Richard Groß — Lombok `@With` и builders: точното уточнение
+
+В Q&A на [Destructuring and Encapsulation](https://www.youtube.com/watch?v=wcghmWdu-HY) (~26–33 мин) лекторът предположително разсъждава дали Lombok withers копират, или мутират оригинала; той казва, че не е използвал Lombok. [Официалният Lombok `@With` contract](https://projectlombok.org/features/With) е **по-конкретен**: генерира нов обект чрез constructor, който приема всички non-static fields в декларационния им ред. Това НЕ значи автоматично, че constructor-ът има нужните cross-field invariants. Автоматичният `@AllArgsConstructor` присвоява полета, но сам по себе си не знае нашите business правила.
+
+Съществуващият [`ParallelTaskBatch` тест](src/test/java/bg/hristomanov/education/dop/amber/RecordReconstructionInvariantLabTest.java) вече показва защо **два независими wither-а** не са валиден заместител на `replaceTogether`, когато едновременно се променят взаимозависими компоненти. **Не добавяме Lombok dependency**, защото тук целта е правилен decision contract и constructor invariant, не механично генериране на boilerplate.
+
 ## 4. Decision contract
 
 | Подход | Кога | Кога НЕ | Какво печелим | Цена | По-проста алтернатива |

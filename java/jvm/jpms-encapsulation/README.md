@@ -44,6 +44,10 @@ org.education.jpms.app
 - `requires` дефинира module readability, не package visibility.
 - На classpath всички класове се разглеждат в unnamed module и губим част от тези named module boundaries; **не твърдим**, че JPMS е пълна sandbox за злонамерен код.
 
+## JEP 500 ≠ JPMS `opens`
+
+[Final Field Integrity — Java 25/26 CLI](../final-field-integrity/README.md) използва `private final int` и reflective `Field#setInt`, за да отдели **deep reflective access** от **правото за mutation на final state**. JDK26 `--illegal-final-field-mutation=deny` може да отхвърли write дори когато declaring package е open към caller-а. `--enable-final-field-mutation=...` разрешава съответния caller module (при нас `ALL-UNNAMED`) за JEP500 purpose, но не прави чужд private package open. **Не слагай глобално `--add-opens` като фиктивно решение на final-field mutation.**
+
 ## 4. Decision contract
 
 | Проблем | Кога | Кога НЕ | Печалба | Загуба/риск | По-проста алтернатива |

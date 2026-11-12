@@ -42,6 +42,12 @@ mvn -pl java/language/data-oriented-programming \
 
 Това е езикова research посока, а не основание да имитираме API чрез reflection/private JDK interfaces или да отваряме packages с `--add-opens`. Потенциални ограничения: устойчивост на public component shape, binary/source compatibility при добавяне на component, invariant preservation и compatibility с класове, които имат identity или mutable state.
 
+## Richard Groß — logical state не е задължително private representation
+
+В [лекцията Destructuring Is the Future of Java's Encapsulation](https://www.youtube.com/watch?v=wcghmWdu-HY) (~12–22 мин) Richard показва защо data shape, конструкторските параметри и private storage fields **не е задължително да съвпадат**. Утвърден Java 25 вариант е [PublicTimestamp](src/main/java/bg/hristomanov/education/dop/amber/PublicTimestamp.java): публичният constructor приема `String` ISO timestamp, а private state е `long epochMillis`. [JUnit](src/test/java/bg/hristomanov/education/dop/amber/PublicTimestampTest.java) доказва нормализиране и реконструкция през валидиращ constructor. Това е различен пример от `CoordinateView`: тук не само конкретният тип е скрит, а **публичният формат е различен от storage**.
+
+Предложението за user-defined class deconstruction би позволило външният logical shape да се изрази като pattern, но Java 25 `case PublicTimestamp(String s)` **не съществува** като стандартен class pattern. Няма и автоматичен language-level serializer, който да работи с произволни framework-и само от такъв бъдещ pattern. Стабилният подход днес е documented constructor/factory + accessor contract + [serialization decision](DESERIALIZATION-AND-ENCAPSULATION.md).
+
 ## 4. Кога / кога НЕ / trade-offs
 
 | Подход | Кога | Кога НЕ | Печалба | Цена / по-просто |
