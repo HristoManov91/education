@@ -34,11 +34,11 @@ jobs:
           java-version: '25'
           cache: maven
 
-      - name: Verify
-        run: mvn --no-transfer-progress verify
-
       - name: Verify offline SBOM reconciliation
         run: python3 -m unittest discover -s spring/testing/testcontainers/sbom-accuracy -p 'test_*.py'
+
+      - name: Verify
+        run: mvn --no-transfer-progress verify
 
       - name: Validate JMH executable harness
         run: |
