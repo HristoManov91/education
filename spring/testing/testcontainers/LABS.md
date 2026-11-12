@@ -355,3 +355,6 @@ docker volume ls
 13. Кога `@DynamicPropertySource` остава полезен.
 14. Защо real PostgreSQL е по-силно DB integration доказателство от H2.
 15. Защо не трябва container във всеки unit test.
+## Lab 19 — SBOM component identity и missing-transitive negative proof
+
+[P1 SBOM Accuracy](SBOM-ACCURACY.md) — генерирай Maven/Syft BOM ръчно, сравни versioned PURL identities и пусни 5 offline Python теста. Изисква само Python 3 за fixtures; реалните scanner-и не са част от default Maven build.

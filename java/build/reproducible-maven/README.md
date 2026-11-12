@@ -140,6 +140,10 @@ Reproducibility **не е**:
 
 ---
 
+## P1 разширение: Software Gardening и dependency lifecycle
+
+[Software Gardening](SOFTWARE-GARDENING.md) свързва immutable/reproducible builds с ежедневното поддържане на зависимостите: Dependabot/Renovate PR policies, version update cooldown срещу security urgency, major migration reviews и OpenRewrite dry-run. Примерните конфигурации **не са активирани** и няма нови ботове/auto-merge. Има връзки към [SBOM accuracy negative tests](../../../spring/testing/testcontainers/SBOM-ACCURACY.md) и [EU CRA](../../../docs/security/cra/README.md).
+
 ## 6. Упражнения и проверка на разбирането
 
 1. Изпълни `clean package` два пъти и сравни SHA-256. Какво доказва това и какво **не**?

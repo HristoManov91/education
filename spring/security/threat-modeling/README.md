@@ -24,7 +24,7 @@ Gateway потвърждава самоличността, но frontend е до
 
 **Не започвай от инструмент за диаграми.** Достатъчни са 30 минути бяла дъска + запазен diagram, заплаха, owner, тест.
 
-`text
+```text
 Actor: alice/bob (untrusted browser)
     |
     | username/password + user-controlled HTTP headers
@@ -36,7 +36,7 @@ RecordAccessPolicy             <-- business object authorization
     |
     v [BOUNDARY C: controller → persisted data, NOT in this lab]
 Oracle / service integration
-`
+```
 
 В тази лаборатория контролерът връща синтетичен отговор **без persistence**. Реалната система има и други boundaries: JWT signer, encryption at rest, database permissions, secret store, audit stream, rate limits.
 
@@ -67,14 +67,14 @@ STRIDE е систематичен **brainstorming инструмент**; ня�
 
 **На пръв поглед разумен bad вариант:**
 
-`java
+```java
 @GetMapping("/{owner}")
 Map<String, String> read(@PathVariable String owner,
                          @RequestHeader("X-User-Id") String claimedActor) {
     // Gateway вече е логнал потребителя — защо да проверяваме повторно?
     return recordStore.read(owner); // BUG: нито claimedActor, нито owner имат доказана връзка
 }
-`
+```
 
 Root cause: **authentication ≠ authorization**, а client-supplied identity е недоверена. Дори да добавиш `claimedActor.equals(owner)`, bob може да подаде `X-User-Id: alice` и да заобиколи логиката.
 
@@ -84,7 +84,7 @@ Root cause: **authentication ≠ authorization**, а client-supplied identity е
 
 ## 6. Стартирай лабораторията
 
-`bash
+```bash
 # От root на education: изпълни 4 policy unit теста + HTTP Spring Security тестове
 mvn -pl spring/security/threat-modeling test
 
@@ -99,14 +99,14 @@ curl -i -u alice:local-demo-only http://localhost:8080/api/records/alice
 
 # bob не може да се представи за alice дори с header → 403
 curl -i -u bob:local-demo-only -H 'X-User-Id: alice' http://localhost:8080/api/records/alice
-`
+```
 
 [Готови IntelliJ HTTP заявки](http/records.http) — `{{basicAlice}}` и `{{basicBob}}` са локални environment variables с Base64 credentials; не ги commit-вай като тайни. Публикуваните имена/пароли са **само учебни**, профилът `local-demo` никога не е за deployment.
 
 <details>
 <summary>Примерни резултати (без стартирано приложение)</summary>
 
-`text
+```text
 GET /api/records/alice (anonymous)              -> HTTP 401
 GET /api/records/alice (alice)                  -> HTTP 200
 {"owner":"alice","status":"visible"}
@@ -114,7 +114,7 @@ GET /api/records/alice (bob, X-User-Id: alice)  -> HTTP 403
 POST /api/records/alice/approve (alice reviewer, no CSRF) -> HTTP 403
 POST /api/records/alice/approve (alice reviewer + CSRF in MockMvc) -> HTTP 200
 {"owner":"alice","result":"approved"}
-`
+```
 
 </details>
 

@@ -59,7 +59,7 @@ mvn -pl spring/security/threat-modeling test
 
 | Предпоставка | Отрицателен сценарий | Evidence / test |
 | --- | --- | --- |
-| Patch трябва да не променя поведение | Валиден build, счупен endpoint contract | [Spring Security negative HTTP tests](../../security/threat-modeling/src/test/java/bg/hristomanov/education/threatmodel/ThreatModelHttpTest.java) |
+| Patch трябва да не променя поведение | Валиден build, счупен endpoint contract | [Spring Security negative HTTP tests](../../../spring/security/threat-modeling/src/test/java/bg/hristomanov/education/threatmodel/ThreatModelHttpTest.java) |
 | Детерминиран output | Два build-а, различни SHA | [Reproducible Maven lab](README.md) и [release hash CI](../../../.github/workflows/reproducible-maven.yml) |
 | Обновен SBOM | Нова версия липсва в final image | [SBOM accuracy fixtures + tests](../../../spring/testing/testcontainers/SBOM-ACCURACY.md) |
 | Не затрупваме CI | Bot пуска 50 PR-а | Примерните limits, review на Actions minutes; **няма активирани bots** |

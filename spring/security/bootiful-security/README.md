@@ -165,3 +165,7 @@ mvn -pl spring/security/bootiful-security -Dspring-boot.run.profiles=local-demo 
 10. [RFC 10017 — OAuth 2.0 for Browser-Based Applications](https://www.rfc-editor.org/rfc/rfc10017).
 
 **Оригинален example repository на лекторите:** [Bootiful Spring Security — 08.10.2026](https://github.com/joshlong-attic/2026-10-08-devoxx-secure-all-the-things) (проверени оригинални source files). Допълнително: [Secure All The Things with Spring Security — безплатна книга](https://leanpub.com/secure-all-the-things-with-spring-security), посочена от авторите в оригиналния README.
+
+## P1 допълнение: STRIDE и object-level authorization
+
+[Threat Modeling — Spring Security lab](../threat-modeling/README.md) разглежда как Gateway authentication може да е коректен, но да липсва проверка за ownership на конкретен record. Има 401/403/CSRF отрицателни HTTP тестове и risk register за всички шест STRIDE категории. Тук не повтаряме AuthN/OAuth/MFA механиката — използваме я като prerequisite.

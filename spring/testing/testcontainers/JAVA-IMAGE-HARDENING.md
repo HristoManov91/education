@@ -63,6 +63,12 @@ trivy sbom sbom.cdx.json
 
 В реален release pipeline: build със pinned base, unit/IT → image smoke/architecture checks → SBOM от финалния image (OS и deps, отделно атрибутирани) → CVE triage → provenance + image signature → deploy by digest → periodic rescans → обновяване с PR + regression → audit trail. **SBOM сам по себе си не доказва, че бинарното съдържание е безопасно или неподменено.** Проверявай signature identity и provenance от доверен builder, не само съществуването на signature.
 
+### P1 следваща лаборатория — SBOM accuracy, а не само генерация
+
+[SBOM Accuracy — Maven source BOM vs release image](SBOM-ACCURACY.md) добавя **5 offline Python regression tests** за versioned PURL, липсваща транзитивна runtime dependency, malformed input и проверена expected inventory. Има и отделни ръчни команди за CycloneDX Maven, Syft и Trivy. Различни бройки компоненти не доказват scanner correctness; **проверяваме identity и обхват**.
+
+Това разширение е инспирирано от [Christian Schabetsberger — CRAcking Compliance](https://www.youtube.com/watch?v=QQcsZNf0eWs), предоставен SRT. Юридическият контекст, приложимостта и правилните reporting deadlines са изнесени в [EU CRA](../../../docs/security/cra/README.md); **не дублираме** законовия обзор тук.
+
 ## 5. Правилна CVE triage семантика
 
 **CVSS е severity за потенциален worst case, не вероятност за компрометиране на конкретно приложение.** В лекцията е дадено опростено статистическо сравнение, което НЕ трябва да се използва като вероятност „6% CVE → 6% шанс за пробив“. Запиши към всяка находка:
