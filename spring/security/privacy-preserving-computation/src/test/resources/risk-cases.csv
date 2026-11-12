@@ -1,0 +1,9 @@
+case,age,total_cholesterol,hdl_cholesterol,systolic_pressure,hypertension,smoker,expected_score,expected_label
+baseline,40,200,60,115,0,0,430,LOW
+medium_exact,50,250,0,50,0,0,500,MEDIUM
+high_exact,100,400,0,150,0,0,1000,HIGH
+negative,0,0,200,0,0,0,-400,LOW
+maximum,120,400,0,250,1,1,1455,HIGH
+smoker_hypertension,40,200,60,115,1,1,625,MEDIUM
+medium_minus_one,50,249,0,50,0,0,499,LOW
+high_minus_one,100,399,0,150,0,0,999,MEDIUM
