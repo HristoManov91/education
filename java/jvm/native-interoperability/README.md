@@ -189,3 +189,7 @@ java --enable-native-access=ALL-UNNAMED \
 - [ONNX IR Specification — graph/protobuf vs internal runtime representation](https://onnx.ai/onnx/repo-docs/IR.html).
 - [Project Babylon](https://openjdk.org/projects/babylon/) и [OpenJDK Babylon examples](https://github.com/openjdk/babylon).
 - [Java Next Tech Radar](../../JAVA-NEXT-TECH-RADAR.md) — P3 case study за code reflection.
+
+## P2 case: когато C++ библиотеката няма поддържани Java bindings
+
+[OpenFHE BFV/OpenFHE Python lab](../../../spring/security/privacy-preserving-computation/README.md) използва официалните Python bindings на OpenFHE C++ от отделен процес, **вместо да изобретява Java JNI/FFM wrapper**. FFM намалява част от неудобствата на JNI, но не превръща C++ ABI и паметта в автоматично безопасен Java API; опиши header/ABI, ownership и native crashes преди реална интеграция. Това е архитектурен избор на boundary, не демонстрация на working JNI.

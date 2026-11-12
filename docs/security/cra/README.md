@@ -130,3 +130,7 @@ Annex I Part II(1) изисква идентифициране/документ�
 - [European Commission CRA summary](https://digital-strategy.ec.europa.eu/en/policies/cra-summary) и [Reporting obligations](https://digital-strategy.ec.europa.eu/en/policies/cra-reporting).
 - [Commission guidance 27 July 2026](https://digital-strategy.ec.europa.eu/en/library/commission-publishes-new-guidance-support-timely-cyber-resilience-act-implementation) — scope, remote data, substantial modifications, support, reporting.
 - [Christian Schabetsberger — CRAcking Compliance](https://www.youtube.com/watch?v=QQcsZNf0eWs), SRT, особено 12–18 мин (risk), 18–32 мин (SBOM), 32–41 мин (scanning/gardening). Лекторът също изрично предупреждава, че не е юрист.
+
+## Допълнителна P2 тема — Computing on Encrypted Data
+
+[Homomorphic Encryption — BFV/OpenFHE](../../../spring/security/privacy-preserving-computation/README.md) е **опционално** архитектурно обучение за confidentiality при изчисление от недоверен доставчик. Нито CRA, нито наличието на SBOM автоматично изискват FHE; при обикновен Java CRUD/TDE + TLS + role controls могат да са подходящи. Дръжте CRA applicability и продуктова оценка отделно от криптографския избор.

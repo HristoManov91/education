@@ -1,0 +1,45 @@
+name: P2 OpenFHE Privacy Lab
+
+on:
+  pull_request:
+    paths:
+      - 'spring/security/privacy-preserving-computation/**'
+      - '.github/workflows/privacy-fhe-lab.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-openfhe-bfv:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: spring/security/privacy-preserving-computation/openfhe-lab
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12 for Ubuntu 24.04 OpenFHE wheel
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned native OpenFHE wheel
+        run: python -m pip install --no-cache-dir -r requirements-ubuntu24.txt
+
+      - name: Fail if real OpenFHE bindings are unavailable
+        run: |
+          python -c 'import openfhe; from importlib.metadata import version; print("OpenFHE:", version("openfhe"))'
+          python -c 'from openfhe import CCParamsBFVRNS, GenCryptoContext, SerializeToFile, DeserializeCiphertext; print("required BFV symbols available")'
+
+      - name: Offline input, model and tampering negative tests
+        run: python -m unittest -v test_protocol
+
+      - name: Real BFV encrypted client to separate worker regression
+        run: python -m unittest -v test_real_openfhe
+
+      - name: End-to-end encrypted compute demo
+        run: python client.py
