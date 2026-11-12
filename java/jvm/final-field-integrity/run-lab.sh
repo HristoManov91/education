@@ -34,13 +34,13 @@ if ! java --illegal-final-field-mutation=debug \
   cat "$OUT/debug.out" "$OUT/debug.err" >&2
   exit 1
 fi
-# Educational evidence: debug output is from synthetic code, no secrets.
-echo "JEP500 debug output:"
-cat "$OUT/debug.out" "$OUT/debug.err"
+# JDK 26 debug mode prints the mutation description and stack trace,
+# NOT the default-mode "WARNING: Final field..." prefix.
+# Match actual diagnostics, but never treat a missing trace as PASS.
 grep -Fq "MUTATION_ALLOWED ageLimit=17" "$OUT/debug.out"
-grep -Fq "WARNING: Final field" "$OUT/debug.err"
+grep -Fq 'Final field ageLimit in class FinalFieldMutationDemo$Policy has been mutated reflectively' "$OUT/debug.err"
 grep -Fq "FinalFieldMutationDemo.main" "$OUT/debug.err"
-echo "PASS Java 26: debug warning + stack trace"
+echo "PASS Java 26: debug diagnostic + stack trace"
 
 java --illegal-final-field-mutation=deny \
   -cp "$OUT" FinalFieldMutationDemo > "$OUT/deny.out" 2> "$OUT/deny.err"

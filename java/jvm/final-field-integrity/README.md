@@ -4,7 +4,7 @@
 
 ## 1. Реалният казус
 
-Имаме `private final int ageLimit=21` с constructor invariant. Legacy framework използва `Field#setAccessible(true)` и `Field#setInt(obj,17)`. Това не минава през constructor и нарушава invariant. В Java 25 за **обикновено instance final поле** такава мутация може да успее; при record и други категории полета има допълнителни ограничения. JDK26 въвежда warnings и opt-in controls за reflective final-field mutation, за да се подготвим за бъдещи по-строги defaults.
+Имаме `private final int ageLimit=21` с constructor invariant. Legacy framework използва `Field#setAccessible(true)` и `Field#setInt(obj,17)`. Това не минава през constructor и нарушава invariant. В Java 25 за **обикновено instance final поле** такава мутация може да успее; при record и други категории полета има допълнителни ограничения. JDK26 въвежда warnings, debug diagnostics и opt-in controls за reflective final-field mutation, за да се подготвим за бъдещи по-строги defaults.
 
 ## 2. Code → proof
 
@@ -26,7 +26,7 @@ bash java/jvm/final-field-integrity/run-lab.sh
 | Параметър | Очаквано |
 | --- | --- |
 | default (без flags) | `MUTATION_ALLOWED` + `WARNING: Final field...` |
-| `--illegal-final-field-mutation=debug` | `MUTATION_ALLOWED` + warning и stack trace |
+| `--illegal-final-field-mutation=debug` | `MUTATION_ALLOWED` + diagnostic „Final field ... has been mutated reflectively“ и stack trace; **без** default `WARNING:` prefix |
 | `--illegal-final-field-mutation=deny` | `MUTATION_DENIED` с `IllegalAccessException` |
 | `--enable-final-field-mutation=ALL-UNNAMED --illegal-final-field-mutation=deny` | `MUTATION_ALLOWED`, защото caller-ът е изрично enable-нат |
 | JDK25 без flags | `MUTATION_ALLOWED`; JEP500 default warnings все още няма |
