@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -71,6 +72,12 @@ class DistributedCachingIntegrationTest {
 
     @Test
     void springCacheUsesSharedRedisWithTtlAndJsonSerialization() {
+        // Without spring-aop, @EnableCaching may leave this bean unproxied:
+        // the calls still return correct data but EACH call hits the source.
+        assertThat(AopUtils.isAopProxy(springCacheService))
+                .as("@Cacheable must be intercepted by a Spring AOP proxy")
+                .isTrue();
+
         Product first = springCacheService.get(1L);
         Product second = springCacheService.get(1L);
 
@@ -90,6 +97,24 @@ class DistributedCachingIntegrationTest {
                                 .PRODUCT_TTL
                                 .toSeconds()
                 );
+    }
+
+    @Test
+    void cacheEvictionViaProxyInvalidatesRedisAndForcesReload() {
+        String cacheKey = "edu:products::1";
+
+        Product first = springCacheService.get(1L);
+        assertThat(stringRedis.hasKey(cacheKey)).isTrue();
+        assertThat(source.readCount()).isEqualTo(1);
+
+        // Exercise the same public proxied service that production uses,
+        // not CacheManager directly: @CacheEvict must actually execute.
+        springCacheService.evict(1L);
+        assertThat(stringRedis.hasKey(cacheKey)).isFalse();
+
+        Product reloaded = springCacheService.get(1L);
+        assertThat(reloaded).isEqualTo(first);
+        assertThat(source.readCount()).isEqualTo(2);
     }
 
     @Test

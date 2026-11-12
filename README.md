@@ -167,6 +167,7 @@ education/
   - [P2 Green Maven Builds — CI Efficiency, compile-once artifact reuse, JUnit parallelism и safe workflow rules](java/build/reproducible-maven/CI-EFFICIENCY.md)
   - [CI Efficiency — runnable labs и отрицателни контроли](java/build/reproducible-maven/CI-EFFICIENCY-LABS.md)
   - [NotebookLM audio prompt — Maven reproducibility и build integrity](java/build/reproducible-maven/NOTEBOOKLM-PROMPT.md)
+  - [P1 Software Gardening — Dependabot/Renovate, controlled upgrades и OpenRewrite decisions](java/build/reproducible-maven/SOFTWARE-GARDENING.md)
 
 ### Java / Algorithms
 
@@ -201,6 +202,11 @@ education/
   - [OAuth2/OIDC, Token Relay, BFF и secured MCP — architecture](spring/security/bootiful-security/OAUTH2-BFF-MCP.md)
   - [Hands-on exercises + Senior recall](spring/security/bootiful-security/EXERCISES.md)
 
+- [P1 STRIDE Threat Modeling — Spring Boot object-level authorization, spoofing и HTTP negative tests](spring/security/threat-modeling/README.md)
+- [P1 EU Cyber Resilience Act — applicability, reporting, SBOM lifecycle, release evidence](docs/security/cra/README.md)
+  - [Release evidence template](docs/security/cra/RELEASE-EVIDENCE-TEMPLATE.md)
+  - [NotebookLM — CRA / Threat Modeling audio prompt](docs/security/cra/NOTEBOOKLM-PROMPT.md)
+
 ### Spring / Concurrency
 
 - [Loom vs Reactive — WebMVC + Virtual Threads срещу WebFlux/Reactor](spring/concurrency/loom-vs-reactive/README.md)
@@ -215,6 +221,7 @@ education/
 
 - [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
   - [P1 Java container image hardening — minimal images, SBOM, signatures, CVE triage, reproducibility](spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md)
+  - [P1 SBOM accuracy lab — CycloneDX PURL reconciliation + 5 offline tests](spring/testing/testcontainers/SBOM-ACCURACY.md)
   - [P2 Toxiproxy latency & JDK21/25 virtual-thread pinning lab](spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md)
   - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
 - [P1 Spring Boot Testing in the AI Era — unit/slice/HTTP, TestContext cache, mutation и AI тестове](spring/testing/ai-assisted-testing/README.md)

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "dependencyDashboard": true,
+  "prConcurrentLimit": 2,
+  "prHourlyLimit": 1,
+  "packageRules": [
+    {
+      "description": "Review breaking API changes before a PR is created",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Normal version updates can age; security fixes need an independent expedited path",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "minimumReleaseAge": "3 days"
+    }
+  ]
+}

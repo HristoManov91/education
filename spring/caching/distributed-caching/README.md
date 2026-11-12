@@ -111,7 +111,7 @@ Multi-level cache комбинира плюсовете, но и consistency res
 
 # 4. Spring Cache + RedisCacheManager
 
-[`RedisCacheConfiguration.java`](./src/main/java/bg/hristomanov/education/distributedcache/RedisCacheConfiguration.java)
+[`RedisCacheConfiguration.java`](./src/main/java/bg/hristomanov/education/distributedcache/DistributedRedisCacheConfiguration.java)
 
 конфигурира:
 
@@ -683,6 +683,10 @@ two method calls
 → source read = 1
 → Redis key has TTL
 ```
+
+**Spring AOP prerequisite (Spring Boot 4.1.1):** `@EnableCaching` в default `AdviceMode.PROXY` изисква `spring-aop` за `@Cacheable`/`@CacheEvict` interceptors. `spring-boot-starter-cache` осигурява основните cache зависимости, но в този модул **липсваше `spring-aop`**: методите връщаха правилния `Product`, но всеки път извикваха `ProductSource` (2 reads вместо 1). Това е опасно тих дефект — тестът е точният сигнал.
+
+Fix: `org.springframework:spring-aop` с версия от Spring Boot BOM в [pom.xml](pom.xml). Няма нужда от пълен AspectJ weaver при обикновена proxy-based caching конфигурация. [Интеграционният тест](src/test/java/bg/hristomanov/education/distributedcache/DistributedCachingIntegrationTest.java) изрично проверява `AopUtils.isAopProxy`, Redis key/TTL, `source.readCount() == 1` и `@CacheEvict` → key missing → следващ `get` прави точно едно ново source read. Negative scenario: ако премахнеш `spring-aop` от POM, proxy assertion или cache hit test трябва да стане червен. Това не променя near-cache semantics, Redis Pub/Sub и distributed stampede примерите.
 
 ## Shared L2
 

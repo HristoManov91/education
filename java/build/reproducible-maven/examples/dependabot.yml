@@ -1,0 +1,14 @@
+# Example only. Placing this file under .github/dependabot.yml enables real PRs.
+# Review repositories, supported directories and the associated CI cost first.
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 2
+    groups:
+      reviewed-non-major:
+        update-types:
+          - "minor"
+          - "patch"

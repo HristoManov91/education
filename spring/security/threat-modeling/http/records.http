@@ -1,0 +1,18 @@
+### Пусни с: mvn -pl spring/security/threat-modeling spring-boot:run -Dspring-boot.run.profiles=local-demo
+### Локална демонстрация, не използвай тези credentials в истинска система.
+### GET без authentication: 401
+GET http://localhost:8080/api/records/alice
+
+### GET owner, authenticated alice: 200
+GET http://localhost:8080/api/records/alice
+Authorization: Basic {{basicAlice}}
+
+### Spoofing attempt: bob не става alice чрез header: 403
+GET http://localhost:8080/api/records/alice
+Authorization: Basic {{basicBob}}
+X-User-Id: alice
+
+### POST има CSRF, така че без валиден CSRF token умишлено е 403.
+### За успешен POST използвай MockMvc теста, който добавя csrf().
+POST http://localhost:8080/api/records/alice/approve
+Authorization: Basic {{basicAlice}}
