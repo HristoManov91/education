@@ -29,8 +29,14 @@ fi
 grep -Fq "WARNING: Final field" "$OUT/default.err"
 echo "PASS Java 26: default warn, mutation still occurs"
 
-java --illegal-final-field-mutation=debug \
-  -cp "$OUT" FinalFieldMutationDemo > "$OUT/debug.out" 2> "$OUT/debug.err"
+if ! java --illegal-final-field-mutation=debug \
+  -cp "$OUT" FinalFieldMutationDemo > "$OUT/debug.out" 2> "$OUT/debug.err"; then
+  cat "$OUT/debug.out" "$OUT/debug.err" >&2
+  exit 1
+fi
+# Educational evidence: debug output is from synthetic code, no secrets.
+echo "JEP500 debug output:"
+cat "$OUT/debug.out" "$OUT/debug.err"
 grep -Fq "MUTATION_ALLOWED ageLimit=17" "$OUT/debug.out"
 grep -Fq "WARNING: Final field" "$OUT/debug.err"
 grep -Fq "FinalFieldMutationDemo.main" "$OUT/debug.err"
