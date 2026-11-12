@@ -35,6 +35,7 @@
         <module>spring/testing/ai-assisted-testing</module>
         <module>spring/security/bootiful-security</module>
         <module>spring/security/threat-modeling</module>
+        <module>spring/security/privacy-preserving-computation</module>
         <module>spring/caching/caching-strategies</module>
         <module>spring/caching/redis-eviction</module>
         <module>spring/caching/distributed-caching</module>

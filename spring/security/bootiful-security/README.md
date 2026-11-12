@@ -169,3 +169,7 @@ mvn -pl spring/security/bootiful-security -Dspring-boot.run.profiles=local-demo 
 ## P1 допълнение: STRIDE и object-level authorization
 
 [Threat Modeling — Spring Security lab](../threat-modeling/README.md) разглежда как Gateway authentication може да е коректен, но да липсва проверка за ownership на конкретен record. Има 401/403/CSRF отрицателни HTTP тестове и risk register за всички шест STRIDE категории. Тук не повтаряме AuthN/OAuth/MFA механиката — използваме я като prerequisite.
+
+## P2 допълнение: Privacy-Preserving Computation
+
+[Homomorphic Encryption / OpenFHE lab](../privacy-preserving-computation/README.md) показва различен trust boundary: външният compute worker обработва ciphertext **без** secret key. Това не замества вече описаните AuthN/AuthZ, CSRF, OAuth/OIDC, audit и key-management изисквания; схемите BFV/CKKS/TFHE имат отделни математически ограничения. Не дублираме Spring Security механизмите.

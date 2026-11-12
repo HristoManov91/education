@@ -203,6 +203,11 @@ education/
   - [Hands-on exercises + Senior recall](spring/security/bootiful-security/EXERCISES.md)
 
 - [P1 STRIDE Threat Modeling — Spring Boot object-level authorization, spoofing и HTTP negative tests](spring/security/threat-modeling/README.md)
+- [P2 Homomorphic Encryption — Java 25 score oracle + real OpenFHE BFV encrypted computation](spring/security/privacy-preserving-computation/README.md)
+  - [FHE schemes — BFV, BGV, CKKS, TFHE и bootstrapping](spring/security/privacy-preserving-computation/FHE-SCHEMES.md)
+  - [FHE vs TEE vs MPC — архитектурни trade-offs](spring/security/privacy-preserving-computation/FHE-TRADEOFFS.md)
+  - [Real OpenFHE lab — separate client/worker, signed integer oracle и negative tests](spring/security/privacy-preserving-computation/openfhe-lab/README.md)
+  - [NotebookLM аудио урок](spring/security/privacy-preserving-computation/NOTEBOOKLM-PROMPT.md)
 - [P1 EU Cyber Resilience Act — applicability, reporting, SBOM lifecycle, release evidence](docs/security/cra/README.md)
   - [Release evidence template](docs/security/cra/RELEASE-EVIDENCE-TEMPLATE.md)
   - [NotebookLM — CRA / Threat Modeling audio prompt](docs/security/cra/NOTEBOOKLM-PROMPT.md)
