@@ -1,0 +1,4 @@
+# Official wheel published 2026-10-27 for Ubuntu 24.04 + CPython 3.12.
+# This artifact has no PyPI provenance attestation; vet wheel source before production.
+# Not installed in default Maven reactor or unrelated CI workflows.
+openfhe==1.6.1.0.24.4
