@@ -1,0 +1,4 @@
+[
+  "pkg:maven/example/direct-api@1.0.0",
+  "pkg:maven/example/transitive-lib@2.0.0"
+]
