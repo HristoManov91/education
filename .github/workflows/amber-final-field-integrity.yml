@@ -1,0 +1,31 @@
+name: P1 Amber Serialization and JEP 500 Integrity
+
+on:
+  pull_request:
+    paths:
+      - 'java/language/data-oriented-programming/**'
+      - 'java/jvm/final-field-integrity/**'
+      - '.github/workflows/amber-final-field-integrity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-field-mutation:
+    name: Java ${{ matrix.java }} final field mutation policy
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['25', '26']
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+      - name: Run positive and negative final-field mutation checks
+        run: bash java/jvm/final-field-integrity/run-lab.sh
