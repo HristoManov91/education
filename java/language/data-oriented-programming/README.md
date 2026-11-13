@@ -102,6 +102,10 @@ Record има final reference към components, но `record Prescription(List<
 
 Таблетният compact constructor проверява nonnegative counts, nonzero total и използва `Math.addExact`, за да не превърне integer overflow в на пръв поглед коректен резултат. Това надгражда вече изучаваните primitive overflow и record invariants от [Concept Notes](../../../docs/learning/concepts/README.md).
 
+## P1 · Richard Groß: Deserialization и encapsulation invariants
+
+[**Deserialization & Encapsulation — Java 25 JUnit**](DESERIALIZATION-AND-ENCAPSULATION.md) сравнява constructor bypass при обикновен `Serializable`, извикване на canonical constructor при `record`, `readObject` validation, `ObjectInputFilter` и пример с public UTC String / private epoch milliseconds. [Изпълним код](src/main/java/bg/hristomanov/education/dop/amber/DeserializationBoundaryLab.java) + [негативни тестове](src/test/java/bg/hristomanov/education/dop/amber/DeserializationBoundaryLabTest.java), отделен [JEP 500 Java 25/26 lab](../../jvm/final-field-integrity/README.md). **Не** приемаме native Java десериализация от недоверени данни за безопасна само заради constructor guard или filter.
+
 ## P1 · Gavin Bierman (Devoxx 2026): два нови Java 25 correctness казуса
 
 По [What's happening with Project Amber?](https://www.youtube.com/watch?v=Go76-9Q51wU) и предоставения транскрипт добавихме **две целеви executable labs** без нов Maven module и без невалидни JDK28 syntax claims:

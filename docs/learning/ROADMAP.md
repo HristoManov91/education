@@ -267,6 +267,8 @@
 | JAVA-AMBER-02 | **P1** | [Exact numeric conversion](../../java/language/data-oriented-programming/NUMERIC-CONVERSION-EXACTNESS.md) | `Integer.MAX_VALUE` saturating cast trap, 2^24 boundary, IEEE754 oracle 10 000 values |
 | JAVA-AMBER-03 | **P2** | [Data interfaces / deconstruction](../../java/language/data-oriented-programming/DATA-INTERFACES-AND-DECONSTRUCTION.md) | public interface + package-private implementation, client-substitutability, proposal vs Java25 |
 | JAVA-AMBER-04 | **P3 watch** | [Amber Future Design](../../java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) | withdrawn primitive patterns in JDK28, Constant Patterns, pattern declarations, reconstruction proposals |
+| JAVA-AMBER-05 | **P1** | [Deserialization invariants](../../java/language/data-oriented-programming/DESERIALIZATION-AND-ENCAPSULATION.md) | legacy `Serializable` constructor bypass; valid/invalid record deserialization; safe readObject guard/filter |
+| JAVA-AMBER-06 | **P1** | [JEP500 Java25/26 integrity](../../java/jvm/final-field-integrity/README.md) | real runtime: default warn, debug, deny и explicit caller-module enable; no preview syntax |
 
 **Checkpoint:** защо двата последователни wither-а могат да се провалят при дължини 2→3? Кога `List<Pair>` е по-добър от два списъка? Защо `int→float→int` не доказва точност? Защо public interface не дава автоматично record pattern за скрита класа?
 

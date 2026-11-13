@@ -71,6 +71,14 @@ Point changed = point with { x = 1; };
 - **Data interfaces / carrier classes (предложения)** — публичното state shape и user-defined deconstruction биха позволили pattern matching върху типове, които не са records, но изискват ясни правила за encapsulation, invariants и compatibility. [P2 Java25 пример](DATA-INTERFACES-AND-DECONSTRUCTION.md) показва само публичен accessor interface и скрита реализация, **не** бъдещ pattern API.
 - **String Templates и type-class/user-defined arithmetic идеи** — развиващи се или оттеглени дизайни. Не ги представяме като Java25 final features; Valhalla generics/numerics могат допълнително да променят primitive-pattern посоката.
 
+## Richard Groß (Devoxx 2026): „Destructuring“ като симетрия на construction
+
+[Видео + предоставен SRT](https://www.youtube.com/watch?v=wcghmWdu-HY) (~14–25 мин): лекторът мотивира **user-defined deconstruction на обикновени класове, primary constructor, pattern matching и class/record reconstruction**. В концептуален план класът има public logical shape, което не трябва да издава реалните private fields. Това би улеснило pattern matching и serializer/framework integrations, ако API и invariant semantics са уточнени.
+
+**Статус — предложен дизайн, не финализирана Java 25/26 функция.** Не публикувай `case PublicTimestamp(String s)`, „primary class constructor“ или `object with { ... }` като работещи Java25 snippets. Лекторът също отбелязва, че няма вътрешен достъп до roadmap-а на Amber. Възможното бъдещо премахване/deprecation на Java Serialization **не е гарантиран JDK release milestone**.
+
+**Стабилни доказателства днес:** [Java25 public String / private long class](src/main/java/bg/hristomanov/education/dop/amber/PublicTimestamp.java) с [JUnit](src/test/java/bg/hristomanov/education/dop/amber/PublicTimestampTest.java), [native deserialization legacy-vs-record](DESERIALIZATION-AND-ENCAPSULATION.md) и [JDK26 final-field policy](../../jvm/final-field-integrity/README.md). Не дублираме вече наличните Amber reconstruction и data-interface chapters.
+
 ## 4. Decision contract
 
 | Техника | Решава | Кога | Кога НЕ | Печалба ↔ цена |

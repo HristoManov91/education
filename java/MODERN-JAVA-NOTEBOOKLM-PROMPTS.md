@@ -83,6 +83,8 @@
 
 **Отделна лекция — без ново дублиращо audio:** [Learning modern Java the playful way, Devoxx 2026 — целеви P1/P2/P3 допълнения и runnable labs](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md). Използвай оригиналния транскрипт само за фактическа справка; избери едно упражнение (ForkJoin starvation, debugger или Toxiproxy) вместо общо резюме от 3 часа.
 
+**[P1 Richard Groß — Destructuring / native deserialization / JEP 500 (самостоятелен аудио prompt)](language/data-oriented-programming/DESTRUCTURING-NOTEBOOKLM-PROMPT.md)** — Java25 record canonical constructor vs legacy Serializable, JDK26 reflective `final` mutation policy и P2 class deconstruction proposal; не повтаря общия DOP урок.
+
 ## After listening: learning checks
 
 Използвай [education assessment protocol](../docs/learning/ASSESSMENT-PROTOCOL.md): по един реален Java question на микро-тема, професионални корекции на техническия изказ и D+1/D+7/D+30 review. Generated NotebookLM audio **не е автоматично доказателство за усвоен материал**.
