@@ -20,6 +20,7 @@ Case study **не се брои за преминат урок или доказ
 | [004](004-port-of-rotterdam-modular-monolith.md) | Port of Rotterdam — microservice overload | 90+ services, 5 teams, responsibilities crossing multiple deployables | EventStorming/DDD boundaries, Spring Modulith, capability-by-capability migration | Strategic DDD, EventStorming, Spring Modulith, Legacy Modernization |
 | [005](005-hardwood-ai-parquet-engineering.md) | Hardwood — AI-assisted Parquet parser (open-source case, НЕ incident) | Hadoop dependency footprint, single-threaded reader, сложна specification и AI-generated code risks | Page-level parallelism, conservative pruning, differential fixtures, profiling и independent review | AI Engineering, Java Performance, Parquet, JFR/JMH, Make-or-Buy |
 | [006](006-brewlet-java-oci-runtime.md) | Microsoft Brewlet / Java OCI artifacts (preview case, не инцидент) | Per-app JDK duplication, memory/startup tradeoffs, native/container runtime integration | OCI JAR artifacts + node-managed JDK чрез Kubernetes RuntimeClass/containerd shim; **не** Java→Wasm | Kubernetes, Java runtime, supply chain, isolation, deployment choices |
+| [007](007-pdf-brotli-standards-adoption.md) | PDF/Brotli — standards adoption (engineering case, **не** production incident) | По-добър формат без достатъчно reader support няма автоматична adoption | PDF Association extension (2026), независими readers/writers, gradual rollout и fallback | Java contract evolution, interoperability, PDF 2.0 extension, compatibility tests |
 
 ## Какво изискваме от всеки казус
 
@@ -33,6 +34,8 @@ Case study **не се брои за преминат урок или доказ
 8. **When to reuse / not reuse:** достатъчно точни предпоставки.
 9. **Reproduction ideas:** свързани налични тестове или изрично маркирани идеи.
 10. **Original sources:** видео, официална документация, implementation references.
+
+- **PDF / legacy interoperability / format adoption:** [Case 007](007-pdf-brotli-standards-adoption.md) + [Java25 producer/consumer tests](../../spring/messaging/integration-patterns/05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md). Case 007 **не** твърди изпълним PDF/Brotli code или universal reader support.
 
 ## Откриване и свързване
 

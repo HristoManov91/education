@@ -112,6 +112,10 @@ interface CatalogHttpClient {
 - [ ] Ограничението per bean ли е или се нуждаем от shared/distributed control?
 - [ ] API migration има ли V1/V2/missing/unsupported тестове?
 
+## P1 свързана лаборатория — reader-first migration на събития
+
+[**Protocol Adoption & Compatibility (Java25 + JUnit)**](../messaging/integration-patterns/05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md) показва подобен, но **не идентичен** problem class при async events: readers поддържат V1/V2 преди writer да активира V2; mixed recipients, feature flags и semantic downgrade rejection. Тук HTTP versioning остава header-based contract; не приемай, че Kafka/JMS има вградено capability negotiation като HTTP header.
+
 ## 9. Какво решихме
 
 Имаме едновременно стар и нов API, детерминиран retry success след две грешки и доказано ограничена конкуренция. **Не сме решили:** circuit breaker, глобален rate limiter, exactly-once writes, HTTP client integration тестовете или автоматично премахване на V1. Това са отделни инженерни решения.

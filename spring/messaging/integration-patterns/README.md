@@ -23,6 +23,17 @@ Separately, our SaaS has 20 tenants sharing a queue. One tenant can publish a hu
 
 **We intentionally do not re-teach** Saga, Outbox, Inbox, HTTP Idempotency, Event Sourcing, RabbitMQ/Kafka or the existing resilience load-shedding lab. Instead, the chapters point directly to those executable modules.
 
+## P1 extension — Guust Ysebie: right problem and gradual protocol adoption
+
+[Guust Ysebie — Engineering Lessons from Working on Software Older Than Me](https://www.youtube.com/watch?v=VaT7DgmVSms), предоставен SRT (~34 мин), добавя **две различни инженерни компетенции** към съществуващите AsyncAPI/queue уроци:
+
+- [**04 — Solve the Right Integration Problem**](04-SOLVE-THE-RIGHT-INTEGRATION-PROBLEM.md): преди сложен PDF extraction попитай дали източникът има структурирани JSON/XML данни. Това е decision guide; не добавя PDF parser/OCR dependency.
+- [**05 — Protocol Adoption & Compatibility**](05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md): 12 Java25 JUnit теста с **истински JSON wire roundtrip** за old/new producers и consumers, capabilities intersection, safe feature flag rollout и отказ на USD→EUR downgrade. Съществуващият AsyncAPI урок покрива schema; този **доказва deployment sequence**, не дублира YAML спецификацията.
+- [**Case 007 — PDF/Brotli**](../../../docs/case-studies/007-pdf-brotli-standards-adoption.md): standards extension ≠ reader implementation ≠ real ecosystem adoption, изрично **case study, не PDF compression code**.
+- [NotebookLM аудио prompt](NOTEBOOKLM-LEGACY-INTEROPERABILITY.md).
+
+Форматът/тестът е Java25, но **не** симулираме Kafka automatic capability discovery: producer трябва да има реален recipient inventory/feature flag policy. Виж [Versioning lesson](../../boot4/03-API-VERSIONING-RESILIENCE.md).
+
 ## 3. README → code → tests
 
 | Problem | Production-like Java model | Proof |
@@ -35,6 +46,7 @@ Separately, our SaaS has 20 tenants sharing a queue. One tenant can publish a hu
 | Minimal runnable CLI | [FairnessDemo](src/main/java/bg/hristomanov/education/integrationpatterns/queue/FairnessDemo.java) | same measured result as fairness tests |
 | Shared AsyncAPI 3.1 message and send/receive operations | [order-events.yaml](src/main/resources/asyncapi/order-events.yaml), [producer](src/main/resources/asyncapi/order-events-send.yaml), [consumer](src/main/resources/asyncapi/order-events-receive.yaml) | [OrderCreatedContractTest](src/test/java/bg/hristomanov/education/integrationpatterns/event/OrderCreatedContractTest.java), [AsyncAPI CLI workflow](../../../.github/workflows/asyncapi-contract.yml) |
 | Real serialized Java event & compatibility | [OrderCreatedEvent](src/main/java/bg/hristomanov/education/integrationpatterns/event/OrderCreatedEvent.java), [fixtures](src/test/resources/asyncapi/order-created-valid.json) | [03 — AsyncAPI lesson](03-ASYNCAPI-CONTRACT-FIRST.md) |
+| Staged V1/V2 rollout across old/new consumers, flags and fan-out | [OrderEventEvolution.java](src/main/java/bg/hristomanov/education/integrationpatterns/evolution/OrderEventEvolution.java) | [OrderEventEvolutionTest.java](src/test/java/bg/hristomanov/education/integrationpatterns/evolution/OrderEventEvolutionTest.java) — 12 JUnit tests |
 
 ## 4. Run (no AWS account, no credentials, no broker)
 

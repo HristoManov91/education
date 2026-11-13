@@ -242,6 +242,10 @@ A Senior-level design must define the **compatibility direction** explicitly: ol
 
 A possible mature follow-up: Schema Registry, producer/consumer-driven contract testing, backward/forward compatibility checks at PR time, versioned topics, migration adapters and replay tests. **None** of those are implicitly supplied just by adding AsyncAPI.
 
+### P1 follow-up: adoption requires rollout, not just schema validation
+
+Този урок вече доказва, че добавянето на optional JSON field може да е приемливо за новия schema, но да счупи стар строг consumer. [**05 — Protocol Adoption & Compatibility**](05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md) надгражда с **реален Java25/JUnit JSON exchange matrix**, pre-upgraded readers, feature flag и capability intersection при fan-out. Особено важно: currency-less V1 означава EUR и producer **не** може да изпрати USD като V1 fallback. Това не е пълна Kafka интеграция и не променя публикувания AsyncAPI event schema в тази глава — отделен синтетичен protocol lab.
+
 ## 7. Where code generation fits — and why we do not reimplement the speaker's generator
 
 Michel demonstrates:

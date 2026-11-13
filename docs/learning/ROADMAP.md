@@ -274,6 +274,9 @@
 
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
+- **P1 Integration Contracts:** [Solve the Right Integration Problem](../../spring/messaging/integration-patterns/04-SOLVE-THE-RIGHT-INTEGRATION-PROBLEM.md) и [Protocol Adoption V1/V2 Java25 JUnit](../../spring/messaging/integration-patterns/05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md) — producer/consumer compatibility, rollout, semantic downgrade safety.
+- **P2 Engineering Case 007:** [PDF/Brotli standards and adoption](../case-studies/007-pdf-brotli-standards-adoption.md) — industry extension не доказва installed reader support и не е PDF library lab.
+
 - **P1 supply-chain integrity:** [VEX/Backport Evidence](../../spring/testing/testcontainers/VEX-BACKPORT-EVIDENCE.md) — 18 offline negative tests; не е автоматична security clearance.
 - **P2 OSS Operations:** [EOL/ELS strategy](../../java/build/reproducible-maven/OPEN-SOURCE-LIFECYCLE-EOL.md) и [Live Patching vs Rolling](../../infrastructure/kubernetes/LIVE-PATCHING-VS-ROLLING-UPDATES.md) — decision guides, без vendor lock-in.
 
