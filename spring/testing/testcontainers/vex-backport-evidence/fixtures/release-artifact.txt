@@ -1,0 +1,4 @@
+SYNTHETIC_RELEASE
+app=orders-api
+version=1.5.0
+commit=education-vex-lab

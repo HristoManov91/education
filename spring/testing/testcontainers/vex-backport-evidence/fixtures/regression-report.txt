@@ -1,0 +1,6 @@
+SYNTHETIC_TEST_REPORT; NOT AN ATTESTATION
+suite=ParserLengthBoundTest
+valid_length=PASS
+negative_length=PASS
+large_length=PASS
+pipeline=education-lab

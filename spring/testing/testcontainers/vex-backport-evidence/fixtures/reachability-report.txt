@@ -1,0 +1,5 @@
+SYNTHETIC_REACHABILITY_REVIEW; NOT AN ATTESTATION
+component=pkg:maven/edu.example/legacy-parser@1.2.0-edu1
+vulnerability=CVE-2099-90002
+rationale=unsafe XML entrypoint not routed or reflected in API
+reviewer=education-security
