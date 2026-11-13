@@ -144,6 +144,10 @@ Reproducibility **не е**:
 
 [Software Gardening](SOFTWARE-GARDENING.md) свързва immutable/reproducible builds с ежедневното поддържане на зависимостите: Dependabot/Renovate PR policies, version update cooldown срещу security urgency, major migration reviews и OpenRewrite dry-run. Примерните конфигурации **не са активирани** и няма нови ботове/auto-merge. Има връзки към [SBOM accuracy negative tests](../../../spring/testing/testcontainers/SBOM-ACCURACY.md) и [EU CRA](../../../docs/security/cra/README.md).
 
+## P2 extension: EOL, Backports и VEX
+
+[OSS Lifecycle / EOL strategy](OPEN-SOURCE-LIFECYCLE-EOL.md) обсъжда upgrade vs validated backport vs commercial ELS, supplier/SLAs и exit plan. [VEX evidence P1 lab](../../../spring/testing/testcontainers/VEX-BACKPORT-EVIDENCE.md) проверява CycloneDX BOM-Link към точния release/component; не бъркай битово идентична компилация с гаранция за security fix.
+
 ## 6. Упражнения и проверка на разбирането
 
 1. Изпълни `clean package` два пъти и сравни SHA-256. Какво доказва това и какво **не**?

@@ -129,6 +129,10 @@ Deployment desired replicas=2 → ReplicaSet → тези Pod-ове
 
 Spring Boot конфигурацията и Deployment probes са в един и същи модул: няма магическа auto-discovery за health path, когато в YAML е написан грешен URL. Има JUnit HTTP test и kind smoke.
 
+### P2 operational extension — Live Patching vs Rolling Update
+
+[Live patching vs rolling update](LIVE-PATCHING-VS-ROLLING-UPDATES.md) уточнява какво поправяме: Linux kernel, native library, JDK или Maven JAR. Реалните ни два Pods, `maxUnavailable: 0` и readiness/termination probes се използват за **локален rolling update**, който не означава автоматично нов patch. Не е необходим платен KernelCare/LibCare агент.
+
 ## 8. Безопасен rollout и спиране
 
 В [Deployment](manifests/30-deployment.yaml) задаваме `replicas: 2`, `maxUnavailable: 0`, `maxSurge: 1`, `minReadySeconds: 3` и `terminationGracePeriodSeconds: 35`.

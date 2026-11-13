@@ -28,6 +28,9 @@
 | SAMPLE-NOT-A-REAL-CVE | `sha256:example` | Неизследвано — не се приема за safe | Планиран patch | TODO | TODO | TODO |
 
 - SBOM tool/version/schema + scope (Maven vs packaged JAR vs image OS/JDK):
+- VEX document digest + CycloneDX BOM-Link to affected SBOM serialNumber/version/component:
+- VEX state/justification vs backport pedigree, source diff, actual deployed binary proof and signer validation:
+- EOL / ELS supplier coverage, support expiry, verified SLA clock + exit-to-supported-version plan:
 - Known gaps and false-positive decisions (без `ignore all`):
 - Dependency bot PR, update delay policy, breaking change review:
 - Unit / integration / HTTP security test links:

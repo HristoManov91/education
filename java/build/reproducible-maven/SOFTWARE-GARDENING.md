@@ -75,6 +75,10 @@ mvn -pl spring/security/threat-modeling test
 
 За малък проект достатъчна алтернатива е **седмична ръчна проверка + един малък PR + тестове**, ако има конкретен owner. При по-голям екип групирай PR-и и използвай dashboard, но измервай реално обема работа и CI cost.
 
+## Допълнение: Backport и Extended Lifecycle Support при EOL
+
+[Sven Sellen — Engineering for the Long Haul (Devoxx 2026)](https://www.youtube.com/watch?v=Pg5kS8l9CpI) подчертава maintenance на open-source компоненти, когато няма upstream security fixes или migration е рискована. [**P2 EOL/Backport/ELS decision guide**](OPEN-SOURCE-LIFECYCLE-EOL.md) добавя upgrade vs backport vs ELS vs retirement, точен deployed digest, supplier SLA и exit plan. [**P1 VEX/Backport evidence lab**](../../../spring/testing/testcontainers/VEX-BACKPORT-EVIDENCE.md) проверява дали assessment се отнася до конкретната CVE, versioned PURL и release — не е автоматичен scanner-suppression инструмент. Не активираме TuxCare или нов dependency bot.
+
 ## 7. Финален decision contract и упражнения
 
 - **Проблем:** release използва неподдържана библиотека и hotfix изисква разрушителна миграция.

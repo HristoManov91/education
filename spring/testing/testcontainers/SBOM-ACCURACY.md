@@ -71,6 +71,10 @@ mvn -pl spring/security/threat-modeling \
 
 С реално генерираните два BOM-а: разгледай кой scanner е включил Maven `test`/`provided` компоненти, native libraries и OS/JDK. Ръчно review-ни очакваните runtime PURL-и от **финалния артефакт**, не просто от `pom.xml`, и използвай script-а за focused coverage проверка. Ако source/plugin ползва `bom-ref` без PURL или OS пакет няма PURL, този прост lab **няма да го съпостави**; допълни parser-а/format contract-а според реалния инструмент, вместо да пропускаш silently.
 
+### P1 следваща стъпка: VEX и версиониран BOM-Link
+
+[**VEX & Backport Evidence**](VEX-BACKPORT-EVIDENCE.md) започва **след** доказана inventory identity: отделен CycloneDX 1.6 VEX свързва fictitious CVE към exact `serialNumber/version#bom-ref` и versioned Maven PURL. Има 18 negative/positive теста за stale release, missing patch, чужд BOM, not_affected justification и under-investigation. Това е **consistency review**, не криптографски signed provenance и не разрешение за scanner suppression.
+
 ## 5. Защо резултатите могат да се различават
 
 | Причина | Симптом | Как да проверя |

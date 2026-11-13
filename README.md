@@ -171,6 +171,8 @@ education/
   - [CI Efficiency — runnable labs и отрицателни контроли](java/build/reproducible-maven/CI-EFFICIENCY-LABS.md)
   - [NotebookLM audio prompt — Maven reproducibility и build integrity](java/build/reproducible-maven/NOTEBOOKLM-PROMPT.md)
   - [P1 Software Gardening — Dependabot/Renovate, controlled upgrades и OpenRewrite decisions](java/build/reproducible-maven/SOFTWARE-GARDENING.md)
+  - [P2 Long-Haul OSS Lifecycle — EOL/backport/extended support и exit strategy](java/build/reproducible-maven/OPEN-SOURCE-LIFECYCLE-EOL.md)
+  - [NotebookLM — EOL, VEX, provenance и live patching](java/build/reproducible-maven/OPEN-SOURCE-LIFECYCLE-NOTEBOOKLM-PROMPT.md)
 
 ### Java / Algorithms
 
@@ -223,6 +225,7 @@ education/
 
 - [P1 Kubernetes for Java Backend Developers — Spring Boot 4 / kind, Deployments, probes, security, resource limits и rolling updates](infrastructure/kubernetes/README.md)
   - [Kubernetes operations — restart, OOMKilled, graceful shutdown, troubleshooting](infrastructure/kubernetes/OPERATIONS.md)
+  - [P2 Live Patching vs Java Rolling Update — kernel/library/JDK/JAR decisions](infrastructure/kubernetes/LIVE-PATCHING-VS-ROLLING-UPDATES.md)
   - [P2 Advanced Kubernetes — Flox, mirrord, runtime sandboxes, admission и resource resize](infrastructure/kubernetes/ADVANCED-WATCH.md)
 
 ### Spring / Testing
@@ -230,6 +233,7 @@ education/
 - [Containers & Testcontainers — от Linux process до Spring Boot integration test](spring/testing/testcontainers/README.md)
   - [P1 Java container image hardening — minimal images, SBOM, signatures, CVE triage, reproducibility](spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md)
   - [P1 SBOM accuracy lab — CycloneDX PURL reconciliation + 5 offline tests](spring/testing/testcontainers/SBOM-ACCURACY.md)
+  - [P1 VEX/Backport Evidence — CycloneDX BOM-Link + 18 offline adversarial checks](spring/testing/testcontainers/VEX-BACKPORT-EVIDENCE.md)
   - [P2 Toxiproxy latency & JDK21/25 virtual-thread pinning lab](spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md)
   - [Hands-on labs за Windows 11 и macOS](spring/testing/testcontainers/LABS.md)
 - [P1 Spring Boot Testing in the AI Era — unit/slice/HTTP, TestContext cache, mutation и AI тестове](spring/testing/ai-assisted-testing/README.md)
