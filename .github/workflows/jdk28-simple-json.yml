@@ -1,0 +1,40 @@
+name: JEP 540 Simple JSON - JDK 28 EA
+
+on:
+  pull_request:
+    paths:
+      - 'java/experiments/jdk28-simple-json/**'
+      - '.github/workflows/jdk28-simple-json.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  incubator-json-real-jdk28:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up official OpenJDK 28 Early Access
+        # Same verified EA resolver as Education Valhalla workflow.
+        # Must use a real JDK with jdk.incubator.json, never mock an API.
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: '28'
+          version: latest
+
+      - name: Print exact runtime and module provenance
+        run: |
+          java --version
+          javac --version
+          java --list-modules | grep '^jdk.incubator.json@'
+
+      - name: Compile and execute JEP 540 strict JSON and real JVM diagnostics
+        run: bash java/experiments/jdk28-simple-json/run-lab.sh
+
+# Java 25 / Jackson 3 tests are covered by the regular Maven Verify job.
+# Do not add Java 28 incubator classes to the root reactor.
