@@ -46,6 +46,7 @@
 ## Реални production казуси (Engineering Case Studies)
 
 - [Case Studies — индекс на реални инженерни проблеми и решения](docs/case-studies/README.md)
+  - [Case 007 — PDF/Brotli: proposed vs specified vs implemented vs adopted](docs/case-studies/007-pdf-brotli-standards-adoption.md)
 - [Case 006 — Brewlet: Java OCI artifact + node-managed JDK, Kubernetes RuntimeClass и рисковете на preview архитектурата](docs/case-studies/006-brewlet-java-oci-runtime.md)
 - [Decathlon — как премахват Kafka dual write чрез PostgreSQL CDC, и защо наблюдават WAL](docs/case-studies/001-decathlon-kafka-business-table-cdc.md)
 - [Commerzbank — 11 TB Exadata cold-cache инцидент, SQL и архитектурна миграция към PostgreSQL (Case 002)](docs/case-studies/002-commerzbank-exadata-performance-incident.md)
@@ -274,6 +275,9 @@ education/
   - [01 — Integration Decision Guide (P2)](spring/messaging/integration-patterns/01-INTEGRATION-DECISION-GUIDE.md)
   - [02 — Queue Fairness, Noisy Neighbor, Cells and Shuffle Sharding (Java runnable lab)](spring/messaging/integration-patterns/02-QUEUE-FAIRNESS-NOISY-NEIGHBOR.md)
   - [03 — AsyncAPI Contract-First: OrderCreated sender/receiver specs, schema tests, CLI docs (P2)](spring/messaging/integration-patterns/03-ASYNCAPI-CONTRACT-FIRST.md)
+  - [04 — Solve the Right Integration Problem: JSON/XML vs PDF extraction (P1)](spring/messaging/integration-patterns/04-SOLVE-THE-RIGHT-INTEGRATION-PROBLEM.md)
+  - [05 — Protocol Adoption: Java 25 producer/consumer capability matrix + 12 JUnit tests (P1)](spring/messaging/integration-patterns/05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md)
+  - [NotebookLM — legacy interoperability / PDF-Brotli и safe rollout](spring/messaging/integration-patterns/NOTEBOOKLM-LEGACY-INTEROPERABILITY.md)
 
 - [Transactional Outbox + Idempotent Consumer / Inbox](spring/messaging/outbox-inbox/README.md)
 - [Saga Pattern — orchestration, compensation и durable workflow state](spring/messaging/saga/README.md)
