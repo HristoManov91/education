@@ -126,9 +126,9 @@ Sources: [JEP 517](https://openjdk.org/jeps/517), [JDK 26 HttpClient.Version](ht
 - **Кога не:** за стандартни Spring Boot Java25 services избери по-прост `static` holder или `@Lazy` bean; използвай JDK27 preview само като контролиран експеримент със съвместим build и startup/p99 измерване.
 - [Java 27 LazyConstant официална документация](https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/LazyConstant.html).
 
-### 5.1 P3 — Simple JSON API / JDK 28 EA (JEP 540)
+### 5.1 P1/P2 — Everyday JSON / JDK 28 EA (JEP 540)
 
-**JDK28 EA incubator `jdk.incubator.json`** предлага basic JSON tree parsing/generation за малки CLI и прототипи. Не дава автоматична замяна на Jackson custom deserializers, data binding, streaming или Spring MVC integration. Java25 baseline и CI не го компилират. [Tech Radar note, кога/кога не, upgrade checklist](experiments/jdk28-simple-json/README.md). [JEP 540](https://openjdk.org/jeps/540).
+**JDK28 EA incubator `jdk.incubator.json`** предлага immutable JSON value tree за малки CLI и diagnostics, **не** автоматична замяна на Jackson custom deserializers, data binding, streaming или Spring MVC integration. **Отделен real JDK28 EA CI** компилира JEP540 [изпълнимото обучение](experiments/jdk28-simple-json/README.md), включително real `jcmd` JSON thread dump. Java25 **основният Maven CI** проверява [strict Jackson 3 JUnit](../spring/messaging/integration-patterns/src/test/java/bg/hristomanov/education/integrationpatterns/json/JsonBoundaryCorrectnessTest.java). **Incubator source не е част от Java25 reactor.** [JEP 540](https://openjdk.org/jeps/540).
 
 ### 5.2 Debugger / JDK switching / migration workflow
 

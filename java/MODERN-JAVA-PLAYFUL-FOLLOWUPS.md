@@ -11,7 +11,7 @@
 | **P2** | [2:18:00](https://youtu.be/QBQ11aL2aZc?t=8280) — latency/pinning | [Toxiproxy + Cross-JDK probe](../spring/testing/testcontainers/TOXIPROXY-VIRTUAL-THREADS.md) | Docker integration + opt-in 21/25 |
 | **P2** | [2:34:00](https://youtu.be/QBQ11aL2aZc?t=9240) — constructors | [JEP 513 Java25](language/data-oriented-programming/FLEXIBLE-CONSTRUCTOR-BODIES.md) | Java25/JUnit |
 | **P2** | [1:14:00](https://youtu.be/QBQ11aL2aZc?t=4440) — lazy constants | [JEP531 Java27](experiments/jdk27-lazy-constants/README.md) | Java27 preview self-test, separate workflow |
-| **P3** | [1:48:35](https://youtu.be/QBQ11aL2aZc?t=6515) — Simple JSON | [JEP540/JDK28 EA note](experiments/jdk28-simple-json/README.md) | **not runnable lab**, watch only |
+| **P1/P2** | [1:48:35](https://youtu.be/QBQ11aL2aZc?t=6515) — Simple JSON | [JEP540/JDK28 EA real lab](experiments/jdk28-simple-json/README.md) + [Viktor Klang / Alan Bateman lecture](https://www.youtube.com/watch?v=5y_82lCevHg) | **Runnable JDK28 incubator + Java25/Jackson correctness**, отделен CI, без adoption в production |
 | **P3** | [20:50](https://youtu.be/QBQ11aL2aZc?t=1250) — RRF/hybrid search | [RRF algorithm lab](algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md) | Java25/JUnit, без Elasticsearch dependency |
 
 ## Съзнателно не дублираме
@@ -22,7 +22,7 @@ Records, DOP, Gatherers core API, Structured Concurrency/Joiners, Scoped Values,
 
 - P1 темите влияят пряко на ежедневното разследване на bugs и избора на backend concurrency механизъм.
 - P2 Java25/27/21→25 са конкретни version/lifecycle рискове; включват тестове и честно разделят compilation support от runtime behavior.
-- P3 JSON и hybrid search са полезни за Tech Radar, но не налагат нова production зависимост в Spring Boot.
+- JEP540 вече има [P1/P2 executable EA лаб](experiments/jdk28-simple-json/README.md), но **не е production feature** и не налага JSON dependency в Spring Boot. Hybrid search остава P3.
 
 **Прилагане:** използвай следния ред при 20–30 минутна сесия: реален казус → хипотеза → bad/good → тест → trade-offs → кога не се използва → 2 recall въпроса. Няма автоматични оценки за усвояване, преди да бъдат решени задачи.
 

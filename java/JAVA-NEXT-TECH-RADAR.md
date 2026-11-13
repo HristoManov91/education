@@ -105,9 +105,9 @@ Java method annotated @Reflect (experimental Babylon)
 
 След стабилен engine lifecycle API, предсказуем dependency/build и licensing модел, интеграционни тестове и доказана безопасна изолация за нашия deployment.
 
-## Devoxx 2026 P3 watch — Simple JSON и Hybrid Search
+## Devoxx 2026 — JEP 540 P1/P2 executable experiment и Hybrid Search P3
 
-- **JEP 540 / JDK 28 EA:** [Simple JSON API, incubator `jdk.incubator.json`](experiments/jdk28-simple-json/README.md) — подходящ за малки CLI/прототипи, **не** замества Jackson за Java25 Spring Boot. Няма compiled production module.
+- **JEP 540 / JDK 28 EA P1/P2:** [Everyday JSON — real incubator lab](experiments/jdk28-simple-json/README.md) компилира с `jdk.incubator.json` **само на JDK28 EA** и тества strict parsing/null/numeric/JVM JSON thread dump. [Jackson 3 Java25 JUnit](../spring/messaging/integration-patterns/src/test/java/bg/hristomanov/education/integrationpatterns/json/JsonBoundaryCorrectnessTest.java) сравнява действителни конфигурации. **Няма production Maven module** и не замества Jackson в Spring Boot.
 - **Hybrid Search:** [RRF runnable ranking-lab](algorithms/04-searching-sorting/HYBRID-RANK-FUSION.md) — обединява само rank positions от отделни retrievers, **без** Elasticsearch dependency, cross-tenant data или внушени retrieval quality gains.
 - [Map на всички точкови follow-ups от Marit van Dijk / Piotr Przybył](MODERN-JAVA-PLAYFUL-FOLLOWUPS.md).
 
