@@ -1,0 +1,59 @@
+{
+  "$schema": "https://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:11111111-1111-4111-8111-111111111111",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "bom-ref": "orders-1.5.0",
+      "type": "application",
+      "name": "orders-api",
+      "version": "1.5.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2bf4ab5b29ebb5e703fdec12287a2c7fed485bebdae796ddbbd4fb4919891815"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "legacy-parser-fork-1.2.0-edu1",
+      "group": "edu.example",
+      "name": "legacy-parser",
+      "version": "1.2.0-edu1",
+      "purl": "pkg:maven/edu.example/legacy-parser@1.2.0-edu1",
+      "pedigree": {
+        "ancestors": [
+          {
+            "type": "library",
+            "name": "legacy-parser",
+            "version": "1.2.0"
+          }
+        ],
+        "patches": [
+          {
+            "type": "backport",
+            "diff": {
+              "text": {
+                "contentType": "text/plain",
+                "encoding": "base64",
+                "content": "LS0tIGEvTGVnYWN5UGFyc2VyLmphdmEKKysrIGIvTGVnYWN5UGFyc2VyLmphdmEKQEAgLTEsMyArMSw0IEBACi0gYnl0ZVtdIHBheWxvYWQgPSBuZXcgYnl0ZVtsZW5ndGhdOworIGlmIChsZW5ndGggPCAwIHx8IGxlbmd0aCA+IE1BWF9QQVlMT0FEKSB0aHJvdyBuZXcgUGFyc2VFeGNlcHRpb24oIkludmFsaWQgbGVuZ3RoIik7CisgYnl0ZVtdIHBheWxvYWQgPSBuZXcgYnl0ZVtsZW5ndGhdOwogIHN0cmVhbS5yZWFkRnVsbHkocGF5bG9hZCk7Cg=="
+              }
+            },
+            "resolves": [
+              {
+                "type": "security",
+                "id": "CVE-2099-90001",
+                "description": "Fictional input length vulnerability, not a real CVE"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

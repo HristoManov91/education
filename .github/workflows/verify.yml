@@ -37,6 +37,12 @@ jobs:
       - name: Verify offline SBOM reconciliation
         run: python3 -m unittest discover -s spring/testing/testcontainers/sbom-accuracy -p 'test_*.py'
 
+      - name: Verify offline VEX / Backport evidence decision gate
+        run: |
+          python3 -m unittest discover -s spring/testing/testcontainers/vex-backport-evidence -p 'test_*.py'
+          # Fixed as-of date for fictional fixture; production must use current assessment date.
+          python3 spring/testing/testcontainers/vex-backport-evidence/verify_vex.py --as-of 2026-11-13
+
       - name: Verify
         run: mvn --no-transfer-progress verify
 

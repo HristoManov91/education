@@ -274,6 +274,9 @@
 
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
+- **P1 supply-chain integrity:** [VEX/Backport Evidence](../../spring/testing/testcontainers/VEX-BACKPORT-EVIDENCE.md) — 18 offline negative tests; не е автоматична security clearance.
+- **P2 OSS Operations:** [EOL/ELS strategy](../../java/build/reproducible-maven/OPEN-SOURCE-LIFECYCLE-EOL.md) и [Live Patching vs Rolling](../../infrastructure/kubernetes/LIVE-PATCHING-VS-ROLLING-UPDATES.md) — decision guides, без vendor lock-in.
+
 - **P1:** Distributed Systems/System Design; JVM Performance & Observability; DS&A (вече разделено на малки topics); Redis/Caching; Docker/CI; AI-assisted Engineering.
 - **P2:** Design Patterns и advanced architectural approaches, след като fundamentials и prerequisites са доказано ясни. [The Hexagonal Hangover — practical architecture decision-making](../../spring/architecture/hexagonal-architecture/P2-ARCHITECTURE-DECISIONS.md) е кратко допълнение към реализирания Hexagonal lab, **не** нова микро-тема с автоматично доказано усвояване.
 - Ако важна работна задача съвпадне с тема от P1/P2, допускаме **временен скок**, но отбелязваме необходимите пропуски и се връщаме към тях.

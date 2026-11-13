@@ -69,6 +69,10 @@ trivy sbom sbom.cdx.json
 
 Това разширение е инспирирано от [Christian Schabetsberger — CRAcking Compliance](https://www.youtube.com/watch?v=QQcsZNf0eWs), предоставен SRT. Юридическият контекст, приложимостта и правилните reporting deadlines са изнесени в [EU CRA](../../../docs/security/cra/README.md); **не дублираме** законовия обзор тук.
 
+### P1 VEX / backport: защо изключението се отнася до digest, не до tag
+
+[Изпълнимият CycloneDX VEX/Backport Evidence lab](VEX-BACKPORT-EVIDENCE.md) изисква exact release SHA-256, BOM-Link към компонент, patch pedigree или reachability justification. Тестовете отхвърлят `in_triage` и стари/чужди артефакти; все пак истинската атестация/подпис/проверен deployed digest са отделна стъпка. [EOL Lifecycle guide](../../../java/build/reproducible-maven/OPEN-SOURCE-LIFECYCLE-EOL.md).
+
 ## 5. Правилна CVE triage семантика
 
 **CVSS е severity за потенциален worst case, не вероятност за компрометиране на конкретно приложение.** В лекцията е дадено опростено статистическо сравнение, което НЕ трябва да се използва като вероятност „6% CVE → 6% шанс за пробив“. Запиши към всяка находка:

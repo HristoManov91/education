@@ -116,6 +116,10 @@ Annex I Part II(1) изисква идентифициране/документ�
 | Dependency bot + gated upgrade | Наваксване на 6 major версии при CVE | Поддържани production системи | PR noise, CI цена, migration риск | Ръчни планирани small PR + [policy](../../../java/build/reproducible-maven/SOFTWARE-GARDENING.md) |
 | Central vulnerability platform | История/видимост на много продукти | Десетки releases/services | Сървър, API keys, ownership и операции | Архивиран SBOM + triage таблица |
 
+### Допълнение — VEX/Backport evidence за конкретен release
+
+[Нова P1 лаборатория: CycloneDX VEX & Backport Evidence](../../../spring/testing/testcontainers/VEX-BACKPORT-EVIDENCE.md) добавя точен `SBOM serialNumber/version`, BOM-Link към versioned Maven component, evidence owner/expiry и проверка на backport pedigree. [P2 EOL/Extended Support](../../../java/build/reproducible-maven/OPEN-SOURCE-LIFECYCLE-EOL.md) разглежда maintenance/upgrade стратегията. **VEX не заменя CRA legal applicability, actively exploited reporting и risk approval**; лабораторията не издава compliance declaration.
+
 ## 10. Изход — връщаме се към казуса
 
 Намираме засегнатите **вече доставени** версии, документираме exploitability и owner, издаваме поправка със сравним identity, проверяваме внедрения digest и запазваме доказателствата. При **реално приложим trigger** legal/security owner стартира reporting flow, без да чака пълен postmortem. Поддръжката продължава и след следващия `main` commit.
