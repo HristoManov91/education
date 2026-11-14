@@ -274,6 +274,8 @@
 
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
+- **P1 JSON correctness:** [Everyday JSON Java25/Jackson tests](../../java/experiments/jdk28-simple-json/README.md) — duplicate members, missing/null, numeric coercion и business validation; **P2 JDK28 EA experiment** компилира real `jdk.incubator.json` и анализира реален `jcmd` JSON dump.
+
 - **P1 Integration Contracts:** [Solve the Right Integration Problem](../../spring/messaging/integration-patterns/04-SOLVE-THE-RIGHT-INTEGRATION-PROBLEM.md) и [Protocol Adoption V1/V2 Java25 JUnit](../../spring/messaging/integration-patterns/05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md) — producer/consumer compatibility, rollout, semantic downgrade safety.
 - **P2 Engineering Case 007:** [PDF/Brotli standards and adoption](../case-studies/007-pdf-brotli-standards-adoption.md) — industry extension не доказва installed reader support и не е PDF library lab.
 

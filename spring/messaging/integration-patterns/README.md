@@ -34,6 +34,10 @@ Separately, our SaaS has 20 tenants sharing a queue. One tenant can publish a hu
 
 Форматът/тестът е Java25, но **не** симулираме Kafka automatic capability discovery: producer трябва да има реален recipient inventory/feature flag policy. Виж [Versioning lesson](../../boot4/03-API-VERSIONING-RESILIENCE.md).
 
+## P1 extension — strict JSON parsing на untrusted boundaries
+
+[Everyday JSON / JEP540 JDK28 EA](../../../java/experiments/jdk28-simple-json/README.md) и [Java25 `JsonBoundaryCorrectnessTest`](src/test/java/bg/hristomanov/education/integrationpatterns/json/JsonBoundaryCorrectnessTest.java) добавят **11 JUnit проверки на Jackson 3** за duplicate JSON keys, missing vs explicit null, opt-in comments/trailing commas, BigDecimal vs lossy `double` и domain validation. JEP540 кодът е **отделен JDK28 EA експеримент**; нашата Spring Boot/Maven production база остава Java25/Jackson 3. Не приемай, че `JsonMapper` е strict към duplicate names без изрична конфигурация.
+
 ## 3. README → code → tests
 
 | Problem | Production-like Java model | Proof |

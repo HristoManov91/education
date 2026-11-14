@@ -653,6 +653,8 @@ HTTP 429: 0
 
 ---
 
+**JEP540 cross-reference (друга версия/цел):** [Everyday JSON / JDK28 EA](../../experiments/jdk28-simple-json/README.md) има executable test, който прави **истински** `jcmd Thread.dump_to_file -format=json` на локален процес и извлича virtual-thread names/flags чрез incubator API. Този Java28 експеримент **не** е част от Java25 Loom Maven module. JDK27+ dump има numeric `processId`/thread IDs, за разлика от някои стари снимки и примери.
+
 # Lab 7 — Nested StructuredTaskScope и JSON thread dump (Devoxx)
 
 **Проблем:** имаме parent request, който стартира няколко виртуални нишки, а една от тях отваря **втори** structured scope. При hang искаме да открием *защо чака parent-ът* и *коя точно leaf операция блокира*, вместо да получим плосък списък с thread IDs.

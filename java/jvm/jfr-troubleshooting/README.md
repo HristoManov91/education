@@ -458,6 +458,8 @@ jfr view all-views java/jvm/jfr-troubleshooting/target/education.jfr
 
 ---
 
+**Everyday JSON cross-link:** [JEP 540 / JDK28 EA executable JSON thread dump reader](../../experiments/jdk28-simple-json/README.md) обяснява как Alan Bateman използва JDK diagnostic JSON и `jcmd` без външна библиотека. `jfr print --json` е **отделна съществуваща JFR възможност**, не функция, добавена от JEP 540. EA code не се компилира с Java25 reactor.
+
 ## 13. `jfr print`
 
 `print` е полезно, когато искаме raw-ish detail за конкретен event type.
