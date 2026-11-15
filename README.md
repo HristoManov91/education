@@ -305,6 +305,9 @@ education/
 
 ### Persistence / Query Design
 
+- [**P2 DuckDB Analytical SQL — Java25 JDBC, CSV/Parquet, 12 JUnit tests + DuckLake/Quack decision guide**](persistence/analytical-sql-duckdb/README.md)
+  - [NotebookLM — From Laptop to Lakehouse](persistence/analytical-sql-duckdb/NOTEBOOKLM-PROMPT.md)
+
 - [Specification Pattern + QueryDSL — composable dynamic search](persistence/specification-querydsl/README.md)
 - [Repository + Unit of Work — JPA persistence context, dirty checking и transaction semantics](persistence/repository-unit-of-work/README.md)
 - [P1 Devoxx Deep Dive — When ORM Becomes OMG: HikariCP, transaction boundaries, N+1 и DTO projections](persistence/jpa-performance/README.md)

@@ -167,6 +167,9 @@ Gunnar използва профилираща машина, skill и SSH към
 
 ## 8. Senior self-check
 
+**Свързан SQL consumer lab:** [DuckDB Analytical SQL with JDBC/CSV/Parquet](../../persistence/analytical-sql-duckdb/README.md) показва как analytics engine използва колонните файлове, без да пишем още един Parquet parser. Това е **допълваща P2 лаборатория**, не benchmark сравнение Hardwood vs DuckDB.
+
+
 1. Защо един row group и две projected columns могат да ограничат паралелизма, въпреки стотици pages?
 2. Защо min=10/max=20 при `x > 5` НЕ гарантира `ALWAYS_MATCHES`, ако null count е неизвестен?
 3. Каква е разликата между false-positive Bloom и false-negative Bloom?

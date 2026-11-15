@@ -274,6 +274,8 @@
 
 ## P1 и P2 — след P0 основата, без да ги забравяме
 
+- **P2 Analytical SQL / OLAP:** [From Laptop to Lakehouse — DuckDB JDBC/CSV/Parquet](../../persistence/analytical-sql-duckdb/README.md) — 12 Java25/JUnit tests с фалшиви GPS данни, `EXPLAIN`, DuckLake catalog/Quack trade-offs; **не** замества OLTP Oracle и не стартира S3 в CI.
+
 - **P1 JSON correctness:** [Everyday JSON Java25/Jackson tests](../../java/experiments/jdk28-simple-json/README.md) — duplicate members, missing/null, numeric coercion и business validation; **P2 JDK28 EA experiment** компилира real `jdk.incubator.json` и анализира реален `jcmd` JSON dump.
 
 - **P1 Integration Contracts:** [Solve the Right Integration Problem](../../spring/messaging/integration-patterns/04-SOLVE-THE-RIGHT-INTEGRATION-PROBLEM.md) и [Protocol Adoption V1/V2 Java25 JUnit](../../spring/messaging/integration-patterns/05-PROTOCOL-ADOPTION-AND-COMPATIBILITY.md) — producer/consumer compatibility, rollout, semantic downgrade safety.
