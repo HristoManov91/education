@@ -105,6 +105,8 @@
 
 **VM-11–VM-14, VM-16–VM-17 — Hibernate performance and repository querying:** [изпълним модул, код и тестове](../../persistence/hibernate-performance/README.md) · [QueryDSL/Specification page/count lab](../../persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md). Статус `implementation-in-review` до зелен CI, без автоматично `learned`.
 
+**VM-20 — SQL dialect correctness:** [Oracle 19c ↔ PostgreSQL 17 DB comparison](../../database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md), actual PostgreSQL tests + ръчни Oracle SQL scripts (не са автоматично Oracle-validated).
+
 **VM-26 — bounded DB backpressure:** [Hikari admission gate, real pool metrics и PostgreSQL read-only correctness](../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md); положителни/negative tests и отделен PostgreSQL profile. Не е готова схема за глобален multi-pod pool sizing.
 
 **VM-05–VM-10 — transactions + Hibernate foundations:** [connection pool/MVCC/locking real PostgreSQL lab](../../database/transaction-labs/README.md) · [entity lifecycle](../../persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md) · [dirty checking/flush](../../persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md) · [associations/orphan removal](../../persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md). Материалите не означават автоматично проверени знания.

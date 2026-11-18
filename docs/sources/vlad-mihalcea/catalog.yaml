@@ -204,5 +204,11 @@ implementations:
 
   - id: VM-26
     chapter: database/transaction-labs/VM-26-POOL-BACKPRESSURE.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-001, VM-SRC-019]
+
+  - id: VM-20
+    chapter: database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md
+    status: implementation-in-review
+    oracle_validation: manual-only
+    sources: [VM-SRC-020]
