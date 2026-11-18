@@ -107,6 +107,11 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-05–VM-07: Hikari connection lease, MVCC/isolation, optimistic/pessimistic locking and deadlock — PostgreSQL lab](database/transaction-labs/README.md).
+- [VM-08–VM-10: managed/detached/merge, AUTO flush, cascade/orphanRemoval — existing JPA lab](persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md) · [VM-09](persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md) · [VM-10](persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md).
+  - [SQL + JPA path-filtered PostgreSQL CI](.github/workflows/vlad-transactions.yml). The PostgreSQL suite requires an explicit Maven profile.
+
+
 - [VM-01–VM-04: SQL correctness, constraints, CTE/window functions, indexes/EXPLAIN — изпълними JDBC + PostgreSQL лаборатории](database/sql-labs/README.md).
   - [Упражнения и диагностика](database/sql-labs/EXERCISES.md) · [NotebookLM аудио урок](database/sql-labs/NOTEBOOKLM-PROMPT.md) · [Останалите теми и зависимости](docs/sources/vlad-mihalcea/TOPIC-MAP.md).
   - Отделният PostgreSQL профил не се изпълнява при обикновен `mvn verify` и се проверява от [таргетиран workflow](.github/workflows/vlad-sql-labs.yml).

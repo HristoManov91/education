@@ -6,6 +6,12 @@
 > **Време:** 3 сесии по 20–30 минути + лабораториите в [EXERCISES.md](./EXERCISES.md).  
 > **За слушане:** [NotebookLM prompt](./NOTEBOOKLM-PROMPT.md).
 
+### Допълнителни Vlad Mihalcea лаборатории
+
+- [VM-05 — JDBC lifecycle и bounded pool](../../database/transaction-labs/docs/VM-05-JDBC-POOL.md) и [изпълним pool test](../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java) надграждат connection occupancy секцията.
+- [VM-06/07 — MVCC/isolation и locking](../../database/transaction-labs/README.md) изискват истински PostgreSQL 17 и нямат аналогични H2-only доказателства.
+- [VM-08–10 — lifecycle, flush, mappings](../repository-unit-of-work/README.md) надграждат съществуващия Unit of Work module.
+
 ## 1. Реалният казус — една бавна заявка блокира и други endpoint-и
 
 Имаме Spring MVC приложение с PostgreSQL/Oracle, Spring Data JPA, Hibernate и HikariCP. Потребител извиква endpoint, който:

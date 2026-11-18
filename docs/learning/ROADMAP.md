@@ -101,6 +101,8 @@
 
 **Комбинирани:** SQL Core (01–05), Index/Plans (06–07), Transactions (08–11), ORM (12–16); финален диагностика на slow query + transaction bug.
 
+**VM-05–VM-10 — transactions + Hibernate foundations:** [connection pool/MVCC/locking real PostgreSQL lab](../../database/transaction-labs/README.md) · [entity lifecycle](../../persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md) · [dirty checking/flush](../../persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md) · [associations/orphan removal](../../persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md). Материалите не означават автоматично проверени знания.
+
 **VM-01–VM-04 практически SQL блок:** [JDBC + H2 correctness + PostgreSQL Testcontainers + Oracle manual scripts](../../database/sql-labs/README.md) и [упражнения](../../database/sql-labs/EXERCISES.md). Кодът е в PR; за статус **verified** изискваме зелен профил за истинска база.
 
 **Налични лаборатории:** [Repository & Unit of Work](../../persistence/repository-unit-of-work/README.md), [Specification + QueryDSL](../../persistence/specification-querydsl/README.md).

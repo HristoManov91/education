@@ -22,6 +22,16 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 
 Публичните статии са достатъчни за стартиране. **Не препечатваме платени книги/видеа**, не представяме уроци от платен курс като достъпни без лиценз; изготвяме самостоятелни обяснения и реални тестове с линкове към първоизточника.
 
+## Продължение — VM-05–VM-10
+
+- [JDBC, MVCC, isolation, optimistic/pessimistic locking, deadlocks — Java + PostgreSQL Testcontainers](../../../database/transaction-labs/README.md)
+- [VM-08: entity lifecycle, merge, identity](../../../persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md)
+- [VM-09: dirty checking и AUTO flush](../../../persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md)
+- [VM-10: JPA mapping, cascade, LAZY, orphanRemoval](../../../persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md)
+- [Targeted PostgreSQL/JPA CI](../../../.github/workflows/vlad-transactions.yml)
+
+**Статус:** VM-05..10 са в процес на независим преглед, докато CI и тестовете завършат. VM-01..04 са мърджнати с успешен CI, но не са автоматично „усвоени“.
+
 ## Първи изпълним блок (VM-01–VM-04)
 
 - [SQL labs: 4 учебни глави, JDBC implementation и tests](../../../database/sql-labs/README.md)
@@ -29,7 +39,7 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [NotebookLM аудио материал](../../../database/sql-labs/NOTEBOOKLM-PROMPT.md)
 - [PostgreSQL CI — само на промени в SQL lab](../../../.github/workflows/vlad-sql-labs.yml)
 
-**Статус:** `implementation-in-review` до реално преминали тестове/преглед. Не означава, че темите са усвоени.
+**Статус:** `implemented` — VM-01..04 са мърджнати след зелени GitHub unit/PG tests. Това не означава, че темите са усвоени.
 
 ## Налични лаборатории — преизползваме, не дублираме
 
