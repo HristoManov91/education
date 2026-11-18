@@ -4,6 +4,8 @@
 > **Източник:** [Ron Pressler — Devoxx 2026](https://www.youtube.com/watch?v=vhDwy1eCXbs), анализ на предоставен Gemini-generated SRT (00:00–49:57; автоматичният текст може да съдържа неточности).  
 > **Място:** разширение на [Modern JVM Performance / Project Leyden](README.md), [Benchmark Correctness](BENCHMARK-CORRECTNESS.md) и [JFR Troubleshooting](../jfr-troubleshooting/README.md); **не** нов notebook.
 
+**Свързан P1 production case:** [Quarkus Jackson/JIT regression](QUARKUS-JACKSON-JIT-REGRESSION.md) показва защо повече direct/inlined calls понякога **влошават** hot loop поради register spilling и profile pollution, а [HandlerDispatchBenchmark](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/HandlerDispatchBenchmark.java) е отделен учебен JMH (не копие на Jackson serializer).
+
 ## Реален казус
 
 В голям Spring Boot backend типове протоколи/операции се увеличават от 1 до 10. При code review някой предлага да заменим интерфейсите с проверки по concrete type, понеже „virtual calls са бавни“, а всички краткоживеещи DTO да се повторно използват, „за да няма GC“.

@@ -1,0 +1,8 @@
+name: "Education - Generated Greeting"
+description: "Educational Quarkus build-time Jandex and Gizmo CDI bean"
+metadata:
+  keywords:
+    - education
+    - build-time
+    - gizmo
+  status: experimental

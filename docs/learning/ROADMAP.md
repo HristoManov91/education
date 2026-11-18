@@ -214,6 +214,21 @@
 
 ---
 
+## P1/P2 — Quarkus Build-time Metaprogramming и Jackson/JIT regression (Devoxx 2026)
+
+**Материали:** [P2 Quarkus build-time extension / Jandex / Gizmo](../../spring/framework-internals/quarkus-build-time/README.md) с Quarkus 3.40.1.2 LTS HTTP integration test и [P1 Jackson/JIT investigation](../../java/jvm/performance-evolution/QUARKUS-JACKSON-JIT-REGRESSION.md) с Java25 JUnit/JMH dispatch модел. Източници: [Devoxx видео](https://www.youtube.com/watch?v=SgK0zMNayq0), SRT (~2:28) и [оригиналните слайдове](https://speakerdeck.com/mariofusco/the-quarkus-advantage-turning-build-time-metaprogramming-into-runtime-performances).
+
+| ID | Приоритет | Микро-тема | Проверяваме |
+| --- | --- | --- | --- |
+| FRAME-QUARK-01 | P2 | Jandex / BuildStep / BuildItem | Build-time annotation index, DAG ordering, immutable handoff |
+| FRAME-QUARK-02 | P2 | Gizmo GeneratedBean / CDI | Реална Quarkus augmentation + HTTP positive/metadata negative tests |
+| JVM-JIT-QUARK-01 | P1 | Polymorphism / preclassified dispatch | Runtime instanceof vs cached kind, extension fallback parity |
+| JVM-JIT-QUARK-02 | P1 | Jackson 3 / JIT regression | Inlining, spill, profile pollution, unrolling, benchmark limitations |
+
+**Проверките** са отделни: root Java25 Maven изпълнява dispatch tests, path-filtered Quarkus job изпълнява реалната extension интеграция. Новото Quarkus обучение НЕ влиза в Spring Boot root reactor, а JMH се изпълнява ръчно (CI само компилира/list-ва harness). Не записвай „усвоено“ без отговори от [упражненията](../../spring/framework-internals/quarkus-build-time/EXERCISES.md).
+
+---
+
 ## P2 — GraalVM Native Image / Layers / Crema (Devoxx 2026)
 
 **Материал:** [GraalVM Next — Native Image, Reachability Metadata, Layers, Crema, Web Image](../../java/jvm/graalvm-native-image/README.md); оригинал: [Alina Yurenko и Thomas Wuerthinger, Devoxx 2026](https://www.youtube.com/watch?v=OLQ98Ko4p3Q) + предоставен SRT. Java 25/JUnit е standard CI, Native Image и Web Image са **manual experiments**, не тествани автоматично.
