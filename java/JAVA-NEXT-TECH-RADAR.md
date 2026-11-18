@@ -157,7 +157,7 @@ Viktor разглежда **разработвана marshalling концепц�
 
 **Не** добавяй `Song!`, `primitive class` или непотвърден `null-restricted T[]` синтаксис в Java25/JDK28 EA production код. Не превръщай diagram/example от 2h40 lecture в Java feature.
 
-**По-просто сега:** нормален Java25 `record`, `Objects.requireNonNull`, input validation, `List.copyOf` за defensive ownership и JUnit negative tests. При работа с JDK28 EA preview проверявай новата `value record` nullable семантика чрез [NullableFlatLayoutPreview.java](language/data-oriented-programming/jdk28-ea/NullableFlatLayoutPreview.java) и [JDK28 EA workflow](.github/workflows/valhalla-jdk28-ea.yml).
+**По-просто сега:** нормален Java25 `record`, `Objects.requireNonNull`, input validation, `List.copyOf` за defensive ownership и JUnit negative tests. При работа с JDK28 EA preview проверявай новата `value record` nullable семантика чрез [NullableFlatLayoutPreview.java](language/data-oriented-programming/jdk28-ea/NullableFlatLayoutPreview.java) и [JDK28 EA workflow](../.github/workflows/valhalla-jdk28-ea.yml).
 
 **Условие за бъдеща преоценка:** официален JEP target, публикуван API/JLS contract, implementation maturity, dual-mode compatibility тестове и измерен production мотив. Няма самостоятелен нов Maven модул или нов CI workflow за P3 идея.
 
