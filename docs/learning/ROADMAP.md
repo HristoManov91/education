@@ -105,6 +105,8 @@
 
 **VM-11–VM-14, VM-16–VM-17 — Hibernate performance and repository querying:** [изпълним модул, код и тестове](../../persistence/hibernate-performance/README.md) · [QueryDSL/Specification page/count lab](../../persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md). Статус `implementation-in-review` до зелен CI, без автоматично `learned`.
 
+**VM-26 — bounded DB backpressure:** [Hikari admission gate, real pool metrics и PostgreSQL read-only correctness](../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md); положителни/negative tests и отделен PostgreSQL profile. Не е готова схема за глобален multi-pod pool sizing.
+
 **VM-05–VM-10 — transactions + Hibernate foundations:** [connection pool/MVCC/locking real PostgreSQL lab](../../database/transaction-labs/README.md) · [entity lifecycle](../../persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md) · [dirty checking/flush](../../persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md) · [associations/orphan removal](../../persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md). Материалите не означават автоматично проверени знания.
 
 **VM-01–VM-04 практически SQL блок:** [JDBC + H2 correctness + PostgreSQL Testcontainers + Oracle manual scripts](../../database/sql-labs/README.md) и [упражнения](../../database/sql-labs/EXERCISES.md). Кодът е в PR; за статус **verified** изискваме зелен профил за истинска база.

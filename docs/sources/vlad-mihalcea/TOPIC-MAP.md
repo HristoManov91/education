@@ -4,7 +4,7 @@
 
 ## Реализирани учебни блокове
 
-[SQL лаборатории](../../../database/sql-labs/README.md) съдържат 4 подробни урока, Fast H2 tests, real PostgreSQL Testcontainers integration suite, Oracle manual comparisons и targeted GitHub Actions workflow. VM-01..04 са **мърджнати в main** с успешно изпълнени unit+PostgreSQL tests. Следващите [VM-05..07 JDBC/MVCC/locking](../../../database/transaction-labs/README.md) и [VM-08..10 Hibernate](../../../persistence/repository-unit-of-work/README.md) имат изпълним код и са в процес на независима CI проверка. VM-11–VM-14 и VM-16–VM-17 са реализирани с H2/PostgreSQL/QueryDSL тестове (PR #103); VM-15 е мърджнат с 6 Spring/JPA теста (PR #104); VM-18 е мърджнат като JDBC streaming лаборатория (PR #105); VM-21 е diagnostics runbook с препратки към изпълними tests (PR #106); VM-19/20 и VM-22–VM-30 още не са реализирани. Всички 16 реализирани теми не се смятат за лично усвоени без диагностика. Нито един материал не е автоматично `learned`.
+[SQL лаборатории](../../../database/sql-labs/README.md) съдържат 4 подробни урока, Fast H2 tests, real PostgreSQL Testcontainers integration suite, Oracle manual comparisons и targeted GitHub Actions workflow. VM-01..04 са **мърджнати в main** с успешно изпълнени unit+PostgreSQL tests. Следващите [VM-05..07 JDBC/MVCC/locking](../../../database/transaction-labs/README.md) и [VM-08..10 Hibernate](../../../persistence/repository-unit-of-work/README.md) имат изпълним код и са в процес на независима CI проверка. VM-11–VM-14 и VM-16–VM-17 са реализирани с H2/PostgreSQL/QueryDSL тестове (PR #103); VM-15 е мърджнат с 6 Spring/JPA теста (PR #104); VM-18 е мърджнат като JDBC streaming лаборатория (PR #105); VM-21 е мърджнат diagnostics runbook с реални предходни тестове (PR #106), а VM-26 има Hikari + PostgreSQL доказателства в PR на преглед; VM-19/20 и VM-22–VM-30 остават. Реализираните модули и глави не се смятат за лично усвоени без диагностика. Нито един материал не е автоматично `learned`.
 
 ## P0 — първо механиката на базата и ORM
 
@@ -35,12 +35,12 @@
 | VM-18 | JDBC fetch size, streaming, client/server statement cache | implemented | `database/transaction-labs` | memory/round-trip measurements, driver-specific behavior |
 | VM-19 | Hibernate L1/L2/query cache: invalidation, consistency, cache strategies | existing-partial | `spring/caching` + ORM cache lab | stale-data counterexample и hit/miss metrics |
 | VM-20 | PostgreSQL vs Oracle: plans, sequences, locking, JSON, pagination | new | `database/postgresql-oracle-comparison` | двуколонни dialect scripts + unsupported feature notes |
-| VM-21 | SQL/ORM observability: query counts, logs, pooling, slow query, Hypersistence Utils | implementation-in-review | `persistence/jpa-performance` + `persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md` | Existing H2/PG SQL-count, batching, Hikari/plan tests mapped to diagnosis flow |
+| VM-21 | SQL/ORM observability: query counts, logs, pooling, slow query, Hypersistence Utils | implemented | `persistence/jpa-performance` + `persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md` | Existing H2/PG SQL-count, batching, Hikari/plan tests mapped to diagnosis flow |
 | VM-22 | JSON/ARRAY/enum mappings, time zones, converters and portable alternatives | new | `persistence/advanced-types` | DB round-trip + update tracking + serialization tests |
 | VM-23 | Native queries, SQL functions and stored procedures | new | `persistence/native-sql-procedures` | parameter binding, result mapping, portability tests |
 | VM-24 | Upsert/MERGE, bulk operations, consistency and unique constraints | new | `database/upsert-bulk` | concurrent upsert race reproduction, dialect comparison |
 | VM-25 | Schema evolution: Flyway, validation, hbm2ddl safety | new | `persistence/schema-evolution` | migration and rollback-failure scenarios |
-| VM-26 | Read-only routing, pool sizing, backpressure, DB throughput | existing-partial | `persistence/jpa-performance` | saturated pool, bottleneck-shift tests and metrics |
+| VM-26 | Read-only routing, pool sizing, backpressure, DB throughput | implementation-in-review | `database/transaction-labs` | saturated pool, bottleneck-shift tests and metrics |
 
 ## P2 — специализирани допълнения (без излишна дълбочина в началото)
 

@@ -27,6 +27,14 @@
 4. Как бих сравнил statement caching в pgJDBC с Oracle implicit caching без да измислям числа?
 5. Изпълни [PostgresFetchingLabIT](src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java) и обясни кои характеристики НЕ измерва.
 
+## D. VM-26 Pool backpressure и replicas
+
+1. Защо `maximumPoolSize=100` може да увеличи lock waits и p99, вместо да подобри latency?
+2. Какво гарантира `Semaphore.tryAcquire()` и кое от това е глобално между Kubernetes pod-ове?
+3. Кои показатели в Hikari и PostgreSQL измерваме **едновременно** при претоварване?
+4. `@Transactional(readOnly=true)` означава ли автоматично routing към read replica? Какъв е read-your-writes рискът?
+5. Пусни [PoolAdmissionGateTest](src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java) и обясни защо `pending=0` не доказва production optimal pool size.
+
 ## Команди
 
 ```bash

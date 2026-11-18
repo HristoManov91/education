@@ -107,6 +107,9 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-26 — Hikari pool sizing, admission control, backpressure and read-only routing caveats](database/transaction-labs/VM-26-POOL-BACKPRESSURE.md), с [работещи Hikari тестове](database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java).
+
+
 - [VM-21 — SQL/ORM observability runbook](persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md), с изпълними tests от наличните Hibernate, Hikari и PostgreSQL лаборатории.
 
 

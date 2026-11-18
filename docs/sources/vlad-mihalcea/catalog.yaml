@@ -198,6 +198,11 @@ implementations:
 
   - id: VM-21
     chapter: persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md
-    status: implementation-in-review
+    status: implemented
     form: architecture-runbook-with-existing-executable-tests
     sources: [VM-SRC-001, VM-SRC-007]
+
+  - id: VM-26
+    chapter: database/transaction-labs/VM-26-POOL-BACKPRESSURE.md
+    status: implementation-in-review
+    sources: [VM-SRC-001, VM-SRC-019]
