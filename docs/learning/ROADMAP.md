@@ -214,6 +214,20 @@
 
 ---
 
+## P2 — Post-Quantum Cryptography / Java Backend (Devoxx 2026)
+
+**Материал:** [Post-Quantum Cryptography for Java Backend — Java 25 ML-KEM/HKDF/AES-GCM и ML-DSA](../../spring/security/post-quantum-cryptography/README.md). Лекция: [Julian Burr — Post Quantum Today](https://www.youtube.com/watch?v=yUMnuh5U5k4) + предоставен SRT. За TLS 1.3 виж [manual migration checklist](../../spring/security/post-quantum-cryptography/TLS-AND-MIGRATION.md); не смесваме Java 25 crypto primitive със JSSE 27 negotiated hybrid TLS.
+
+| ID | Микро-тема | Проверяваме |
+| --- | --- | --- |
+| SEC-PQC-01 | Password hashing vs RSA/ECC/AES, Shor, HNDL | Кой primitive е под риск и защо не сменяме Argon2id с ML-KEM |
+| SEC-PQC-02 | ML-KEM → HKDF → AES-GCM + ML-DSA | Correctness, wrong key, tamper, AAD, implicit rejection и negative tests |
+| SEC-PQC-03 | TLS 1.3 hybrid / Gateway / PKI / JWT | Реален TLS terminator, negotiated group, classical fallback, canary/rollback |
+
+**Практичен checkpoint:** 2 Java 25 JUnit labs + 3-hop crypto inventory и migration decision; **не е записано като усвоено**, докато не се решат [упражненията](../../spring/security/post-quantum-cryptography/EXERCISES.md).
+
+---
+
 ## P2 — Maven Reproducible Builds & Build Integrity (Devoxx 2026)
 
 **Материал:** [Reproducible Builds & Build Integrity with Maven — Spring Boot 4 / Java 25 practical lab](../../java/build/reproducible-maven/README.md). Източник: [Maarten Mulders, Devoxx](https://www.youtube.com/watch?v=9vtYvAI2Dtk). Това е **кратка практически проверима P2 надстройка**, не нова голяма Maven дисциплина.

@@ -209,6 +209,10 @@ education/
   - [OAuth2/OIDC, Token Relay, BFF и secured MCP — architecture](spring/security/bootiful-security/OAUTH2-BFF-MCP.md)
   - [Hands-on exercises + Senior recall](spring/security/bootiful-security/EXERCISES.md)
 
+- [P2 Post-Quantum Cryptography — ML-KEM, HKDF, AES-GCM, ML-DSA и hybrid TLS migration](spring/security/post-quantum-cryptography/README.md)
+  - [Gateway/TLS 1.3, negotiated group, JWT/PKI граници](spring/security/post-quantum-cryptography/TLS-AND-MIGRATION.md)
+  - [NotebookLM аудио урок](spring/security/post-quantum-cryptography/NOTEBOOKLM-PROMPT.md)
+
 - [P1 STRIDE Threat Modeling — Spring Boot object-level authorization, spoofing и HTTP negative tests](spring/security/threat-modeling/README.md)
 - [P2 Homomorphic Encryption — Java 25 score oracle + real OpenFHE BFV encrypted computation](spring/security/privacy-preserving-computation/README.md)
   - [FHE schemes — BFV, BGV, CKKS, TFHE и bootstrapping](spring/security/privacy-preserving-computation/FHE-SCHEMES.md)
