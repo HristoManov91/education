@@ -30,6 +30,12 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 
 **Статус:** VM-11–VM-14 и VM-16–VM-17 са реализирани и тестувани в PR #103. VM-15 остава за отделен Spring propagation/AOP блок. Сливането на PR не означава доказано усвояване.
 
+## VM-15 — Spring transaction propagation и AOP (implementation in review)
+
+- [Учебна глава и decision guide: REQUIRED, REQUIRES_NEW, NESTED и rollback правила](../../../persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md)
+- [6 изпълними Spring Boot tests](../../../persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java), [упражнения](../../../persistence/repository-unit-of-work/VM-15-EXERCISES.md), [NotebookLM](../../../persistence/repository-unit-of-work/NOTEBOOKLM-VLAD-VM15.md)
+- [CI: в съществуващия PostgreSQL/JPA workflow с нов guard](../../../.github/workflows/vlad-transactions.yml), без още един отделен CI job.
+
 ## Продължение — VM-05–VM-10
 
 - [JDBC, MVCC, isolation, optimistic/pessimistic locking, deadlocks — Java + PostgreSQL Testcontainers](../../../database/transaction-labs/README.md)

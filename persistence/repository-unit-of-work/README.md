@@ -9,6 +9,12 @@
 3. защо при JPA/Hibernate често вече използваме Unit of Work, без да имаме class с име `UnitOfWork`.
 
 
+**Vlad Mihalcea — VM-15: Spring Transaction Propagation, AOP и rollback rules**
+
+- [VM-15 подробен урок: REQUIRED, REQUIRES_NEW, NESTED, self-invocation и rollback policy](VM-15-SPRING-TRANSACTION-PROPAGATION.md) · [6 Spring Boot/JDBC tests](src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java).
+- [NotebookLM audio](NOTEBOOKLM-VLAD-VM15.md) · [Практически упражнения и senior checkpoint](VM-15-EXERCISES.md).
+- Следва [JPA Performance](../jpa-performance/README.md) и [real PostgreSQL concurrency labs](../../database/transaction-labs/README.md) за database-specific isolation и locks.
+
 **Vlad Mihalcea — VM-08/09/10 (real implementation):**
 - [VM-08: Entity lifecycle, detach/merge и Identity Map](VM-08-ENTITY-LIFECYCLE.md) — [merge test](src/test/java/bg/hristomanov/education/uow/VladPersistenceLifecycleTest.java);
 - [VM-09: dirty checking, AUTO flush, action queue](VM-09-FLUSH-DIRTY-CHECKING.md) — [AUTO flush test](src/test/java/bg/hristomanov/education/uow/VladPersistenceLifecycleTest.java), плюс съществуващия rollback test;

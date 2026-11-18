@@ -8,6 +8,9 @@
 
 ### Допълнителни Vlad Mihalcea лаборатории
 
+- [VM-15 — REQUIRED/REQUIRES_NEW/NESTED, checked rollback, transactional self-invocation и OSIV](../repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md), включително [изпълними Spring tests](../repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java).
+
+
 - [VM-11–VM-14 и VM-16 — identifier strategies, N+1 SQL counts, DTO/keyset pagination, batching, Spring Data pitfalls](../hibernate-performance/README.md).
 - [VM-17 — QueryDSL/Specifications с explicit COUNT и Slice](../specification-querydsl/VM-17-PAGE-SLICE-COUNT.md).
 

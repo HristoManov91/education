@@ -101,6 +101,8 @@
 
 **Комбинирани:** SQL Core (01–05), Index/Plans (06–07), Transactions (08–11), ORM (12–16); финален диагностика на slow query + transaction bug.
 
+**VM-15 Spring transaction boundaries:** [REQUIRED/REQUIRES_NEW/NESTED, self-invocation и rollback rules](../../persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md) · [H2 + Spring proxy lab](../../persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java). Няма автоматично доказване на Oracle/PostgreSQL MVCC от H2 tests.
+
 **VM-11–VM-14, VM-16–VM-17 — Hibernate performance and repository querying:** [изпълним модул, код и тестове](../../persistence/hibernate-performance/README.md) · [QueryDSL/Specification page/count lab](../../persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md). Статус `implementation-in-review` до зелен CI, без автоматично `learned`.
 
 **VM-05–VM-10 — transactions + Hibernate foundations:** [connection pool/MVCC/locking real PostgreSQL lab](../../database/transaction-labs/README.md) · [entity lifecycle](../../persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md) · [dirty checking/flush](../../persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md) · [associations/orphan removal](../../persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md). Материалите не означават автоматично проверени знания.
