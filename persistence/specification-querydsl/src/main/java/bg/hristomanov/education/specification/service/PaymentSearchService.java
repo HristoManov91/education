@@ -66,11 +66,13 @@ public class PaymentSearchService {
 
     public Page<PaymentEntity> pageWithQuerydsl(
             PaymentSearchCriteria criteria, int pageNumber, int pageSize) {
+        validate(pageNumber, pageSize);
         return querydslRepository.page(criteria, pageNumber, pageSize);
     }
 
     public Slice<PaymentEntity> sliceWithQuerydsl(
             PaymentSearchCriteria criteria, int pageNumber, int pageSize) {
+        validate(pageNumber, pageSize);
         return querydslRepository.slice(criteria, pageNumber, pageSize);
     }
 
