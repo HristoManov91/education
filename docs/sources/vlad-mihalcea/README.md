@@ -36,6 +36,11 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [6 изпълними Spring Boot tests](../../../persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java), [упражнения](../../../persistence/repository-unit-of-work/VM-15-EXERCISES.md), [NotebookLM](../../../persistence/repository-unit-of-work/NOTEBOOKLM-VLAD-VM15.md)
 - [CI: в съществуващия PostgreSQL/JPA workflow с нов guard](../../../.github/workflows/vlad-transactions.yml), без още един отделен CI job.
 
+## P1 — VM-26 Resource budgets
+
+- [Connection pool tuning, bounded admission control и read-only routing pitfalls](../../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md).
+- [Hikari in-process lab](../../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java) и [PostgreSQL read-only test](../../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java).
+
 ## P1 — VM-21 Observability
 
 - [SQL/ORM observability runbook: Hibernate statements, JDBC batching, Hikari pool and database plans](../../../persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md). Това е концептуална диагностична глава, свързана с работещите лаборатории.

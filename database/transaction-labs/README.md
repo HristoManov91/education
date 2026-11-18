@@ -12,6 +12,7 @@
 |---|---|---|
 | [VM-05: Connection lease, pool, JDBC](docs/VM-05-JDBC-POOL.md) | Защо pool от 1 връзка блокира без SQL? | [ConnectionLeaseTest](src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java) |
 | [VM-06: ACID, MVCC, isolation](docs/VM-06-MVCC-ISOLATION.md) | Защо два SELECT в една транзакция виждат различно? | [PostgresTransactionLabIT](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) |
+| [VM-26: pool sizing, backpressure и read replica pitfalls](VM-26-POOL-BACKPRESSURE.md) | Как ограничаваме работа преди JDBC checkout? | [PoolAdmissionGateTest](src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java) и [PG read-only test](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) |
 | [VM-18: JDBC fetch size, cursor and statement cache](VM-18-JDBC-FETCH-SIZE-STREAMING.md) | Как сканираме голям result set без List и какъв е driver contract? | [PostgresFetchingLabIT](src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java) |
 | [VM-07: optimistic/pessimistic locks](docs/VM-07-LOCKING.md) | Как предотвратяваме lost update и какво правят NOWAIT/SKIP LOCKED? | [PostgresTransactionLabIT](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) |
 
@@ -20,6 +21,7 @@
 | Функционална идея | Production-like implementation | Тест |
 | --- | --- | --- |
 | Кратък JDBC connection lease, PreparedStatement | [ConnectionWork.java](src/main/java/bg/hristomanov/education/tx/ConnectionWork.java) | [ConnectionLeaseTest.java](src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java) |
+| Admission gate before JDBC checkout | [PoolAdmissionGate.java](src/main/java/bg/hristomanov/education/tx/PoolAdmissionGate.java) | [PoolAdmissionGateTest](src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java) |
 | Pool capacity and metrics | HikariConfig в [ConnectionLeaseTest](src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java) | проверка за active=1, timeout, active=0 |
 | Real PostgreSQL isolation and locks | JDBC connections с explicit transaction control в [PostgresTransactionLabIT](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) | 8 положителни/negative tests |
 
@@ -42,6 +44,12 @@ mvn -pl database/transaction-labs -Ppostgres-integration verify
 ## Разграничение между базите
 
 H2 в `ConnectionLeaseTest` доказва **borrow/release/timeout на Hikari и коректност на bind parameters**. Не доказва PostgreSQL/Oracle MVCC, lock modes или deadlock detection. `PostgresTransactionLabIT` използва реален PostgreSQL 17. Oracle comparisons ще са текстови, с ясна граница докато няма Oracle instance/CI.
+
+## VM-26 — следващото практическо надграждане
+
+- [Decision contract, реален incident, production metrics и backpressure](VM-26-POOL-BACKPRESSURE.md)
+- [3 Hikari + concurrency tests](src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java)
+- [NotebookLM аудио материал](NOTEBOOKLM-VM26.md)
 
 ## Какво следва
 
