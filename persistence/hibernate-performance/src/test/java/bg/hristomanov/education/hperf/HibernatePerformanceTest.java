@@ -197,7 +197,7 @@ class HibernatePerformanceTest {
         Long customerId = customers.findAll().getFirst().getId();
         transactions.executeWithoutResult(status -> {
             entityManager.clear();
-            var stats = sessionFactory.getStatistics();
+            var stats = entityManagerFactory.unwrap(SessionFactory.class).getStatistics();
             stats.clear();
             var proxy = customers.getReferenceById(customerId);
             assertThat(proxy.getId()).isEqualTo(customerId);
