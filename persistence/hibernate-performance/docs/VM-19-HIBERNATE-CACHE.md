@@ -56,6 +56,7 @@ Database
 2. ORM update с `@Version`: последващ session вижда committed price и нова версия.
 3. Query cache: повторен JPQL query hit; след ORM update върху същата таблица старият result се invalidatе-ва.
 4. **Negative proof:** direct JDBC UPDATE не invalidatе-ва Hibernate L2; следва stale цена, а explicit `EntityManagerFactory.getCache().evict` поправя следващия read.
+5. Различни bind parameter values за една и съща cacheable JPQL query имат **различни query-cache keys**: `price >= 10` връща запис, `price >= 50` не го връща; повторението на първата стойност получава cache hit.
 
 Последният тест умишлено доказва риск, не production recommendation. [Spring Cache labs](../../../spring/caching/README.md) са различна caching система. [VM-21](../VM-21-SQL-OBSERVABILITY.md) събира SQL-count, DB и pool metrics.
 
