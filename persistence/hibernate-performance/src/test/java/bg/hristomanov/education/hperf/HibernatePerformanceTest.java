@@ -8,6 +8,7 @@ import bg.hristomanov.education.hperf.read.PerfOrderReader;
 import bg.hristomanov.education.hperf.repository.PerfCustomerRepository;
 import bg.hristomanov.education.hperf.repository.PerfOrderRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionEventListener;
 import org.hibernate.SessionFactory;
@@ -34,7 +35,7 @@ class HibernatePerformanceTest {
     @Autowired TransactionTemplate transactions;
     @Autowired EntityManager entityManager;
     @Autowired JdbcTemplate jdbc;
-    @Autowired SessionFactory sessionFactory;
+    @Autowired EntityManagerFactory entityManagerFactory;
     @Autowired PerfOrderReader reader;
     @Autowired PerfCustomerRepository customers;
     @Autowired PerfOrderRepository orders;
@@ -121,7 +122,7 @@ class HibernatePerformanceTest {
         seedCustomersAndOrders();
         transactions.executeWithoutResult(status -> {
             entityManager.clear();
-            var stats = sessionFactory.getStatistics();
+            var stats = entityManagerFactory.unwrap(SessionFactory.class).getStatistics();
             stats.clear();
             var naive = reader.naiveOrders();
             assertThat(naive).hasSize(7);

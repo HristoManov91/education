@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
-import org.hibernate.SessionFactory;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,17 +28,17 @@ class PaymentSearchServiceTest {
 
     private final PaymentSearchService searchService;
     private final PaymentRepository paymentRepository;
-    private final SessionFactory sessionFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
     PaymentSearchServiceTest(
             PaymentSearchService searchService,
             PaymentRepository paymentRepository,
-            SessionFactory sessionFactory
+            EntityManagerFactory entityManagerFactory
     ) {
         this.searchService = searchService;
         this.paymentRepository = paymentRepository;
-        this.sessionFactory = sessionFactory;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @BeforeEach
@@ -183,7 +183,7 @@ class PaymentSearchServiceTest {
     @Test
     void querydslSliceAvoidsCountSqlWhileExplicitPageRunsIt() {
         var criteria = PaymentSearchCriteria.empty();
-        var stats = sessionFactory.getStatistics();
+        var stats = entityManagerFactory.unwrap(org.hibernate.SessionFactory.class).getStatistics();
         stats.setStatisticsEnabled(true);
         stats.clear();
         var page = searchService.pageWithQuerydsl(criteria, 0, 2);

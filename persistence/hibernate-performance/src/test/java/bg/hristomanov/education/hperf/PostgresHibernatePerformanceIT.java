@@ -5,6 +5,7 @@ import bg.hristomanov.education.hperf.domain.PerfOrder;
 import bg.hristomanov.education.hperf.domain.SequenceEntry;
 import bg.hristomanov.education.hperf.read.PerfOrderReader;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionEventListener;
 import org.hibernate.SessionFactory;
@@ -37,7 +38,7 @@ class PostgresHibernatePerformanceIT {
     @Autowired TransactionTemplate transactions;
     @Autowired EntityManager entityManager;
     @Autowired JdbcTemplate jdbc;
-    @Autowired SessionFactory sessionFactory;
+    @Autowired EntityManagerFactory entityManagerFactory;
     @Autowired PerfOrderReader reader;
 
     @Test
@@ -69,7 +70,7 @@ class PostgresHibernatePerformanceIT {
             }
             entityManager.flush();
             entityManager.clear();
-            var stats = sessionFactory.getStatistics();
+            var stats = entityManagerFactory.unwrap(SessionFactory.class).getStatistics();
             stats.clear();
             reader.naiveOrders().forEach(o -> o.getCustomer().getName());
             assertThat(stats.getPrepareStatementCount()).isEqualTo(5);
