@@ -122,6 +122,23 @@ class HibernateCacheLabTest {
         assertThat(reloaded.getPrice()).isEqualByComparingTo("99.00");
     }
 
+
+    @Test
+    void queryResultsCacheSeparatesDifferentBoundParameterValues() {
+        createItem("VM19-CASE-5", "15.00");
+        sessionFactory().getCache().evictAllRegions();
+        var statistics = sessionFactory().getStatistics();
+        statistics.clear();
+
+        // Same query shape, but different parameter values must not share one result key.
+        assertThat(cacheableSkus(new BigDecimal("10.00"))).containsExactly("VM19-CASE-5");
+        assertThat(cacheableSkus(new BigDecimal("50.00"))).isEmpty();
+        assertThat(cacheableSkus(new BigDecimal("10.00"))).containsExactly("VM19-CASE-5");
+
+        assertThat(statistics.getQueryCacheMissCount()).isGreaterThanOrEqualTo(2);
+        assertThat(statistics.getQueryCacheHitCount()).isGreaterThanOrEqualTo(1);
+    }
+
     private Long createItem(String sku, String price) {
         return transactions.execute(status -> {
             var item = new CachedCatalogItem(sku, new BigDecimal(price));
