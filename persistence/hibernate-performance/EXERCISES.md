@@ -1,5 +1,15 @@
 # VM-11–VM-14, VM-16 — упражнения, диагностика, self-check
 
+## VM-19 — Hibernate caching и consistency (20–30 мин)
+
+1. Защо L1 EntityManager identity cache не е същото като SessionFactory L2 cache?
+2. Ако Hibernate cached query върне повторно SQL rows без DB hit, каква е ролята на update-timestamps region?
+3. Кога `READ_ONLY` и `READ_WRITE` са подходящи? Кога cache OFF е по-добра идея?
+4. Защо direct JDBC update може да остави cached entity stale, въпреки @Version?
+5. Пусни [HibernateCacheLabTest](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java). Обясни кои 4 semantics доказва и какво НЕ доказва за multi-node реплики.
+
+[Пълен VM-19 урок](docs/VM-19-HIBERNATE-CACHE.md) · [NotebookLM](NOTEBOOKLM-VM19.md)
+
 ## Микросесия 1: Identifier generation (20–30 мин)
 1. След `em.persist(new SequenceEntry(...))` как ID може да е известен, докато в DB още няма ред? Докажи чрез JDBC SELECT, не JPQL.
 2. Защо `IDENTITY` ограничава Hibernate INSERT batching?

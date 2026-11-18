@@ -118,6 +118,18 @@ references:
     title: JDBC statement caching
     url: https://vladmihalcea.com/statement-caching-jdbc/
     modules: [VM-18]
+  - id: VM-SRC-028
+    title: JPA and Hibernate second-level cache
+    url: https://vladmihalcea.com/jpa-hibernate-second-level-cache/
+    modules: [VM-19]
+  - id: VM-SRC-029
+    title: How does Hibernate Query Cache work
+    url: https://vladmihalcea.com/how-does-hibernate-query-cache-work/
+    modules: [VM-19]
+  - id: VM-SRC-030
+    title: How does Hibernate store second-level cache entries
+    url: https://vladmihalcea.com/how-does-hibernate-store-second-level-cache-entries/
+    modules: [VM-19]
 
 implementations:
   - id: VM-01
@@ -209,6 +221,11 @@ implementations:
 
   - id: VM-20
     chapter: database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md
-    status: implementation-in-review
+    status: implemented
     oracle_validation: manual-only
     sources: [VM-SRC-020]
+
+  - id: VM-19
+    chapter: persistence/hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md
+    status: implementation-in-review
+    sources: [VM-SRC-028, VM-SRC-029, VM-SRC-030]
