@@ -214,6 +214,21 @@
 
 ---
 
+## P2 — Snake in 10 Lines: Constraint-driven Design (Devoxx 2026)
+
+**Материал:** [Snake in 10 Lines — Java 25 mini lab](../../java/algorithms/01-algorithmic-thinking-complexity/SNAKE-CONSTRAINT-DRIVEN-DESIGN.md), оригинал: [Guus de Wit, Devoxx 2026](https://www.youtube.com/watch?v=LD2tKMpToYg) + предоставен auto-generated SRT (~48:28). Само разширение на съществуващия Java Algorithms Module 01, без нов Maven модул или framework.
+
+| ID | Приоритет | Микро-тема | Проверка |
+| --- | --- | --- | --- |
+| ALG-SNAKE-01 | P2 | Minimal specification vs implicit scope | Шест думи → explicit rules, кога ги допълваме с invariants |
+| ALG-SNAKE-02 | P2 | Move head/tail, 2D→1D и boundaries | Deque/Set trade-offs, illegal row wrap, vacating tail |
+| ALG-SNAKE-03 | P2 | Bounded food generation, terminal state | Win/full board, reverse и collision negative JUnit |
+| ALG-SNAKE-04 | P2 | Refactoring correctness / independent oracle | Сравнение на 300 детерминистични 2D и 1D сценария |
+
+**Proof:** [SnakeGameTest.java](../../java/algorithms/01-algorithmic-thinking-complexity/src/test/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeGameTest.java) + [SnakeReferenceParityTest.java](../../java/algorithms/01-algorithmic-thinking-complexity/src/test/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeReferenceParityTest.java), [NotebookLM prompt](../../java/algorithms/01-algorithmic-thinking-complexity/SNAKE-NOTEBOOKLM-PROMPT.md). Не маркирай усвоено преди решени упражнения и тестове.
+
+---
+
 ## P1/P2 — Quarkus Build-time Metaprogramming и Jackson/JIT regression (Devoxx 2026)
 
 **Материали:** [P2 Quarkus build-time extension / Jandex / Gizmo](../../spring/framework-internals/quarkus-build-time/README.md) с Quarkus 3.40.1.2 LTS HTTP integration test и [P1 Jackson/JIT investigation](../../java/jvm/performance-evolution/QUARKUS-JACKSON-JIT-REGRESSION.md) с Java25 JUnit/JMH dispatch модел. Източници: [Devoxx видео](https://www.youtube.com/watch?v=SgK0zMNayq0), SRT (~2:28) и [оригиналните слайдове](https://speakerdeck.com/mariofusco/the-quarkus-advantage-turning-build-time-metaprogramming-into-runtime-performances).

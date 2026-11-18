@@ -193,6 +193,7 @@ education/
   - [P2 Routing & Replanning](java/optimization/constraint-solving/ROUTING-AND-REPLANNING.md): time windows reference search, `@PlanningPin`, pinned batch replanning
   - [P2 Spring Async SolverManager — architecture (non-runnable note)](java/optimization/constraint-solving/ASYNC-SPRING-INTEGRATION.md)
   - [01. Algorithmic Thinking & Complexity](java/algorithms/01-algorithmic-thinking-complexity/README.md)
+    - [P2 Snake in 10 Lines — constraints, 1D representation, Deque/Set, edge-case JUnit и reference parity](java/algorithms/01-algorithmic-thinking-complexity/SNAKE-CONSTRAINT-DRIVEN-DESIGN.md)
   - [02. Linear Data Structures](java/algorithms/02-linear-data-structures/README.md)
   - [03. Hashing](java/algorithms/03-hashing/README.md)
     - [P2 JDK26/27 record hashing и HashMap bulk copy](java/algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md)

@@ -32,6 +32,8 @@ Roadmap-ът е **checklist какво трябва да научим**, а не
 
 Покрива computational problem, algorithm, ADT, data structure, time/space complexity, growth rates, Big-O/Θ/Ω, multiple input sizes и amortized complexity.
 
+**P2 допълнение:** [Snake in 10 Lines — constraint-driven design, Java 25/JUnit, 1D Deque/Set и независим 2D oracle](01-algorithmic-thinking-complexity/SNAKE-CONSTRAINT-DRIVEN-DESIGN.md) + [NotebookLM](01-algorithmic-thinking-complexity/SNAKE-NOTEBOOKLM-PROMPT.md). Без нов Maven модул или GUI зависимости.
+
 ### 02. Linear Data Structures
 
 - [`02-linear-data-structures`](./02-linear-data-structures/README.md)
