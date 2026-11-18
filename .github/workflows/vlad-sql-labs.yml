@@ -1,0 +1,29 @@
+name: Vlad SQL Labs — PostgreSQL
+
+on:
+  pull_request:
+    paths:
+      - 'database/sql-labs/**'
+      - 'pom.xml'
+      - '.github/workflows/vlad-sql-labs.yml'
+  workflow_dispatch:
+
+jobs:
+  postgres-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      # Docker is available on the GitHub-hosted Linux runner.
+      # Explicit profile avoids starting PostgreSQL in the root reactor on every push.
+      - name: Fast JDBC tests and real PostgreSQL integration tests
+        run: mvn --batch-mode --no-transfer-progress -pl database/sql-labs -Ppostgres-integration verify
