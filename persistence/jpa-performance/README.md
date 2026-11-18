@@ -8,6 +8,9 @@
 
 ### Допълнителни Vlad Mihalcea лаборатории
 
+- [VM-19 — Hibernate L2, Query Cache, invalidation и stale-data tests](../hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md), разграничено от Spring Cache/Redis caching.
+
+
 - [VM-21 — SQL/ORM observability и production diagnosis](../hibernate-performance/VM-21-SQL-OBSERVABILITY.md) — SQL counts, JDBC batches, pool metrics и real PostgreSQL plans.
 
 

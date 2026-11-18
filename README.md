@@ -107,6 +107,9 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-19 — Hibernate L1/L2/Query Cache и invalidation](persistence/hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md), с негативен тест за stale entity след direct JDBC write.
+
+
 - [VM-20 — PostgreSQL 17 ↔ Oracle 19c SQL semantics, indexes, JSON, sequences, plans and pagination](database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md) — real PG integration tests плюс ръчни Oracle scripts.
 
 

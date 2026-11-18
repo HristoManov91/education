@@ -16,12 +16,19 @@
 | [VM-12: N+1 и fetch plans](docs/VM-12-FETCH-NPLUS1.md) | LAZY getter → 6 SQL, JOIN FETCH/EntityGraph → 1 SQL | [Fast N+1 test](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) + [PG IT](src/test/java/bg/hristomanov/education/hperf/PostgresHibernatePerformanceIT.java) |
 | [VM-13: DTO, keyset, collection pages](docs/VM-13-DTO-PAGINATION.md) | Bounded projection, stable cursor, Hibernate 7.4 nested collection pagination | [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) и tests |
 | [VM-14: JDBC batching / bulk DML](docs/VM-14-BATCH-BULK.md) | Реални batch events, flush/clear, bulk stale entity | [SessionEventListener proof](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) |
+| [VM-19: Hibernate L2 и Query Cache](docs/VM-19-HIBERNATE-CACHE.md) | Кога L2 е полезен, как query cache invalidates, кога direct SQL оставя stale data? | [CachedCatalogItem](src/main/java/bg/hristomanov/education/hperf/domain/CachedCatalogItem.java) · [5 cache tests](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java) |
 | [VM-16: Spring Data pitfalls](docs/VM-16-SPRING-DATA-TRAPS.md) | findAll vs Page/Slice, findById vs getReferenceById | [Repositories](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) и tests |
 | [VM-17: QueryDSL + Specification](../specification-querydsl/VM-17-PAGE-SLICE-COUNT.md) | Dynamic filters, explicit count, count-free slice | Надградена [Specification + QueryDSL лаборатория](../specification-querydsl/README.md) |
 
 ## VM-21 — Измерване преди оптимизация
 
 - [Production SQL/ORM observability: как различаваме Hibernate SQL count, Hikari pool pressure, DB plans и locks](VM-21-SQL-OBSERVABILITY.md). Архитектурен runbook с директни връзки към съществуващите изпълними тестове, без дублиране.
+
+## VM-19 — separate cache lab
+
+- [Подробен урок с decision contract, сравнение READ_ONLY/READ_WRITE/NONSTRICT_READ_WRITE/TRANSACTIONAL и сценарий за stale reads](docs/VM-19-HIBERNATE-CACHE.md).
+- [Четири теста с test-only Caffeine JCache provider](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java).
+- [NotebookLM аудио урок](NOTEBOOKLM-VM19.md).
 
 ## 3. README → код
 
@@ -32,6 +39,7 @@
 | Record projection / seek pagination | [OrderRow](src/main/java/bg/hristomanov/education/hperf/read/OrderRow.java) / [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) | Offset/keyset parity tests |
 | Collection fetch pagination | [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) | raw JOIN/LIMIT negative + nested SQL capture + two-step ID page |
 | JDBC batch vs prepared statement count | [application.properties](src/main/resources/application.properties) | Hibernate SessionEventListener + Postgres IT |
+| L2 + Query Cache + direct JDBC invalidation | [CachedCatalogItem](src/main/java/bg/hristomanov/education/hperf/domain/CachedCatalogItem.java) | [HibernateCacheLabTest](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java) |
 | Spring Data Page vs Slice | [Repo](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) | H2 SQL-count comparison |
 
 ## 4. Как се стартира
