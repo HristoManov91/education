@@ -122,6 +122,10 @@ education/
   - [P2 Project Amber — primitive patterns, proposed withers и deconstructible classes](java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
   - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
+- [P1 Quarkus/Jackson JVM investigation — megamorphic dispatch, JIT spilling и честни JMH benchmarks](java/jvm/performance-evolution/QUARKUS-JACKSON-JIT-REGRESSION.md)
+  - [P2 Quarkus build-time metaprogramming — Jandex, BuildItem, Gizmo, real CDI bean and HTTP tests](spring/framework-internals/quarkus-build-time/README.md)
+  - [NotebookLM — Quarkus/JIT](spring/framework-internals/quarkus-build-time/NOTEBOOKLM-PROMPT.md)
+
 - [P2 GraalVM Native Image — compatibility, Layers, Crema, Web Image (Devoxx 2026)](java/jvm/graalvm-native-image/README.md)
   - [Native Image Layers — 2 consumers и RSS/PSS experiment](java/jvm/graalvm-native-image/LAYERS-LAB.md)
   - [Crema/Byte Buddy — runtime class loading и JUnit](java/jvm/graalvm-native-image/CREMA-EXPERIMENT.md)

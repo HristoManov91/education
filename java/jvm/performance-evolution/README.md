@@ -1,5 +1,7 @@
 # P1 · Modern JVM Performance / Project Leyden & Compact Object Headers
 
+**P1 Devoxx допълнение (без нов JVM курс):** [Quarkus/Jackson 3 JIT regression — inlining, register spilling, profile pollution, loop unrolling](QUARKUS-JACKSON-JIT-REGRESSION.md), с [Java25 dispatch JUnit](src/test/java/bg/hristomanov/education/performance/quarkus/HandlerDispatchLabTest.java) и [JMH benchmark](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/HandlerDispatchBenchmark.java). Изпълнимият Quarkus build-time extension е [отделен P2 module](../../../spring/framework-internals/quarkus-build-time/README.md). Конференционните req/s НЕ са наши измервания.
+
 **Свързано P2 обучение (без дублиране):** [GraalVM Native Image, Layers и Crema](../graalvm-native-image/README.md) сравнява JVM+Leyden срещу native AOT с един Java 25 workload, изследва reachability metadata, Layer sharing и експериментален Byte Buddy runtime loading. Native компилациите са manual; не смесвай Leyden cache с native binary и не обявявай conference benchmarks за наши резултати.
 
 **P1 Devoxx 2026 companion:** [JVM в контейнери — container-aware heap/RSS, OOMKilled vs OutOfMemoryError, jlink, custom Java runtime, diagnostics](JVM-IN-CONTAINERS.md). Това е отделен operating/runtime lab от Leyden AOT startup сравнението.

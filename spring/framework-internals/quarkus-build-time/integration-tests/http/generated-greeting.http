@@ -1,0 +1,3 @@
+### Изпълни само когато стартираш Quarkus app с mvn quarkus:dev
+GET http://localhost:8080/generated-greeting
+Accept: text/plain

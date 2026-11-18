@@ -91,6 +91,8 @@ curl -i -H "X-Dogs-Version: 2.0" http://localhost:8080/dogs
 
 `spring.datasource.connection-fetch=lazy` означава, че JDBC връзката се придобива при първо SQL statement. Не означава, че старата връзка автоматично се връща в pool-а между две SQL операции в една транзакция.
 
+**Сравнение с друг framework:** [Quarkus Build-time Metaprogramming (P2)](../framework-internals/quarkus-build-time/README.md) използва Jandex + BuildItem + Gizmo и истински HTTP integration test. Spring AOT също генерира код; **не** правим обща миграция от Spring към Quarkus. За JIT regression виж [Jackson case](../../java/jvm/performance-evolution/QUARKUS-JACKSON-JIT-REGRESSION.md).
+
 ## 6. Подробни учебни глави (без дублиране)
 
 1. [01 — Upgrade Spring Boot 3.5 → 4.1](01-MIGRATION-AND-COMPATIBILITY.md) — migration order, Jackson 3, modular starters, test infrastructure.
