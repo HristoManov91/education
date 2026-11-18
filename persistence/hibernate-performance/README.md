@@ -19,6 +19,10 @@
 | [VM-16: Spring Data pitfalls](docs/VM-16-SPRING-DATA-TRAPS.md) | findAll vs Page/Slice, findById vs getReferenceById | [Repositories](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) и tests |
 | [VM-17: QueryDSL + Specification](../specification-querydsl/VM-17-PAGE-SLICE-COUNT.md) | Dynamic filters, explicit count, count-free slice | Надградена [Specification + QueryDSL лаборатория](../specification-querydsl/README.md) |
 
+## VM-21 — Измерване преди оптимизация
+
+- [Production SQL/ORM observability: как различаваме Hibernate SQL count, Hikari pool pressure, DB plans и locks](VM-21-SQL-OBSERVABILITY.md). Архитектурен runbook с директни връзки към съществуващите изпълними тестове, без дублиране.
+
 ## 3. README → код
 
 | Mental model | Code | Real test |

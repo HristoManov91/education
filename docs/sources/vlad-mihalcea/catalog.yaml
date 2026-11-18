@@ -188,10 +188,16 @@ implementations:
     sources: [VM-SRC-016, VM-SRC-018]
   - id: VM-15
     chapter: persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-019]
 
   - id: VM-18
     chapter: database/transaction-labs/VM-18-JDBC-FETCH-SIZE-STREAMING.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-026, VM-SRC-027]
+
+  - id: VM-21
+    chapter: persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md
+    status: implementation-in-review
+    form: architecture-runbook-with-existing-executable-tests
+    sources: [VM-SRC-001, VM-SRC-007]

@@ -36,6 +36,10 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [6 изпълними Spring Boot tests](../../../persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java), [упражнения](../../../persistence/repository-unit-of-work/VM-15-EXERCISES.md), [NotebookLM](../../../persistence/repository-unit-of-work/NOTEBOOKLM-VLAD-VM15.md)
 - [CI: в съществуващия PostgreSQL/JPA workflow с нов guard](../../../.github/workflows/vlad-transactions.yml), без още един отделен CI job.
 
+## P1 — VM-21 Observability
+
+- [SQL/ORM observability runbook: Hibernate statements, JDBC batching, Hikari pool and database plans](../../../persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md). Това е концептуална диагностична глава, свързана с работещите лаборатории.
+
 ## Продължение — VM-05–VM-10
 
 - [JDBC, MVCC, isolation, optimistic/pessimistic locking, deadlocks — Java + PostgreSQL Testcontainers](../../../database/transaction-labs/README.md)

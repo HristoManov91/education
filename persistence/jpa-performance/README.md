@@ -8,6 +8,9 @@
 
 ### Допълнителни Vlad Mihalcea лаборатории
 
+- [VM-21 — SQL/ORM observability и production diagnosis](../hibernate-performance/VM-21-SQL-OBSERVABILITY.md) — SQL counts, JDBC batches, pool metrics и real PostgreSQL plans.
+
+
 - [VM-15 — REQUIRED/REQUIRES_NEW/NESTED, checked rollback, transactional self-invocation и OSIV](../repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md), включително [изпълними Spring tests](../repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java).
 
 

@@ -107,6 +107,9 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-21 — SQL/ORM observability runbook](persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md), с изпълними tests от наличните Hibernate, Hikari и PostgreSQL лаборатории.
+
+
 - [VM-18 — JDBC streaming, PostgreSQL cursor fetch-size и statement caching](database/transaction-labs/VM-18-JDBC-FETCH-SIZE-STREAMING.md), с [реални PostgreSQL тестове](database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java).
 
 
