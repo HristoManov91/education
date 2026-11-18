@@ -57,8 +57,12 @@ public class PerfOrderReader {
                 .getResultList();
     }
 
-    /** Intentional negative example: collection fetch + SQL pagination is unsafe. */
-    public List<PerfCustomer> unsafeCollectionPage(int size) {
+    /**
+     * Hibernate 7.4 rewrites collection fetch pagination using nested SQL queries
+     * when the dialect supports LIMIT/OFFSET inside a subquery. Older versions
+     * may perform in-memory pagination; fail_on_pagination guards this fallback.
+     */
+    public List<PerfCustomer> collectionFetchPageInHibernate(int size) {
         return entityManager.createQuery("""
                 select distinct c from PerfCustomer c
                 left join fetch c.orders

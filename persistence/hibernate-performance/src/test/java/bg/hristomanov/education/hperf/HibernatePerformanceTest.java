@@ -30,7 +30,10 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "spring.jpa.properties.hibernate.session_factory.statement_inspector="
+        + "bg.hristomanov.education.hperf.SqlCaptureInspector"
+})
 class HibernatePerformanceTest {
     @Autowired TransactionTemplate transactions;
     @Autowired EntityManager entityManager;
@@ -144,18 +147,37 @@ class HibernatePerformanceTest {
     }
 
     @Test
-    void collectionFetchPaginationFailsFastAndTwoPhasePageLoadsExactlyTwoParents() {
+    void hibernate74UsesBoundedNestedFetchAndTwoPhasePageReturnsSameParents() {
         seedCustomersAndOrders();
         transactions.executeWithoutResult(status -> {
             entityManager.clear();
-            assertThatThrownBy(() -> reader.unsafeCollectionPage(2))
-                    .isInstanceOf(RuntimeException.class)
-                    .hasMessageContaining("pagination");
+            // BAD SQL: LIMIT applies to joined rows, splitting Customer-0's three orders.
+            var brokenParentIds = jdbc.queryForList("""
+                    select c.id from perf_customers c
+                    left join perf_orders o on o.customer_id = c.id
+                    order by c.id, o.id limit 2
+                    """, Long.class);
+            assertThat(brokenParentIds).hasSize(2);
+            assertThat(brokenParentIds.getFirst()).isEqualTo(brokenParentIds.getLast());
+
+            SqlCaptureInspector.clear();
+            var automatic = reader.collectionFetchPageInHibernate(2);
+            assertThat(automatic).hasSize(2);
+            assertThat(automatic.getFirst().getOrders()).hasSize(3);
+            assertThat(automatic.get(1).getOrders()).hasSize(1);
+
+            var sql = SqlCaptureInspector.statements().stream()
+                    .map(s -> s.toLowerCase(java.util.Locale.ROOT))
+                    .filter(s -> s.contains("perf_orders") && s.contains("join"))
+                    .toList();
+            assertThat(sql).isNotEmpty();
+            assertThat(sql).anySatisfy(s -> assertThat(s)
+                    .containsAnyOf("fetch first", "limit", "row_number", "dense_rank", "rank("));
             entityManager.clear();
-            var page = reader.collectionPageByIds(2);
-            assertThat(page).hasSize(2);
-            assertThat(page.getFirst().getOrders()).isNotEmpty();
-            assertThat(page.get(1).getOrders()).isNotEmpty();
+            var twoPhase = reader.collectionPageByIds(2);
+            assertThat(twoPhase).hasSize(2);
+            assertThat(twoPhase.stream().map(PerfCustomer::getId))
+                    .containsExactlyElementsOf(automatic.stream().map(PerfCustomer::getId).toList());
         });
     }
 
