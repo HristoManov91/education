@@ -105,6 +105,12 @@ education/
 
 ## Лаборатории
 
+### Database / SQL — Vlad Mihalcea
+
+- [VM-01–VM-04: SQL correctness, constraints, CTE/window functions, indexes/EXPLAIN — изпълними JDBC + PostgreSQL лаборатории](database/sql-labs/README.md).
+  - [Упражнения и диагностика](database/sql-labs/EXERCISES.md) · [NotebookLM аудио урок](database/sql-labs/NOTEBOOKLM-PROMPT.md) · [Останалите теми и зависимости](docs/sources/vlad-mihalcea/TOPIC-MAP.md).
+  - Отделният PostgreSQL профил не се изпълнява при обикновен `mvn verify` и се проверява от [таргетиран workflow](.github/workflows/vlad-sql-labs.yml).
+
 ### Modern Java (Java 25 runnable + Java 26/27 version notes)
 
 - [Java Evolution Guide — 17 → 21 → 25 → 26 → 27 → 28](java/JAVA-EVOLUTION-GUIDE.md)

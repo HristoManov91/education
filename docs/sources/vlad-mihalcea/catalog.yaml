@@ -105,4 +105,25 @@ references:
   - id: VM-SRC-024
     title: How to map JSON objects using generic Hibernate Types
     url: https://vladmihalcea.com/how-to-map-json-objects-using-generic-hibernate-types/
-    modules: [VM-22]
+    modules: [VM-22]  - id: VM-SRC-025
+    title: SQL EXISTS and NOT EXISTS
+    url: https://vladmihalcea.com/sql-exists/
+    modules: [VM-01, VM-03]
+
+implementations:
+  - id: VM-01
+    chapter: database/sql-labs/docs/VM-01-SQL-SEMANTICS.md
+    status: implementation-in-review
+    sources: [VM-SRC-025]
+  - id: VM-02
+    chapter: database/sql-labs/docs/VM-02-RELATIONAL-CONSTRAINTS.md
+    status: implementation-in-review
+    sources: [VM-SRC-021]
+  - id: VM-03
+    chapter: database/sql-labs/docs/VM-03-CTE-WINDOWS.md
+    status: implementation-in-review
+    sources: [VM-SRC-022, VM-SRC-023]
+  - id: VM-04
+    chapter: database/sql-labs/docs/VM-04-INDEXES-AND-PLANS.md
+    status: implementation-in-review
+    sources: [VM-SRC-020, VM-SRC-021]

@@ -28,12 +28,12 @@ ranked AS (
            ROW_NUMBER() OVER (
                PARTITION BY region
                ORDER BY paid_total DESC, customer_id ASC
-           ) AS position
+           ) AS row_position
     FROM revenue
 )
 SELECT region, customer_id, paid_total
 FROM ranked
-WHERE position = 1
+WHERE row_position = 1
 ORDER BY region;
 ~~~
 
@@ -57,13 +57,14 @@ WITH RECURSIVE hierarchy(id, depth) AS (
     UNION ALL
     SELECT c.id, h.depth + 1
     FROM customer c JOIN hierarchy h ON c.manager_id = h.id
+    WHERE h.depth < 100
 )
 SELECT id, depth FROM hierarchy ORDER BY depth, id;
 ~~~
 
 От root `1` очакваме `(1,0), (2,1), (5,1), (4,2)`. Стойността `?` се подава като JDBC bind parameter; не правим string concatenation.
 
-**Production предупреждение:** ако schema позволява цикъл в manager relationships, неограничената рекурсия може да е опасна. За произволни graphs добави cycle detection/maximum depth или `CYCLE` в подходящия PostgreSQL dialect; този пример използва acyclic fixture и не твърди, че е generic graph traversal.
+**Production предупреждение:** ако schema позволява цикъл в manager relationships, неограничената рекурсия може да е опасна. За произволни graphs добави cycle detection/maximum depth или `CYCLE` в подходящия PostgreSQL dialect; този пример използва acyclic fixture и защитен максимален depth 100, но ограничаването на дълбочината **не доказва липса на цикъл**, може да дублира възли и не е generic graph traversal.
 
 **Oracle 19c:** recursive subquery factoring използва `WITH hierarchy (id,depth) AS (...)` **без `RECURSIVE`**; [ръчен Oracle пример](../sql/oracle/reports-and-plan.sql). И `CONNECT BY` е възможна алтернатива, но с различен синтаксис/възможности.
 

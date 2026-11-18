@@ -101,6 +101,8 @@
 
 **Комбинирани:** SQL Core (01–05), Index/Plans (06–07), Transactions (08–11), ORM (12–16); финален диагностика на slow query + transaction bug.
 
+**VM-01–VM-04 практически SQL блок:** [JDBC + H2 correctness + PostgreSQL Testcontainers + Oracle manual scripts](../../database/sql-labs/README.md) и [упражнения](../../database/sql-labs/EXERCISES.md). Кодът е в PR; за статус **verified** изискваме зелен профил за истинска база.
+
 **Налични лаборатории:** [Repository & Unit of Work](../../persistence/repository-unit-of-work/README.md), [Specification + QueryDSL](../../persistence/specification-querydsl/README.md).
 
 **Vlad Mihalcea системна програма:** [източници и подход](../sources/vlad-mihalcea/README.md), [30 теми с пропуски, зависимости и Definition of Done](../sources/vlad-mihalcea/TOPIC-MAP.md). Статусът на темите е начален одит, не автоматично доказани знания.

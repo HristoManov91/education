@@ -80,7 +80,15 @@ class H2SqlSemanticsTest {
                 """)).isInstanceOf(SQLException.class);
         assertThatThrownBy(() -> execute("""
                 INSERT INTO purchase_order(id, customer_id, external_ref, status, total, placed_at)
-                VALUES (108, 1, 'INVALID', 'WRONG', -1, CURRENT_TIMESTAMP)
+                VALUES (109, 1, 'A-01', 'PAID', 1, CURRENT_TIMESTAMP)
+                """)).isInstanceOf(SQLException.class);
+        assertThatThrownBy(() -> execute("""
+                INSERT INTO purchase_order(id, customer_id, external_ref, status, total, placed_at)
+                VALUES (110, 1, 'WRONG-STATUS', 'WRONG', 1, CURRENT_TIMESTAMP)
+                """)).isInstanceOf(SQLException.class);
+        assertThatThrownBy(() -> execute("""
+                INSERT INTO purchase_order(id, customer_id, external_ref, status, total, placed_at)
+                VALUES (111, 1, 'NEGATIVE-TOTAL', 'PAID', -1, CURRENT_TIMESTAMP)
                 """)).isInstanceOf(SQLException.class);
     }
 

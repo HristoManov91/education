@@ -44,6 +44,7 @@
         <module>spring/caching/distributed-caching</module>
         <module>spring/ai/semantic-caching</module>
         <module>design-patterns</module>
+        <module>database/sql-labs</module>
         <module>persistence/specification-querydsl</module>
         <module>persistence/repository-unit-of-work</module>
         <module>persistence/analytical-sql-duckdb</module>

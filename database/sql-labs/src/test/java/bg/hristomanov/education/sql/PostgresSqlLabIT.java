@@ -62,6 +62,11 @@ class PostgresSqlLabIT {
                 VALUES (999, 1, 'BAD-CHECK', 'PAID', -10, CURRENT_TIMESTAMP)
                 """)).isInstanceOf(SQLException.class)
                 .satisfies(ex -> assertThat(((SQLException) ex).getSQLState()).isEqualTo("23514"));
+        assertThatThrownBy(() -> execute("""
+                INSERT INTO purchase_order(id, customer_id, external_ref, status, total, placed_at)
+                VALUES (999, 1, 'A-01', 'PAID', 10, CURRENT_TIMESTAMP)
+                """)).isInstanceOf(SQLException.class)
+                .satisfies(ex -> assertThat(((SQLException) ex).getSQLState()).isEqualTo("23505"));
     }
 
     @Test

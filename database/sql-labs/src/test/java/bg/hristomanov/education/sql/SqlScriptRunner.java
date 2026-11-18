@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 /**
  * Fixture-only runner: no quoted semicolons, functions or procedural SQL in these files.
@@ -20,7 +21,7 @@ final class SqlScriptRunner {
             String raw = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
             String script = raw.lines()
                     .map(line -> line.replaceFirst("--.*$", ""))
-                    .reduce("", (left, right) -> left + right + "\n");
+                    .collect(Collectors.joining("\n"));
             for (String sql : script.split(";")) {
                 if (!sql.isBlank()) {
                     try (var statement = connection.createStatement()) {

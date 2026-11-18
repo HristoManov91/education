@@ -51,12 +51,12 @@ public final class SqlReadRepository {
                        ROW_NUMBER() OVER (
                            PARTITION BY region
                            ORDER BY paid_total DESC, customer_id ASC
-                       ) AS position
+                       ) AS row_position
                 FROM revenue
             )
             SELECT region, customer_id, paid_total
             FROM ranked
-            WHERE position = 1
+            WHERE row_position = 1
             ORDER BY region
             """;
 
@@ -67,6 +67,7 @@ public final class SqlReadRepository {
                 UNION ALL
                 SELECT c.id, h.depth + 1
                 FROM customer c JOIN hierarchy h ON c.manager_id = h.id
+                WHERE h.depth < 100
             )
             SELECT id, depth FROM hierarchy ORDER BY depth, id
             """;
