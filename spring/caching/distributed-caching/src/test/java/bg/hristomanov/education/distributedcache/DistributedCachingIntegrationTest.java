@@ -129,7 +129,7 @@ class DistributedCachingIntegrationTest {
         // Exercise the same public proxied service that production uses,
         // not CacheManager directly: @CacheEvict must actually execute.
         springCacheService.evict(1L);
-        Assertions.assertFalse(Boolean.TRUE.equals(stringRedis.hasKey(cacheKey)),
+        Assertions.assertEquals(Boolean.FALSE, stringRedis.hasKey(cacheKey),
                 () -> "@CacheEvict should remove the populated Redis key; "
                         + cacheDiagnostics("after evict(1L)"));
 
