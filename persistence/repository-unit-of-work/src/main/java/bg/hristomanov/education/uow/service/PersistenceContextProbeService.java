@@ -60,4 +60,37 @@ public class PersistenceContextProbeService {
         entityManager.clear();
         order.markPaid();
     }
+
+    /**
+     * merge() COPIES detached state into a managed entity; it never re-attaches
+     * the argument itself. The returned instance owns subsequent dirty checking.
+     */
+    @Transactional
+    public boolean mergeDetachedChangeAndCheckIdentity(long orderId) {
+        PurchaseOrder detached = orderRepository.getRequired(orderId);
+        entityManager.detach(detached);
+        detached.markPaid();
+        PurchaseOrder managed = entityManager.merge(detached);
+        boolean distinctManagedInstance = detached != managed
+                && !entityManager.contains(detached)
+                && entityManager.contains(managed);
+        entityManager.flush();
+        return distinctManagedInstance;
+    }
+
+    /**
+     * A scalar JPQL query against the same table must observe the pending state;
+     * Hibernate AUTO flush synchronizes the UPDATE before this SQL SELECT.
+     */
+    @Transactional
+    public boolean autoFlushBeforeOverlappingScalarQuery(long orderId) {
+        PurchaseOrder order = orderRepository.getRequired(orderId);
+        order.markPaid();
+        var databaseStatus = entityManager.createQuery(
+                        "select o.status from PurchaseOrder o where o.id = :id",
+                        bg.hristomanov.education.uow.domain.OrderStatus.class)
+                .setParameter("id", orderId)
+                .getSingleResult();
+        return databaseStatus == bg.hristomanov.education.uow.domain.OrderStatus.PAID;
+    }
 }
