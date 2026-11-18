@@ -33,6 +33,16 @@
 
 **Доказателство:** `windowFunctionGetsTopPaidCustomerInEachRegion` и `recursiveCteTraversesRootAndDescendants`.
 
+## VM-20 — PostgreSQL ↔ Oracle verification challenge
+
+1. Обясни с точна SQL three-valued logic защо празен `VARCHAR2` в Oracle 19c се третира различно от празен `text` в PostgreSQL.
+2. Напиши query с explicit `NULLS FIRST` и `NULLS LAST`, който връща еднакъв ред в двата engine-а. И двата ли имат различен default за ASC?
+3. Кога PostgreSQL `nextval` и Oracle `sequence.NEXTVAL` могат да пропуснат стойности?
+4. Препиши PostgreSQL `::jsonb #>>` чрез Oracle 19c `JSON_VALUE` с ясна storage boundary.
+5. Кой SQL изпълнява реално SELECT-а: PG `EXPLAIN (ANALYZE...)` или Oracle `EXPLAIN PLAN`? Как получаваме actual rows в Oracle?
+
+[VM-20 lesson](docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md) · [PostgreSQL test](src/test/java/bg/hristomanov/education/sql/PostgresSqlLabIT.java) · [Oracle manual script](sql/oracle/vm20-dialect-lab.sql)
+
 ## Session D (20–30 мин) — VM-04 plan investigation
 
 1. Изпълни [manual-explain.sql](sql/postgresql/manual-explain.sql) срещу PostgreSQL със schema/seed/performance fixtures.

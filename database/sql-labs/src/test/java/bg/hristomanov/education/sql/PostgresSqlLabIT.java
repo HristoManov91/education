@@ -117,6 +117,87 @@ class PostgresSqlLabIT {
         }
     }
 
+
+    @Test
+    void postgresPreservesEmptyStringAndDistinguishesItFromNull() throws SQLException {
+        try (var connection = dataSource.getConnection();
+             var statement = connection.createStatement();
+             var rows = statement.executeQuery("""
+                     SELECT length(''::text), ''::text IS NULL,
+                            nullif(''::text, '') IS NULL
+                     """)) {
+            assertThat(rows.next()).isTrue();
+            assertThat(rows.getInt(1)).isZero();
+            assertThat(rows.getBoolean(2)).isFalse();
+            assertThat(rows.getBoolean(3)).isTrue();
+        }
+        // Oracle VARCHAR2 treats an empty string as NULL; do not generalize PG logic.
+    }
+
+    @Test
+    void explicitNullOrderingAvoidsVendorDefaultAssumptions() throws SQLException {
+        String fixture = """
+                SELECT id FROM (VALUES (1, CAST(NULL AS INTEGER)), (2, 10), (3, 5))
+                           AS items(id, rank_value)
+                ORDER BY rank_value ASC
+                """;
+        assertThat(ids(fixture + " NULLS FIRST, id")).containsExactly(1, 3, 2);
+        assertThat(ids(fixture + " NULLS LAST, id")).containsExactly(3, 2, 1);
+        assertThat(ids(fixture + " NULLS LAST, id LIMIT 2")).containsExactly(3, 2);
+    }
+
+    @Test
+    void sequenceGenerationIsNotRolledBackWithBusinessTransaction() throws SQLException {
+        try (var connection = dataSource.getConnection();
+             var statement = connection.createStatement()) {
+            // Private to this PostgreSQL session; does not interfere with other tests.
+            statement.execute("CREATE TEMP SEQUENCE vm20_unique_seq START WITH 10");
+            connection.setAutoCommit(false);
+            long first = firstLong(connection, "SELECT nextval('vm20_unique_seq')");
+            connection.rollback();
+            long later = firstLong(connection, "SELECT nextval('vm20_unique_seq')");
+            assertThat(later).isGreaterThan(first);
+            connection.rollback();
+        }
+        // Neither PostgreSQL nor Oracle sequences promise gap-free values on rollback.
+    }
+
+    @Test
+    void postgresJsonbAndStandardFetchFirstAreDifferentKindsOfPortability() throws SQLException {
+        try (var connection = dataSource.getConnection();
+             var statement = connection.createStatement();
+             var result = statement.executeQuery(
+                     "SELECT '{\"order\":{\"status\":\"PAID\"}}'::jsonb #>> '{order,status}'")) {
+            assertThat(result.next()).isTrue();
+            assertThat(result.getString(1)).isEqualTo("PAID");
+        }
+        // FETCH FIRST is a portable SQL shape; ::jsonb and #>> are PG-specific.
+        assertThat(ids("SELECT id FROM customer ORDER BY id FETCH FIRST 2 ROWS ONLY"))
+                .containsExactly(1, 2);
+    }
+
+    private static java.util.List<Integer> ids(String sql) throws SQLException {
+        java.util.List<Integer> result = new java.util.ArrayList<>();
+        try (var connection = dataSource.getConnection();
+             var statement = connection.createStatement();
+             var rows = statement.executeQuery(sql)) {
+            while (rows.next()) {
+                result.add(rows.getInt(1));
+            }
+        }
+        return result;
+    }
+
+    private static long firstLong(Connection connection, String sql) throws SQLException {
+        try (var statement = connection.createStatement();
+             var rows = statement.executeQuery(sql)) {
+            if (!rows.next()) {
+                throw new SQLException("Expected one scalar result");
+            }
+            return rows.getLong(1);
+        }
+    }
+
     private static void execute(String sql) throws SQLException {
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {

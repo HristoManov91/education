@@ -36,6 +36,11 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [6 изпълними Spring Boot tests](../../../persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java), [упражнения](../../../persistence/repository-unit-of-work/VM-15-EXERCISES.md), [NotebookLM](../../../persistence/repository-unit-of-work/NOTEBOOKLM-VLAD-VM15.md)
 - [CI: в съществуващия PostgreSQL/JPA workflow с нов guard](../../../.github/workflows/vlad-transactions.yml), без още един отделен CI job.
 
+## P1 — VM-20 Oracle / PostgreSQL portability
+
+- [SQL semantics, CBO plans, NULL/empty-string, sequences, JSON, paging and locking comparison](../../../database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md).
+- [4 real PostgreSQL tests](../../../database/sql-labs/src/test/java/bg/hristomanov/education/sql/PostgresSqlLabIT.java) и [Oracle 19c manual scripts](../../../database/sql-labs/sql/oracle/vm20-dialect-lab.sql) — без недоказани Oracle CI claims.
+
 ## P1 — VM-26 Resource budgets
 
 - [Connection pool tuning, bounded admission control и read-only routing pitfalls](../../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md).

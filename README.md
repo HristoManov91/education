@@ -107,6 +107,9 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-20 — PostgreSQL 17 ↔ Oracle 19c SQL semantics, indexes, JSON, sequences, plans and pagination](database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md) — real PG integration tests плюс ръчни Oracle scripts.
+
+
 - [VM-26 — Hikari pool sizing, admission control, backpressure and read-only routing caveats](database/transaction-labs/VM-26-POOL-BACKPRESSURE.md), с [работещи Hikari тестове](database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java).
 
 
