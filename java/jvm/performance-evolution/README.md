@@ -1,5 +1,7 @@
 # P1 · Modern JVM Performance / Project Leyden & Compact Object Headers
 
+**Свързано P2 обучение (без дублиране):** [GraalVM Native Image, Layers и Crema](../graalvm-native-image/README.md) сравнява JVM+Leyden срещу native AOT с един Java 25 workload, изследва reachability metadata, Layer sharing и експериментален Byte Buddy runtime loading. Native компилациите са manual; не смесвай Leyden cache с native binary и не обявявай conference benchmarks за наши резултати.
+
 **P1 Devoxx 2026 companion:** [JVM в контейнери — container-aware heap/RSS, OOMKilled vs OutOfMemoryError, jlink, custom Java runtime, diagnostics](JVM-IN-CONTAINERS.md). Това е отделен operating/runtime lab от Leyden AOT startup сравнението.
 **P1 JDK 26/27 update:** [G1 write barriers, default GC, Compact Object Headers, monitor table и Java25↔27 лаборатория](JDK26-27-GC-UPGRADE.md) с [Java25 test](src/test/java/bg/hristomanov/education/performance/gc/ReferenceUpdateWorkloadTest.java) и [сравнителен скрипт](scripts/compare-jdks.sh). Не дублира JFR/Leyden.
 

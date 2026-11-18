@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>bg.hristomanov.education</groupId>
+        <artifactId>graalvm-layers-lab</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>graalvm-jdk-base-layer</artifactId>
+    <packaging>pom</packaging>
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>1.1.19</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>make-base</id>
+                                <phase>package</phase>
+                                <goals><goal>layer-create</goal></goals>
+                                <configuration>
+                                    <layer>
+                                        <name>java-base</name>
+                                        <modules><module>java.base</module></modules>
+                                    </layer>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

@@ -214,6 +214,22 @@
 
 ---
 
+## P2 — GraalVM Native Image / Layers / Crema (Devoxx 2026)
+
+**Материал:** [GraalVM Next — Native Image, Reachability Metadata, Layers, Crema, Web Image](../../java/jvm/graalvm-native-image/README.md); оригинал: [Alina Yurenko и Thomas Wuerthinger, Devoxx 2026](https://www.youtube.com/watch?v=OLQ98Ko4p3Q) + предоставен SRT. Java 25/JUnit е standard CI, Native Image и Web Image са **manual experiments**, не тествани автоматично.
+
+| ID | Микро-тема | Проверяваме |
+| --- | --- | --- |
+| JVM-GRAAL-01 | JVM JIT vs Leyden cache vs Native Image | Проблем/кога/кога не, cold-start, throughput, memory и release/CI цена |
+| JVM-GRAAL-02 | Reflection metadata / tracing agent | Reachability, allowlist, positive/negative Java tests и real native validation |
+| JVM-GRAAL-03 | Native Image Layers / RSS/PSS | .nil build vs runtime libs, 2 consumers, Linux sum PSS и deployment negative test |
+| JVM-GRAAL-04 | Crema / Byte Buddy | JUnit за нови класове, JVM vs experimental native, interpreter/JIT ограничения |
+| JVM-GRAAL-05 | Web Image — P3 radar | JS wrapper+Wasm, browser/Node vs standalone WASI, кога НЕ |
+
+**Практичен checkpoint:** [JUnit tests + упражнения](../../java/jvm/graalvm-native-image/EXERCISES.md), измерване на един и същ workload за JVM/Leyden и ръчни opt-in Native/Layer експерименти. Материалът **не означава усвоени знания** без реални отговори и проверка.
+
+---
+
 ## P2 — Post-Quantum Cryptography / Java Backend (Devoxx 2026)
 
 **Материал:** [Post-Quantum Cryptography for Java Backend — Java 25 ML-KEM/HKDF/AES-GCM и ML-DSA](../../spring/security/post-quantum-cryptography/README.md). Лекция: [Julian Burr — Post Quantum Today](https://www.youtube.com/watch?v=yUMnuh5U5k4) + предоставен SRT. За TLS 1.3 виж [manual migration checklist](../../spring/security/post-quantum-cryptography/TLS-AND-MIGRATION.md); не смесваме Java 25 crypto primitive със JSSE 27 negotiated hybrid TLS.
