@@ -27,7 +27,7 @@ public class TrainingOrder {
 
     // Child's ManyToOne owns the foreign key; cascade follows aggregate ownership.
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<TrainingOrderLine> lines = new ArrayList<>();
+    private List<TrainingOrderLine> lines = new ArrayList<>();
 
     protected TrainingOrder() { }
 
