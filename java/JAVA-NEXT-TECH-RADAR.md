@@ -21,6 +21,8 @@ Java backend получава изискване „да използваме GP
 | **Loom — Virtual Threads / Structured Concurrency** | По-прост concurrent blocking I/O, parent-child task lifecycle | Висок concurrency с I/O waiting | CPU-bound работа без resources; външните pool limits остават | **Покрито** |
 | **Lilliput — Compact Headers** | Намалява object header footprint | Много малки heap objects | Оптимизация без heap/GC baseline; CPU trade-off | **Покрито** |
 
+**Допълнение от Devoxx GraalVM Next (P2/P3):** [Native Image/Crema/Layers lab](jvm/graalvm-native-image/README.md) има Java 25 JUnit baseline и отделни ръчни Layers/Crema експерименти. [Web Image P3](jvm/graalvm-native-image/WEB-IMAGE-RADAR.md) е WebAssembly + JavaScript wrapper, не универсален WASI runtime и не Brewlet.
+
 ## 1. Babylon — какво действително предлага
 
 [39:53–45:33](https://youtu.be/ufhs9THbYZI?t=2393). Лекторът описва **code reflection** (получаваме модел на програмата, не само метаданни за клас/метод). Проекти като **HAT** (Heterogeneous Accelerator Toolkit) експериментират с трансформиране на подходящ Java код към GPU kernels.

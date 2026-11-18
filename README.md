@@ -122,6 +122,12 @@ education/
   - [P2 Project Amber — primitive patterns, proposed withers и deconstructible classes](java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
   - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
+- [P2 GraalVM Native Image — compatibility, Layers, Crema, Web Image (Devoxx 2026)](java/jvm/graalvm-native-image/README.md)
+  - [Native Image Layers — 2 consumers и RSS/PSS experiment](java/jvm/graalvm-native-image/LAYERS-LAB.md)
+  - [Crema/Byte Buddy — runtime class loading и JUnit](java/jvm/graalvm-native-image/CREMA-EXPERIMENT.md)
+  - [Web Image / WebAssembly — P3 radar](java/jvm/graalvm-native-image/WEB-IMAGE-RADAR.md)
+  - [NotebookLM аудио урок + упражнения](java/jvm/graalvm-native-image/NOTEBOOKLM-PROMPT.md)
+
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
   - [P1 JDK26/27 GC, G1 default и cross-JDK upgrade lab](java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md)
   - [P1 JVM в контейнер — CPU/memory cgroups, OOMKilled, heap vs RSS, jlink, AOT, diagnostics](java/jvm/performance-evolution/JVM-IN-CONTAINERS.md)

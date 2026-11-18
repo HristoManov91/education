@@ -1,0 +1,8 @@
+{
+  "reflection": [
+    {
+      "type": "bg.hristomanov.education.graalvm.ReflectionGreeting",
+      "allPublicConstructors": true
+    }
+  ]
+}

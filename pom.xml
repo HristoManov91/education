@@ -21,6 +21,8 @@
         <module>java/jvm/method-handles</module>
         <module>java/jvm/native-interoperability</module>
         <module>java/jvm/performance-evolution</module>
+        <module>java/jvm/graalvm-native-image</module>
+        <module>java/jvm/graalvm-native-image/crema-lab</module>
         <module>java/jvm/java-agent-instrumentation</module>
         <module>java/jvm/vector-api</module>
         <module>java/jvm/performance-evolution-benchmarks</module>
