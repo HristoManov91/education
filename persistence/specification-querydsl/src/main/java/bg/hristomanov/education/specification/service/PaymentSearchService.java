@@ -6,6 +6,9 @@ import bg.hristomanov.education.specification.repository.PaymentQuerydslReposito
 import bg.hristomanov.education.specification.repository.PaymentRepository;
 import bg.hristomanov.education.specification.search.PaymentSearchCriteria;
 import bg.hristomanov.education.specification.search.PaymentSpecifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,5 +55,30 @@ public class PaymentSearchService {
 
     public List<PaymentEntity> searchWithQuerydsl(PaymentSearchCriteria criteria) {
         return querydslRepository.search(criteria);
+    }
+
+    public Page<PaymentEntity> pageWithSpecifications(
+            PaymentSearchCriteria criteria, int pageNumber, int pageSize) {
+        validate(pageNumber, pageSize);
+        return paymentRepository.findAll(PaymentSpecifications.matches(criteria),
+                PageRequest.of(pageNumber, pageSize, SEARCH_ORDER));
+    }
+
+    public Page<PaymentEntity> pageWithQuerydsl(
+            PaymentSearchCriteria criteria, int pageNumber, int pageSize) {
+        validate(pageNumber, pageSize);
+        return querydslRepository.page(criteria, pageNumber, pageSize);
+    }
+
+    public Slice<PaymentEntity> sliceWithQuerydsl(
+            PaymentSearchCriteria criteria, int pageNumber, int pageSize) {
+        validate(pageNumber, pageSize);
+        return querydslRepository.slice(criteria, pageNumber, pageSize);
+    }
+
+    private static void validate(int pageNumber, int pageSize) {
+        if (pageNumber < 0 || pageSize < 1 || pageSize > 100) {
+            throw new IllegalArgumentException("pageNumber >= 0, pageSize 1..100 required");
+        }
     }
 }

@@ -1,0 +1,48 @@
+name: Vlad Hibernate Performance — PostgreSQL and QueryDSL
+
+on:
+  pull_request:
+    paths:
+      - 'persistence/hibernate-performance/**'
+      - 'persistence/specification-querydsl/**'
+      - 'persistence/jpa-performance/README.md'
+      - 'pom.xml'
+      - '.github/workflows/vlad-hibernate-performance.yml'
+  workflow_dispatch:
+
+jobs:
+  hibernate-performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Fast JPA tests, QueryDSL Q-generation, real PostgreSQL IT
+        run: mvn --batch-mode --no-transfer-progress -pl persistence/hibernate-performance,persistence/specification-querydsl -Ppostgres-integration verify
+      - name: Reject silently skipped suites
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          suites = [
+              ('persistence/hibernate-performance/target/surefire-reports/TEST-bg.hristomanov.education.hperf.HibernatePerformanceTest.xml', 8),
+              ('persistence/hibernate-performance/target/failsafe-reports/TEST-bg.hristomanov.education.hperf.PostgresHibernatePerformanceIT.xml', 3),
+              ('persistence/specification-querydsl/target/surefire-reports/TEST-bg.hristomanov.education.specification.PaymentSearchServiceTest.xml', 7),
+          ]
+          for path, minimum in suites:
+              f = Path(path)
+              if not f.is_file():
+                  raise SystemExit(f'Missing test report: {f}')
+              j = ET.parse(f).getroot()
+              tested = int(j.get('tests','0'))
+              bad = sum(int(j.get(k,'0')) for k in ('failures','errors','skipped'))
+              print(f'{f.name}: tests={tested}, not-passed={bad}')
+              if tested < minimum or bad:
+                  raise SystemExit(f'Incomplete/failed tests: {f}')
+          PY

@@ -1,5 +1,7 @@
 # Specification Pattern + QueryDSL — composable dynamic search
 
+**Vlad Mihalcea VM-17 extension:** [Page vs Slice, explicit COUNT, parameter binding, Spring Specification parity](VM-17-PAGE-SLICE-COUNT.md) · [реални integration tests](src/test/java/bg/hristomanov/education/specification/PaymentSearchServiceTest.java).
+
 Това е първият executable модул от `BACKEND-PATTERNS-ROADMAP.md`.
 
 Целта не е да научим само синтаксис на QueryDSL, а да разберем по-дълбокия design problem:

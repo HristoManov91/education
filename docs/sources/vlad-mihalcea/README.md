@@ -22,6 +22,14 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 
 Публичните статии са достатъчни за стартиране. **Не препечатваме платени книги/видеа**, не представяме уроци от платен курс като достъпни без лиценз; изготвяме самостоятелни обяснения и реални тестове с линкове към първоизточника.
 
+## Следващ изпълним блок — VM-11–VM-14 и VM-16–VM-17
+
+- [High-Performance Hibernate: идентификатори, N+1, fetch, pagination, batching, bulk SQL и Spring Data](../../../persistence/hibernate-performance/README.md)
+- [QueryDSL vs Specification: explicit COUNT / count-free Slice и bind safety](../../../persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md)
+- [Fast + PostgreSQL CI, only changed paths](../../../.github/workflows/vlad-hibernate-performance.yml)
+
+**Статус:** VM-11–VM-14 и VM-16–VM-17 са реализирани и тестувани в PR #103. VM-15 остава за отделен Spring propagation/AOP блок. Сливането на PR не означава доказано усвояване.
+
 ## Продължение — VM-05–VM-10
 
 - [JDBC, MVCC, isolation, optimistic/pessimistic locking, deadlocks — Java + PostgreSQL Testcontainers](../../../database/transaction-labs/README.md)
@@ -30,7 +38,7 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [VM-10: JPA mapping, cascade, LAZY, orphanRemoval](../../../persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md)
 - [Targeted PostgreSQL/JPA CI](../../../.github/workflows/vlad-transactions.yml)
 
-**Статус:** VM-05..10 са в процес на независим преглед, докато CI и тестовете завършат. VM-01..04 са мърджнати с успешен CI, но не са автоматично „усвоени“.
+**Статус:** VM-01..10 са мърджнати с успешни тестове, но не са автоматично „усвоени“.
 
 ## Първи изпълним блок (VM-01–VM-04)
 

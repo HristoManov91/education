@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
+import jakarta.persistence.EntityManagerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -26,14 +28,17 @@ class PaymentSearchServiceTest {
 
     private final PaymentSearchService searchService;
     private final PaymentRepository paymentRepository;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
     PaymentSearchServiceTest(
             PaymentSearchService searchService,
-            PaymentRepository paymentRepository
+            PaymentRepository paymentRepository,
+            EntityManagerFactory entityManagerFactory
     ) {
         this.searchService = searchService;
         this.paymentRepository = paymentRepository;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @BeforeEach
@@ -153,6 +158,55 @@ class PaymentSearchServiceTest {
 
         assertThat(specificationReferences).hasSize(5);
         assertThat(querydslReferences).isEqualTo(specificationReferences);
+    }
+
+
+    @Test
+    void springSpecificationAndQuerydslHaveEquivalentPagesAndTotalCounts() {
+        var criteria = new PaymentSearchCriteria(
+                PaymentStatus.PAID, PaymentMethod.CARD, "bg",
+                new BigDecimal("100.00"), null, null, null);
+
+        Page<PaymentEntity> querydslFirst = searchService.pageWithQuerydsl(criteria, 0, 1);
+        Page<PaymentEntity> springFirst = searchService.pageWithSpecifications(criteria, 0, 1);
+        Page<PaymentEntity> querydslSecond = searchService.pageWithQuerydsl(criteria, 1, 1);
+        Page<PaymentEntity> springSecond = searchService.pageWithSpecifications(criteria, 1, 1);
+
+        assertThat(querydslFirst.getTotalElements()).isEqualTo(2);
+        assertThat(springFirst.getTotalElements()).isEqualTo(2);
+        assertThat(references(querydslFirst.getContent())).containsExactly("INV-SPECIAL-005");
+        assertThat(references(springFirst.getContent())).isEqualTo(references(querydslFirst.getContent()));
+        assertThat(references(querydslSecond.getContent())).containsExactly("PAY-BG-001");
+        assertThat(references(springSecond.getContent())).isEqualTo(references(querydslSecond.getContent()));
+    }
+
+    @Test
+    void querydslSliceAvoidsCountSqlWhileExplicitPageRunsIt() {
+        var criteria = PaymentSearchCriteria.empty();
+        var stats = entityManagerFactory.unwrap(org.hibernate.SessionFactory.class).getStatistics();
+        stats.setStatisticsEnabled(true);
+        stats.clear();
+        var page = searchService.pageWithQuerydsl(criteria, 0, 2);
+        assertThat(page.getContent()).hasSize(2);
+        assertThat(page.getTotalElements()).isEqualTo(5);
+        assertThat(stats.getPrepareStatementCount()).isEqualTo(2);
+
+        stats.clear();
+        var slice = searchService.sliceWithQuerydsl(criteria, 0, 2);
+        assertThat(slice.hasNext()).isTrue();
+        assertThat(slice.getContent()).hasSize(2);
+        assertThat(stats.getPrepareStatementCount()).isEqualTo(1);
+    }
+
+    @Test
+    void predicateIsBoundParameterNotSqlInjectionAndInvalidPageIsRejected() {
+        var criteria = new PaymentSearchCriteria(
+                null, null, null, null, null, null, "' OR 1=1 --");
+        assertThat(searchService.searchWithQuerydsl(criteria)).isEmpty();
+        assertThat(searchService.pageWithQuerydsl(criteria, 0, 10).getTotalElements()).isZero();
+        org.assertj.core.api.Assertions.assertThatThrownBy(
+                () -> searchService.pageWithQuerydsl(PaymentSearchCriteria.empty(), -1, 10))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     private PaymentEntity payment(
