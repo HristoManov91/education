@@ -78,5 +78,5 @@ PerfOrder fresh = em.find(PerfOrder.class, id); // total = 990
 ### Оригинални източници
 
 - Vlad — [pooled-lo optimizer](https://vladmihalcea.com/hibernate-hidden-gem-the-pooled-lo-optimizer/); [Batch inserts with JPA/Hibernate](https://vladmihalcea.com/the-best-way-to-do-batch-processing-with-jpa-and-hibernate/).
-- [Hibernate ORM 7.1 — Batch processing](https://docs.hibernate.org/orm/7.1/userguide/html_single/#batch).
-- [Hibernate 7.1 SessionEventListener API](https://docs.hibernate.org/orm/7.1/javadocs/org/hibernate/SessionEventListener.html).
+- [Hibernate ORM 7.4 — Batch processing](https://docs.hibernate.org/orm/7.4/userguide/html_single/#batch).
+- [Hibernate 7.4 SessionEventListener API](https://docs.hibernate.org/orm/7.4/javadocs/org/hibernate/SessionEventListener.html).

@@ -13,7 +13,7 @@
 ## Микросесия 3: pagination (20–30 мин)
 1. Защо `ORDER BY createdAt` без ID tie-breaker не е детерминистичен?
 2. Защо keyset cursor съхранява и timestamp, и ID? Какво се случва при update на sort key между requests?
-3. Защо `JOIN FETCH collection` + `setMaxResults` не трябва да минава незабелязано?
+3. Как Hibernate 7.4 ограничава parent IDs чрез nested SQL при `JOIN FETCH collection` + `setMaxResults`, а наивният raw `JOIN + LIMIT` разделя колекцията?
 4. Напиши 2-step алгоритъм: bounded parent ID page + ограничен fetch на съответните children.
 
 ## Микросесия 4: batching/bulk (20–30 мин)

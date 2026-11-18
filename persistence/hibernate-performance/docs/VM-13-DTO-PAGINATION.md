@@ -36,19 +36,19 @@ LIMIT :size
 
 **Важно:** keyset намалява зависимостта от растящ OFFSET и е стабилен при нови по-ранни записи в сортирането, но **не гарантира transaction snapshot across requests**, особено при промяна на sort fields. За гарантиран моментен snapshot трябват бизнес правила и подходяща DB isolation стратегия.
 
-## Bad — collection fetch + pagination
+## Bad — наивен SQL JOIN + LIMIT върху редове, не върху родители
 
-~~~java
-entityManager.createQuery(
-    "select distinct c from PerfCustomer c left join fetch c.orders order by c.id",
-    PerfCustomer.class).setMaxResults(2).getResultList();
+~~~sql
+-- Грешно: първият клиент има три поръчки, LIMIT 2 ограничава joined rows.
+SELECT c.id, o.id FROM perf_customers c
+LEFT JOIN perf_orders o ON o.customer_id = c.id
+ORDER BY c.id, o.id
+LIMIT 2; -- два реда от един customer
 ~~~
 
-При Hibernate JPA pagination с collection fetch може да не бъде приложена в SQL, а **in memory**. В учебния модул задаваме:
+**Версионно важно:** CI действително използва Hibernate ORM **7.4.5.Final** със Spring Boot 4.1.1. Hibernate 7.4 може да генерира вложен SQL SELECT за ограничаване на parent IDs и после да зареди колекцията. Затова `JOIN FETCH` + pagination вече не е задължително грешка. При DB dialect без такава възможност `hibernate.query.fail_on_pagination_over_collection_fetch=true` предпазва от in-memory fallback.
 
-`hibernate.query.fail_on_pagination_over_collection_fetch=true`
-
-Така [negative test](../src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) доказва **fail-fast**, а не случайно успешно рендерирана страница със скрита огромна заявка.
+[H2 тестът](../src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) проверява: raw JOIN+LIMIT поврежда pagination на parent-и, Hibernate 7.4 връща двама родители с пълни колекции, а [SqlCaptureInspector](../src/test/java/bg/hristomanov/education/hperf/SqlCaptureInspector.java) доказва, че има генериран SQL limit/nested ranking. Това е version-specific capability, не универсална гаранция за всеки database dialect. Много children все още означава голям joined result set — two-phase ID page остава разумна алтернатива.
 
 ## Good — page IDs, после fetch на ограничена колекция
 
@@ -77,5 +77,5 @@ Spring Data `Page<T>` обичайно има total count и може да из�
 ### Оригинални източници
 
 - Vlad — [DTO projection mapping](https://vladmihalcea.com/the-best-way-to-map-a-projection-query-to-a-dto-with-jpa-and-hibernate/); [Join Fetch and Pagination](https://vladmihalcea.com/join-fetch-pagination-spring/).
-- [Hibernate 7.1 — Fetching](https://docs.hibernate.org/orm/7.1/userguide/html_single/#fetching).
+- [Hibernate 7.4 — Fetching](https://docs.hibernate.org/orm/7.4/userguide/html_single/#fetching).
 - [Spring Data JPA — Paging and Sorting](https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html).

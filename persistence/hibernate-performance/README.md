@@ -1,6 +1,6 @@
 # High-Performance Hibernate — Vlad Mihalcea (VM-11–VM-14 и VM-16)
 
-**Java 25 / Spring Boot 4.1.1 / Hibernate ORM / H2 / PostgreSQL 17 Testcontainers.** Продължение на [VM-01–VM-10](../../docs/sources/vlad-mihalcea/README.md), не препечатка на оригиналните статии.
+**Java 25 / Spring Boot 4.1.1 / Hibernate ORM 7.4.5.Final (проверен в CI) / H2 / PostgreSQL 17 Testcontainers.** Продължение на [VM-01–VM-10](../../docs/sources/vlad-mihalcea/README.md), не препечатка на оригиналните статии.
 
 ## 1. Първо реалният проблем
 
@@ -14,7 +14,7 @@
 |---|---|---|
 | [VM-11: IDENTITY vs SEQUENCE](docs/VM-11-IDENTIFIERS.md) | Кога ID става известен и дали може да се batch-ва INSERT | [Fast+PostgreSQL tests](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) |
 | [VM-12: N+1 и fetch plans](docs/VM-12-FETCH-NPLUS1.md) | LAZY getter → 6 SQL, JOIN FETCH/EntityGraph → 1 SQL | [Fast N+1 test](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) + [PG IT](src/test/java/bg/hristomanov/education/hperf/PostgresHibernatePerformanceIT.java) |
-| [VM-13: DTO, keyset, collection pages](docs/VM-13-DTO-PAGINATION.md) | Bounded projection, stable cursor, fail-fast collection pagination | [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) и tests |
+| [VM-13: DTO, keyset, collection pages](docs/VM-13-DTO-PAGINATION.md) | Bounded projection, stable cursor, Hibernate 7.4 nested collection pagination | [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) и tests |
 | [VM-14: JDBC batching / bulk DML](docs/VM-14-BATCH-BULK.md) | Реални batch events, flush/clear, bulk stale entity | [SessionEventListener proof](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) |
 | [VM-16: Spring Data pitfalls](docs/VM-16-SPRING-DATA-TRAPS.md) | findAll vs Page/Slice, findById vs getReferenceById | [Repositories](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) и tests |
 | [VM-17: QueryDSL + Specification](../specification-querydsl/VM-17-PAGE-SLICE-COUNT.md) | Dynamic filters, explicit count, count-free slice | Надградена [Specification + QueryDSL лаборатория](../specification-querydsl/README.md) |
@@ -26,7 +26,7 @@
 | DB-generated identity vs pooled sequence | [IdentityEntry](src/main/java/bg/hristomanov/education/hperf/domain/IdentityEntry.java) / [SequenceEntry](src/main/java/bg/hristomanov/education/hperf/domain/SequenceEntry.java) | [HibernatePerformanceTest](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) |
 | Explicit to-one fetch / EntityGraph | [PerfOrderReader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) / [PerfOrderRepository](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) | SQL statement count tests |
 | Record projection / seek pagination | [OrderRow](src/main/java/bg/hristomanov/education/hperf/read/OrderRow.java) / [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) | Offset/keyset parity tests |
-| Collection fetch pagination | [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) | fail-fast + two-step ID page |
+| Collection fetch pagination | [Reader](src/main/java/bg/hristomanov/education/hperf/read/PerfOrderReader.java) | raw JOIN/LIMIT negative + nested SQL capture + two-step ID page |
 | JDBC batch vs prepared statement count | [application.properties](src/main/resources/application.properties) | Hibernate SessionEventListener + Postgres IT |
 | Spring Data Page vs Slice | [Repo](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) | H2 SQL-count comparison |
 
@@ -56,12 +56,12 @@ Testcontainers ITs (`*IT.java`) **не са част от default Surefire**; Fa
 - ID strategy: имам ли реална нужда от SEQUENCE, настроен ли е allocation size?
 - INSERT batching: проверих ли `jdbcExecuteBatchStart`, вместо да съдя по броя SQL логове?
 - API: имам ли N+1 при cold persistence context, и може ли DTO да намали overfetch?
-- Collection + Page: имам ли гарантирано SQL limit, или ORM прави in-memory pagination?
+- Collection + Page: прави ли Hibernate 7.4 nested SQL limit, или in-memory fallback?
 - Page/Slice: нужна ли е точна total count query?
 - Bulk UPDATE: managed entity остава ли stale до `refresh/clear`?
 
 ### Оригинални източници
 
 - [Vlad Mihalcea — Hibernate articles](https://vladmihalcea.com/tutorials/hibernate/), [book topic index](https://vladmihalcea.com/books/high-performance-java-persistence/).
-- [Hibernate 7.1 ORM User Guide](https://docs.hibernate.org/orm/7.1/userguide/html_single/), [Jakarta Persistence 3.2](https://jakarta.ee/specifications/persistence/3.2/).
+- [Hibernate 7.4 ORM User Guide](https://docs.hibernate.org/orm/7.4/userguide/html_single/), [Jakarta Persistence 3.2](https://jakarta.ee/specifications/persistence/3.2/).
 - [Spring Data JPA Reference](https://docs.spring.io/spring-data/jpa/reference/).

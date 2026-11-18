@@ -14,7 +14,7 @@
 >
 > Използвай точно fixture: 7 orders, 5 distinct customers, наивно 6 SQL срещу JOIN FETCH/EntityGraph 1; 23 SEQUENCE entries с изпълнени JDBC batches и 4 IDENTITY entries без такива; 53 inserts с flush/clear; DTO/page keyset до 3 реда; Page с count query срещу Slice без count. Обясни защо batch event не е гаранция за по-малко network packets.
 >
-> Разгледай `getReferenceById` vs `findById`, `@Version` за stale updates, pooled sequence allocation и DB DDL, LAZY vs EAGER, JPQL constructor projections, ORDER BY tie-breaker, keyset cursor, защо collection fetch + Page трябва да fail-fast, Spring Specification vs QueryDSL count predicates и безопасно binding на параметри.
+> Разгледай `getReferenceById` vs `findById`, `@Version` за stale updates, pooled sequence allocation и DB DDL, LAZY vs EAGER, JPQL constructor projections, ORDER BY tie-breaker, keyset cursor, как Hibernate 7.4 прави nested SQL за collection paging и кога fail-on-pagination предотвратява in-memory fallback, Spring Specification vs QueryDSL count predicates и безопасно binding на параметри.
 >
 > Отдели PostgreSQL и Oracle semantics — в тази лаборатория PostgreSQL е реално тестван, Oracle не е. Накрая задай 6 practically reasoned review въпроса и посочи кои SQL/tests доказват всяка теза. Не отбелязвай темите за научени от слушането.
 

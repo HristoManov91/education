@@ -38,7 +38,7 @@ select o from PerfOrder o join fetch o.customer order by o.id
 
 ## Защо не JOIN FETCH всичко?
 
-`JOIN FETCH` върху паралелни големи колекции може да създаде картезианско умножение, много дублирани DB редове или `MultipleBagFetchException`. При pagination върху fetch-ната колекция се рискува in-memory pagination. Следващата [VM-13](VM-13-DTO-PAGINATION.md) доказва проблемния вариант с fail-fast конфигурация.
+`JOIN FETCH` върху паралелни големи колекции може да създаде картезианско умножение, много дублирани DB редове или `MultipleBagFetchException`. По-старите версии могат да направят in-memory pagination, но Hibernate 7.4 може да генерира nested SQL при подходящ dialect. [VM-13](VM-13-DTO-PAGINATION.md) доказва raw JOIN+LIMIT риска и безопасното поведение на реалния Hibernate 7.4 runtime.
 
 ## Decision contract
 
@@ -59,5 +59,5 @@ select o from PerfOrder o join fetch o.customer order by o.id
 ### Оригинални източници
 
 - Vlad — [N+1 Query Problem](https://vladmihalcea.com/n-plus-1-query-problem/); [Detect N+1 in testing](https://vladmihalcea.com/how-to-detect-the-n-plus-one-query-problem-during-testing/).
-- [Hibernate ORM 7.1 — Fetching](https://docs.hibernate.org/orm/7.1/userguide/html_single/#fetching).
+- [Hibernate ORM 7.4 — Fetching](https://docs.hibernate.org/orm/7.4/userguide/html_single/#fetching).
 - [Spring Data JPA @EntityGraph](https://docs.spring.io/spring-data/jpa/reference/jpa/entity-graph.html).

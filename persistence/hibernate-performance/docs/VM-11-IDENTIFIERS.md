@@ -45,7 +45,7 @@ private Long id; // няма проверка на DB sequence increment и allo
 private Long id;
 ~~~
 
-**Important:** `allocationSize`, database sequence increment, optimizer (pooled vs pooled-lo), replication/failover и multi-instance usage трябва да са съвместими. Hibernate 7.1 може да конфигурира различни optimizers — от `allocationSize` **не следва**, че автоматично сме избрали точно `pooled-lo`. Празнини в идентификаторите след rollback, crash или reservation са нормални; **ID не е непрекъснат business sequence**.
+**Important:** `allocationSize`, database sequence increment, optimizer (pooled vs pooled-lo), replication/failover и multi-instance usage трябва да са съвместими. Hibernate 7.4 може да конфигурира различни optimizers — от `allocationSize` **не следва**, че автоматично сме избрали точно `pooled-lo`. Празнини в идентификаторите след rollback, crash или reservation са нормални; **ID не е непрекъснат business sequence**.
 
 ## Decision contract
 
@@ -70,5 +70,5 @@ Import-ът получава обяснение: не „Hibernate е бавен
 ### Оригинални източници
 
 - Vlad — [pooled-lo optimizer](https://vladmihalcea.com/hibernate-hidden-gem-the-pooled-lo-optimizer/); [Sequence ID generation](https://vladmihalcea.com/jpa-entity-identifier-sequence/).
-- [Hibernate ORM 7.1 User Guide — identifiers](https://docs.hibernate.org/orm/7.1/userguide/html_single/#identifiers).
+- [Hibernate ORM 7.4 User Guide — identifiers](https://docs.hibernate.org/orm/7.4/userguide/html_single/#identifiers).
 - [PostgreSQL 17 Sequences](https://www.postgresql.org/docs/17/sql-createsequence.html).
