@@ -6,6 +6,8 @@
 
 ---
 
+**P2 ново изпълнимо допълнение от Ron Pressler — The Year of the Runtime:** [AI-Assisted JFR Investigation / Java25 @Contextual](AI-ASSISTED-JFR-INVESTIGATION.md) (real event metadata + nested same-thread timing JUnit, allowlist-only `JfrEvidenceSummary`, synthetic CLI recording, безопасен AI prompt). **JFR не пренася IDs между JVM-и**; не изпращаме сурови production recordings на AI. [P1 runtime-first обзор](../performance-evolution/RUNTIME-FIRST-AI-ERA.md) · [NotebookLM](../performance-evolution/YEAR-OF-RUNTIME-NOTEBOOKLM-PROMPT.md).
+
 **P1 practical companion:** [IntelliJ Debugger Playbook — Logpoints, Stream Debugger, Evaluate & AI safeguards](INTELLIJ-DEBUGGER-PLAYBOOK.md). Това е guided IDE walkthrough, а не нов JFR/JUnit модул и не заместител на production profiling.
 
 ---

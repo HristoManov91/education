@@ -1,5 +1,7 @@
 # P1 · Modern JVM Performance / Project Leyden & Compact Object Headers
 
+**P1 — Ron Pressler, The Year of the Runtime (Devoxx 2026):** [Runtime-first Java in the AI era](RUNTIME-FIRST-AI-ERA.md) обединява evolvability, JIT/GC/Leyden, jlink, integrity и JFR с критерии за AI-assisted code review. [P2 Java25 @Contextual + реален JFR recording / safe AI evidence](../jfr-troubleshooting/AI-ASSISTED-JFR-INVESTIGATION.md) е executable продължението, без нов Maven модул. [NotebookLM — 20–25 мин](YEAR-OF-RUNTIME-NOTEBOOKLM-PROMPT.md).
+
 **P1 Devoxx допълнение (без нов JVM курс):** [Quarkus/Jackson 3 JIT regression — inlining, register spilling, profile pollution, loop unrolling](QUARKUS-JACKSON-JIT-REGRESSION.md), с [Java25 dispatch JUnit](src/test/java/bg/hristomanov/education/performance/quarkus/HandlerDispatchLabTest.java) и [JMH benchmark](../performance-evolution-benchmarks/src/main/java/bg/hristomanov/education/performance/benchmarks/HandlerDispatchBenchmark.java). Изпълнимият Quarkus build-time extension е [отделен P2 module](../../../spring/framework-internals/quarkus-build-time/README.md). Конференционните req/s НЕ са наши измервания.
 
 **Свързано P2 обучение (без дублиране):** [GraalVM Native Image, Layers и Crema](../graalvm-native-image/README.md) сравнява JVM+Leyden срещу native AOT с един Java 25 workload, изследва reachability metadata, Layer sharing и експериментален Byte Buddy runtime loading. Native компилациите са manual; не смесвай Leyden cache с native binary и не обявявай conference benchmarks за наши резултати.

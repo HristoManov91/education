@@ -244,6 +244,21 @@
 
 ---
 
+## P1/P2 — The Year of the Runtime: AI, evolvability и Java25 JFR (Devoxx 2026)
+
+**Основен източник:** [Ron Pressler — The Year of the Runtime](https://www.youtube.com/watch?v=tle2mA7EwWU), предоставен SRT (~14:49). **P1:** [Runtime-first Java in the AI era](../../java/jvm/performance-evolution/RUNTIME-FIRST-AI-ERA.md) — correctness ≠ evolvability, JVM JIT/GC/Leyden/jlink/security trade-offs и AI review. **P2:** [Real Java25 JFR @Contextual лаборатория](../../java/jvm/jfr-troubleshooting/AI-ASSISTED-JFR-INVESTIGATION.md) — локално recording, JUnit event metadata, same-thread nesting, synthetic allowed ID и безопасен агрегат. [NotebookLM audio prompt](../../java/jvm/performance-evolution/YEAR-OF-RUNTIME-NOTEBOOKLM-PROMPT.md).
+
+| ID | Приоритет | Микро-тема | Проверяваме |
+| --- | --- | --- | --- |
+| JVM-RUNTIME-01 | P1 | AI correctness срещу evolvability | Locality of changes, invariants, runtime metrics, security, CI |
+| JVM-RUNTIME-02 | P1 | JIT/GC/Leyden/JDK upgrade в реални граници | Java25 vs JDK28 EA, performance evidence, no invented speedup |
+| JFR-CONTEXT-01 | P2 | Java25 `@Contextual` metadata | Real RecordingFile; event interval и same-thread ownership |
+| JFR-AI-01 | P2 | Evidence-only AI triage | Allowlist summary, no raw trace ID, hypotheses, counter-tests, privacy |
+
+**Граница:** не създаваме нов Maven reactor; кодът живее в съществуващия JFR module. След успешни тестове следва самостоятелно решаване на въпросите, **не** автоматична оценка като усвоено.
+
+---
+
 ## P2 — GraalVM Native Image / Layers / Crema (Devoxx 2026)
 
 **Материал:** [GraalVM Next — Native Image, Reachability Metadata, Layers, Crema, Web Image](../../java/jvm/graalvm-native-image/README.md); оригинал: [Alina Yurenko и Thomas Wuerthinger, Devoxx 2026](https://www.youtube.com/watch?v=OLQ98Ko4p3Q) + предоставен SRT. Java 25/JUnit е standard CI, Native Image и Web Image са **manual experiments**, не тествани автоматично.

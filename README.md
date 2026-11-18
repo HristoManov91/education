@@ -132,6 +132,10 @@ education/
   - [Web Image / WebAssembly — P3 radar](java/jvm/graalvm-native-image/WEB-IMAGE-RADAR.md)
   - [NotebookLM аудио урок + упражнения](java/jvm/graalvm-native-image/NOTEBOOKLM-PROMPT.md)
 
+- [P1 The Year of the Runtime — Ron Pressler, JVM evolvability и AI code review](java/jvm/performance-evolution/RUNTIME-FIRST-AI-ERA.md)
+  - [P2 AI-assisted JFR — Java25 @Contextual events, real JUnit recording и безопасна извадка](java/jvm/jfr-troubleshooting/AI-ASSISTED-JFR-INVESTIGATION.md)
+  - [NotebookLM — The Year of the Runtime](java/jvm/performance-evolution/YEAR-OF-RUNTIME-NOTEBOOKLM-PROMPT.md)
+
 - [P1 JVM Performance / Project Leyden — AOT cache, Compact Object Headers и измервания](java/jvm/performance-evolution/README.md)
   - [P1 JDK26/27 GC, G1 default и cross-JDK upgrade lab](java/jvm/performance-evolution/JDK26-27-GC-UPGRADE.md)
   - [P1 JVM в контейнер — CPU/memory cgroups, OOMKilled, heap vs RSS, jlink, AOT, diagnostics](java/jvm/performance-evolution/JVM-IN-CONTAINERS.md)
