@@ -688,6 +688,25 @@ two method calls
 
 Fix: `org.springframework:spring-aop` с версия от Spring Boot BOM в [pom.xml](pom.xml). Няма нужда от пълен AspectJ weaver при обикновена proxy-based caching конфигурация. [Интеграционният тест](src/test/java/bg/hristomanov/education/distributedcache/DistributedCachingIntegrationTest.java) изрично проверява `AopUtils.isAopProxy`, Redis key/TTL, `source.readCount() == 1` и `@CacheEvict` → key missing → следващ `get` прави точно едно ново source read. Negative scenario: ако премахнеш `spring-aop` от POM, proxy assertion или cache hit test трябва да стане червен. Това не променя near-cache semantics, Redis Pub/Sub и distributed stampede примерите.
 
+### P1 engineering investigation — intermittent Redis Cache CI failures (November 2026)
+
+**Tracked:** [Issue #95](https://github.com/HristoManov91/education/issues/95). Тази секция е **активно разследване**, а не твърдение за доказана първопричина или завършен fix.
+
+В real Redis 8.10.2 GitHub Actions има повтарящи се неуспехи на `DistributedCachingIntegrationTest`:
+
+- [12.11 run 43287229291](https://github.com/HristoManov91/education/actions/runs/43287229291): след две последователни `get(1L)` — `source.readCount() == 2` вместо 1;
+- [12.11 run 43300489601](https://github.com/HristoManov91/education/actions/runs/43300489601): след `@CacheEvict` ключът `edu:products::1` още съществува;
+- [14.11 run 43561135366](https://github.com/HristoManov91/education/actions/runs/43561135366): след първи `@Cacheable` get ключът още липсва;
+- [18.11 run 44274758110](https://github.com/HristoManov91/education/actions/runs/44274758110): вторият `get(1L)` отново достига source; **същият commit успява при rerun**.
+
+На 12.11 [commit 1a09dbd](https://github.com/HristoManov91/education/commit/1a09dbdfb5781973589d112b63e9f3a62e0dc13f) е добавил липсващия `spring-aop`, но има **два по-късни CI провала**, т.е. това не обяснява всички наблюдения. Наличните логове **не** доказват дали проблемът е ключ, AOP advisor, Redis write/delete, тестова изолация или друга причина.
+
+**Диагностичен тест (без production промяна):** [`DistributedCachingIntegrationTest`](src/test/java/bg/hristomanov/education/distributedcache/DistributedCachingIntegrationTest.java) вече при провал предоставя lazy fail-only snapshot: действителните AOP advisors и `CacheInterceptor`, тип на `CacheManager`/cache, `edu:products*` ключове, наличие/TTL и source read count. На успешен път не извършва допълнителни Redis I/O проверки само заради диагностиката. Не се добавя `sleep`, `@Retry` или игнориране на провал.
+
+**Следваща диагностична граница:** ако key липсва непосредствено след get, проверяваме съответния cache put/advice; ако key е налице, но source се чете втори път, проверяваме lookup/key generation; ако остане след evict, проверяваме реалното evict advice и Redis delete. Само с тази причинно-следствена информация може да се направи доказуем fix.
+
+**Операционен избор:** предпочитай ограничено повторение на целевия Maven модул и реален Redis, не многократно изпълнение на целия Education reactor. Не приемай единичен успешен rerun като доказателство за липса на дефект.
+
 ## Shared L2
 
 ```text

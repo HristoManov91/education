@@ -5,6 +5,8 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.aop.framework.Advised;
+import org.springframework.cache.interceptor.CacheInterceptor;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -12,7 +14,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -20,6 +25,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @EnabledIfEnvironmentVariable(named = "RUN_REDIS_TESTS", matches = "true")
 @SpringBootTest
 class DistributedCachingIntegrationTest {
+
+    private static final String SPRING_CACHE_KEY = "edu:products::1";
 
     private final RedisCachedProductService springCacheService;
     private final ProductSource source;
@@ -78,15 +85,23 @@ class DistributedCachingIntegrationTest {
                 .as("@Cacheable must be intercepted by a Spring AOP proxy")
                 .isTrue();
 
+        // A proxy alone is insufficient evidence: another advisor could create it.
+        Assertions.assertTrue(hasCacheInterceptor(),
+                () -> "Expected an actual Spring CacheInterceptor; "
+                        + cacheDiagnostics("before first @Cacheable get"));
+
         Product first = springCacheService.get(1L);
         Product second = springCacheService.get(1L);
 
         assertThat(second).isEqualTo(first);
-        assertThat(source.readCount()).isEqualTo(1);
+        // Expensive Redis reads and advisor inspection are performed ONLY on failure.
+        Assertions.assertEquals(1, source.readCount(),
+                () -> "Second @Cacheable get must hit Redis; "
+                        + cacheDiagnostics("after two get(1L) calls"));
 
         Long ttlSeconds =
                 stringRedis.getExpire(
-                        "edu:products::1"
+                        SPRING_CACHE_KEY
                 );
 
         assertThat(ttlSeconds)
@@ -101,20 +116,28 @@ class DistributedCachingIntegrationTest {
 
     @Test
     void cacheEvictionViaProxyInvalidatesRedisAndForcesReload() {
-        String cacheKey = "edu:products::1";
+        String cacheKey = SPRING_CACHE_KEY;
 
         Product first = springCacheService.get(1L);
-        assertThat(stringRedis.hasKey(cacheKey)).isTrue();
-        assertThat(source.readCount()).isEqualTo(1);
+        Assertions.assertTrue(Boolean.TRUE.equals(stringRedis.hasKey(cacheKey)),
+                () -> "First @Cacheable get should populate Redis; "
+                        + cacheDiagnostics("after first get(1L)"));
+        Assertions.assertEquals(1, source.readCount(),
+                () -> "First get should load source only once; "
+                        + cacheDiagnostics("after first get(1L)"));
 
         // Exercise the same public proxied service that production uses,
         // not CacheManager directly: @CacheEvict must actually execute.
         springCacheService.evict(1L);
-        assertThat(stringRedis.hasKey(cacheKey)).isFalse();
+        Assertions.assertFalse(Boolean.TRUE.equals(stringRedis.hasKey(cacheKey)),
+                () -> "@CacheEvict should remove the populated Redis key; "
+                        + cacheDiagnostics("after evict(1L)"));
 
         Product reloaded = springCacheService.get(1L);
         assertThat(reloaded).isEqualTo(first);
-        assertThat(source.readCount()).isEqualTo(2);
+        Assertions.assertEquals(2, source.readCount(),
+                () -> "Reload after eviction should read from source; "
+                        + cacheDiagnostics("after get following evict"));
     }
 
     @Test
@@ -206,6 +229,53 @@ class DistributedCachingIntegrationTest {
              */
             assertThat(source.readCount()).isEqualTo(2);
         }
+    }
+
+    /**
+     * Non-mutating on-failure diagnostics for the recurring CI flake (#95).
+     * No Thread.sleep/retry: keep the original strict cache guarantees.
+     * Read only the synthetic cache prefix; never dump Redis values or secrets.
+     */
+    private String cacheDiagnostics(String stage) {
+        String advisors = springCacheService instanceof Advised advised
+                ? Arrays.stream(advised.getAdvisors())
+                        .map(advisor -> advisor.getAdvice().getClass().getSimpleName())
+                        .collect(Collectors.joining(", "))
+                : "not an Advised proxy";
+        String cacheType = cacheManager.getCache("products") == null
+                ? "no products cache"
+                : cacheManager.getCache("products").getClass().getSimpleName();
+        try {
+            Boolean present = stringRedis.hasKey(SPRING_CACHE_KEY);
+            Long ttlSeconds = stringRedis.getExpire(SPRING_CACHE_KEY);
+            Set<String> namespacedKeys = stringRedis.keys("edu:products*");
+            return "stage=" + stage
+                    + ", sourceReads=" + source.readCount()
+                    + ", isAopProxy=" + AopUtils.isAopProxy(springCacheService)
+                    + ", advisors=" + advisors
+                    + ", cacheManager=" + cacheManager.getClass().getSimpleName()
+                    + ", cache=" + cacheType
+                    + ", key=" + SPRING_CACHE_KEY
+                    + ", keyPresent=" + present
+                    + ", ttlSeconds=" + ttlSeconds
+                    + ", namespacedKeys=" + namespacedKeys;
+        } catch (RuntimeException exception) {
+            return "stage=" + stage
+                    + ", sourceReads=" + source.readCount()
+                    + ", isAopProxy=" + AopUtils.isAopProxy(springCacheService)
+                    + ", advisors=" + advisors
+                    + ", cacheManager=" + cacheManager.getClass().getSimpleName()
+                    + ", cache=" + cacheType
+                    + ", Redis diagnostics failed: " + exception.getClass().getSimpleName();
+        }
+    }
+
+    private boolean hasCacheInterceptor() {
+        if (!(springCacheService instanceof Advised advised)) {
+            return false;
+        }
+        return Arrays.stream(advised.getAdvisors())
+                .anyMatch(advisor -> advisor.getAdvice() instanceof CacheInterceptor);
     }
 
     private boolean redisAvailable() {
