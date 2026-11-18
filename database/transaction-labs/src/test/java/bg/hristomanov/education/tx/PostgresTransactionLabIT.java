@@ -169,6 +169,26 @@ class PostgresTransactionLabIT {
         }
     }
 
+
+    @Test
+    void explicitReadOnlyDatabaseTransactionRejectsDmlButIsNotReplicaRouting() throws SQLException {
+        try (var connection = source.getConnection()) {
+            connection.setAutoCommit(false);
+            try (var stmt = connection.createStatement()) {
+                stmt.execute("SET TRANSACTION READ ONLY");
+            }
+            assertThat(readQuantity(connection, 1)).isEqualTo(10);
+            assertThatThrownBy(() -> modify(connection, 1, 77))
+                    .isInstanceOf(SQLException.class)
+                    .satisfies(error -> assertThat(((SQLException) error).getSQLState())
+                            .isEqualTo("25006"));
+            connection.rollback(); // PostgreSQL leaves transaction in failed state.
+        }
+        try (var fresh = source.getConnection()) {
+            assertThat(readQuantity(fresh, 1)).isEqualTo(10);
+        }
+    }
+
     private static Callable<String> deadlockingWorker(
             int firstId, int secondId, CyclicBarrier bothHoldingFirstRow) {
         return () -> {
