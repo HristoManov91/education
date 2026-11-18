@@ -4,7 +4,7 @@
 - [Основен учебен модул](README.md), [VM-11](docs/VM-11-IDENTIFIERS.md), [VM-12](docs/VM-12-FETCH-NPLUS1.md), [VM-13](docs/VM-13-DTO-PAGINATION.md), [VM-14](docs/VM-14-BATCH-BULK.md), [VM-16](docs/VM-16-SPRING-DATA-TRAPS.md).
 - [VM-17 QueryDSL](../specification-querydsl/VM-17-PAGE-SLICE-COUNT.md), [практическите задачи](EXERCISES.md).
 - [H2 integration tests](src/test/java/bg/hristomanov/education/hperf/HibernatePerformanceTest.java) и [real PG tests](src/test/java/bg/hristomanov/education/hperf/PostgresHibernatePerformanceIT.java).
-- [Оригинален Vlad блог](https://vladmihalcea.com/tutorials/hibernate/), [Hibernate ORM 7.1 guide](https://docs.hibernate.org/orm/7.1/userguide/html_single/).
+- [Оригинален Vlad блог](https://vladmihalcea.com/tutorials/hibernate/), [Hibernate ORM 7.4 guide](https://docs.hibernate.org/orm/7.4/userguide/html_single/).
 
 ## Audio Overview prompt
 

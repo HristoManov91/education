@@ -65,5 +65,5 @@ Long total = queryFactory.select(PAYMENT.id.count())
 
 - Влад Mihalcea — [Spring Data findAll](https://vladmihalcea.com/spring-data-findall-anti-pattern/); [JOIN FETCH and pagination](https://vladmihalcea.com/join-fetch-pagination-spring/).
 - [Spring Data JPA query methods и count](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html).
-- [Hibernate Statistics Javadocs 7.1](https://docs.hibernate.org/orm/7.1/javadocs/org/hibernate/stat/Statistics.html).
+- [Hibernate Statistics Javadocs 7.4](https://docs.hibernate.org/orm/7.4/javadocs/org/hibernate/stat/Statistics.html).
 - [QueryDSL repository](https://github.com/querydsl/querydsl).

@@ -156,25 +156,25 @@ implementations:
 
   - id: VM-11
     chapter: persistence/hibernate-performance/docs/VM-11-IDENTIFIERS.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-013, VM-SRC-014]
   - id: VM-12
     chapter: persistence/hibernate-performance/docs/VM-12-FETCH-NPLUS1.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-006, VM-SRC-007, VM-SRC-015]
   - id: VM-13
     chapter: persistence/hibernate-performance/docs/VM-13-DTO-PAGINATION.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-008, VM-SRC-009, VM-SRC-010, VM-SRC-018]
   - id: VM-14
     chapter: persistence/hibernate-performance/docs/VM-14-BATCH-BULK.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-013, VM-SRC-014]
   - id: VM-16
     chapter: persistence/hibernate-performance/docs/VM-16-SPRING-DATA-TRAPS.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-016, VM-SRC-017]
   - id: VM-17
     chapter: persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-016, VM-SRC-018]

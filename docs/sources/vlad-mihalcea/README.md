@@ -28,7 +28,7 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [QueryDSL vs Specification: explicit COUNT / count-free Slice и bind safety](../../../persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md)
 - [Fast + PostgreSQL CI, only changed paths](../../../.github/workflows/vlad-hibernate-performance.yml)
 
-**Статус:** код и учебни глави в PR — проверките трябва да преминат преди `implemented`. VM-15 остава за отделен Spring propagation/AOP block.
+**Статус:** VM-11–VM-14 и VM-16–VM-17 са реализирани и тестувани в PR #103. VM-15 остава за отделен Spring propagation/AOP блок. Сливането на PR не означава доказано усвояване.
 
 ## Продължение — VM-05–VM-10
 
