@@ -107,6 +107,9 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-15: Spring declarative transactions, proxy interception, REQUIRED/REQUIRES_NEW/NESTED, rollback rules](persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md) — [test lab](persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java).
+
+
 - [VM-11–VM-14 и VM-16: Hibernate identifiers, N+1 fetching, DTO/keyset pagination, JDBC batch execution, Spring Data repository traps](persistence/hibernate-performance/README.md).
 - [VM-17: QueryDSL vs Spring Specification — Page/Slice, explicit COUNT, safe bind predicates](persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md).
   - [Практически задачи](persistence/hibernate-performance/EXERCISES.md) · [NotebookLM audio](persistence/hibernate-performance/NOTEBOOKLM-PROMPT.md) · [таргетиран Hibernate/QueryDSL CI](.github/workflows/vlad-hibernate-performance.yml).

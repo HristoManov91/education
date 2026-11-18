@@ -178,3 +178,7 @@ implementations:
     chapter: persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md
     status: implemented
     sources: [VM-SRC-016, VM-SRC-018]
+  - id: VM-15
+    chapter: persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md
+    status: implementation-in-review
+    sources: [VM-SRC-019]

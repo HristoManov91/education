@@ -4,7 +4,7 @@
 
 ## Реализирани учебни блокове
 
-[SQL лаборатории](../../../database/sql-labs/README.md) съдържат 4 подробни урока, Fast H2 tests, real PostgreSQL Testcontainers integration suite, Oracle manual comparisons и targeted GitHub Actions workflow. VM-01..04 са **мърджнати в main** с успешно изпълнени unit+PostgreSQL tests. Следващите [VM-05..07 JDBC/MVCC/locking](../../../database/transaction-labs/README.md) и [VM-08..10 Hibernate](../../../persistence/repository-unit-of-work/README.md) имат изпълним код и са в процес на независима CI проверка. VM-11–VM-14 и VM-16–VM-17 са реализирани с H2/PostgreSQL/QueryDSL тестове (PR #103); VM-15 и VM-18–VM-30 не са реализирани. Всички 16 реализирани теми не се смятат за лично усвоени без диагностика. Нито един материал не е автоматично `learned`.
+[SQL лаборатории](../../../database/sql-labs/README.md) съдържат 4 подробни урока, Fast H2 tests, real PostgreSQL Testcontainers integration suite, Oracle manual comparisons и targeted GitHub Actions workflow. VM-01..04 са **мърджнати в main** с успешно изпълнени unit+PostgreSQL tests. Следващите [VM-05..07 JDBC/MVCC/locking](../../../database/transaction-labs/README.md) и [VM-08..10 Hibernate](../../../persistence/repository-unit-of-work/README.md) имат изпълним код и са в процес на независима CI проверка. VM-11–VM-14 и VM-16–VM-17 са реализирани с H2/PostgreSQL/QueryDSL тестове (PR #103); VM-15 има 6 нови Spring/JPA tests и учебна глава (PR в преглед); VM-18–VM-30 не са реализирани. Всички 16 реализирани теми не се смятат за лично усвоени без диагностика. Нито един материал не е автоматично `learned`.
 
 ## P0 — първо механиката на базата и ORM
 
@@ -24,7 +24,7 @@
 | VM-12 | Fetch plans, N+1, EAGER defaults, EntityGraph, JOIN FETCH | implemented | `persistence/jpa-performance` | statement counts that fail before fix and pass after |
 | VM-13 | DTO projections, pagination, keyset, collection-fetch pagination | implemented | `persistence/jpa-performance` + `persistence/specification-querydsl` | bounded SQL, deterministic page stability, no in-memory paging |
 | VM-14 | Batch INSERT/UPDATE/DELETE, bulk DML, flush/clear, order_inserts | implemented | `persistence/hibernate-performance` | batch statistics, correctness, persistence-context staleness |
-| VM-15 | Spring transactions, propagation, self-invocation, OSIV, connections | existing-partial | `persistence/jpa-performance` | transaction boundaries and connection lease tests |
+| VM-15 | Spring transactions, propagation, self-invocation, OSIV, connections | implementation-in-review | `persistence/repository-unit-of-work` | transaction boundaries and connection lease tests |
 | VM-16 | Spring Data repository API traps: findAll, findById, save, exists, projections | implemented | `persistence/repository-unit-of-work` + Spring Data lab | SQL counts, bounded reads, find/getReference behavior |
 | VM-17 | QueryDSL/Specification, count queries, query plan caching and parameter binding | implemented | `persistence/specification-querydsl` | same results, SQL plan, count and pagination tests |
 
