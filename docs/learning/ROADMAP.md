@@ -105,6 +105,8 @@
 
 **VM-11–VM-14, VM-16–VM-17 — Hibernate performance and repository querying:** [изпълним модул, код и тестове](../../persistence/hibernate-performance/README.md) · [QueryDSL/Specification page/count lab](../../persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md). Статус `implementation-in-review` до зелен CI, без автоматично `learned`.
 
+**VM-19 — ORM cache consistency:** [Hibernate L1/L2/Query Cache и out-of-band JDBC stale-data](../../persistence/hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md), изпълним single-JVM JCache/H2 lab, не distributed consistency proof.
+
 **VM-20 — SQL dialect correctness:** [Oracle 19c ↔ PostgreSQL 17 DB comparison](../../database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md), actual PostgreSQL tests + ръчни Oracle SQL scripts (не са автоматично Oracle-validated).
 
 **VM-26 — bounded DB backpressure:** [Hikari admission gate, real pool metrics и PostgreSQL read-only correctness](../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md); положителни/negative tests и отделен PostgreSQL profile. Не е готова схема за глобален multi-pod pool sizing.

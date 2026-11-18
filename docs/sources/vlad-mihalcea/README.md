@@ -36,6 +36,11 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [6 изпълними Spring Boot tests](../../../persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java), [упражнения](../../../persistence/repository-unit-of-work/VM-15-EXERCISES.md), [NotebookLM](../../../persistence/repository-unit-of-work/NOTEBOOKLM-VLAD-VM15.md)
 - [CI: в съществуващия PostgreSQL/JPA workflow с нов guard](../../../.github/workflows/vlad-transactions.yml), без още един отделен CI job.
 
+## P1 — VM-19 Hibernate Cache
+
+- [Second-level entity cache, Query Cache, update timestamps, external JDBC stale-data example](../../../persistence/hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md).
+- [Изпълнимите JCache/H2 тестове](../../../persistence/hibernate-performance/src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java) · [NotebookLM](../../../persistence/hibernate-performance/NOTEBOOKLM-VM19.md).
+
 ## P1 — VM-20 Oracle / PostgreSQL portability
 
 - [SQL semantics, CBO plans, NULL/empty-string, sequences, JSON, paging and locking comparison](../../../database/sql-labs/docs/VM-20-POSTGRESQL-ORACLE-COMPARISON.md).
