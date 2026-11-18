@@ -1,0 +1,72 @@
+# Vlad Mihalcea — тематична карта и implementation backlog
+
+> Дата на одит: 2026-11-18. Това е **план и проверка на пропуски**, не списък с готови лаборатории. Всяка бъдеща тема получава собствена дефиниция за готовност и доказателство.
+
+## P0 — първо механиката на базата и ORM
+
+| ID | Учебна тема / реален проблем | Състояние | Къде се реализира/разширява | Как доказваме |
+| --- | --- | --- | --- | --- |
+| VM-01 | SQL logical processing, NULL, JOIN cardinality — защо филтърът връща грешни/дублирани редове | new | `database/sql-fundamentals` | SQL fixtures + expected result sets, PostgreSQL/Oracle dialect notes |
+| VM-02 | Table design, PK/FK, natural/surrogate keys, constraints | new | `database/relational-modeling` | schema constraints, invalid insert tests, indexing trade-offs |
+| VM-03 | JOIN strategies, EXISTS vs JOIN, CTE, recursive CTE, window functions | new | `database/advanced-sql` | резултати, EXPLAIN/DBMS_XPLAN, query correctness |
+| VM-04 | Indexes, composite selectivity, statistics, execution plans | new | `database/query-optimization` | EXPLAIN ANALYZE на PostgreSQL, Oracle plan scripts; actual vs estimates |
+| VM-05 | JDBC Connection/DataSource, PreparedStatement, pooling, queueing | existing-partial | `persistence/jpa-performance` + нов JDBC lab при нужда | active/idle/pending Hikari metrics, hold time, load scenario |
+| VM-06 | ACID, MVCC, 2PL, anomalies, isolation boundaries | new | `database/transactions-isolation` | конкурентни transaction тестове с реален DB; no H2-only claim |
+| VM-07 | Optimistic/pessimistic locking, lost updates, deadlocks, SKIP LOCKED/NOWAIT | new | `database/concurrency-locking` | две конкурентни транзакции, retry/idempotency, lock waits |
+| VM-08 | Entity lifecycle: transient/managed/detached/removed, first-level cache | existing-partial | `persistence/repository-unit-of-work` | identity, detach/merge, query-count integration tests |
+| VM-09 | Dirty checking, flush modes, action queue, write-behind | existing-partial | `persistence/repository-unit-of-work` | SQL order, flush timing, update count and failures |
+| VM-10 | Mapping associations, lazy proxies, equals/hashCode, cascades, orphanRemoval | existing-partial | `persistence/repository-unit-of-work` + mapping lab | mapping matrix, SQL trace, orphan/remove tests |
+| VM-11 | Identifier strategies: IDENTITY vs SEQUENCE, pooled/pooled-lo, batching side effects | new | `persistence/identifier-generation` | insert round-trips, sequence tests, dialect/version checks |
+| VM-12 | Fetch plans, N+1, EAGER defaults, EntityGraph, JOIN FETCH | existing-partial | `persistence/jpa-performance` | statement counts that fail before fix and pass after |
+| VM-13 | DTO projections, pagination, keyset, collection-fetch pagination | existing-partial | `persistence/jpa-performance` + `persistence/specification-querydsl` | bounded SQL, deterministic page stability, no in-memory paging |
+| VM-14 | Batch INSERT/UPDATE/DELETE, bulk DML, flush/clear, order_inserts | new | `persistence/jpa-batching` | batch statistics, correctness, persistence-context staleness |
+| VM-15 | Spring transactions, propagation, self-invocation, OSIV, connections | existing-partial | `persistence/jpa-performance` | transaction boundaries and connection lease tests |
+| VM-16 | Spring Data repository API traps: findAll, findById, save, exists, projections | existing-partial | `persistence/repository-unit-of-work` + Spring Data lab | SQL counts, bounded reads, find/getReference behavior |
+| VM-17 | QueryDSL/Specification, count queries, query plan caching and parameter binding | existing-partial | `persistence/specification-querydsl` | same results, SQL plan, count and pagination tests |
+
+## P1 — оптимизация, диагностика и реални production решения
+
+| ID | Учебна тема | Състояние | Дестинация | Критерий за готовност |
+| --- | --- | --- | --- | --- |
+| VM-18 | JDBC fetch size, streaming, client/server statement cache | new | `persistence/jdbc-fetching-caching` | memory/round-trip measurements, driver-specific behavior |
+| VM-19 | Hibernate L1/L2/query cache: invalidation, consistency, cache strategies | existing-partial | `spring/caching` + ORM cache lab | stale-data counterexample и hit/miss metrics |
+| VM-20 | PostgreSQL vs Oracle: plans, sequences, locking, JSON, pagination | new | `database/postgresql-oracle-comparison` | двуколонни dialect scripts + unsupported feature notes |
+| VM-21 | SQL/ORM observability: query counts, logs, pooling, slow query, Hypersistence Utils | existing-partial | `persistence/jpa-performance` + Testcontainers | reproducible SQL regression tests and metrics |
+| VM-22 | JSON/ARRAY/enum mappings, time zones, converters and portable alternatives | new | `persistence/advanced-types` | DB round-trip + update tracking + serialization tests |
+| VM-23 | Native queries, SQL functions and stored procedures | new | `persistence/native-sql-procedures` | parameter binding, result mapping, portability tests |
+| VM-24 | Upsert/MERGE, bulk operations, consistency and unique constraints | new | `database/upsert-bulk` | concurrent upsert race reproduction, dialect comparison |
+| VM-25 | Schema evolution: Flyway, validation, hbm2ddl safety | new | `persistence/schema-evolution` | migration and rollback-failure scenarios |
+| VM-26 | Read-only routing, pool sizing, backpressure, DB throughput | existing-partial | `persistence/jpa-performance` | saturated pool, bottleneck-shift tests and metrics |
+
+## P2 — специализирани допълнения (без излишна дълбочина в началото)
+
+| ID | Тема | Състояние | Къде / критерий |
+| --- | --- | --- | --- |
+| VM-27 | Soft delete, Envers/auditing, triggers, CDC/Debezium | new | `persistence/auditing-cdc` + existing outbox; consistency tests |
+| VM-28 | Entity inheritance, polymorphic queries and mapping costs | new | `persistence/entity-inheritance`; schema/query trade-offs |
+| VM-29 | Hierarchical queries, recursive fetching, SQL window-based reporting | new | `database/advanced-sql`; correct pagination/recursion tests |
+| VM-30 | Vendor-specific extensions, portability boundaries and Hibernate upgrades | new | `persistence/vendor-extensions`; versioned migration tests |
+
+## Ред на изпълнение (dependency-aware)
+
+1. **Фаза A — SQL reasoning:** VM-01→04. Това покрива SQL фундаментите преди Hibernate оптимизациите.
+2. **Фаза B — transactions и state:** VM-05→10, после VM-15. Без това N+1 и connection tuning се превръщат в механично копиране на настройки.
+3. **Фаза C — ефективно четене и писане:** VM-11→14, VM-16→17. Използваме съществуващите лаборатории като отправна точка.
+4. **Фаза D — диагностика и database-specific performance:** VM-18→21 и VM-26, с PostgreSQL+Oracle доказателства.
+5. **Фаза E — специализирани:** VM-22→25 и VM-27→30 според реални use cases.
+
+## Общ Definition of Done за всяко VM-XX
+
+- [ ] Оригинални публични статии на Vlad + официална документация + версионни бележки.
+- [ ] **Реален production казус**; проблемът, кога се използва, кога не, печалби, загуби, алтернативи.
+- [ ] Съществуваща тема се *разширява* вместо дублиране; иначе нов Maven/SQL lab на правилното място.
+- [ ] README на български с `README → код`, `bad`/`good`, команди за стартиране.
+- [ ] Изпълними Java/SQL integration и negative tests, или изрично обозначена концептуална бележка.
+- [ ] PostgreSQL/Oracle разграничение; DB-specific claim се доказва на съответната база.
+- [ ] SQL counts/locks/plans/connection metrics вместо фиктивни performance цифри.
+- [ ] NotebookLM аудио prompt, практически задачи и финален decision checklist.
+- [ ] Ревю на целия diff, работещи линкове, зелени релевантни тестове преди merge.
+
+## Граници на текущия одит
+
+Съществуващото repository и официалните три тематични индекса са проверени. Статусите са **ориентировъчна първа класификация по README**, а не построчен анализ на всички тестове или пълно преброяване на стотиците статии. `catalog.yaml` съдържа проверена първа селекция и се разширява при всяка изпълнена тема; не обявяваме '100% coverage' без реално покритие.
