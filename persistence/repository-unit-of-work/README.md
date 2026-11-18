@@ -8,6 +8,14 @@
 2. какво означава Unit of Work;
 3. защо при JPA/Hibernate често вече използваме Unit of Work, без да имаме class с име `UnitOfWork`.
 
+
+**Vlad Mihalcea — VM-08/09/10 (real implementation):**
+- [VM-08: Entity lifecycle, detach/merge и Identity Map](VM-08-ENTITY-LIFECYCLE.md) — [merge test](src/test/java/bg/hristomanov/education/uow/VladPersistenceLifecycleTest.java);
+- [VM-09: dirty checking, AUTO flush, action queue](VM-09-FLUSH-DIRTY-CHECKING.md) — [AUTO flush test](src/test/java/bg/hristomanov/education/uow/VladPersistenceLifecycleTest.java), плюс съществуващия rollback test;
+- [VM-10: bidirectional mappings, orphanRemoval и lazy loading](VM-10-MAPPINGS-CASCADE-ORPHAN.md) — [TrainingOrder](src/main/java/bg/hristomanov/education/uow/domain/TrainingOrder.java), [TrainingOrderLine](src/main/java/bg/hristomanov/education/uow/domain/TrainingOrderLine.java), [mapping tests](src/test/java/bg/hristomanov/education/uow/VladMappingTest.java).
+- [Практически упражнения](VLAD-EXERCISES.md) · [NotebookLM аудио урок](NOTEBOOKLM-VLAD-VM08-10.md).
+- Първо научи [VM-05/06/07: JDBC connections, MVCC и locking с истински PostgreSQL](../../database/transaction-labs/README.md), за да не смесваш database isolation с persistence-context identity.
+
 **Надграждане:** [Devoxx P1 — When ORM Becomes OMG: JPA/Hibernate performance](../jpa-performance/README.md) разширява този модул с HikariCP, connection lifecycle, OSIV, N+1, fetch plans и DTO projections, без да дублира вече наличните тестове за persistence context.
 
 ---

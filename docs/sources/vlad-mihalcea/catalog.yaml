@@ -113,17 +113,42 @@ references:
 implementations:
   - id: VM-01
     chapter: database/sql-labs/docs/VM-01-SQL-SEMANTICS.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-025]
   - id: VM-02
     chapter: database/sql-labs/docs/VM-02-RELATIONAL-CONSTRAINTS.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-021]
   - id: VM-03
     chapter: database/sql-labs/docs/VM-03-CTE-WINDOWS.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-022, VM-SRC-023]
   - id: VM-04
     chapter: database/sql-labs/docs/VM-04-INDEXES-AND-PLANS.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-020, VM-SRC-021]
+
+  - id: VM-05
+    chapter: database/transaction-labs/docs/VM-05-JDBC-POOL.md
+    status: implementation-in-review
+    sources: [VM-SRC-001, VM-SRC-019]
+  - id: VM-06
+    chapter: database/transaction-labs/docs/VM-06-MVCC-ISOLATION.md
+    status: implementation-in-review
+    sources: [VM-SRC-011]
+  - id: VM-07
+    chapter: database/transaction-labs/docs/VM-07-LOCKING.md
+    status: implementation-in-review
+    sources: [VM-SRC-011, VM-SRC-012]
+  - id: VM-08
+    chapter: persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md
+    status: implementation-in-review
+    sources: [VM-SRC-002, VM-SRC-003]
+  - id: VM-09
+    chapter: persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md
+    status: implementation-in-review
+    sources: [VM-SRC-004, VM-SRC-005]
+  - id: VM-10
+    chapter: persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md
+    status: implementation-in-review
+    sources: [VM-SRC-015]

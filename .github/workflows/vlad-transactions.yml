@@ -1,0 +1,46 @@
+name: Vlad Transactions — PostgreSQL and JPA
+
+on:
+  pull_request:
+    paths:
+      - 'database/transaction-labs/**'
+      - 'persistence/repository-unit-of-work/**'
+      - 'pom.xml'
+      - '.github/workflows/vlad-transactions.yml'
+  workflow_dispatch:
+
+jobs:
+  transactions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - name: JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Unit and PostgreSQL integration
+        run: mvn --batch-mode --no-transfer-progress -pl database/transaction-labs,persistence/repository-unit-of-work -Ppostgres-integration verify
+      - name: Guard against skipped PostgreSQL test suite
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          files = [
+              ('database/transaction-labs/target/surefire-reports/TEST-bg.hristomanov.education.tx.ConnectionLeaseTest.xml', 2),
+              ('database/transaction-labs/target/failsafe-reports/TEST-bg.hristomanov.education.tx.PostgresTransactionLabIT.xml', 8),
+          ]
+          for path, minimum in files:
+              report = Path(path)
+              if not report.exists():
+                  raise SystemExit(f'Missing suite report: {report}')
+              root = ET.parse(report).getroot()
+              tests = int(root.get('tests', '0'))
+              failed = int(root.get('failures', '0')) + int(root.get('errors', '0'))
+              skipped = int(root.get('skipped', '0'))
+              print(f'{report}: tests={tests} failed={failed} skipped={skipped}')
+              if tests < minimum or failed or skipped:
+                  raise SystemExit('Suite not fully executed')
+          PY
