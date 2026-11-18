@@ -107,6 +107,9 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-18 — JDBC streaming, PostgreSQL cursor fetch-size и statement caching](database/transaction-labs/VM-18-JDBC-FETCH-SIZE-STREAMING.md), с [реални PostgreSQL тестове](database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java).
+
+
 - [VM-15: Spring declarative transactions, proxy interception, REQUIRED/REQUIRES_NEW/NESTED, rollback rules](persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md) — [test lab](persistence/repository-unit-of-work/src/test/java/bg/hristomanov/education/uow/VladSpringTransactionsTest.java).
 
 

@@ -12,6 +12,7 @@
 |---|---|---|
 | [VM-05: Connection lease, pool, JDBC](docs/VM-05-JDBC-POOL.md) | Защо pool от 1 връзка блокира без SQL? | [ConnectionLeaseTest](src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java) |
 | [VM-06: ACID, MVCC, isolation](docs/VM-06-MVCC-ISOLATION.md) | Защо два SELECT в една транзакция виждат различно? | [PostgresTransactionLabIT](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) |
+| [VM-18: JDBC fetch size, cursor and statement cache](VM-18-JDBC-FETCH-SIZE-STREAMING.md) | Как сканираме голям result set без List и какъв е driver contract? | [PostgresFetchingLabIT](src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java) |
 | [VM-07: optimistic/pessimistic locks](docs/VM-07-LOCKING.md) | Как предотвратяваме lost update и какво правят NOWAIT/SKIP LOCKED? | [PostgresTransactionLabIT](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) |
 
 ## README → код

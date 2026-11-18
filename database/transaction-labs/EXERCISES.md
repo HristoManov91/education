@@ -19,6 +19,14 @@
 3. Защо \`SKIP LOCKED\` е подходящ за batch job queue, но не и за справка с всички активни поръчки?
 4. Начертай deadlock graph от \`id=1\` и \`id=2\`. Кой SQLSTATE очакваме в PostgreSQL?
 
+## VM-18 — Streaming и statement cache
+
+1. Защо положителен JDBC fetchSize не доказва малка heap памет, ако consumer добавя всеки ред в `List`?
+2. Какво се променя при `autoCommit=true` за pgJDBC cursor-based retrieval?
+3. Какъв риск имаме, когато обработката на stream отнеме минути и една DB connection стои заемана?
+4. Как бих сравнил statement caching в pgJDBC с Oracle implicit caching без да измислям числа?
+5. Изпълни [PostgresFetchingLabIT](src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java) и обясни кои характеристики НЕ измерва.
+
 ## Команди
 
 ```bash
