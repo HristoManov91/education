@@ -39,6 +39,10 @@
 
 Подробният стандарт за входа, изхода и финалната проверка на всеки модул е в [`docs/LEARNING-MODULE-TEMPLATE.md`](docs/LEARNING-MODULE-TEMPLATE.md).
 
+## Авторски източници → тематични учебни програми
+
+- [Vlad Mihalcea — High-Performance Persistence & SQL: източници, карта на 30 теми и план за реализация](docs/sources/vlad-mihalcea/README.md). Това е **backlog и източников каталог**, а не обещание, че всички лаборатории са готови.
+
 ## Помощни материали за учене
 
 - [NotebookLM — prompt за превръщане на техническо видео в задълбочена аудио лекция на български](docs/NOTEBOOKLM-TECHNICAL-AUDIO-PROMPT.md)
