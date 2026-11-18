@@ -31,6 +31,7 @@ jobs:
           files = [
               ('database/transaction-labs/target/surefire-reports/TEST-bg.hristomanov.education.tx.ConnectionLeaseTest.xml', 2),
               ('database/transaction-labs/target/failsafe-reports/TEST-bg.hristomanov.education.tx.PostgresTransactionLabIT.xml', 8),
+              ('database/transaction-labs/target/failsafe-reports/TEST-bg.hristomanov.education.tx.PostgresFetchingLabIT.xml', 3),
               ('persistence/repository-unit-of-work/target/surefire-reports/TEST-bg.hristomanov.education.uow.VladSpringTransactionsTest.xml', 6),
           ]
           for path, minimum in files:

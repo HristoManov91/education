@@ -110,6 +110,14 @@ references:
     title: SQL EXISTS and NOT EXISTS
     url: https://vladmihalcea.com/sql-exists/
     modules: [VM-01, VM-03]
+  - id: VM-SRC-026
+    title: Hibernate Scrollable Results
+    url: https://vladmihalcea.com/hibernate-scrollable-results/
+    modules: [VM-18]
+  - id: VM-SRC-027
+    title: JDBC statement caching
+    url: https://vladmihalcea.com/statement-caching-jdbc/
+    modules: [VM-18]
 
 implementations:
   - id: VM-01
@@ -182,3 +190,8 @@ implementations:
     chapter: persistence/repository-unit-of-work/VM-15-SPRING-TRANSACTION-PROPAGATION.md
     status: implementation-in-review
     sources: [VM-SRC-019]
+
+  - id: VM-18
+    chapter: database/transaction-labs/VM-18-JDBC-FETCH-SIZE-STREAMING.md
+    status: implementation-in-review
+    sources: [VM-SRC-026, VM-SRC-027]

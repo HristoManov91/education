@@ -3,6 +3,7 @@
 ## Източници за импортиране
 
 - [Главен урок](README.md), [VM-05 JDBC](docs/VM-05-JDBC-POOL.md), [VM-06 isolation](docs/VM-06-MVCC-ISOLATION.md), [VM-07 locking](docs/VM-07-LOCKING.md) и [упражнения](EXERCISES.md).
+- [VM-18 JDBC streaming, fetch-size и statement cache](VM-18-JDBC-FETCH-SIZE-STREAMING.md) и [интеграционният тест](src/test/java/bg/hristomanov/education/tx/PostgresFetchingLabIT.java).
 - [Пълният PostgreSQL интеграционен тест](src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java) и [ConnectionLeaseTest](src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java).
 - [Vlad — Spring Transaction and Connection Management](https://vladmihalcea.com/spring-transaction-connection-management/), [Vlad — Optimistic Locking](https://vladmihalcea.com/optimistic-locking-version-property-jpa-hibernate/).
 - [PostgreSQL 17 isolation](https://www.postgresql.org/docs/17/transaction-iso.html) и [explicit locking](https://www.postgresql.org/docs/17/explicit-locking.html).
