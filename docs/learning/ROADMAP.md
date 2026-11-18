@@ -103,6 +103,8 @@
 
 **Налични лаборатории:** [Repository & Unit of Work](../../persistence/repository-unit-of-work/README.md), [Specification + QueryDSL](../../persistence/specification-querydsl/README.md).
 
+**Vlad Mihalcea системна програма:** [източници и подход](../sources/vlad-mihalcea/README.md), [30 теми с пропуски, зависимости и Definition of Done](../sources/vlad-mihalcea/TOPIC-MAP.md). Статусът на темите е начален одит, не автоматично доказани знания.
+
 **P1 Devoxx практическо надграждане (урок, а не нов Maven module):** [When ORM Becomes OMG — connection pools, transaction boundaries, OSIV, lazy connection fetching, N+1 и DTO projections](../../persistence/jpa-performance/README.md), [лаборатории](../../persistence/jpa-performance/EXERCISES.md). Покрива `DB-10`–`DB-14` и `SPR-04`; не означава автоматично усвоени знания.
 
 **Съпътстващ production казус (не е лаборатория):** [Case Study 002 — Commerzbank, 11 TB Exadata cold cache и read/write trade-offs](../case-studies/002-commerzbank-exadata-performance-incident.md) — прилагай при DB-05/06/07/16, REL-01/05 и P1 System Design.
