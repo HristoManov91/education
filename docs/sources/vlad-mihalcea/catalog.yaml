@@ -1,0 +1,129 @@
+# Curated original sources. Public references, not copied course content.
+# The public official indexes contain hundreds of articles; this is a verified starter map.
+version: 1
+reviewed_at: '2026-11-18'
+coverage: curated-start-not-exhaustive
+official_indexes:
+  hibernate: https://vladmihalcea.com/tutorials/hibernate/
+  sql: https://vladmihalcea.com/tutorials/sql/
+  spring: https://vladmihalcea.com/tutorials/spring/
+  book_toc: https://vladmihalcea.com/books/high-performance-java-persistence/
+  code_examples: https://github.com/vladmihalcea/high-performance-java-persistence
+references:
+  - id: VM-SRC-001
+    title: The best way to determine the optimal connection pool size
+    url: https://vladmihalcea.com/optimal-connection-pool-size/
+    modules: [VM-05, VM-26]
+  - id: VM-SRC-002
+    title: The JPA and Hibernate first-level cache
+    url: https://vladmihalcea.com/jpa-hibernate-first-level-cache/
+    modules: [VM-08]
+  - id: VM-SRC-003
+    title: A beginner's guide to JPA/Hibernate entity state transitions
+    url: https://vladmihalcea.com/a-beginners-guide-to-jpa-hibernate-entity-state-transitions/
+    modules: [VM-08]
+  - id: VM-SRC-004
+    title: A beginner's guide to JPA/Hibernate flush strategies
+    url: https://vladmihalcea.com/a-beginners-guide-to-jpahibernate-flush-strategies/
+    modules: [VM-09]
+  - id: VM-SRC-005
+    title: How AUTO flush works
+    url: https://vladmihalcea.com/how-does-the-auto-flush-work-in-jpa-and-hibernate/
+    modules: [VM-09]
+  - id: VM-SRC-006
+    title: N+1 query problem with JPA and Hibernate
+    url: https://vladmihalcea.com/n-plus-1-query-problem/
+    modules: [VM-12, VM-21]
+  - id: VM-SRC-007
+    title: How to detect N+1 during testing
+    url: https://vladmihalcea.com/how-to-detect-the-n-plus-one-query-problem-during-testing/
+    modules: [VM-12, VM-21]
+  - id: VM-SRC-008
+    title: DTO projection mapping with JPA and Hibernate
+    url: https://vladmihalcea.com/the-best-way-to-map-a-projection-query-to-a-dto-with-jpa-and-hibernate/
+    modules: [VM-13]
+  - id: VM-SRC-009
+    title: MultipleBagFetchException
+    url: https://vladmihalcea.com/hibernate-multiplebagfetchexception/
+    modules: [VM-12, VM-13]
+  - id: VM-SRC-010
+    title: Hibernate collection-fetch pagination warning
+    url: https://vladmihalcea.com/fix-hibernate-hhh000104-entity-fetch-pagination-warning-message/
+    modules: [VM-13]
+  - id: VM-SRC-011
+    title: Optimistic locking version property
+    url: https://vladmihalcea.com/optimistic-locking-version-property-jpa-hibernate/
+    modules: [VM-07]
+  - id: VM-SRC-012
+    title: Database job queue using SKIP LOCKED
+    url: https://vladmihalcea.com/database-job-queue-skip-locked/
+    modules: [VM-07]
+  - id: VM-SRC-013
+    title: Hibernate pooled and pooled-lo identifier generators
+    url: https://vladmihalcea.com/hibernate-hidden-gem-the-pooled-lo-optimizer/
+    modules: [VM-11]
+  - id: VM-SRC-014
+    title: JPA entity identifier values using a database sequence
+    url: https://vladmihalcea.com/jpa-entity-identifier-sequence/
+    modules: [VM-11]
+  - id: VM-SRC-015
+    title: ManyToOne JPA/Hibernate association best practices
+    url: https://vladmihalcea.com/manytoone-jpa-hibernate/
+    modules: [VM-10, VM-12]
+  - id: VM-SRC-016
+    title: The Spring Data findAll anti-pattern
+    url: https://vladmihalcea.com/spring-data-findall-anti-pattern/
+    modules: [VM-16]
+  - id: VM-SRC-017
+    title: The Spring Data JPA findById anti-pattern
+    url: https://vladmihalcea.com/spring-data-jpa-findbyid/
+    modules: [VM-16]
+  - id: VM-SRC-018
+    title: JOIN FETCH and Pagination with Spring
+    url: https://vladmihalcea.com/join-fetch-pagination-spring/
+    modules: [VM-13]
+  - id: VM-SRC-019
+    title: Spring Transaction and Connection Management
+    url: https://vladmihalcea.com/spring-transaction-connection-management/
+    modules: [VM-05, VM-15]
+  - id: VM-SRC-020
+    title: How to get the SQL execution plan on Oracle
+    url: https://vladmihalcea.com/sql-execution-plan-oracle/
+    modules: [VM-04, VM-20]
+  - id: VM-SRC-021
+    title: Index Selectivity
+    url: https://vladmihalcea.com/index-selectivity/
+    modules: [VM-04]
+  - id: VM-SRC-022
+    title: Why you should learn SQL Window Functions
+    url: https://vladmihalcea.com/why-you-should-definitely-learn-sql-window-functions/
+    modules: [VM-03]
+  - id: VM-SRC-023
+    title: SQL Recursive WITH CTE queries
+    url: https://vladmihalcea.com/sql-recursive-with-cte/
+    modules: [VM-03, VM-29]
+  - id: VM-SRC-024
+    title: How to map JSON objects using generic Hibernate Types
+    url: https://vladmihalcea.com/how-to-map-json-objects-using-generic-hibernate-types/
+    modules: [VM-22]  - id: VM-SRC-025
+    title: SQL EXISTS and NOT EXISTS
+    url: https://vladmihalcea.com/sql-exists/
+    modules: [VM-01, VM-03]
+
+implementations:
+  - id: VM-01
+    chapter: database/sql-labs/docs/VM-01-SQL-SEMANTICS.md
+    status: implementation-in-review
+    sources: [VM-SRC-025]
+  - id: VM-02
+    chapter: database/sql-labs/docs/VM-02-RELATIONAL-CONSTRAINTS.md
+    status: implementation-in-review
+    sources: [VM-SRC-021]
+  - id: VM-03
+    chapter: database/sql-labs/docs/VM-03-CTE-WINDOWS.md
+    status: implementation-in-review
+    sources: [VM-SRC-022, VM-SRC-023]
+  - id: VM-04
+    chapter: database/sql-labs/docs/VM-04-INDEXES-AND-PLANS.md
+    status: implementation-in-review
+    sources: [VM-SRC-020, VM-SRC-021]

@@ -1,0 +1,57 @@
+# VM-01–VM-04 — Упражнения, диагностика и проверки
+
+Работи върху [реалния сценарий и стартиране](README.md). Не приемаме „модулът е научен“ само защото тестовете са зелени. Всеки въпрос има техническо обяснение, контрапример и проверим резултат.
+
+## Session A (20–30 мин) — VM-01 SQL semantics
+
+1. Напиши две заявки, които връщат **всичките пет** клиента, дори без `PAID` order, и обясни защо първата може да върне повече от 5 реда.
+2. Върни **само** клиентите с минимум един `PAID` order, без `DISTINCT` и без `GROUP BY`.
+3. Как се променят `COUNT(*)` и `COUNT(manager_id)` и какво става при `WHERE manager_id = NULL`?
+
+**Доказателство:** [H2SqlSemanticsTest](src/test/java/bg/hristomanov/education/sql/H2SqlSemanticsTest.java) — тестове `leftJoin...`, `exists...`, `nullEquality...`.
+
+<details>
+<summary>Насоки за self-check</summary>
+
+`LEFT JOIN...ON` запазва 5 customer identities, но Ada има две PAID поръчки. `EXISTS` дава [1,2,3] без дублиране. `NULL = NULL` не е TRUE в SQL тристойностна логика.
+</details>
+
+## Session B (20–30 мин) — VM-02 integrity
+
+1. Премахни `UNIQUE(customer_id,external_ref)` от **копие** на схемата. Какъв concurrency race вече не се предотвратява?
+2. Опитай да insert-неш order с `customer_id=999`. Обясни защо „провери в Java преди INSERT“ не е достатъчно.
+3. Допустимо ли е `total=NULL` при единствен `CHECK(total >= 0)` без `NOT NULL`? Защо?
+
+**Доказателство:** `databaseConstraintsRejectInvalidState...` и PostgreSQL `postgresEnforcesForeignKey...`. Сравни `23503` / `23514` с Oracle equivalents `ORA-02291` / `ORA-02290`.
+
+## Session C (20–30 мин) — VM-03 analytics
+
+1. Добави `Eva` като клиент без поръчка и провери, че не изчезва от `revenue` CTE.
+2. Промени данните така, че Ada и Boris да имат равни платени totals. Как се различават `ROW_NUMBER`, `RANK`, `DENSE_RANK`?
+3. Изпълни `descendantsOfPostgres(1)` и опиши защо naive N+1 Java recursive fetch може да е проблем.
+4. Какво е решението, ако структурата допуска цикли?
+
+**Доказателство:** `windowFunctionGetsTopPaidCustomerInEachRegion` и `recursiveCteTraversesRootAndDescendants`.
+
+## Session D (20–30 мин) — VM-04 plan investigation
+
+1. Изпълни [manual-explain.sql](sql/postgresql/manual-explain.sql) срещу PostgreSQL със schema/seed/performance fixtures.
+2. Сравни `RETRY` (200/20 000) и `DONE` (19 800/20 000): estimated vs actual rows, selected scans, buffers, timing. **Не се опитвай да наложиш един scan type.**
+3. Изследвай composite query за tenant 1: защо `(tenant_id,status,created_at DESC,id DESC)` е правдоподобен индекс, но не е гарантирано най-добрият?
+4. Какъв би бил write overhead, ако добавяме 10 индекса „за всеки случай“?
+5. Какво е вярното значение на `EXPLAIN ANALYZE UPDATE ...`? Безопасно ли е върху production?
+
+**Доказателство:** [PostgresSqlLabIT](src/test/java/bg/hristomanov/education/sql/PostgresSqlLabIT.java) отпечатва real JSON plan-ове и assert-ва cardinality, не конкретни ms.
+
+## Senior checkpoint — 4 сценария
+
+- Endpoint връща дублирани редове: проблемът в ORM ли е, в JOIN ли е, или в data model-а? Как ще различиш?
+- `CHECK(total > 0)` без `NOT NULL` защитава ли от nullable values?
+- Съществува индекс, но query прави Seq Scan: кои доказателства събираш **преди** да смениш индекс?
+- BI изисква „top-1 за всяка държава“: кога се нуждаеш от `ROW_NUMBER`, а кога `RANK`?
+
+## Критерии за преминаване
+
+Разбираш логически SQL flow; предсказваш правилните 5/4/3 counts; умееш да покажеш валидиращ constraint; можеш да обясниш window ranking и cycle policy; интерпретираш estimates/actuals без фиксирани benchmark обещания; знаеш границите между H2, PostgreSQL и Oracle.
+
+Отговорите в реалната учебна диагностика се оценяват отделно съгласно [ASSESSMENT-PROTOCOL](../../docs/learning/ASSESSMENT-PROTOCOL.md).

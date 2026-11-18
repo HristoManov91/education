@@ -39,6 +39,10 @@
 
 Подробният стандарт за входа, изхода и финалната проверка на всеки модул е в [`docs/LEARNING-MODULE-TEMPLATE.md`](docs/LEARNING-MODULE-TEMPLATE.md).
 
+## Авторски източници → тематични учебни програми
+
+- [Vlad Mihalcea — High-Performance Persistence & SQL: източници, карта на 30 теми и план за реализация](docs/sources/vlad-mihalcea/README.md). Това е **backlog и източников каталог**, а не обещание, че всички лаборатории са готови.
+
 ## Помощни материали за учене
 
 - [NotebookLM — prompt за превръщане на техническо видео в задълбочена аудио лекция на български](docs/NOTEBOOKLM-TECHNICAL-AUDIO-PROMPT.md)
@@ -100,6 +104,12 @@ education/
 Структурата ще се разширява постепенно според реалните теми, вместо предварително да създаваме празни директории.
 
 ## Лаборатории
+
+### Database / SQL — Vlad Mihalcea
+
+- [VM-01–VM-04: SQL correctness, constraints, CTE/window functions, indexes/EXPLAIN — изпълними JDBC + PostgreSQL лаборатории](database/sql-labs/README.md).
+  - [Упражнения и диагностика](database/sql-labs/EXERCISES.md) · [NotebookLM аудио урок](database/sql-labs/NOTEBOOKLM-PROMPT.md) · [Останалите теми и зависимости](docs/sources/vlad-mihalcea/TOPIC-MAP.md).
+  - Отделният PostgreSQL профил не се изпълнява при обикновен `mvn verify` и се проверява от [таргетиран workflow](.github/workflows/vlad-sql-labs.yml).
 
 ### Modern Java (Java 25 runnable + Java 26/27 version notes)
 
