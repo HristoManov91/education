@@ -3,7 +3,7 @@
 ## Импортирай
 
 - [VM-19 глава](docs/VM-19-HIBERNATE-CACHE.md).
-- [CachedCatalogItem](src/main/java/bg/hristomanov/education/hperf/domain/CachedCatalogItem.java) и [четирите JCache теста](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java).
+- [CachedCatalogItem](src/main/java/bg/hristomanov/education/hperf/domain/CachedCatalogItem.java) и [петте JCache теста](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java).
 - [Vlad — Second-level cache](https://vladmihalcea.com/jpa-hibernate-second-level-cache/), [Query cache](https://vladmihalcea.com/how-does-hibernate-query-cache-work/).
 - [Hibernate 7.4](https://docs.hibernate.org/orm/7.4/userguide/html_single/#caching).
 
