@@ -140,6 +140,29 @@ Viktor разглежда **разработвана marshalling концепц�
 
 **Кога:** когато имаш точен contract за данни и искаш по-чист дизайн. **Кога НЕ:** когато трябва да пренапишеш production код за неиздаден синтаксис. **Печалба:** type-safe immutable boundaries; **цена:** повече моделиране и compatibility review. **По-просто:** стабилен Java25 record, manual constructor/factory, явни проверки.
 
+## P3 — Valhalla null-restricted storage и primitive classes
+
+**Източник:** [José Paumard и Rémi Forax — Will Valhalla Fix Tony's Billion Dollar Mistake?, ~129–158 мин](https://youtu.be/vLDbzmiT7Xs?t=7740), предоставен SRT (~2:40:57). Сверено с [JEP 401](https://openjdk.org/jeps/401), [JDK28 EA JLS](https://download.java.net/java/early_access/jdk28/docs/specs/value-objects-jls.html) и [P1 анализа в Education](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md#71-ново-p1-допълнение--will-valhalla-fix-tonys-billion-dollar-mistake-paumard--forax).
+
+**Важен резултат:** Valhalla JDK28 `value class` и `value record` **не премахват `null`**. Това са reference types с nullable fields/array elements, дори когато HotSpot ги съхранява flat.
+
+| Бъдеща идея | Какъв проблем опитва да реши | Защо НЕ е готова |
+| --- | --- | --- |
+| `Song!` / type-level null restriction | Compile-time гаранция, че дадена стойност не може да бъде `null` | **Отхвърлен/неприет като текущ Valhalla дизайн**; може да промени overload resolution и source/API evolution при recompilation |
+| Null-restricted **storage locations** | Без null marker в някои fields/arrays, потенциално повече flattening | Отделна бъдеща работа; **не** JEP401/539 Java28 preview language feature |
+| Primitive classes с default value | Null-free initialization, по-широко flattening, primitive-like operations | Изследователска идея с последствия за encapsulation, atomicity и binary compatibility; няма stable language API |
+| Specialized generics/operator overload | `List<int>` и операции над потребителски числа | Не са част от JDK28 value objects preview |
+
+### Кога НЕ използваме предложението
+
+**Не** добавяй `Song!`, `primitive class` или непотвърден `null-restricted T[]` синтаксис в Java25/JDK28 EA production код. Не превръщай diagram/example от 2h40 lecture в Java feature.
+
+**По-просто сега:** нормален Java25 `record`, `Objects.requireNonNull`, input validation, `List.copyOf` за defensive ownership и JUnit negative tests. При работа с JDK28 EA preview проверявай новата `value record` nullable семантика чрез [NullableFlatLayoutPreview.java](language/data-oriented-programming/jdk28-ea/NullableFlatLayoutPreview.java) и [JDK28 EA workflow](.github/workflows/valhalla-jdk28-ea.yml).
+
+**Условие за бъдеща преоценка:** официален JEP target, публикуван API/JLS contract, implementation maturity, dual-mode compatibility тестове и измерен production мотив. Няма самостоятелен нов Maven модул или нов CI workflow за P3 идея.
+
+---
+
 ## 3. Неща, които НЕ дублираме
 
 - [Panama / Vector API — Java Evolution Guide](JAVA-EVOLUTION-GUIDE.md) — FFM е final от Java 22; Vector API остава в incubation. [P2 FFM+jextract](jvm/native-interoperability/README.md) вече е runnable модул от лекцията на Ana-Maria, без да изграждаме голям ONNX/GPU проект.

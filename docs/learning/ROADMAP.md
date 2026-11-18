@@ -259,6 +259,22 @@
 
 ---
 
+## P1/P2/P3 — Valhalla nullable flattening, class-file hints и null future-watch (Devoxx 2026)
+
+**Източник:** [José Paumard и Rémi Forax — Will Valhalla Fix Tony's Billion Dollar Mistake?](https://www.youtube.com/watch?v=vLDbzmiT7Xs), предоставен SRT (~2:40:57). Не създаваме нов курс: разширяваме [P1 Value Objects](../../java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md) и [JDK28 EA compatibility lab](../../java/language/data-oriented-programming/JDK28-EA-LAB.md), добавяме [P3 future-watch](../../java/JAVA-NEXT-TECH-RADAR.md).
+
+| ID | Приоритет | Микро-тема | Доказателство |
+| --- | --- | --- | --- |
+| VAL-NULL-01 | P1 | Nullable marker + atomicity при heap flattening | 32-bit compressed ref + short/int + marker; `final`/strict init и layout trade-offs |
+| VAL-PERF-02 | P1 | Scalarization vs heap flattening; small vs large array | Конференционен benchmark **не** e local speedup; JIT/GC/CPU caveats |
+| VAL-CLASSFILE-03 | P2 | `LoadableDescriptors` и optional early loading | [JDK28 EA CLI check](../../java/language/data-oriented-programming/jdk28-ea/verify-valhalla-layout.sh): стар срещу preview class-file metadata |
+| VAL-NULLABLE-04 | P2 | `value record` **не** е null-free | [NullableFlatLayoutPreview.java](../../java/language/data-oriented-programming/jdk28-ea/NullableFlatLayoutPreview.java): nullable field/array + equality |
+| VAL-FUTURE-05 | P3 | `Song!`, null-restricted storage, primitive classes | Proposal review, API/binary compatibility, кога НЕ е available Java API |
+
+**Практика:** JDK25 `mvn verify` остава неизменен; [съществуващият JDK28 EA workflow](../../.github/workflows/valhalla-jdk28-ea.yml) изпълнява новия classfile/prototype check само при релевантни промени. [NotebookLM](../../java/language/data-oriented-programming/VALHALLA-NOTEBOOKLM-PROMPT.md) е разширен. Не маркираме темата като усвоена без проверени отговори.
+
+---
+
 ## P2 — GraalVM Native Image / Layers / Crema (Devoxx 2026)
 
 **Материал:** [GraalVM Next — Native Image, Reachability Metadata, Layers, Crema, Web Image](../../java/jvm/graalvm-native-image/README.md); оригинал: [Alina Yurenko и Thomas Wuerthinger, Devoxx 2026](https://www.youtube.com/watch?v=OLQ98Ko4p3Q) + предоставен SRT. Java 25/JUnit е standard CI, Native Image и Web Image са **manual experiments**, не тествани автоматично.

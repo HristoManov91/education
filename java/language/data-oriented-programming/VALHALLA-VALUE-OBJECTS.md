@@ -1,6 +1,7 @@
 # P1 · Project Valhalla: Value Objects, Identity и JDK 28 Compatibility
 
 > **Java 25 — runnable JUnit + Java 28 Early Access — отделен preview lab** · Mid+ → Early Senior · 45–60 минути + експерименти.  
+> **Допълнителен deep dive:** [José Paumard и Rémi Forax — Will Valhalla Fix Tony's Billion Dollar Mistake?](https://www.youtube.com/watch?v=vLDbzmiT7Xs), предоставен SRT (~2:40:57), и раздел 7.1.
 > **Лекция:** [Nicolai Parlog — Java Next, Devoxx Belgium 2026](https://www.youtube.com/watch?v=ufhs9THbYZI), основно [24:23–39:53](https://youtu.be/ufhs9THbYZI?t=1463); допълнителна връзка към [Ron Pressler — Big Runtimes](../../jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md).  
 > **Актуализация към 2026-11-02:** [JEP 401](https://openjdk.org/jeps/401) / [JEP 539](https://openjdk.org/jeps/539) са **preview в JDK 28 EA**, не Java 25. JDK 28 GA още не е излязъл; preview API/поведение може да се промени.  
 > **Произход:** ориентировъчни времена и идея — предоставен автоматичен Gemini SRT; семантичните изключения и съвместимостта — [OpenJDK Quality Outreach, 27.10.2026](https://inside.java/2026/10/27/quality-heads-up/) и [JDK 28 preview JLS](https://download.java.net/java/early_access/jdk28/docs/specs/value-objects-jls.html).
@@ -29,6 +30,8 @@
 | Един Java 25 class file, две JDK 28 поведения | [IdentityPreviewProbe.java](jdk28-ea/IdentityPreviewProbe.java) | [JDK 28 EA workflow](../../../.github/workflows/valhalla-jdk28-ea.yml), preview OFF и ON |
 | Новият JDK 28 `value record` | [ValueObjectsPreview.java](jdk28-ea/ValueObjectsPreview.java) | compilation + executable assertions на JDK 28 EA |
 | Ръчно повторение на preview lab | [JDK28-EA-LAB.md](JDK28-EA-LAB.md) | terminal commands / очаквани резултати |
+| JDK28 `LoadableDescriptors`: същият Java25 source, нов compiler metadata | [LoadableDescriptorsProbe.java](jdk28-ea/LoadableDescriptorsProbe.java) / [verify-valhalla-layout.sh](jdk28-ea/verify-valhalla-layout.sh) | preview ON/OFF classfile comparison и same business output |
+| Nullable value object с два payload размера | [NullableFlatLayoutPreview.java](jdk28-ea/NullableFlatLayoutPreview.java) | JDK28 EA positive assertions; **без** гаранция за flattening |
 | Record constructor early-`this`: Java 25 bytecode работи, JDK 28 preview source отказва | [LegacyRecordConstructorProbe.java](jdk28-ea/LegacyRecordConstructorProbe.java) | [EA workflow](../../../.github/workflows/valhalla-jdk28-ea.yml): positive runtime и expected compilation failure |
 
 ## 3. Какво се променя в type system
@@ -119,6 +122,77 @@ List<Complex> numbers = new ArrayList<>();
 Понастоящем `ArrayList` е обвързан със стандартния Java generics/erasure модел; **не** обещавай dense packed `Complex` fields. `List<int>`, generalized/specialized generics, null restrictions и user-defined operators са **възможни бъдещи направления**, не JDK 28 preview functionality. Бъдещи издания могат да ги променят или отменят.
 
 При решение `value record` първо попитай **„този domain тип наистина ли няма identity?“**, а не „дали ще е 20% по-бърз“. Сравни с [Big Runtimes](../../jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md), където доказваме, че performance е workload-specific.
+
+### 7.1 Ново P1 допълнение — „Will Valhalla Fix Tony's Billion Dollar Mistake?“ (Paumard / Forax)
+
+**Източник:** [José Paumard и Rémi Forax, Devoxx 2026](https://www.youtube.com/watch?v=vLDbzmiT7Xs), предоставен auto-generated SRT (~2:40:57); по-долу съпоставяме техните примери с [JEP 401 / JDK 28 EA спецификацията](https://cr.openjdk.org/~dlsmith/jep401/jep401-20260717/specs/value-objects-jvms.html), защото езикът на лекцията понякога опростява JVM ограниченията. **Това не е нов JVM benchmark, нито production Java25 API.**
+
+#### A. Scalarization, nullable heap flattening и atomicity — три различни механизма
+
+| Тема | Какво реално означава | Къде се вижда |
+| --- | --- | --- |
+| **JIT scalarization** | Компилаторът може да представя value object като отделни компоненти и да избегне някои heap allocations или междинни wrappers. Това **не** е равнозначно на „всеки value object стои на stack“. | В [JMH/JIT обучението](../../jvm/performance-evolution/BIG-RUNTIMES-JIT-ABSTRACTIONS.md), само след измерване |
+| **Heap flattening** | Полета или елементи на масив могат да съдържат самите value components вместо reference към отделен heap object. При правилни условия locality и memory footprint са по-добри. | JDK 28 EA HotSpot implementation-specific; **не** Java language guarantee |
+| **Nullable marker** | `value record` и `value class` са *reference types*; поле/масив с такъв тип **може да е `null`**. Flat representation се нуждае от marker/padding, освен ако nullity не се управлява другояче. | [JEP401 JVMS / LoadableDescriptors](https://cr.openjdk.org/~dlsmith/jep401/jep401-20260717/specs/value-objects-jvms.html) |
+| **Atomicity** | Когато mutable holder/array е едновременно достъпен от нишки, новата цяла стойност трябва да се вижда атомарно, не като смес от стари/нови полета. Това ограничава допустимия flat layout. | HotSpot `NULLABLE_ATOMIC_FLAT` vs `NULLABLE_NON_ATOMIC_FLAT` избори |
+
+Лекторите показват `Song(title, duration)`. При **compressed 32-bit reference** за title, `short duration` заема 16 бита, плюс marker от 8 бита: **32+16+8 = 56 bits**, които *могат* да се поберат в 64-bit atomic word. Замени `short` с `int` и получаваш **32+32+8 = 72 bits** — този **nullable atomic** layout вече не се побира в 64 bits. Това е илюстрация за конкретен HotSpot/CPU/compressed-reference model, **не универсален Java типово-семантичен праг**.
+
+```text
+При разглеждан 64-bit atomic storage word (илюстрация):
+
+NARROW value:  compressed reference 32 | short 16 | null marker 8 = 56 bits
+WIDE value:    compressed reference 32 | int   32 | null marker 8 = 72 bits
+                                                  → не се побира атомарно
+```
+
+**Съществено уточнение спрямо устното опростяване на 98–101 мин:** „над 64 бита никога не се flatten-ва“ **не е вярно за всички полета**. Оптимизации като `NULLABLE_NON_ATOMIC_FLAT` може да се използват за **строго инициализирани final полета**, за които не съществува състезание между четене и следващ запис. Това е обяснено и в [OpenJDK промяната за final layouts (JDK-8374800)](https://bugs.openjdk.org/browse/JDK-8374800). Изборът на layout и exact byte count може да се променя с EA build, CPU, flags, GC и клас. Не кодирай business logic, сериализиран двоичен формат или SLA върху него.
+
+#### B. Защо flattening може да е *по-бавно*
+
+**[~103–108 мин](https://youtu.be/vLDbzmiT7Xs?t=6180):** Paumard и Forax сравняват малък масив (~100 елемента) и голям (~1 млн.). При малък масив pointer-based достъпът в техния сценарий може да спечели от липсата на маски/shift/unpacking; при голям масив dense storage компенсира цената на unpacking чрез по-добра cache locality и по-малко pointer chasing. Самите автори подчертават **trade-off**, а не универсален победител. В транскрипта има обсъждане на точка на пресичане между около 1k и 10k елемента **за конкретния им benchmark**, не общ JDK лимит.
+
+**Същински performance капан:** Java `Stream` и generic `List<T>` могат да имат различен boxing/reference representation от специализиран `T[]`; microbenchmark на едното **не доказва** ефективността на другото. GC pressure, compressed oops, CPU cache, warm-up/JIT, null-marker decoding, allocation и data size трябва да се сравняват отделно.
+
+**Не препоръчваме:** да сменяш `int` с `short` в реалния бизнес модел само заради възможен flattening. Така може да нарушиш domain range, serialization contracts или да прехвърлиш проблем към overflow. Препоръката е: първо domain correctness, после dataset-specific benchmark.
+
+#### C. Кога прекомпилацията помага, без да е необходима за коректност
+
+**[~115–123 мин](https://youtu.be/vLDbzmiT7Xs?t=6900):** Java class loading е отложен (lazy); без допълнителни подсказки JVM може да не знае, че полето използва value class, когато трябва да избере storage layout. Новият `LoadableDescriptors` class-file attribute **позволява, но не задължава**, JVM да зареди типа по-рано и да разгледа flat encoding. **Стар Java25 bytecode може да остане семантично правилен**, но нова JDK28 preview компилация може да отвори по-добър optimization path.
+
+**Реално proof в същия Education модул:** [JDK 28 EA — LoadableDescriptors сравнение](JDK28-EA-LAB.md#p2--loadabledescriptors-един-изходен-код-два-class-file-режима) с [Java25-compatible probe](jdk28-ea/LoadableDescriptorsProbe.java), [preview value-record nullable сценарий](jdk28-ea/NullableFlatLayoutPreview.java) и [скрипт](jdk28-ea/verify-valhalla-layout.sh), който изпълнява и сравнява bytecode metadata чрез `javap -verbose`. **Класовото metadata е observable; физическият layout/ускорение не се доказват от attribute-а.**
+
+**Официална дефиниция:** [JEP401 JVMS `4.7.32](https://cr.openjdk.org/~dlsmith/jep401/jep401-20260717/specs/value-objects-jvms.html) допуска class/interface descriptors за early loading. `LoadableDescriptors` не е reflection metadata contract, който принуждава VM да flatten-ва.
+
+#### D. Tony Hoare's null mistake остава — разграничение от бъдещите идеи
+
+[~129–158 мин](https://youtu.be/vLDbzmiT7Xs?t=7740): изследват се **два еволюционни варианта**, които **не са JDK 28 preview features**:
+
+1. **`Song!`**: изследван видим non-null тип/оператор. Той би могъл да променя overload resolution и API evolution: ако библиотека промени сигнатурата и потребител прекомпилира кода, избраният overload може да се смени. Лекторите отбелязват опасността „работи без прекомпилация; при нова компилация поведението е различно“. Не го представяме като одобрен Java синтаксис.
+2. **Primitive classes / primitive values**: проучвана възможност за класове без identity **и** с default zero-like value, която би улеснила non-null storage и някои non-atomic layouts, но изисква компромиси с encapsulation и binary compatibility. Не е част от JEP401/539. Потенциални future оператори/специализирани generics също не са Java28 feature.
+
+**Ключовата поука:** `value record` днес не означава `null-free`. [P3 Valhalla/Null future-watch](../../JAVA-NEXT-TECH-RADAR.md#p3--valhalla-null-restricted-storage-и-primitive-classes) отбелязва proposal status. В Java 25 устойчивото решение е explicit constructor/validation за required business fields и `Objects.requireNonNull`, а не синтаксис, който JDK25/28 все още няма.
+
+#### Decision contract: подходящата стратегия
+
+| Избор | Кога | Кога НЕ | Печалби | Загуби / по-просто | Runnable proof |
+| --- | --- | --- | --- | --- | --- |
+| Стандартен Java25 `record` + validation | Стабилен DTO/domain contract днес | Ако същинската същност е identity/lifecycle | Ясни инварианти | Няма гарантирано flattening; [MoneySnapshot](src/main/java/bg/hristomanov/education/dop/valhalla/MoneySnapshot.java) | [ValhallaReadinessTest](src/test/java/bg/hristomanov/education/dop/valhalla/ValhallaReadinessTest.java) |
+| JDK28 preview `value record` | Изследваш identity-free semantics и JDK upgrade | Java25 production и object identity/locks/weak refs | Potential layout/JIT advantages | Preview/compatibility риск, няма обещан speedup; обикновен `record` | [EA integration](JDK28-EA-LAB.md) |
+| LoadableDescriptors / recompile | Валидираш class-file hints при миграция към JDK28 | Искаш portable guaranteed field layout | JVM може да опознае field type по-рано | Compiler/toolchain dependency; simple correctness regression tests | [JDK28 script](jdk28-ea/verify-valhalla-layout.sh) |
+| Null-restricted / primitive proposal | Architectural watch, бъдещ JEP design | Като днешен runnable syntax, non-null business validation | Може да подобри storage | Силни language/binary compatibility trade-offs; explicit validation днес | **Няма runnable production feature**, само [P3 radar](../../JAVA-NEXT-TECH-RADAR.md) |
+
+**Упражнения:**
+1. Защо 32+16+8 bits могат да се поберат в един atomic word, а 32+32+8 не? Кога това изчисление не е релевантно?
+2. Защо `final` строго инициализирано поле може да има различни atomicity constraints от mutable holder?
+3. Защо 100-item и 1m-item benchmark могат да дадат противоположно класиране на flat/indirect layouts?
+4. Какво показва `javap LoadableDescriptors` и какво **не** доказва?
+5. Как `Song!` би могъл да наруши source/API evolution и защо не го въвеждаме в Java28 обучителния source?
+6. При Spring Boot + Oracle: имаме бавна SQL заявка. Какъв проблем (ако изобщо) решава Valhalla? Защо не сменяме integer types без profiling и domain validation?
+
+**Статус:** P1 концепции от лекцията, P2 реален JDK28 EA class-file/JUnit-style CLI proof и P3 future watch. Няма нов P1 course, няма JMH speedup „потвърден“ от нас.
+
+---
 
 ## 8. Решение: кога да използвам, кога НЕ, какво печеля/губя
 

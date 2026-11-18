@@ -180,6 +180,8 @@ mvn -pl java/language/data-oriented-programming test
 
 **Изход:** моделирай състоянието така, че да е възможно най-трудно да създадеш invalid object; използвай exhaustive compiler checking, когато списъкът с alternatives е намерено-ограничен и контролиран.
 
+**Допълнение от Paumard & Forax (Devoxx 2026):** [P1 nullable/atomic flattening и benchmark trade-offs](VALHALLA-VALUE-OBJECTS.md#71-ново-p1-допълнение--will-valhalla-fix-tonys-billion-dollar-mistake-paumard--forax), [P2 JDK28 EA LoadableDescriptors/nullable value records](JDK28-EA-LAB.md#p2--loadabledescriptors-един-изходен-код-два-class-file-режима) с [съществуващия EA workflow](../../../.github/workflows/valhalla-jdk28-ea.yml) и [P3 future watch](../../JAVA-NEXT-TECH-RADAR.md#p3--valhalla-null-restricted-storage-и-primitive-classes). Без нов Maven модул.
+
 ## P1 advanced extension — Valhalla, JDK 28 preview и Amber
 
 След като овладеем стабилните `records/sealed/pattern matching` възможности на Java 25, **не** приемаме, че всеки record е value object (без identity). В новия урок [P1 Project Valhalla](VALHALLA-VALUE-OBJECTS.md) разглеждаме JEP 401 preview в JDK 28, `==` срещу `equals()`, монитор/weak-reference проблеми, JVM flattening ограничения и реален migration риск за вече компилиран bytecode.
