@@ -2,6 +2,8 @@
 
 Основният runnable код в този модул е Java 25.
 
+**Допълнение Java25 — `jdk.jfr.Contextual`:** [real nested event/metadata JUnit + allowlisted AI review](AI-ASSISTED-JFR-INVESTIGATION.md) по [Ron Pressler, The Year of the Runtime](https://www.youtube.com/watch?v=tle2mA7EwWU). `@Contextual` маркира поле на custom event, чийто контекст е приложим за събития **в същата нишка** и времевия scope. Не е автоматично distributed tracing.
+
 JFR съществува много преди Java 25, но тази версия е особено интересна за profiling.
 
 ---

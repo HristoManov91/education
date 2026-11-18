@@ -6,6 +6,10 @@
 **JDK 26/27 performance лекция (Per-Åke Minborg):** [GC+upgrade P1](jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) · [HashMap/record P2](algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) · [C2 P2](jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) · [FFM 28 EA P2](jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) · [Loom class-init P2](concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md). Наличните Leyden, Lazy Constants и Valhalla лаборатории не се дублират.
 
 
+## November 2026 — Ron Pressler: The Year of the Runtime
+
+[P1 Runtime-first Java in the AI era](jvm/performance-evolution/RUNTIME-FIRST-AI-ERA.md) обобщава 14:49 Devoxx лекцията на Ron Pressler: API abstractions + JVM runtime, GC/JIT/Leyden, jlink и AI-assisted evolvability. [P2 Java25 `@Contextual` JFR lab](jvm/jfr-troubleshooting/AI-ASSISTED-JFR-INVESTIGATION.md) записва истински custom context + nested event и тества тайминга и метаданните; примерът е **наш**, а не от сцената. Исторически claims за JDK28 JEP 544/546 и preview Valhalla не стават Java25 production API чрез това обучение.
+
 ## November 2026 — Richard Groß: Serialization invariants и JEP 500
 
 [P1 Java25 Deserialization & Encapsulation](language/data-oriented-programming/DESERIALIZATION-AND-ENCAPSULATION.md) доказва с JUnit legacy `Serializable` constructor bypass, canonical constructor на `record`, `readObject` guard, filter limits и public logical API срещу private representation. [P1 JDK26 Final-Field Integrity](jvm/final-field-integrity/README.md) използва истински Java25/Java26 за `warn/debug/deny` и scoped enable. [P2 Amber proposal](language/data-oriented-programming/AMBER-FUTURE-DESIGN.md) остава **future design**, не production syntax. Източник: [лекцията](https://www.youtube.com/watch?v=wcghmWdu-HY), предоставен SRT, и [официален JEP500](https://openjdk.org/jeps/500).
