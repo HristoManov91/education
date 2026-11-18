@@ -53,6 +53,9 @@ jobs:
           javac --release 25 -d "$RUNNER_TEMP/valhalla-25" "$LAB/LegacyRecordConstructorProbe.java"
           java --enable-preview -cp "$RUNNER_TEMP/valhalla-25" LegacyRecordConstructorProbe
 
+      - name: Verify JEP 401 LoadableDescriptors and nullable preview value records
+        run: bash java/language/data-oriented-programming/jdk28-ea/verify-valhalla-layout.sh
+
       - name: Assert JDK 28 preview rejects unsafe record early-this source
         run: |
           LAB="java/language/data-oriented-programming/jdk28-ea"

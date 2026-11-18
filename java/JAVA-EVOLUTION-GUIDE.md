@@ -6,6 +6,10 @@
 **JDK 26/27 performance лекция (Per-Åke Minborg):** [GC+upgrade P1](jvm/performance-evolution/JDK26-27-GC-UPGRADE.md) · [HashMap/record P2](algorithms/03-hashing/JDK26-27-MAP-PERFORMANCE.md) · [C2 P2](jvm/vector-api/JDK27-SUBWORD-AUTO-VECTORIZATION.md) · [FFM 28 EA P2](jvm/native-interoperability/JDK28-CONFINED-ARENA-POOLS.md) · [Loom class-init P2](concurrency/project-loom/JDK26-CLASS-INITIALIZATION-WAIT.md). Наличните Leyden, Lazy Constants и Valhalla лаборатории не се дублират.
 
 
+## November 2026 — Paumard / Forax: Valhalla и null
+
+По [Will Valhalla Fix Tony's Billion Dollar Mistake? (Devoxx 2026)](https://www.youtube.com/watch?v=vLDbzmiT7Xs), предоставен 2h40 auto-generated SRT: [P1 nullable atomic flattening, scalarization и benchmark trade-offs](language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md), [P2 JDK28 EA `LoadableDescriptors`/nullable `value records` lab](language/data-oriented-programming/JDK28-EA-LAB.md) и [P3 `Song!` / primitive classes research watch](JAVA-NEXT-TECH-RADAR.md). Това **не** е Java25 feature и `LoadableDescriptors` е optimization hint, не гаранция за field layout. Съществуващите Value Objects и JDK28 preview ON/OFF експерименти остават валидни и не се дублират.
+
 ## November 2026 — Ron Pressler: The Year of the Runtime
 
 [P1 Runtime-first Java in the AI era](jvm/performance-evolution/RUNTIME-FIRST-AI-ERA.md) обобщава 14:49 Devoxx лекцията на Ron Pressler: API abstractions + JVM runtime, GC/JIT/Leyden, jlink и AI-assisted evolvability. [P2 Java25 `@Contextual` JFR lab](jvm/jfr-troubleshooting/AI-ASSISTED-JFR-INVESTIGATION.md) записва истински custom context + nested event и тества тайминга и метаданните; примерът е **наш**, а не от сцената. Исторически claims за JDK28 JEP 544/546 и preview Valhalla не стават Java25 production API чрез това обучение.

@@ -118,7 +118,11 @@ education/
   - [P1 Gavin Bierman — Exact numeric conversion, int→float + independent oracle](java/language/data-oriented-programming/NUMERIC-CONVERSION-EXACTNESS.md)
   - [P2 Data interfaces / user-defined deconstruction — Java25 stable API + proposal distinctions](java/language/data-oriented-programming/DATA-INTERFACES-AND-DECONSTRUCTION.md)
   - [P2 Flexible Constructor Bodies — JEP513 Java25 runnable tests](java/language/data-oriented-programming/FLEXIBLE-CONSTRUCTOR-BODIES.md)
-  - [P1 Project Valhalla — JDK 28 Value Objects, identity и migration (Java 25 tests + JDK 28 EA)](java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md)
+  - [P1/P2 Valhalla — José Paumard & Rémi Forax: nullable/atomic flattening, LoadableDescriptors и JDK28 EA proof](java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md#71-ново-p1-допълнение--will-valhalla-fix-tonys-billion-dollar-mistake-paumard--forax)
+  - [P2 same Java25 source / two classfiles + value record nullable tests](java/language/data-oriented-programming/JDK28-EA-LAB.md#p2--loadabledescriptors-един-изходен-код-два-class-file-режима)
+  - [P3 null-restricted storage / primitive classes future watch](java/JAVA-NEXT-TECH-RADAR.md#p3--valhalla-null-restricted-storage-и-primitive-classes)
+
+- [P1 Project Valhalla — JDK 28 Value Objects, identity и migration (Java 25 tests + JDK 28 EA)](java/language/data-oriented-programming/VALHALLA-VALUE-OBJECTS.md)
   - [P2 Project Amber — primitive patterns, proposed withers и deconstructible classes](java/language/data-oriented-programming/AMBER-FUTURE-DESIGN.md)
 - [P1 Stream Gatherers — windowing, scan/fold, bounded concurrency и distinctBy](java/streams/stream-gatherers/README.md)
   - [P1 Shared ForkJoinPool starvation vs bounded Virtual Thread mapping — JUnit lab](java/streams/stream-gatherers/PARALLEL-STREAM-STARVATION.md)
