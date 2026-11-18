@@ -107,6 +107,11 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-11–VM-14 и VM-16: Hibernate identifiers, N+1 fetching, DTO/keyset pagination, JDBC batch execution, Spring Data repository traps](persistence/hibernate-performance/README.md).
+- [VM-17: QueryDSL vs Spring Specification — Page/Slice, explicit COUNT, safe bind predicates](persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md).
+  - [Практически задачи](persistence/hibernate-performance/EXERCISES.md) · [NotebookLM audio](persistence/hibernate-performance/NOTEBOOKLM-PROMPT.md) · [таргетиран Hibernate/QueryDSL CI](.github/workflows/vlad-hibernate-performance.yml).
+
+
 - [VM-05–VM-07: Hikari connection lease, MVCC/isolation, optimistic/pessimistic locking and deadlock — PostgreSQL lab](database/transaction-labs/README.md).
 - [VM-08–VM-10: managed/detached/merge, AUTO flush, cascade/orphanRemoval — existing JPA lab](persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md) · [VM-09](persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md) · [VM-10](persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md).
   - [SQL + JPA path-filtered PostgreSQL CI](.github/workflows/vlad-transactions.yml). The PostgreSQL suite requires an explicit Maven profile.

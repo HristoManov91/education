@@ -105,7 +105,8 @@ references:
   - id: VM-SRC-024
     title: How to map JSON objects using generic Hibernate Types
     url: https://vladmihalcea.com/how-to-map-json-objects-using-generic-hibernate-types/
-    modules: [VM-22]  - id: VM-SRC-025
+    modules: [VM-22]
+  - id: VM-SRC-025
     title: SQL EXISTS and NOT EXISTS
     url: https://vladmihalcea.com/sql-exists/
     modules: [VM-01, VM-03]
@@ -130,25 +131,50 @@ implementations:
 
   - id: VM-05
     chapter: database/transaction-labs/docs/VM-05-JDBC-POOL.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-001, VM-SRC-019]
   - id: VM-06
     chapter: database/transaction-labs/docs/VM-06-MVCC-ISOLATION.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-011]
   - id: VM-07
     chapter: database/transaction-labs/docs/VM-07-LOCKING.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-011, VM-SRC-012]
   - id: VM-08
     chapter: persistence/repository-unit-of-work/VM-08-ENTITY-LIFECYCLE.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-002, VM-SRC-003]
   - id: VM-09
     chapter: persistence/repository-unit-of-work/VM-09-FLUSH-DIRTY-CHECKING.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-004, VM-SRC-005]
   - id: VM-10
     chapter: persistence/repository-unit-of-work/VM-10-MAPPINGS-CASCADE-ORPHAN.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-015]
+
+  - id: VM-11
+    chapter: persistence/hibernate-performance/docs/VM-11-IDENTIFIERS.md
+    status: implementation-in-review
+    sources: [VM-SRC-013, VM-SRC-014]
+  - id: VM-12
+    chapter: persistence/hibernate-performance/docs/VM-12-FETCH-NPLUS1.md
+    status: implementation-in-review
+    sources: [VM-SRC-006, VM-SRC-007, VM-SRC-015]
+  - id: VM-13
+    chapter: persistence/hibernate-performance/docs/VM-13-DTO-PAGINATION.md
+    status: implementation-in-review
+    sources: [VM-SRC-008, VM-SRC-009, VM-SRC-010, VM-SRC-018]
+  - id: VM-14
+    chapter: persistence/hibernate-performance/docs/VM-14-BATCH-BULK.md
+    status: implementation-in-review
+    sources: [VM-SRC-013, VM-SRC-014]
+  - id: VM-16
+    chapter: persistence/hibernate-performance/docs/VM-16-SPRING-DATA-TRAPS.md
+    status: implementation-in-review
+    sources: [VM-SRC-016, VM-SRC-017]
+  - id: VM-17
+    chapter: persistence/specification-querydsl/VM-17-PAGE-SLICE-COUNT.md
+    status: implementation-in-review
+    sources: [VM-SRC-016, VM-SRC-018]

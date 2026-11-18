@@ -46,6 +46,7 @@
         <module>design-patterns</module>
         <module>database/sql-labs</module>
         <module>database/transaction-labs</module>
+        <module>persistence/hibernate-performance</module>
         <module>persistence/specification-querydsl</module>
         <module>persistence/repository-unit-of-work</module>
         <module>persistence/analytical-sql-duckdb</module>

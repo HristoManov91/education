@@ -8,6 +8,10 @@
 
 ### Допълнителни Vlad Mihalcea лаборатории
 
+- [VM-11–VM-14 и VM-16 — identifier strategies, N+1 SQL counts, DTO/keyset pagination, batching, Spring Data pitfalls](../hibernate-performance/README.md).
+- [VM-17 — QueryDSL/Specifications с explicit COUNT и Slice](../specification-querydsl/VM-17-PAGE-SLICE-COUNT.md).
+
+
 - [VM-05 — JDBC lifecycle и bounded pool](../../database/transaction-labs/docs/VM-05-JDBC-POOL.md) и [изпълним pool test](../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/ConnectionLeaseTest.java) надграждат connection occupancy секцията.
 - [VM-06/07 — MVCC/isolation и locking](../../database/transaction-labs/README.md) изискват истински PostgreSQL 17 и нямат аналогични H2-only доказателства.
 - [VM-08–10 — lifecycle, flush, mappings](../repository-unit-of-work/README.md) надграждат съществуващия Unit of Work module.
