@@ -136,6 +136,8 @@ Sources: [JEP 517](https://openjdk.org/jeps/517), [JDK 26 HttpClient.Version](ht
 
 ## 6. P2 — Security: post-quantum, PEM and migration
 
+**Практическо надграждане от Julian Burr, Devoxx 2026:** [P2 Post-Quantum Cryptography lab](../spring/security/post-quantum-cryptography/README.md) — Java 25 ML-KEM/HKDF/AES-GCM, ML-DSA и JUnit negative tests; [TLS 1.3 / Gateway migration](../spring/security/post-quantum-cryptography/TLS-AND-MIGRATION.md) е **manual verification guide**, а не Java 25 TLS test. Не бъркай наличието на JCA ML-KEM primitive с действително negotiated hybrid TLS или quantum-resistant JWT/PKI signatures.
+
 ### Post-Quantum Hybrid Key Exchange
 
 The JDK gained ML-KEM/ML-DSA crypto primitives around Java 24; Java 27's TLS 1.3 hybrid groups can negotiate classical **and** post-quantum key establishment when the peer supports them.
