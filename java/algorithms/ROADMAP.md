@@ -22,6 +22,14 @@ Roadmap-ът е подробна карта на знанията. Номера�
 - amortized complexity;
 - Big-O vs real runtime performance.
 
+### 1.3 P2 — Constraint-driven design чрез Snake in 10 Lines (Devoxx 2026)
+- [Snake in 10 Lines — минилаборатория](01-algorithmic-thinking-complexity/SNAKE-CONSTRAINT-DRIVEN-DESIGN.md), Java 25 + JUnit;
+- concise 6-word specification, invariants и избор кое **да не** имплементираме;
+- 2D grid → 1D index без row wrap, Deque/Set срещу O(L) list copying;
+- bounded termination при пълна дъска (без безкрайни random retries);
+- independent reference oracle, parity tests и къде code golf **не** е подходящ;
+- [NotebookLM](01-algorithmic-thinking-complexity/SNAKE-NOTEBOOKLM-PROMPT.md). Това е P2 упражнение, не отделен algorithms curriculum.
+
 ## 2. Linear Data Structures
 
 ### 2.1 Arrays & Dynamic Arrays

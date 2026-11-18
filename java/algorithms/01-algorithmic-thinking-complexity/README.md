@@ -113,6 +113,17 @@ Data structure организира данните така, че определ
 | Linear / quadratic / logarithmic growth | [`OperationGrowth.java`](./src/main/java/bg/hristomanov/education/algorithms/complexity/demo/OperationGrowth.java) | [`OperationGrowthTest.java`](./src/test/java/bg/hristomanov/education/algorithms/complexity/OperationGrowthTest.java) |
 | Amortized resize cost | [`GrowingIntBuffer.java`](./src/main/java/bg/hristomanov/education/algorithms/complexity/demo/GrowingIntBuffer.java) | [`GrowingIntBufferTest.java`](./src/test/java/bg/hristomanov/education/algorithms/complexity/GrowingIntBufferTest.java) |
 
+### P2 — Snake in 10 Lines: constraint-driven design (Devoxx 2026)
+
+[**Guus de Wit — Snake in 10 Lines, Java 25 mini lab**](SNAKE-CONSTRAINT-DRIVEN-DESIGN.md) разширява problem-first мисленето с минимална спецификация, 2D → 1D encoding, Deque head/tail движения, bounded food selection и инварианти. **Не** е code-golf пример за production, не използва Swing в тестовете и не създава нов Maven модул.
+
+| Идея | Код | Доказателство |
+| --- | --- | --- |
+| Single-owner Snake state machine и ASCII demo | [SnakeGame.java](src/main/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeGame.java) · [SnakeTextDemo.java](src/main/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeTextDemo.java) | [SnakeGameTest.java](src/test/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeGameTest.java) |
+| Оптимизирано head/tail срещу независим 2D oracle | [SnakeGame.java](src/main/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeGame.java) | [SnakeReferenceParityTest.java](src/test/java/bg/hristomanov/education/algorithms/complexity/snake/SnakeReferenceParityTest.java), 300 seeded scenarios |
+
+[NotebookLM — 20–25 мин български аудио prompt](SNAKE-NOTEBOOKLM-PROMPT.md) · [самостоятелни задачи и trade-offs](SNAKE-CONSTRAINT-DRIVEN-DESIGN.md#6-упражнения-не-маркираме-усвоено-автоматично).
+
 ---
 
 # 4. Input size: `n` не е магическа променлива
