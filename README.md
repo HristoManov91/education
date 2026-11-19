@@ -107,6 +107,10 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-24 — PostgreSQL UPSERT under concurrency](database/sql-labs/docs/VM-24-ATOMIC-UPSERT.md).
+- [VM-25 — Flyway schema migrations и checksum validation](database/sql-labs/docs/VM-25-FLYWAY-MIGRATIONS.md).
+
+
 - [VM-22 — Hibernate JSONB, enum, Instant и type mapping](persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md).
 - [VM-23 — Native SQL, SQL function и JDBC DTO mapping](database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md).
 

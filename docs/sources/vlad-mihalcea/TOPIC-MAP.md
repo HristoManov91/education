@@ -36,10 +36,10 @@
 | VM-19 | Hibernate L1/L2/query cache: invalidation, consistency, cache strategies | implemented | `persistence/hibernate-performance` + existing `spring/caching` | stale-data counterexample и hit/miss metrics |
 | VM-20 | PostgreSQL vs Oracle: plans, sequences, locking, JSON, pagination | implemented | `database/sql-labs` | двуколонни dialect scripts + unsupported feature notes |
 | VM-21 | SQL/ORM observability: query counts, logs, pooling, slow query, Hypersistence Utils | implemented | `persistence/jpa-performance` + `persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md` | Existing H2/PG SQL-count, batching, Hikari/plan tests mapped to diagnosis flow |
-| VM-22 | JSON/ARRAY/enum mappings, time zones, converters and portable alternatives | implementation-in-review | `persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md` | DB round-trip + update tracking + serialization tests |
-| VM-23 | Native queries, SQL functions and stored procedures | implementation-in-review | `database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md` | parameter binding, result mapping, portability tests |
-| VM-24 | Upsert/MERGE, bulk operations, consistency and unique constraints | new | `database/upsert-bulk` | concurrent upsert race reproduction, dialect comparison |
-| VM-25 | Schema evolution: Flyway, validation, hbm2ddl safety | new | `persistence/schema-evolution` | migration and rollback-failure scenarios |
+| VM-22 | JSON/ARRAY/enum mappings, time zones, converters and portable alternatives | implemented | `persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md` | DB round-trip + update tracking + serialization tests |
+| VM-23 | Native queries, SQL functions and stored procedures | implemented | `database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md` | parameter binding, result mapping, portability tests |
+| VM-24 | Upsert/MERGE, bulk operations, consistency and unique constraints | implementation-in-review | `database/sql-labs` | concurrent upsert race reproduction, dialect comparison |
+| VM-25 | Schema evolution: Flyway, validation, hbm2ddl safety | implementation-in-review | `database/sql-labs` | migration and rollback-failure scenarios |
 | VM-26 | Read-only routing, pool sizing, backpressure, DB throughput | implemented | `database/transaction-labs` | saturated pool, bottleneck-shift tests and metrics |
 
 ## P2 — специализирани допълнения (без излишна дълбочина в началото)

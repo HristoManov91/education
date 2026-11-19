@@ -131,6 +131,23 @@ references:
     url: https://vladmihalcea.com/how-does-hibernate-store-second-level-cache-entries/
     modules: [VM-19]
 
+  - id: VM-SRC-031
+    title: PostgreSQL 17 INSERT ON CONFLICT
+    url: https://www.postgresql.org/docs/17/sql-insert.html
+    modules: [VM-24]
+  - id: VM-SRC-032
+    title: Oracle 19c MERGE
+    url: https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/MERGE.html
+    modules: [VM-24]
+  - id: VM-SRC-033
+    title: Flyway schema migrations
+    url: https://documentation.red-gate.com/flyway
+    modules: [VM-25]
+  - id: VM-SRC-034
+    title: Spring Boot SQL initialization
+    url: https://docs.spring.io/spring-boot/how-to/data-initialization.html
+    modules: [VM-25]
+
 implementations:
   - id: VM-01
     chapter: database/sql-labs/docs/VM-01-SQL-SEMANTICS.md
@@ -232,9 +249,19 @@ implementations:
 
   - id: VM-22
     chapter: persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-024]
   - id: VM-23
     chapter: database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-020]
+
+  - id: VM-24
+    chapter: database/sql-labs/docs/VM-24-ATOMIC-UPSERT.md
+    status: implementation-in-review
+    oracle_validation: manual-only
+    sources: [VM-SRC-031, VM-SRC-032]
+  - id: VM-25
+    chapter: database/sql-labs/docs/VM-25-FLYWAY-MIGRATIONS.md
+    status: implementation-in-review
+    sources: [VM-SRC-033, VM-SRC-034]
