@@ -34,6 +34,12 @@
 
 [VM-22 advanced types](docs/VM-22-ADVANCED-TYPES.md) добавя PostgreSQL JSONB mapping, enum и `Instant` с [реални JPA integration tests](src/test/java/bg/hristomanov/education/hperf/PostgresAdvancedTypesIT.java). DB-specific JSON операторите не се извеждат от H2 тестове.
 
+## VM-27/28/30 — Auditing, inheritance и version/dialect guard
+
+- [VM-27 — Envers revisions, CDC/outbox trade-offs](docs/VM-27-AUDITING-CDC.md) с [real JPA audit tests](src/test/java/bg/hristomanov/education/hperf/AuditingAndInheritanceTest.java); CDC е концептуална част, не нов Debezium container.
+- [VM-28 — JOINED inheritance и polymorphic cost](docs/VM-28-ENTITY-INHERITANCE.md) с [реални entity/table tests](src/test/java/bg/hristomanov/education/hperf/AuditingAndInheritanceTest.java).
+- [VM-30 — Hibernate upgrade safety и dialect checks](docs/VM-30-HIBERNATE-UPGRADE-PORTABILITY.md) с [version guard](src/test/java/bg/hristomanov/education/hperf/HibernateUpgradeGuardTest.java) и [PostgreSQL dialect IT](src/test/java/bg/hristomanov/education/hperf/PostgresHibernateDialectIT.java).
+
 ## 3. README → код
 
 | Mental model | Code | Real test |
