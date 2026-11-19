@@ -6,6 +6,10 @@
 
 [SQL лаборатории](../../../database/sql-labs/README.md) съдържат 4 подробни урока, Fast H2 tests, real PostgreSQL Testcontainers integration suite, Oracle manual comparisons и targeted GitHub Actions workflow. VM-01..04 са **мърджнати в main** с успешно изпълнени unit+PostgreSQL tests. Следващите [VM-05..07 JDBC/MVCC/locking](../../../database/transaction-labs/README.md) и [VM-08..10 Hibernate](../../../persistence/repository-unit-of-work/README.md) имат изпълним код и са в процес на независима CI проверка. VM-11–VM-14 и VM-16–VM-17 са реализирани с H2/PostgreSQL/QueryDSL тестове (PR #103); VM-15 е мърджнат с 6 Spring/JPA теста (PR #104); VM-18 е мърджнат като JDBC streaming лаборатория (PR #105); VM-21 е мърджнат diagnostics runbook с реални предходни тестове (PR #106), а VM-26 е мърджнат с Hikari + PostgreSQL тестове (PR #107); VM-20 е мърджнат с PG runtime tests + Oracle 19c manual comparison (PR #109); VM-19 е мърджнат с JCache/H2 tests (PR #111). VM-22/23 имат Java/PostgreSQL лаборатории в PR за review; VM-24/25 и VM-27–30 остават. Реализираните модули и глави не се смятат за лично усвоени без диагностика. Нито един материал не е автоматично `learned`.
 
+## Обхват след окончателния merge
+
+Всички **30 от 30** планирани VM идентификатора вече са в `main`, с директни source/практически препратки. Това **не** означава, че са проверени на всяка поддържана база или че знанията са лично усвоени. Oracle 19c остава manual-only, CDC/Debezium и част от advanced vendor decisions са architecture notes без локален multi-service end-to-end pipeline. Пълният блог на Vlad има значително повече публикации от текущия curated catalog; одитът за допълнителни източници остава отделна задача.
+
 ## P0 — първо механиката на базата и ORM
 
 | ID | Учебна тема / реален проблем | Състояние | Къде се реализира/разширява | Как доказваме |
@@ -46,10 +50,10 @@
 
 | ID | Тема | Състояние | Къде / критерий |
 | --- | --- | --- | --- |
-| VM-27 | Soft delete, Envers/auditing, triggers, CDC/Debezium | implementation-in-review | `persistence/hibernate-performance` + existing outbox/CDC case; consistency tests |
-| VM-28 | Entity inheritance, polymorphic queries and mapping costs | implementation-in-review | `persistence/hibernate-performance`; schema/query trade-offs |
-| VM-29 | Hierarchical queries, recursive fetching, SQL window-based reporting | implementation-in-review | `database/sql-labs`; correct pagination/recursion tests |
-| VM-30 | Vendor-specific extensions, portability boundaries and Hibernate upgrades | implementation-in-review | `persistence/hibernate-performance`; versioned migration tests |
+| VM-27 | Soft delete, Envers/auditing, triggers, CDC/Debezium | implemented | `persistence/hibernate-performance` + existing outbox/CDC case; consistency tests |
+| VM-28 | Entity inheritance, polymorphic queries and mapping costs | implemented | `persistence/hibernate-performance`; schema/query trade-offs |
+| VM-29 | Hierarchical queries, recursive fetching, SQL window-based reporting | implemented | `database/sql-labs`; correct pagination/recursion tests |
+| VM-30 | Vendor-specific extensions, portability boundaries and Hibernate upgrades | implemented | `persistence/hibernate-performance`; versioned migration tests |
 
 ## Ред на изпълнение (dependency-aware)
 
