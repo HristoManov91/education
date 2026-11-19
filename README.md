@@ -404,3 +404,4 @@ education/
   - [Refactoring Katas — naive code, trade-offs and negative tests](design-patterns/REFACTORING-KATAS.md)
   - [Advanced patterns — Interpreter, Null Object, Data Mapper](design-patterns/advanced/README.md)
   - [Spring Boot mastery capstone — executable report workflow](design-patterns/mastery-lab/README.md)
+  - [Verified sources, claims and executable test evidence](design-patterns/SOURCES-AND-EVIDENCE.md)
