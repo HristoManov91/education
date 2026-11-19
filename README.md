@@ -399,3 +399,8 @@ education/
   - [Pattern comparisons](design-patterns/PATTERN-COMPARISONS.md)
   - [Spring mapping](design-patterns/SPRING-MAPPING.md)
   - [Backend/Application patterns roadmap](design-patterns/BACKEND-PATTERNS-ROADMAP.md)
+  - [**Mastery Track — 25 concepts, diagnosis and checkpoints**](design-patterns/MASTERY-TRACK.md)
+  - [Diagnostic scenario bank — no answers upfront](design-patterns/ASSESSMENT-CASES.md)
+  - [Refactoring Katas — naive code, trade-offs and negative tests](design-patterns/REFACTORING-KATAS.md)
+  - [Advanced patterns — Interpreter, Null Object, Data Mapper](design-patterns/advanced/README.md)
+  - [Spring Boot mastery capstone — executable report workflow](design-patterns/mastery-lab/README.md)
