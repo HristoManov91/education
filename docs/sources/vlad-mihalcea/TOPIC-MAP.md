@@ -38,18 +38,18 @@
 | VM-21 | SQL/ORM observability: query counts, logs, pooling, slow query, Hypersistence Utils | implemented | `persistence/jpa-performance` + `persistence/hibernate-performance/VM-21-SQL-OBSERVABILITY.md` | Existing H2/PG SQL-count, batching, Hikari/plan tests mapped to diagnosis flow |
 | VM-22 | JSON/ARRAY/enum mappings, time zones, converters and portable alternatives | implemented | `persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md` | DB round-trip + update tracking + serialization tests |
 | VM-23 | Native queries, SQL functions and stored procedures | implemented | `database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md` | parameter binding, result mapping, portability tests |
-| VM-24 | Upsert/MERGE, bulk operations, consistency and unique constraints | implementation-in-review | `database/sql-labs` | concurrent upsert race reproduction, dialect comparison |
-| VM-25 | Schema evolution: Flyway, validation, hbm2ddl safety | implementation-in-review | `database/sql-labs` | migration and rollback-failure scenarios |
+| VM-24 | Upsert/MERGE, bulk operations, consistency and unique constraints | implemented | `database/sql-labs` | concurrent upsert race reproduction, dialect comparison |
+| VM-25 | Schema evolution: Flyway, validation, hbm2ddl safety | implemented | `database/sql-labs` | migration and rollback-failure scenarios |
 | VM-26 | Read-only routing, pool sizing, backpressure, DB throughput | implemented | `database/transaction-labs` | saturated pool, bottleneck-shift tests and metrics |
 
 ## P2 — специализирани допълнения (без излишна дълбочина в началото)
 
 | ID | Тема | Състояние | Къде / критерий |
 | --- | --- | --- | --- |
-| VM-27 | Soft delete, Envers/auditing, triggers, CDC/Debezium | new | `persistence/auditing-cdc` + existing outbox; consistency tests |
-| VM-28 | Entity inheritance, polymorphic queries and mapping costs | new | `persistence/entity-inheritance`; schema/query trade-offs |
-| VM-29 | Hierarchical queries, recursive fetching, SQL window-based reporting | new | `database/advanced-sql`; correct pagination/recursion tests |
-| VM-30 | Vendor-specific extensions, portability boundaries and Hibernate upgrades | new | `persistence/vendor-extensions`; versioned migration tests |
+| VM-27 | Soft delete, Envers/auditing, triggers, CDC/Debezium | implementation-in-review | `persistence/hibernate-performance` + existing outbox/CDC case; consistency tests |
+| VM-28 | Entity inheritance, polymorphic queries and mapping costs | implementation-in-review | `persistence/hibernate-performance`; schema/query trade-offs |
+| VM-29 | Hierarchical queries, recursive fetching, SQL window-based reporting | implementation-in-review | `database/sql-labs`; correct pagination/recursion tests |
+| VM-30 | Vendor-specific extensions, portability boundaries and Hibernate upgrades | implementation-in-review | `persistence/hibernate-performance`; versioned migration tests |
 
 ## Ред на изпълнение (dependency-aware)
 
