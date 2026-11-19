@@ -27,6 +27,8 @@ HTTP POST /api/reports
       → ReportReceipt (only after successful archive)
 ```
 
+**Проверка на доказателствата:** [Primary Sources & Evidence Matrix](../SOURCES-AND-EVIDENCE.md#3-evidence-map--spring-boot-capstone). Съпоставя концепцията (Refactoring.Guru/GoF), framework API contract (официален Spring) и нашите unit/MockMvc тестове. **Тест в MockMvc не означава истински мрежов E2E тест.**
+
 ## 2. Decision cards (не прилагаме pattern само заради името)
 
 | Решение | Какъв проблем решава / кога | Кога НЕ и по-проста алтернатива | Полза | Цена / trade-off | Proof |
@@ -63,7 +65,7 @@ HTTP POST /api/reports
 | unsupported format | 400 | no archive call |
 | duplicate reference in fake archive | 409 | duplicate is **not** treated as idempotent success |
 | downstream archive failure | exception / server error | no successful receipt; audit decorator rethrows |
-| CSV quote / leading formula token | escaped / prefixed in this demo | minimal spreadsheet-oriented mitigation, not a complete security library |
+| CSV quote / leading formula token | escaped / prefixed in this demo | [OWASP](https://community.owasp.org/attacks/CSV_Injection) предупреждава, че apostrophe+quotes не гарантира безопасност след Excel save/reopen; този CSV е учебен пример, **не** security-approved export |
 | process restart | all stored entries disappear | in-memory fake only; never claim durability |
 
 **Important distinctions:** Decorator ≠ Proxy, archive conflict ≠ idempotency, local audit trace ≠ Transactional Outbox, service Facade ≠ Saga, Spring `singleton` ≠ JVM-global Singleton.
@@ -99,5 +101,7 @@ Expected: HTTP **201** with `reference`, `archiveId=LEGACY:R-42`, `format=CSV` a
 ### Exit criteria
 
 Обясни **за всяко** използвано решение: проблем, кога да се приложи, кога да НЕ се приложи, полза, загуба, алтернатива, код и тест. Докажи с negative test поне един failure boundary. Не присвоявай "усвоено" само защото лабораторията се компилира.
+
+**Източници:** [Refactoring.Guru — Strategy](https://refactoring.guru/design-patterns/strategy), [Adapter](https://refactoring.guru/design-patterns/adapter), [Chain](https://refactoring.guru/design-patterns/chain-of-responsibility), [Decorator](https://refactoring.guru/design-patterns/decorator), [Facade](https://refactoring.guru/design-patterns/facade); [Spring Boot Testing](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html); [OWASP CSV Injection](https://community.owasp.org/attacks/CSV_Injection). Всяко твърдение и локалното доказателство са събрани в [source matrix](../SOURCES-AND-EVIDENCE.md).
 
 Свързано: [Mastery Track](../MASTERY-TRACK.md) · [Refactoring Katas](../REFACTORING-KATAS.md) · [Backend Patterns Roadmap](../BACKEND-PATTERNS-ROADMAP.md).
