@@ -2,7 +2,11 @@ package bg.hristomanov.education.patterns.mastery.render;
 
 import bg.hristomanov.education.patterns.mastery.model.ReportRequest;
 
-/** A small CSV renderer with quoting and basic spreadsheet-formula neutralization. */
+/**
+ * CSV demonstration with quoting and basic spreadsheet-formula mitigation.
+ * NOT a universal spreadsheet security solution: OWASP documents Excel save/reopen
+ * and application-specific bypasses: https://community.owasp.org/attacks/CSV_Injection
+ */
 public final class CsvReportRenderer implements ReportRenderer {
     @Override public String format() { return "CSV"; }
 
@@ -16,7 +20,8 @@ public final class CsvReportRenderer implements ReportRenderer {
 
     private static String cell(String value) {
         // For a spreadsheet-oriented CSV, quote fields AND neutralize a leading formula token.
-        // This is a demonstration, not a universal CSV or spreadsheet security library.
+        // OWASP warns apostrophe+quoting can fail after Excel save/reopen.
+        // This is for illustration and MUST NOT be treated as production-approved sanitization.
         String sanitized = !value.isEmpty() && "=+-@\t\r".indexOf(value.charAt(0)) >= 0
                 ? "'" + value : value;
         return "\"" + sanitized.replace("\"", "\"\"") + "\"";
