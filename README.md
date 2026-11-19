@@ -107,6 +107,11 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-22 — Hibernate JSONB, enum, Instant и type mapping](persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md).
+- [VM-23 — Native SQL, SQL function и JDBC DTO mapping](database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md).
+
+### Database / SQL — Vlad Mihalcea
+
 - [VM-19 — Hibernate L1/L2/Query Cache и invalidation](persistence/hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md), с негативен тест за stale entity след direct JDBC write.
 
 

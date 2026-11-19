@@ -30,6 +30,10 @@
 - [Четири теста с test-only Caffeine JCache provider](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java).
 - [NotebookLM аудио урок](NOTEBOOKLM-VM19.md).
 
+## VM-22 — JSON, enums и timezone round-trip
+
+[VM-22 advanced types](docs/VM-22-ADVANCED-TYPES.md) добавя PostgreSQL JSONB mapping, enum и `Instant` с [реални JPA integration tests](src/test/java/bg/hristomanov/education/hperf/PostgresAdvancedTypesIT.java). DB-specific JSON операторите не се извеждат от H2 тестове.
+
 ## 3. README → код
 
 | Mental model | Code | Real test |
