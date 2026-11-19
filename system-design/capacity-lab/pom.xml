@@ -12,7 +12,7 @@
     <groupId>bg.hristomanov.education</groupId>
     <artifactId>system-design-capacity-lab</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>System Design - Capacity & Admission Control</name>
+    <name>System Design - Capacity &amp; Admission Control</name>
     <description>Deterministic workload estimate and bounded concurrent admission, not a load benchmark</description>
     <properties>
         <java.version>25</java.version>
