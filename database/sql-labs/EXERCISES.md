@@ -2,6 +2,13 @@
 
 Работи върху [реалния сценарий и стартиране](README.md). Не приемаме „модулът е научен“ само защото тестовете са зелени. Всеки въпрос има техническо обяснение, контрапример и проверим резултат.
 
+## VM-29 — SQL hierarchy и analytic ranking
+
+1. Изпълни [PostgresHierarchyAnalyticsIT](src/test/java/bg/hristomanov/education/sql/PostgresHierarchyAnalyticsIT.java) срещу PostgreSQL.
+2. Защо `NOT child.id = ANY(visited)` предотвратява повторно обхождане на cycle path?
+3. При `RANK` двама работници с равни точки получават rank 1; при `ROW_NUMBER` кой е избран и защо има tie-breaker?
+4. Как се различават Oracle `CONNECT BY NOCYCLE` и PostgreSQL recursive CTE? Защо PG array syntax не е portable?
+
 ## VM-24 / VM-25 — упражнения
 
 1. Защо `existsByReference` преди `INSERT` не е защита срещу race между два workers?

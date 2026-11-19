@@ -18,6 +18,11 @@
         <maven.compiler.release>25</maven.compiler.release>
     </properties>
     <dependencies>
+        <!-- VM-27: Envers revision persistence is an explicit ORM module. -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
+        </dependency>
         <!-- Hibernate 7.4 JSON FormatMapper uses Jackson 3 when available.
              Spring Boot 4 manages this version; data-jpa alone does not add it. -->
         <dependency>

@@ -51,6 +51,14 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [Connection pool tuning, bounded admission control и read-only routing pitfalls](../../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md).
 - [Hikari in-process lab](../../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java) и [PostgreSQL read-only test](../../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java).
 
+## VM-27–VM-30 — Финален блок
+
+- [VM-27 Envers revisions, CDC и Outbox](../../../persistence/hibernate-performance/docs/VM-27-AUDITING-CDC.md) — JPA audit proof, CDC като архитектурен контекст
+- [VM-28 Entity inheritance](../../../persistence/hibernate-performance/docs/VM-28-ENTITY-INHERITANCE.md) — JOINED entity tests
+- [VM-29 PostgreSQL recursion/analytic windows](../../../database/sql-labs/docs/VM-29-HIERARCHICAL-ANALYTICS.md) — cycle-safe PG tests, Oracle manual
+- [VM-30 Hibernate upgrades и dialect compatibility](../../../persistence/hibernate-performance/docs/VM-30-HIBERNATE-UPGRADE-PORTABILITY.md) — version guard, H2+PG dialect tests
+- [NotebookLM аудио материал](NOTEBOOKLM-VM27-30.md) · [практически упражнения](EXERCISES-VM27-30.md)
+
 ## VM-24–25 — атомарни writes и schema evolution
 
 - [VM-24: PostgreSQL UPSERT + Oracle MERGE](../../../database/sql-labs/docs/VM-24-ATOMIC-UPSERT.md) с concurrency и отрицателни PostgreSQL tests.

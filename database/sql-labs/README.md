@@ -44,6 +44,11 @@ HTTP/JDBC -> SQL query -> relational semantics -> result cardinality
 - [VM-25 — Flyway migrations/validation](docs/VM-25-FLYWAY-MIGRATIONS.md) — [real PostgreSQL tests](src/test/java/bg/hristomanov/education/sql/PostgresFlywayMigrationIT.java), [V1](src/test/resources/vm25/sql/V1__create_vm25_account.sql) и [V2](src/test/resources/vm25/sql/V2__add_active_flag.sql).
 - [NotebookLM аудио урок](VM-24-25-NOTEBOOKLM-PROMPT.md) и [практически упражнения](EXERCISES.md).
 
+## VM-29 — Cycle-safe recursive SQL и window ranking
+
+- [VM-29 — recursive CTE, bounded depth, path cycle detection, RANK vs ROW_NUMBER](docs/VM-29-HIERARCHICAL-ANALYTICS.md)
+- [PostgreSQL JDBC reader](src/main/java/bg/hristomanov/education/sql/PostgresHierarchyReader.java), [3 real PostgreSQL tests](src/test/java/bg/hristomanov/education/sql/PostgresHierarchyAnalyticsIT.java), [Oracle 19c manual comparison](sql/oracle/vm29-hierarchy.sql)
+
 ## 4. README → код
 
 | Какво гледаме | Production-like код / SQL | Доказателство |

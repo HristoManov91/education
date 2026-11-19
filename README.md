@@ -107,6 +107,12 @@ education/
 
 ### Database / SQL — Vlad Mihalcea
 
+- [VM-27 — Hibernate Envers, auditing, soft delete и CDC](persistence/hibernate-performance/docs/VM-27-AUDITING-CDC.md)
+- [VM-28 — Entity inheritance и polymorphic SQL trade-offs](persistence/hibernate-performance/docs/VM-28-ENTITY-INHERITANCE.md)
+- [VM-29 — Recursive SQL с cycle detection и window ranking](database/sql-labs/docs/VM-29-HIERARCHICAL-ANALYTICS.md)
+- [VM-30 — Hibernate upgrades и real dialect contract](persistence/hibernate-performance/docs/VM-30-HIBERNATE-UPGRADE-PORTABILITY.md)
+
+
 - [VM-24 — PostgreSQL UPSERT under concurrency](database/sql-labs/docs/VM-24-ATOMIC-UPSERT.md).
 - [VM-25 — Flyway schema migrations и checksum validation](database/sql-labs/docs/VM-25-FLYWAY-MIGRATIONS.md).
 
