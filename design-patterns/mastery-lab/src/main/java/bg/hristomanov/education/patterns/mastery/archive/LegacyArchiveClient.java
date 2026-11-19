@@ -14,7 +14,7 @@ public final class LegacyArchiveClient {
             throw new IllegalArgumentException("invalid legacy archive request");
         }
         if (stored.putIfAbsent(key, Arrays.copyOf(payload, payload.length)) != null) {
-            throw new IllegalStateException("duplicate legacy key: " + key);
+            throw new ArchiveConflictException(key);
         }
         return "LEGACY:" + key;
     }
