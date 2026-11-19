@@ -1,0 +1,31 @@
+name: Design Patterns Mastery
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "design-patterns/**"
+      - ".github/workflows/design-patterns-mastery.yml"
+  pull_request:
+    paths:
+      - "design-patterns/**"
+      - ".github/workflows/design-patterns-mastery.yml"
+
+jobs:
+  design-patterns-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+          cache-dependency-path: design-patterns/pom.xml
+
+      - name: Test only Design Patterns reactor
+        run: mvn -B --no-transfer-progress -f design-patterns/pom.xml test
