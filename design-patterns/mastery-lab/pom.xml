@@ -27,4 +27,15 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- Official reference: https://docs.spring.io/spring-boot/how-to/build.html -->
+            <!-- Makes "mvn spring-boot:run" and executable JAR packaging reproducible. -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
