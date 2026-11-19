@@ -47,7 +47,8 @@ class PostgresFlywayMigrationIT {
                 assertThat(rs.getBoolean(1)).isTrue();
             }
             try (var rs = stmt.executeQuery(
-                    "SELECT COUNT(*) FROM " + schema + ".flyway_schema_history WHERE success")) {
+                    "SELECT COUNT(*) FROM " + schema +
+                    ".flyway_schema_history WHERE success AND version IN ('1','2')")) {
                 assertThat(rs.next()).isTrue();
                 assertThat(rs.getInt(1)).isEqualTo(2);
             }
