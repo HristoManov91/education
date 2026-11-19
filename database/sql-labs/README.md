@@ -34,6 +34,10 @@ HTTP/JDBC -> SQL query -> relational semantics -> result cardinality
 
 **Correctness преди speed:** бърза грешна заявка остава грешна заявка.
 
+## VM-23 — Native SQL и database functions
+
+[VM-23 Native SQL/procedures](docs/VM-23-NATIVE-SQL-PROCEDURES.md) свързва [4 PostgreSQL integration tests](src/test/java/bg/hristomanov/education/sql/PostgresNativeSqlIT.java) с JDBC binding, типизирани result models, функция и constraints. PostgreSQL SQL function не е еквивалент на portable PL/SQL stored procedure.
+
 ## 4. README → код
 
 | Какво гледаме | Production-like код / SQL | Доказателство |

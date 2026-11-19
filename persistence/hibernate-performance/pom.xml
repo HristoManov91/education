@@ -18,6 +18,12 @@
         <maven.compiler.release>25</maven.compiler.release>
     </properties>
     <dependencies>
+        <!-- Hibernate 7.4 JSON FormatMapper uses Jackson 3 when available.
+             Spring Boot 4 manages this version; data-jpa alone does not add it. -->
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

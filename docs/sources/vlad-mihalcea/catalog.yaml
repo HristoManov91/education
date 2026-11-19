@@ -227,5 +227,14 @@ implementations:
 
   - id: VM-19
     chapter: persistence/hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-028, VM-SRC-029, VM-SRC-030]
+
+  - id: VM-22
+    chapter: persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md
+    status: implementation-in-review
+    sources: [VM-SRC-024]
+  - id: VM-23
+    chapter: database/sql-labs/docs/VM-23-NATIVE-SQL-PROCEDURES.md
+    status: implementation-in-review
+    sources: [VM-SRC-020]

@@ -36,6 +36,7 @@ jobs:
 
           expected = [
               (Path('database/sql-labs/target/surefire-reports/TEST-bg.hristomanov.education.sql.H2SqlSemanticsTest.xml'), 6),
+              (Path('database/sql-labs/target/failsafe-reports/TEST-bg.hristomanov.education.sql.PostgresNativeSqlIT.xml'), 4),
               (Path('database/sql-labs/target/failsafe-reports/TEST-bg.hristomanov.education.sql.PostgresSqlLabIT.xml'), 8),
           ]
           for report, minimum in expected:

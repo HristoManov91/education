@@ -33,6 +33,7 @@ jobs:
           suites = [
               ('persistence/hibernate-performance/target/surefire-reports/TEST-bg.hristomanov.education.hperf.HibernatePerformanceTest.xml', 8),
               ('persistence/hibernate-performance/target/surefire-reports/TEST-bg.hristomanov.education.hperf.HibernateCacheLabTest.xml', 5),
+              ('persistence/hibernate-performance/target/failsafe-reports/TEST-bg.hristomanov.education.hperf.PostgresAdvancedTypesIT.xml', 2),
               ('persistence/hibernate-performance/target/failsafe-reports/TEST-bg.hristomanov.education.hperf.PostgresHibernatePerformanceIT.xml', 3),
               ('persistence/specification-querydsl/target/surefire-reports/TEST-bg.hristomanov.education.specification.PaymentSearchServiceTest.xml', 7),
           ]
