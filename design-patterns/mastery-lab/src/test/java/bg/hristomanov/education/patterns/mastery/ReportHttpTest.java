@@ -47,13 +47,13 @@ class ReportHttpTest {
         assertThat(archive.readLegacyText("HTTP-3")).isNull();
     }
 
-    @Test void duplicateArchiveFailureDoesNotClaimCreated() throws Exception {
+    @Test void duplicateArchiveConflictDoesNotClaimCreated() throws Exception {
         String body = """
                 {"reference":"HTTP-4","owner":"Ada","items":["Hello"],"format":"TEXT"}
                 """;
         mvc.perform(post("/api/reports").contentType(MediaType.APPLICATION_JSON)
                 .content(body)).andExpect(status().isCreated());
         mvc.perform(post("/api/reports").contentType(MediaType.APPLICATION_JSON)
-                .content(body)).andExpect(status().is5xxServerError());
+                .content(body)).andExpect(status().isConflict());
     }
 }
