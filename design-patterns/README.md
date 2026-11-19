@@ -22,6 +22,7 @@
 3. [Refactoring Katas — осем проблемни ситуации](REFACTORING-KATAS.md) — първо characterization tests, после решение.
 4. [Advanced executable examples](advanced/README.md) — Interpreter, Null Object, Data Mapper с Java тестове.
 5. [Spring Boot Mastery Capstone](mastery-lab/README.md) — naivе baseline → Strategy + Chain + Adapter + Decorator + Facade; unit + MockMvc integration tests.
+6. [Primary sources & executable evidence matrix](SOURCES-AND-EVIDENCE.md) — GoF/Refactoring.Guru, Fowler, Spring, Oracle Java 25 и OWASP със свързан код и тестове.
 
 **Статус:** материали и тестове са реализирани в отделен модул; това **не** доказва автоматично, че всички тестове са минали CI, или че темата е усвоена. Актуалните лични оценки са само в [Education PROGRESS](../docs/learning/PROGRESS.md).
 
