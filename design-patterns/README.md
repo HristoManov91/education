@@ -13,6 +13,21 @@
 
 ---
 
+## Ново: практическа пътека към mastery (2026-11-19)
+
+**Не започваме каталога отначало.** Добавен е втори слой за избор, refactoring и диагностика:
+
+1. [Mastery Track — 25 concepts, phases, exit criteria](MASTERY-TRACK.md) — 22-те каталожни патерна + GoF Interpreter + 2 приложни idioms.
+2. [Assessment cases — въпроси без подсказване](ASSESSMENT-CASES.md) — Junior → Mid → Early Senior; оценяване само при реален отговор.
+3. [Refactoring Katas — осем проблемни ситуации](REFACTORING-KATAS.md) — първо characterization tests, после решение.
+4. [Advanced executable examples](advanced/README.md) — Interpreter, Null Object, Data Mapper с Java тестове.
+5. [Spring Boot Mastery Capstone](mastery-lab/README.md) — naivе baseline → Strategy + Chain + Adapter + Decorator + Facade; unit + MockMvc integration tests.
+6. [Primary sources & executable evidence matrix](SOURCES-AND-EVIDENCE.md) — GoF/Refactoring.Guru, Fowler, Spring, Oracle Java 25 и OWASP със свързан код и тестове.
+
+**Статус:** материали и тестове са реализирани в отделен модул; това **не** доказва автоматично, че всички тестове са минали CI, или че темата е усвоена. Актуалните лични оценки са само в [Education PROGRESS](../docs/learning/PROGRESS.md).
+
+---
+
 # ВХОД В ТЕМАТА
 
 ## 1. Реалният казус
@@ -218,7 +233,7 @@ Maven modules са по **тип pattern**, а не по един module за в
 | Behavioral | Memento | — | ✅ | snapshot/undo без breaking encapsulation |
 | Behavioral | Visitor | — | ✅ | нови operations върху стабилна hierarchy |
 
-Така покриваме **всичките 22 patterns от каталога на Refactoring.Guru** с Java/backend-oriented примери.
+Така покриваме **всичките 22 patterns от каталога на Refactoring.Guru** с Java/backend-oriented примери. Допълнително имаме executable GoF Interpreter и две application идеи — [advanced module](advanced/README.md). Това **не** променя броя на 22-та каталожни патерна.
 
 > Оригиналната GoF книга съдържа и **Interpreter**. Refactoring.Guru не го включва в своя 22-pattern каталог; пазим го като отделна допълнителна тема, вместо да го добавяме само за бройка.
 

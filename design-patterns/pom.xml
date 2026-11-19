@@ -23,6 +23,8 @@
         <module>creational</module>
         <module>structural</module>
         <module>behavioral</module>
+        <module>advanced</module>
+        <module>mastery-lab</module>
     </modules>
 
     <properties>

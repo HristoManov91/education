@@ -329,31 +329,25 @@ Executable lab:
 
 ---
 
-## 17. Null Object
+## 17. Null Object — ✅ executable conceptual lab
 
-Полезен, когато repeated null checks представят стабилно „no behavior“ състояние.
-
-Но Java `Optional`, sealed types или explicit domain states често са по-ясни.
-
-Ще го учим като **инструмент**, не като default заместител на null.
+[Null Object — optional audit sink + negative tests](advanced/README.md#case-2--null-object-optional-behavior-not-a-failed-result) използва същия interface за real sink и no-op. `NoOp` е допустим **само** при optional behavior; задължителни security/compliance audit events не могат тихо да се изхвърлят. Сравняваме с `Optional`, explicit domain states или failing configuration.
 
 ---
 
-## 18. Data Mapper / DTO Mapper
+## 18. Data Mapper / DTO Mapper — ✅ executable conceptual lab
 
-Особено полезно за граници:
+[Data Mapper — EUR cents ↔ BigDecimal](advanced/README.md#case-3--data-mapper-boundary-between-storage-representation-and-domain) има lossless round-trip и negative tests за precision/overflow. Това е **pure Java demonstration**, не истински ORM/DB integration test. При проста read-only projection по-малка abstraction може да е по-разумна.
 
-```text
-DB entity
-≠
-domain model
-≠
-API DTO
-≠
-external DTO
-```
+---
 
-Ще разгледаме кога отделянето е важно и кога mapping layer-ът става meaningless boilerplate.
+## Допълнителен GoF Interpreter — ✅ executable AST lab
+
+[Interpreter](advanced/README.md#case-1--interpreter-gof-a-tiny-eligibility-rule-grammar) моделира малка, доверена grammar (`And/Or/Not`, country, amount). Не парсва недоверен текст и **не** е production rule engine.
+
+## Интегрирано упражнение за Design Patterns
+
+[Mastery Track](MASTERY-TRACK.md) + [Spring Boot Capstone](mastery-lab/README.md): 5 pattern идеи в един HTTP use case, с naive baseline, acceptance/negative tests и изрично разграничение от Idempotency/Saga/Outbox.
 
 ---
 
