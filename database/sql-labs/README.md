@@ -38,6 +38,12 @@ HTTP/JDBC -> SQL query -> relational semantics -> result cardinality
 
 [VM-23 Native SQL/procedures](docs/VM-23-NATIVE-SQL-PROCEDURES.md) свързва [4 PostgreSQL integration tests](src/test/java/bg/hristomanov/education/sql/PostgresNativeSqlIT.java) с JDBC binding, типизирани result models, функция и constraints. PostgreSQL SQL function не е еквивалент на portable PL/SQL stored procedure.
 
+## VM-24/25 — atomic UPSERT и версия на schema
+
+- [VM-24 — PostgreSQL UPSERT + Oracle MERGE differences](docs/VM-24-ATOMIC-UPSERT.md) — [concurrent PostgreSQL tests](src/test/java/bg/hristomanov/education/sql/PostgresUpsertLabIT.java) и [Oracle manual SQL](sql/oracle/vm24-merge.sql).
+- [VM-25 — Flyway migrations/validation](docs/VM-25-FLYWAY-MIGRATIONS.md) — [real PostgreSQL tests](src/test/java/bg/hristomanov/education/sql/PostgresFlywayMigrationIT.java), [V1](src/test/resources/vm25/sql/V1__create_vm25_account.sql) и [V2](src/test/resources/vm25/sql/V2__add_active_flag.sql).
+- [NotebookLM аудио урок](VM-24-25-NOTEBOOKLM-PROMPT.md) и [практически упражнения](EXERCISES.md).
+
 ## 4. README → код
 
 | Какво гледаме | Production-like код / SQL | Доказателство |

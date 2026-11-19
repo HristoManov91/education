@@ -51,6 +51,12 @@ Vlad Mihalcea публикува стотици статии за JDBC, SQL, JPA
 - [Connection pool tuning, bounded admission control и read-only routing pitfalls](../../../database/transaction-labs/VM-26-POOL-BACKPRESSURE.md).
 - [Hikari in-process lab](../../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PoolAdmissionGateTest.java) и [PostgreSQL read-only test](../../../database/transaction-labs/src/test/java/bg/hristomanov/education/tx/PostgresTransactionLabIT.java).
 
+## VM-24–25 — атомарни writes и schema evolution
+
+- [VM-24: PostgreSQL UPSERT + Oracle MERGE](../../../database/sql-labs/docs/VM-24-ATOMIC-UPSERT.md) с concurrency и отрицателни PostgreSQL tests.
+- [VM-25: Flyway schema migrations](../../../database/sql-labs/docs/VM-25-FLYWAY-MIGRATIONS.md) с checksum failure test.
+- [NotebookLM](../../../database/sql-labs/VM-24-25-NOTEBOOKLM-PROMPT.md) — комбиниран аудио урок.
+
 ## VM-22–23 — Advanced mappings и Native SQL
 
 - [VM-22 Hibernate JSONB / enum / timestamp mapping](../../../persistence/hibernate-performance/docs/VM-22-ADVANCED-TYPES.md) с real PostgreSQL тестове.
