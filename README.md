@@ -98,7 +98,8 @@ education/
 ├── ai/
 ├── persistence/
 ├── database/
-└── design-patterns/
+├── design-patterns/
+└── system-design/
 ```
 
 Структурата ще се разширява постепенно според реалните теми, вместо предварително да създаваме празни директории.
@@ -363,6 +364,19 @@ education/
 ### Spring / Events
 
 - [Domain Events — aggregate events, transaction phases и integration boundaries](spring/events/domain-events/README.md)
+
+### System Design & Software Architecture (P1) — end-to-end
+
+- [**System Design & Architecture Track — 16 микро-теми**](system-design/README.md): от NFR/SLO и traffic estimates до architecture choices, boundaries, failure models и ADR
+  - [1. Requirements, SLIs/SLOs, error budgets](system-design/01-REQUIREMENTS-SLOS.md)
+  - [2. Capacity planning, throughput, Little's Law](system-design/02-CAPACITY-PERFORMANCE.md)
+  - [3. Architecture styles, modular monolith vs microservices, DDD](system-design/03-STYLES-BOUNDARIES.md)
+  - [4. Data ownership, consistency, sync/async communication](system-design/04-DATA-COMMUNICATION.md)
+  - [5. Overload, failure containment, reliability, security](system-design/05-FAILURE-AND-OPERATIONS.md)
+  - [6. C4 diagrams, ADRs and architecture fitness functions](system-design/06-C4-ADR-REVIEWS.md)
+  - [7. Reporting/Signing Platform — full design capstone](system-design/07-REPORTING-PLATFORM-CASE.md)
+  - [Runnable Java25 capacity & admission control lab](system-design/capacity-lab/README.md)
+  - [16 diagnostic cases](system-design/ASSESSMENT-CASES.md) · [NotebookLM audio prompt](system-design/NOTEBOOKLM-PROMPT.md) · [Primary sources & evidence](system-design/SOURCES-AND-EVIDENCE.md)
 
 ### Spring / Architecture
 
