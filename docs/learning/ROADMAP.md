@@ -168,6 +168,16 @@
 
 **P1 production reliability (Devoxx 2026):** [Their API Went Down — четири изпълними external-API incident labs](../../spring/reliability/fault-tolerance/PRODUCTION-API-RESILIENCE-P1.md). Надгражда REL-01/REL-03 с shared Redis 429 cooldown, durable sync checkpoint, queue expiry и manual credential recovery; не променя оценките на изучените концепции.
 
+## P1 — System Design & Software Architecture — end-to-end design track
+
+**Нов централен учебен курс:** [System Design & Architecture (SD-01–SD-16)](../../system-design/README.md), [Requirements/SLO](../../system-design/01-REQUIREMENTS-SLOS.md), [Capacity + Java25 tests](../../system-design/capacity-lab/README.md), [Architecture Styles](../../system-design/03-STYLES-BOUNDARIES.md), [Data/Consistency](../../system-design/04-DATA-COMMUNICATION.md), [Failure/Operations](../../system-design/05-FAILURE-AND-OPERATIONS.md), [C4/ADR](../../system-design/06-C4-ADR-REVIEWS.md), [End-to-End reporting capstone](../../system-design/07-REPORTING-PLATFORM-CASE.md).
+
+**Проверяваме:** SD-01/02 NFR + SLI/SLO; SD-03/04/05 peak RPS, mean concurrency, measured vs estimated capacity; SD-06/07 modulith vs microservices/domain ownership; SD-08/09 sync/async, consistency, DB query models; SD-10/11/12/13 overload, retries, RTO/RPO and threat boundaries; SD-14/15 C4/ADR/fitness; SD-16 full system design. [16 сценарни въпроса](../../system-design/ASSESSMENT-CASES.md) — един по един, без предварителен отговор.
+
+**Existing labs remain canonical** за DDD, CQRS, Saga, Outbox/Inbox, caching и fault tolerance; този курс ги свързва с requirements и decision records, **не** ги дублира. **Проектен материал ≠ доказано лично усвояване:** PROGRESS не се променя без отговори и реално оценяване.
+
+---
+
 ## P1 — System Design / Strategic DDD & Context Mapping
 
 **Материал:** [Strategic DDD & Microservice Boundaries — Deep Technical Lecture + executable architecture labs](../../spring/architecture/strategic-ddd/README.md). Основен източник: Devoxx Belgium 2026 (Steven Hillaert), приоритет **Tech Radar P1**.
