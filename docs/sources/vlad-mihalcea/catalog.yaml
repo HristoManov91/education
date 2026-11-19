@@ -289,20 +289,20 @@ implementations:
 
   - id: VM-27
     chapter: persistence/hibernate-performance/docs/VM-27-AUDITING-CDC.md
-    status: implementation-in-review
+    status: implemented
     form: Envers-test-plus-CDC-architecture-note
     sources: [VM-SRC-035, VM-SRC-036]
   - id: VM-28
     chapter: persistence/hibernate-performance/docs/VM-28-ENTITY-INHERITANCE.md
-    status: implementation-in-review
+    status: implemented
     sources: [VM-SRC-037]
   - id: VM-29
     chapter: database/sql-labs/docs/VM-29-HIERARCHICAL-ANALYTICS.md
-    status: implementation-in-review
+    status: implemented
     oracle_validation: manual-only
     sources: [VM-SRC-022, VM-SRC-023, VM-SRC-039]
   - id: VM-30
     chapter: persistence/hibernate-performance/docs/VM-30-HIBERNATE-UPGRADE-PORTABILITY.md
-    status: implementation-in-review
+    status: implemented
     form: compatibility-guard-plus-upgrade-runbook
     sources: [VM-SRC-038]
