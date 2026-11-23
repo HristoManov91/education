@@ -5,8 +5,9 @@
 ## Допълнителен дълбок урок — Spring Boot Optimizing Writes & Reads
 
 - [**Пълна синтезираща глава по двете лекции на Vlad Mihalcea и Jos Roseboom**](docs/WEBINAR-READ-WRITE-PERFORMANCE.md): проверени английски субтитри, реален [PetClinic fork](https://github.com/vladmihalcea/spring-petclinic), step-by-step writes/reads, performance числа от оригиналното demo с граници на интерпретацията, решения/trade-offs, PostgreSQL vs Oracle.
-- [Нови сценарни упражнения и измервателен worksheet](WEBINAR-EXERCISES.md) · [NotebookLM prompt](NOTEBOOKLM-READ-WRITE-WEBINAR.md) · [manual PostgreSQL COPY rollback SQL](sql/copy-transaction-demo.sql).
-- **Не дублираме JPA лабораториите**: примери и работещи тестове са директно свързани с VM-11/12/13/14/16, H2 и реален PostgreSQL IT. Новите driver rewrite, StatelessSession и Blaze-Persistence примери са **външни runnable demos**, не локални автоматизирани тестове. `COPY` SQL е ръчна лаборатория.
+- [Сценарни упражнения и измервателен worksheet](WEBINAR-EXERCISES.md) · [NotebookLM prompt](NOTEBOOKLM-READ-WRITE-WEBINAR.md) · [manual PostgreSQL COPY rollback SQL](sql/copy-transaction-demo.sql).
+- Новите automated доказателства: [PostgreSQL IT](src/test/java/bg/hristomanov/education/hperf/PostgresHibernatePerformanceIT.java) покрива `StatelessSession.insertMultiple`, липса на cascade, pgJDBC rewrite чрез `pg_stat_statements` и `CopyManager` rollback; [BlazeEntityViewTest](src/test/java/bg/hristomanov/education/hperf/BlazeEntityViewTest.java) проверява nested Entity Views и pagination върху H2/Hibernate 7.4.
+- **Не дублираме JPA лабораториите**: преизползваме VM-11/12/13/14/16 тестовете. Blaze-Persistence 1.6.20 е **само test-scope**, не влиза в production dependencies. PostgreSQL специфичните тестове се изпълняват само с `-Ppostgres-integration` и Docker.
 
 ## 1. Първо реалният проблем
 
