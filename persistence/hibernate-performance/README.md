@@ -2,6 +2,12 @@
 
 **Java 25 / Spring Boot 4.1.1 / Hibernate ORM 7.4.5.Final (проверен в CI) / H2 / PostgreSQL 17 Testcontainers.** Продължение на [VM-01–VM-10](../../docs/sources/vlad-mihalcea/README.md), не препечатка на оригиналните статии.
 
+## Допълнителен дълбок урок — Spring Boot Optimizing Writes & Reads
+
+- [**Пълна синтезираща глава по двете лекции на Vlad Mihalcea и Jos Roseboom**](docs/WEBINAR-READ-WRITE-PERFORMANCE.md): проверени английски субтитри, реален [PetClinic fork](https://github.com/vladmihalcea/spring-petclinic), step-by-step writes/reads, performance числа от оригиналното demo с граници на интерпретацията, решения/trade-offs, PostgreSQL vs Oracle.
+- [Нови сценарни упражнения и измервателен worksheet](WEBINAR-EXERCISES.md) · [NotebookLM prompt](NOTEBOOKLM-READ-WRITE-WEBINAR.md) · [manual PostgreSQL COPY rollback SQL](sql/copy-transaction-demo.sql).
+- **Не дублираме JPA лабораториите**: примери и работещи тестове са директно свързани с VM-11/12/13/14/16, H2 и реален PostgreSQL IT. Новите driver rewrite, StatelessSession и Blaze-Persistence примери са **външни runnable demos**, не локални автоматизирани тестове. `COPY` SQL е ръчна лаборатория.
+
 ## 1. Първо реалният проблем
 
 В production имаме 3 symptoms: import на хиляди orders изпълнява твърде много INSERT calls; API за поръчки прави N+1 и изпраща прекалено много SQL; страницирането на joined collection започва да връща резултати само след изтегляне на огромен набор в memory.
