@@ -33,13 +33,15 @@ mvn -pl persistence/hibernate-performance -Ppostgres-integration verify
 2. Изпълни `bulkDmlBypassesManagedEntityStateUntilExplicitClear`. Защо managed entity е stale след bulk update? В кои случаи `@Modifying(clearAutomatically=true)` би изхвърлил още незаписани промени?
 3. Сравни [оригиналния batch rewrite branch](https://github.com/vladmihalcea/spring-petclinic/tree/postgres-test-data-jdbc-batch-rewrite) с [pgJDBC документацията](https://jdbc.postgresql.org/documentation/use/#connection-parameters). Формулирай защо `reWriteBatchedInserts` няма аналогична настройка в Oracle.
 4. Прочети [StatelessSession оригинален код](https://github.com/vladmihalcea/spring-petclinic/tree/postgres-test-data-stateless-session) и [many-to-many варианта](https://github.com/vladmihalcea/spring-petclinic/tree/postgres-test-data-stateless-session-many-to-many). Кои JPA cascade/managed-state гаранции липсват?
-5. Стартирай SQL proof на `COPY` с PostgreSQL 17/psql върху **локална тестова DB**:
+5. Стартирай PostgreSQL IT тестовете `statelessSessionInsertMultiplePersistsRowsAndAssignsGeneratedIds` и `statelessSessionDoesNotCascadeToAssociatedEntities`. Обясни защо `insertMultiple` не доказва автоматично едно server-side SQL изпълнение и защо children трябва да се запишат изрично.
+6. Стартирай `pgJdbcRewriteBatchedInsertsReducesServerStatementExecutions`. Тестът използва `pg_stat_statements`, сравнява 64 INSERT-а с rewrite off/on и проверява реалните server calls. Обясни защо това е PostgreSQL/driver-specific и какво трябва да се провери отделно за Oracle.
+7. Стартирай `postgresCopyManagerParticipatesInTransactionRollback`. Това е автоматизираният Testcontainers вариант на следния ръчен SQL proof на `COPY` с PostgreSQL 17/psql върху **локална тестова DB**:
 
 ```bash
 psql -X -v ON_ERROR_STOP=1 -d postgres -f persistence/hibernate-performance/sql/copy-transaction-demo.sql
 ```
 
-Очакване: в транзакцията **2 rows**, след `ROLLBACK` **0 rows**. Това коригира опасно тълкуване на устното „COPY bypasses transaction engine“. За по-изчерпателна automated проверка трябва да добавим Testcontainers `CopyManager` test в отделен PR — **не е покрито с JUnit в този урок**.
+Очакване: в транзакцията **2 rows**, след `ROLLBACK` **0 rows**. Това коригира опасно тълкуване на устното „COPY bypasses transaction engine“. Ръчният psql скрипт и автоматизираният `CopyManager` Testcontainers test проверяват едно и също транзакционно свойство по два различни начина.
 
 **Negative tests, които да планираш:** duplicate PK по време на COPY; FK violation; rollback след грешка; wrong CSV encoding; optimistic locking и audit callback при bulk DML.
 
@@ -59,7 +61,8 @@ psql -X -v ON_ERROR_STOP=1 -d postgres -f persistence/hibernate-performance/sql/
 3. На реален PostgreSQL изпълни `postgresKeysetAndTwoPhaseCollectionFetchAreBounded`.
 4. Защо `ORDER BY updatedAt` сам по себе си не е достатъчен стабилен cursor? Покажи `(updatedAt, id)`, tie-break, null handling, index и delete/insert между pages.
 5. Избери между `Page`, `Slice` и keyset за (а) малка admin таблица с page numbers; (б) 10 милиона historical events със „Зареди още“. Кога трябва COUNT?
-6. Прецени дали [Blaze Entity Views от лекторите](https://github.com/vladmihalcea/spring-petclinic/tree/postgres-test-data-blaze-persistence) добавя реална стойност за твоите DTO-та. **В Education нямаме локален Blaze test**; не представяй този step като реализиран.
+6. Прецени дали [Blaze Entity Views от лекторите](https://github.com/vladmihalcea/spring-petclinic/tree/postgres-test-data-blaze-persistence) добавя реална стойност за твоите DTO-та.
+7. Стартирай [BlazeEntityViewTest](src/test/java/bg/hristomanov/education/hperf/BlazeEntityViewTest.java). Провери parent page от 2 customers, пълните им nested order collections, total count и SQL statement count. Blaze-Persistence 1.6.20 е само test dependency; сравни това с нашия plain `record` DTO вариант и обясни защо библиотеката не трябва да се добавя автоматично към production.
 
 ## Микросесия E — доказателство: benchmark и migration decision
 
@@ -83,8 +86,10 @@ psql -X -v ON_ERROR_STOP=1 -d postgres -f persistence/hibernate-performance/sql/
 
 - Защо `saveAll()` сам по себе си не доказва JDBC batching?
 - Какво означават Hibernate prepared statements срещу `executeBatch` events?
-- При кои условия ще предпочетеш `StatelessSession` пред `JdbcTemplate` и JPA?
-- Вярно ли е, че PostgreSQL `COPY` не участва в rollback? Какво показва SQL тестът?
+- При кои условия ще предпочетеш `StatelessSession` пред `JdbcTemplate` и JPA? Какво доказва тестът за cascade?
+- Как `pg_stat_statements` доказва ефекта от `reWriteBatchedInserts` и защо не е benchmark за latency?
+- Вярно ли е, че PostgreSQL `COPY` не участва в rollback? Какво показва Testcontainers и ръчният SQL тест?
+- Кога Blaze Entity Views оправдава още една зависимост спрямо plain DTO projection?
 - Защо `LAZY` може да създаде N+1 и защо `EAGER` може да е още по-зле?
 - Можеш ли да гарантираш, че keyset pagination е O(1)? Как индексът, планът и filter selectivity влияят?
 - Кои неща от видеата са version-specific и кои принципи можеш да приложиш при Spring Boot 3.3 + Oracle 19c?
