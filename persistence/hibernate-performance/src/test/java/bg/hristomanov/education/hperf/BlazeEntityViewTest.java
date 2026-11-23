@@ -80,9 +80,9 @@ class BlazeEntityViewTest {
         assertThat(page.get(1).getName()).isEqualTo("Blaze-customer-2");
         assertThat(page.get(1).getOrders()).hasSize(1);
 
-        // Pagination may use a count query, a parent-id page, and one or more bounded
-        // view/collection fetches. The important invariant is no per-parent N+1 fan-out.
-        assertThat(statistics.getPrepareStatementCount()).isBetween(2L, 4L);
+        // Blaze produces one bounded SQL statement for this view + page on H2/Hibernate 7.4.
+        // This is a query-count assertion, not a latency benchmark.
+        assertThat(statistics.getPrepareStatementCount()).isEqualTo(1L);
     }
 
     private void seedCustomers() {
