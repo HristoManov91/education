@@ -28,7 +28,7 @@ HTTP GET /owners   → repository      → fetch plan       → SQL/query plan �
 4. Да прецениш keyset срещу OFFSET и `Page` срещу `Slice` с правилен стабилен sort.
 5. Да отчетеш **правилна метрика**: Hibernate statements ≠ JDBC batch invocations ≠ DB executions ≠ bytes ≠ latency/throughput; и да разпознаваш нееквивалентни before/after сравнения.
 
-## 3. READМE → работещ код и доказателство
+## 3. README → работещ код и доказателство
 
 | Разглеждан механизъм | Наш код / конфигурация | Работещ тест |
 | --- | --- | --- |
