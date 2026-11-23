@@ -6,6 +6,11 @@
 > **Време:** 3 сесии по 20–30 минути + лабораториите в [EXERCISES.md](./EXERCISES.md).  
 > **За слушане:** [NotebookLM prompt](./NOTEBOOKLM-PROMPT.md).
 
+### Spring Boot reads & writes — двете свързани лекции на Vlad Mihalcea и Jos Roseboom
+
+- [Синтезиран урок по оригиналните транскрипти: JDBC batching, SEQUENCE, PostgreSQL COPY, EAGER/N+1, DTO, Entity Views и keyset](../hibernate-performance/docs/WEBINAR-READ-WRITE-PERFORMANCE.md).
+- [Практически упражнения/тестове и честно измерване](../hibernate-performance/WEBINAR-EXERCISES.md) · [аудио prompt](../hibernate-performance/NOTEBOOKLM-READ-WRITE-WEBINAR.md). Разширението препраща към вече съществуващите H2/PostgreSQL тестове; няма неоправдана дубликация.
+
 ### Допълнителни Vlad Mihalcea лаборатории
 
 - [VM-19 — Hibernate L2, Query Cache, invalidation и stale-data tests](../hibernate-performance/docs/VM-19-HIBERNATE-CACHE.md), разграничено от Spring Cache/Redis caching.
