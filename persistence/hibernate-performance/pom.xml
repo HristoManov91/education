@@ -16,6 +16,8 @@
     <properties>
         <java.version>25</java.version>
         <maven.compiler.release>25</maven.compiler.release>
+        <!-- Test-only optional integration: no Blaze dependency reaches production code. -->
+        <blaze-persistence.version>1.6.20</blaze-persistence.version>
     </properties>
     <dependencies>
         <!-- VM-27: Envers revision persistence is an explicit ORM module. -->
@@ -74,6 +76,38 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers-postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Optional Blaze-Persistence lab: test scope only, matching Hibernate ORM 7.4. -->
+        <dependency>
+            <groupId>com.blazebit</groupId>
+            <artifactId>blaze-persistence-core-api-jakarta</artifactId>
+            <version>${blaze-persistence.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.blazebit</groupId>
+            <artifactId>blaze-persistence-core-impl-jakarta</artifactId>
+            <version>${blaze-persistence.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.blazebit</groupId>
+            <artifactId>blaze-persistence-integration-hibernate-7.2</artifactId>
+            <version>${blaze-persistence.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.blazebit</groupId>
+            <artifactId>blaze-persistence-entity-view-api-jakarta</artifactId>
+            <version>${blaze-persistence.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.blazebit</groupId>
+            <artifactId>blaze-persistence-entity-view-impl-jakarta</artifactId>
+            <version>${blaze-persistence.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
