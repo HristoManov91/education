@@ -220,7 +220,9 @@ class PostgresHibernatePerformanceIT {
 
     private void executePreparedInsertBatch(String tableName, boolean rewriteBatchedInserts)
             throws SQLException {
-        String url = POSTGRES.getJdbcUrl() + "?reWriteBatchedInserts=" + rewriteBatchedInserts;
+        String baseUrl = POSTGRES.getJdbcUrl();
+        String separator = baseUrl.contains("?") ? "&" : "?";
+        String url = baseUrl + separator + "reWriteBatchedInserts=" + rewriteBatchedInserts;
         try (Connection connection = DriverManager.getConnection(
                 url, POSTGRES.getUsername(), POSTGRES.getPassword())) {
             connection.setAutoCommit(false);
@@ -255,7 +257,7 @@ class PostgresHibernatePerformanceIT {
 
             long copiedRows = connection.unwrap(PGConnection.class).getCopyAPI().copyIn(
                     "COPY copy_transaction_probe (id, label) FROM STDIN WITH (FORMAT csv)",
-                    new StringReader("1,alpha\\n2,beta\\n"));
+                    new StringReader("1,alpha\n2,beta\n"));
 
             assertThat(copiedRows).isEqualTo(2L);
             assertThat(countRows(statement)).isEqualTo(2L);
