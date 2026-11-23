@@ -58,6 +58,10 @@
 | JDBC batch vs prepared statement count | [application.properties](src/main/resources/application.properties) | Hibernate SessionEventListener + Postgres IT |
 | L2 + Query Cache + direct JDBC invalidation | [CachedCatalogItem](src/main/java/bg/hristomanov/education/hperf/domain/CachedCatalogItem.java) | [HibernateCacheLabTest](src/test/java/bg/hristomanov/education/hperf/HibernateCacheLabTest.java) |
 | Spring Data Page vs Slice | [Repo](src/main/java/bg/hristomanov/education/hperf/repository/PerfOrderRepository.java) | H2 SQL-count comparison |
+| StatelessSession insertMultiple / no cascade | Hibernate 7.4 `StatelessSession` | PostgreSQL IT: generated IDs, rows and explicit child insert contract |
+| pgJDBC batch rewrite | `reWriteBatchedInserts` connection property | PostgreSQL `pg_stat_statements` calls: 64 plain vs fewer rewritten executions |
+| PostgreSQL COPY transaction | pgJDBC `CopyManager` | PostgreSQL IT: 2 rows visible before rollback, 0 after |
+| Blaze nested Entity Views + parent pagination | [BlazeCustomerView](src/test/java/bg/hristomanov/education/hperf/blaze/BlazeCustomerView.java) / [BlazeOrderView](src/test/java/bg/hristomanov/education/hperf/blaze/BlazeOrderView.java) | [BlazeEntityViewTest](src/test/java/bg/hristomanov/education/hperf/BlazeEntityViewTest.java), H2/Hibernate 7.4; test-scope dependency only |
 
 ## 4. Как се стартира
 
@@ -70,7 +74,7 @@ mvn -pl persistence/specification-querydsl test
 mvn -pl persistence/hibernate-performance -Ppostgres-integration verify
 ~~~
 
-Testcontainers ITs (`*IT.java`) **не са част от default Surefire**; Failsafe се включва само от explicit profile. [Таргетиран GitHub Actions workflow](../../.github/workflows/vlad-hibernate-performance.yml) се пуска само при релевантни промени и проверява XML reports/брой изпълнени tests. Общият root Maven reactor продължава с H2-only tests.
+Testcontainers ITs (`*IT.java`) **не са част от default Surefire**; Failsafe се включва само от explicit profile. [Таргетиран GitHub Actions workflow](../../.github/workflows/vlad-hibernate-performance.yml) се пуска само при релевантни промени и проверява XML reports/брой изпълнени tests. Blaze-Persistence 1.6.20 е добавен единствено в test scope, за да не влиза в production dependency graph. Общият root Maven reactor продължава с H2-only tests.
 
 ## 5. Граници на експериментите
 
