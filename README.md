@@ -104,6 +104,12 @@ education/
 
 Структурата ще се разширява постепенно според реалните теми, вместо предварително да създаваме празни директории.
 
+## Свързани лекции: Spring Boot Reads & Writes (Vlad Mihalcea / Jos Roseboom)
+
+- [**Spring Boot Performance Engineering — Optimizing Writes & Reads**](persistence/hibernate-performance/docs/WEBINAR-READ-WRITE-PERFORMANCE.md) — разбор по **реалните английски субтитри на двете видеа**, PetClinic demo branches, JDBC batching/`IDENTITY`/`SEQUENCE`, PostgreSQL rewrite/COPY, StatelessSession, N+1, Blaze Entity Views, keyset; решения, trade-offs и честно измерване.
+- [Упражнения и H2/PostgreSQL тестове](persistence/hibernate-performance/WEBINAR-EXERCISES.md) · [NotebookLM аудио prompt](persistence/hibernate-performance/NOTEBOOKLM-READ-WRITE-WEBINAR.md) · [PostgreSQL COPY rollback SQL demo](persistence/hibernate-performance/sql/copy-transaction-demo.sql).
+- Оригинални видеа: [Writes](https://youtu.be/p4-8gRoIaAg) и [Reads](https://youtu.be/r_Akpdq5tUw). **„25×“ е demo claim, не наше измерване**; новата глава преизползва наличните runnable лаборатории, без излишно копиране на код.
+
 ## Лаборатории
 
 ### Database / SQL — Vlad Mihalcea
