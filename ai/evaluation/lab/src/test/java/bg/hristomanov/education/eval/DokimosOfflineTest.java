@@ -18,10 +18,10 @@ class DokimosOfflineTest {
         var observed = Map.of("venue", "HALL_A", "parking", "AVAILABLE");
         var result = Experiment.builder().name("exact-label-negative-control")
                 .dataset(dataset).task(example -> Map.of("output", observed.get(example.input())))
-                .evaluators(ExactMatchEvaluator.builder().build()).build().run();
+                .evaluator(ExactMatchEvaluator.builder().build()).build().run();
         assertEquals(2, result.totalCount());
-        assertEquals(1, result.passCount());
-        assertEquals(1, result.failCount());
+        assertEquals(1.0, result.passCount(), 1e-12);
+        assertEquals(1.0, result.failCount(), 1e-12);
         assertEquals(.5, result.passRate(), 1e-12);
     }
 }

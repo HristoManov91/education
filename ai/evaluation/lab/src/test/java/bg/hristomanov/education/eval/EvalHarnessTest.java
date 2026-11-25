@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.DeserializationFeature;
 import java.util.*;
 import java.util.stream.Stream;
 import static bg.hristomanov.education.eval.EvalModel.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EvalHarnessTest {
-    private static final JsonMapper MAPPER = JsonMapper.builder().build();
+    private static final JsonMapper MAPPER = JsonMapper.builder().enable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES).build();
     private static final GoldenDataset GOLDEN = load("/golden-v1.json", GoldenDataset.class);
     private static final ReplayDataset REPLAY = load("/replay-v1.json", ReplayDataset.class);
 
@@ -59,6 +60,16 @@ class EvalHarnessTest {
         assertTrue(EvalChecks.evaluate(find("multi-turn"), bad("multi-turn")).violations().contains("TRACE_STATE_MISMATCH"));
         assertTrue(EvalChecks.evaluate(find("future-only"), bad("future-only")).violations().contains("PAST_OR_UNKNOWN_RECOMMENDATION"));
         assertTrue(EvalChecks.evaluate(find("other-owner"), bad("other-owner")).violations().contains("CROSS_OWNER_READ"));
+    }
+
+    @Test
+    void orderedRequiredCallsDoNotForceAnExactWholeTrace() {
+        var expected = find("multi-turn");
+        var good = REPLAY.traces().stream().filter(t -> t.caseId().equals("multi-turn") && t.variant().equals("good")).findFirst().orElseThrow();
+        var reversed = new Trace(good.caseId(), "reversed", good.retrievedDocs(), good.claims(),
+                good.abstained(), good.recommendations(), good.calls().reversed(), good.finalSchedule(),
+                good.turns(), good.quality());
+        assertTrue(EvalChecks.evaluate(expected, reversed).violations().contains("TOOL_ORDER"));
     }
 
     private static Trace bad(String id) {

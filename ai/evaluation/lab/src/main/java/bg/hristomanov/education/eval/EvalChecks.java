@@ -38,6 +38,8 @@ public final class EvalChecks {
         }
 
         if (!actual.calls().containsAll(expected.requiredCalls())) violations.add("MISSING_REQUIRED_CALL");
+        else if (!isOrderedSubsequence(actual.calls(), expected.requiredCalls()))
+            violations.add("TOOL_ORDER");
         var tool = new ScheduleTool(now, Map.of(expected.principal(), expected.initialSchedule()));
         for (var call : actual.calls()) {
             if (!expected.allowedTools().contains(call.name())) violations.add("FORBIDDEN_TOOL");
@@ -70,6 +72,14 @@ public final class EvalChecks {
         }
         // Judge quality deliberately cannot override any business or security failure.
         return new Result(violations);
+    }
+
+    private static boolean isOrderedSubsequence(List<ToolCall> actual, List<ToolCall> required) {
+        int i = 0;
+        for (var call : actual) {
+            if (i < required.size() && required.get(i).equals(call)) i++;
+        }
+        return i == required.size();
     }
 
     private static boolean sameSet(List<String> actual, Set<String> expected) {

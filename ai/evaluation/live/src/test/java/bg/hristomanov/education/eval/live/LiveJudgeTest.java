@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
+import tools.jackson.databind.json.JsonMapper;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ class LiveJudgeTest {
         String judgeName = required("EVAL_JUDGE_MODEL");
         var agent = model(key, agentName);
         var grader = model(key, judgeName);
-        JudgeLM judge = prompt -> invoke(grader, prompt);
+        JudgeLM judge = prompt -> validateJudgeJson(invoke(grader, prompt));
 
         // Frozen human-authored labels; repeat on the same fixtures to expose instability.
         int falsePasses = 0, correct = 0;
@@ -48,21 +49,48 @@ class LiveJudgeTest {
                 .addExample(Example.of(QUESTION, GOOD)).build();
         var result = Experiment.builder().name("live-agent").dataset(data)
                 .task(example -> Map.of("output", invoke(agent, example.input())))
-                .evaluators(evaluator(judge)).build().run();
-        System.out.printf("Calibration agreement: %d/4; false passes: %d/2; live pass: %d/%d; calls: %d%n",
+                .evaluator(evaluator(judge)).build().run();
+        System.out.printf("Calibration agreement: %d/4; false passes: %d/2; live pass: %.0f/%d; calls: %d%n",
                 correct, falsePasses, result.passCount(), result.totalCount(), calls.get());
         assertEquals(1, result.totalCount());
         assertEquals(4, correct, "Tiny calibration smoke failed; inspect judge, do not retry until pass");
         assertEquals(0, falsePasses);
-        assertEquals(1, result.passCount(), "Live agent failed its quality rubric");
+        assertTrue(validatedPass(result), "Live agent failed its quality rubric");
     }
 
     private boolean scoreFixed(JudgeLM judge, String frozenAnswer) {
         var data = Dataset.builder().name("frozen-judge-case").addExample(Example.of(QUESTION, GOOD)).build();
         var result = Experiment.builder().dataset(data)
-                .task(example -> Map.of("output", frozenAnswer)).evaluators(evaluator(judge)).build().run();
+                .task(example -> Map.of("output", frozenAnswer)).evaluator(evaluator(judge)).build().run();
         assertEquals(1, result.totalCount());
-        return result.passCount() == 1;
+        return validatedPass(result);
+    }
+
+    // Do not let a library-level failure or coerced nonnumeric value masquerade as a negative verdict.
+    static String validateJudgeJson(String response) {
+        var node = JsonMapper.builder().build().readTree(response);
+        if (node == null || !node.isObject()) throw new IllegalArgumentException("Judge must return JSON object");
+        var score = node.get("score");
+        var reason = node.get("reason");
+        if (score == null || !score.isNumber() || !Double.isFinite(score.asDouble())
+                || score.asDouble() < 0 || score.asDouble() > 1 || reason == null
+                || !reason.isTextual() || reason.asText().isBlank())
+            throw new IllegalArgumentException("Malformed judge verdict");
+        return response;
+    }
+
+    private boolean validatedPass(ExperimentResult result) {
+        assertEquals(1, result.itemResults().size());
+        var item = result.itemResults().getFirst();
+        assertTrue(item.actualOutputs().containsKey("output"), "Task failed or has no output");
+        assertEquals(1, item.evalResults().size());
+        var grade = item.evalResults().getFirst();
+        assertNotNull(grade.threshold(), "Judge error / missing threshold: " + grade.reason());
+        assertEquals(.8, grade.threshold(), 1e-12);
+        assertTrue(Double.isFinite(grade.score()) && grade.score() >= 0 && grade.score() <= 1);
+        assertNotNull(grade.reason(), "Missing judge rationale");
+        assertEquals(grade.score() >= .8, grade.success());
+        return grade.success();
     }
 
     private Evaluator evaluator(JudgeLM judge) {

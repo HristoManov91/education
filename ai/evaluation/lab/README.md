@@ -7,7 +7,7 @@ A conference assistant can return fluent but invalid results. We evaluate separa
 | What | Code | Proof |
 | --- | --- | --- |
 | Domain and typed trace | [EvalModel](src/main/java/bg/hristomanov/education/eval/EvalModel.java) | [EvalHarnessTest](src/test/java/bg/hristomanov/education/eval/EvalHarnessTest.java) |
-| Independent hard checks | [EvalChecks](src/main/java/bg/hristomanov/education/eval/EvalChecks.java) | same harness, 20 replay invocations plus 3 checks |
+| Independent hard checks | [EvalChecks](src/main/java/bg/hristomanov/education/eval/EvalChecks.java) | same harness, 20 replay invocations plus 4 checks |
 | Trusted tool authorization, adjacency/overlap, state | [ScheduleTool](src/main/java/bg/hristomanov/education/eval/ScheduleTool.java) | [ScheduleToolTest](src/test/java/bg/hristomanov/education/eval/ScheduleToolTest.java) |
 | Retrieval/calibration/trial metrics | [EvalMetrics](src/main/java/bg/hristomanov/education/eval/EvalMetrics.java) | [EvalMetricsTest](src/test/java/bg/hristomanov/education/eval/EvalMetricsTest.java) |
 | Hard gate, per-slice regression and call budget | [ReleaseGate](src/main/java/bg/hristomanov/education/eval/ReleaseGate.java) | [ReleaseGateTest](src/test/java/bg/hristomanov/education/eval/ReleaseGateTest.java) |
@@ -19,7 +19,7 @@ JDK25, Maven; dependency download required on cold cache, no live model/DB/serve
 
     mvn -B --no-transfer-progress -pl ai/evaluation/lab test
 
-Default root verify also includes this module. Expected: 39 JUnit invocations (20 parameterized replay, 3 harness, 5 tool, 5 metrics, 5 gate, 1 Dokimos). Counts are design inventory until CI reports execution.
+Default root verify also includes this module. Expected: 40 JUnit invocations (20 parameterized replay, 4 harness, 5 tool, 5 metrics, 5 gate, 1 Dokimos). Counts are design inventory until CI reports execution.
 
 ## Walkthrough
 

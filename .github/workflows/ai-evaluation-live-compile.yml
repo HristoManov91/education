@@ -1,0 +1,27 @@
+name: AI Evaluation Live Compile
+on:
+  pull_request:
+    paths:
+      - 'ai/evaluation/live/**'
+      - '.github/workflows/ai-evaluation-live-compile.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ai/evaluation/live/**'
+      - '.github/workflows/ai-evaluation-live-compile.yml'
+permissions:
+  contents: read
+jobs:
+  compile-live-without-model-calls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+          cache-dependency-path: ai/evaluation/live/pom.xml
+      - name: Compile opt-in test sources only
+        run: mvn -B --no-transfer-progress -f ai/evaluation/live/pom.xml test-compile
