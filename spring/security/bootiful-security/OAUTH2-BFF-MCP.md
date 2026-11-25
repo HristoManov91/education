@@ -223,6 +223,10 @@ MCP Server --verified identity + scopes + ownership policy--> appointments
 
 Следващи практически стъпки: [EXERCISES.md](EXERCISES.md).
 
+## Свързана лаборатория: cross-cloud IAM
+
+[Distributed IAM & Security](../../../system-design/cloud-architecture/05-DISTRIBUTED-IAM.md) — реално подписани JWT, JWKS cold/warm cache, IdP outage, token type/issuer/audience, key rotation и introspection. [Lab](../../../system-design/cloud-architecture/lab/README.md).
+
 ## Оригинални източници
 
 - [Bootiful Security — Devoxx 2026](https://www.youtube.com/watch?v=W-OKVLMtPAw), мин. ~27–50.

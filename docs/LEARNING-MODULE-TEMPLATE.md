@@ -73,6 +73,10 @@ Good решение
 
 Когато помага, добави ASCII diagram / before-after flow още тук.
 
+### Визуално обяснение (правило за всички нови/разширявани уроци)
+
+При архитектура, request/event flow, lifecycle, data/transaction boundaries, threading, failure modes, алгоритъм или сравнение преди/след, **когато схема подобрява разбирането**, включи я директно в учебния Markdown до обяснението. Предпочитай GitHub-renderable Mermaid (`flowchart`, `sequenceDiagram`, `stateDiagram-v2`, `classDiagram` според задачата); ASCII за кратки flows или fallback. Не оставяй схемата само в chat или screenshot. Етикетирай arrows, owners, sync/async, failure path, trust/deployment boundaries; добави текстово обяснение и опиши assumptions/limits. Схемата трябва да съвпада с кода, тестовете и източника; авторска адаптация ≠ оригинален slide. При промяна на behavior обнови и схемата. Не добавяй декоративни диаграми без учебна стойност. В review проверявай синтаксиса/rendering, ако tooling го позволява, и дали diagram/source/test не си противоречат.
+
 ## 2. Защо този проблем е важен
 
 Обясни **цената на проблема**, не само техническата му причина.
