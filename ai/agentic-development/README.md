@@ -40,6 +40,8 @@ MERGE / RESULT
 
 ---
 
+**Общ AI hub:** [AI Engineering](../README.md). За решения преди implementation, refactoring/archaeology и evidence-driven adoption виж [AI-Era Software Engineering](../decision-engineering/README.md).
+
 # Реалният проблем
 
 Наивният начин за работа е:

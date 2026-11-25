@@ -338,6 +338,12 @@ education/
 
 - [Semantic Caching — exact vs semantic cache, thresholds и context isolation](spring/ai/semantic-caching/README.md)
 
+### AI / Engineering — дългосрочна база знания
+
+- [**AI Engineering — общ индекс, актуализиране и регистър на източниците**](ai/README.md)
+  - [P1/P2 AI-Era Software Engineering — decisions, refactoring, archaeology, team interactions, ROI](ai/decision-engineering/README.md)
+  - [AI knowledge maintenance](ai/KNOWLEDGE-MAINTENANCE.md) · [Source register](ai/SOURCE-REGISTER.md)
+
 ### AI / Agentic Development
 
 - **[P1 Modern Java 25 Code Review Contract за coding agents](ai/agentic-development/MODERN-JAVA-REVIEW-CONTRACT.md)** — semantics, security, tools, независими тестове и compatibility
