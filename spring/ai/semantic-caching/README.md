@@ -789,6 +789,10 @@ mvn -pl spring/ai/semantic-caching -am test
 
 ---
 
+# Свързано: AI Evaluation
+
+[Golden datasets and RAG evaluation](../../../ai/evaluation/05-RAG-EVALUATION.md), [continuous eval](../../../ai/evaluation/10-CONTINUOUS-EVAL.md): измерване на retrieval/generation отделно от cache correctness; не дублираме този lab.
+
 # Оригинални източници
 
 - Inside Java / JavaOne — Caching for Agentic Java Systems: Internal, Distributed, and Semantic:  

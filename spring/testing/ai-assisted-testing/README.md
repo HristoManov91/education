@@ -97,6 +97,10 @@ mvn -pl spring/testing/ai-assisted-testing -Pmutation-chunking test pitest:mutat
 
 Test suite = **fast & trustworthy feedback**, не процент coverage. Освен нея са нужни добри deployments: feature flags, metrics, alerts, rollback и runbooks.
 
+## Свързано: оценяване на самото AI приложение
+
+[AI Evaluation — EDD](../../../ai/evaluation/README.md) е отделна тема за runtime LLM/RAG/tool behavior. Тук тестваме кода, включително AI-generated code; там добавяме behavioral evals. Двата вида проверки се допълват.
+
 ## Оригинални източници
 
 1. [Philip Riecks, Devoxx — Prompt It Right: Spring Boot Testing in the AI Era](https://www.youtube.com/watch?v=d6D8nef-32c)
