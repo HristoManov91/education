@@ -170,6 +170,8 @@
 
 ## P1 — System Design & Software Architecture — end-to-end design track
 
+**Cloud architecture extension (CA-01–08):** [Cloud Architecture](../../system-design/cloud-architecture/README.md) — topology, exit strategy, failure/degradation, DR, IAM, ownership/replay, FinOps и unified observability. След SD prerequisites; [cases](../../system-design/cloud-architecture/EXERCISES.md), [runnable lab](../../system-design/cloud-architecture/lab/README.md). Няма записани оценки.
+
 **Нов централен учебен курс:** [System Design & Architecture (SD-01–SD-16)](../../system-design/README.md), [Requirements/SLO](../../system-design/01-REQUIREMENTS-SLOS.md), [Capacity + Java25 tests](../../system-design/capacity-lab/README.md), [Architecture Styles](../../system-design/03-STYLES-BOUNDARIES.md), [Data/Consistency](../../system-design/04-DATA-COMMUNICATION.md), [Failure/Operations](../../system-design/05-FAILURE-AND-OPERATIONS.md), [C4/ADR](../../system-design/06-C4-ADR-REVIEWS.md), [End-to-End reporting capstone](../../system-design/07-REPORTING-PLATFORM-CASE.md).
 
 **Проверяваме:** SD-01/02 NFR + SLI/SLO; SD-03/04/05 peak RPS, mean concurrency, measured vs estimated capacity; SD-06/07 modulith vs microservices/domain ownership; SD-08/09 sync/async, consistency, DB query models; SD-10/11/12/13 overload, retries, RTO/RPO and threat boundaries; SD-14/15 C4/ADR/fitness; SD-16 full system design. [16 сценарни въпроса](../../system-design/ASSESSMENT-CASES.md) — един по един, без предварителен отговор.

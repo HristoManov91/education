@@ -379,6 +379,8 @@ education/
 
 ### System Design & Software Architecture (P1) — end-to-end
 
+- [**Cloud Architecture — Resilience, Portability & Multi-Cloud (CA-01–08)**](system-design/cloud-architecture/README.md): deployment, boundaries, cross-cloud reliability, DR, IAM, data sync, FinOps и observability; [Java/Spring tests](system-design/cloud-architecture/lab/README.md).
+
 - [**System Design & Architecture Track — 16 микро-теми**](system-design/README.md): от NFR/SLO и traffic estimates до architecture choices, boundaries, failure models и ADR
   - [1. Requirements, SLIs/SLOs, error budgets](system-design/01-REQUIREMENTS-SLOS.md)
   - [2. Capacity planning, throughput, Little's Law](system-design/02-CAPACITY-PERFORMANCE.md)

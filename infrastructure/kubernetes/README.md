@@ -177,6 +177,10 @@ Spring Boot конфигурацията и Deployment probes са в един �
 
 **Изходен checkpoint:** Обясни разликата между Java `OutOfMemoryError` и Kubernetes `OOMKilled`, кога да използваш readiness, какво става при SIGTERM и защо `maxUnavailable:0` не е универсален zero-downtime договор. Продължи с [Operations](OPERATIONS.md) и [JVM in containers](../../java/jvm/performance-evolution/JVM-IN-CONTAINERS.md).
 
+## Свързана архитектурна тема
+
+[Cloud boundaries & vendor lock-in](../../system-design/cloud-architecture/02-BOUNDARIES-PORTABILITY.md) — защо OCI/Kubernetes portability не премахва provider-specific IAM, networking, storage и exit cost.
+
 ## Оригинални източници
 
 - [Devoxx 2026 — Kubernetes for Developers](https://www.youtube.com/watch?v=AxhLQZqZdIg), предоставен SRT (47 мин).

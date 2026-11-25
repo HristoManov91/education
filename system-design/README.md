@@ -49,6 +49,10 @@
 | SD-15 / P1 | ADRs, trade-offs, architecture fitness functions | Пиша decision с alternatives и revisit trigger | [Architecture communication](06-C4-ADR-REVIEWS.md) |
 | SD-16 / P1 | End-to-end design & senior interview/code review | Защитавам конкретна архитектура с failure/cost rationale | [Reporting platform case study](07-REPORTING-PLATFORM-CASE.md) |
 
+### P1/P2 extension — Cloud Architecture
+
+[CA-01–CA-08: Resilience, Portability & Multi-Cloud Engineering](cloud-architecture/README.md) — продължение на SD-03/07/08/11/12/13/14/15, осем глави, diagrams и [Java/Spring lab](cloud-architecture/lab/README.md). [Exercises](cloud-architecture/EXERCISES.md) и [evidence](cloud-architecture/SOURCES-AND-EVIDENCE.md).
+
 ### Задължителни prerequisites и вече готови лаборатории
 
 | Въпрос | Съществуващ модул — **не дублираме** |
