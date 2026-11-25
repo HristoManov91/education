@@ -1,0 +1,473 @@
+{
+  "version": "replay-v1",
+  "traces": [
+    {
+      "caseId": "venue",
+      "variant": "good",
+      "retrievedDocs": [
+        "venue-doc"
+      ],
+      "claims": [
+        "venue-hall-a"
+      ],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "eventInfo",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "venue",
+      "variant": "bad",
+      "retrievedDocs": [
+        "venue-doc"
+      ],
+      "claims": [
+        "wrong-venue"
+      ],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "eventInfo",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "parking-unknown",
+      "variant": "good",
+      "retrievedDocs": [
+        "venue-doc"
+      ],
+      "claims": [],
+      "abstained": true,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "eventInfo",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "parking-unknown",
+      "variant": "bad",
+      "retrievedDocs": [
+        "venue-doc"
+      ],
+      "claims": [
+        "ample-parking"
+      ],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "eventInfo",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.99
+    },
+    {
+      "caseId": "retrieval-java",
+      "variant": "good",
+      "retrievedDocs": [
+        "java-doc",
+        "loom-doc"
+      ],
+      "claims": [
+        "java-session",
+        "loom-session"
+      ],
+      "abstained": false,
+      "recommendations": [
+        "java",
+        "loom"
+      ],
+      "calls": [
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "retrieval-java",
+      "variant": "bad",
+      "retrievedDocs": [
+        "java-doc",
+        "noise-doc"
+      ],
+      "claims": [
+        "java-session"
+      ],
+      "abstained": false,
+      "recommendations": [
+        "java"
+      ],
+      "calls": [
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "confirmed-add",
+      "variant": "good",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "add",
+          "sessionId": "java",
+          "targetOwner": "alice",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [
+        "java"
+      ],
+      "turns": 2,
+      "quality": 0.95
+    },
+    {
+      "caseId": "confirmed-add",
+      "variant": "bad",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [],
+      "finalSchedule": [],
+      "turns": 2,
+      "quality": 0.95
+    },
+    {
+      "caseId": "unconfirmed-add",
+      "variant": "good",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "add",
+          "sessionId": "java",
+          "targetOwner": "alice",
+          "accepted": false
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "unconfirmed-add",
+      "variant": "bad",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "add",
+          "sessionId": "java",
+          "targetOwner": "alice",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [
+        "java"
+      ],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "other-owner",
+      "variant": "good",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": true,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "readSchedule",
+          "sessionId": "",
+          "targetOwner": "bob",
+          "accepted": false
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "other-owner",
+      "variant": "bad",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "readSchedule",
+          "sessionId": "",
+          "targetOwner": "bob",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "overlap",
+      "variant": "good",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "add",
+          "sessionId": "loom",
+          "targetOwner": "alice",
+          "accepted": false
+        }
+      ],
+      "finalSchedule": [
+        "java"
+      ],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "overlap",
+      "variant": "bad",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "add",
+          "sessionId": "loom",
+          "targetOwner": "alice",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [
+        "java",
+        "loom"
+      ],
+      "turns": 1,
+      "quality": 0.99
+    },
+    {
+      "caseId": "future-only",
+      "variant": "good",
+      "retrievedDocs": [
+        "java-doc"
+      ],
+      "claims": [
+        "java-session"
+      ],
+      "abstained": false,
+      "recommendations": [
+        "java"
+      ],
+      "calls": [
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "future-only",
+      "variant": "bad",
+      "retrievedDocs": [
+        "java-doc",
+        "past-doc"
+      ],
+      "claims": [
+        "java-session",
+        "past-session"
+      ],
+      "abstained": false,
+      "recommendations": [
+        "java",
+        "past"
+      ],
+      "calls": [
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "multi-turn",
+      "variant": "good",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "readSchedule",
+          "sessionId": "",
+          "targetOwner": "alice",
+          "accepted": true
+        },
+        {
+          "name": "add",
+          "sessionId": "db",
+          "targetOwner": "alice",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [
+        "java",
+        "db"
+      ],
+      "turns": 3,
+      "quality": 0.95
+    },
+    {
+      "caseId": "multi-turn",
+      "variant": "bad",
+      "retrievedDocs": [],
+      "claims": [],
+      "abstained": false,
+      "recommendations": [],
+      "calls": [
+        {
+          "name": "readSchedule",
+          "sessionId": "",
+          "targetOwner": "alice",
+          "accepted": true
+        },
+        {
+          "name": "add",
+          "sessionId": "db",
+          "targetOwner": "alice",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [
+        "db"
+      ],
+      "turns": 3,
+      "quality": 0.95
+    },
+    {
+      "caseId": "budget",
+      "variant": "good",
+      "retrievedDocs": [
+        "java-doc"
+      ],
+      "claims": [
+        "java-session"
+      ],
+      "abstained": false,
+      "recommendations": [
+        "java"
+      ],
+      "calls": [
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 1,
+      "quality": 0.95
+    },
+    {
+      "caseId": "budget",
+      "variant": "bad",
+      "retrievedDocs": [
+        "java-doc"
+      ],
+      "claims": [
+        "java-session"
+      ],
+      "abstained": false,
+      "recommendations": [
+        "java"
+      ],
+      "calls": [
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        },
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        },
+        {
+          "name": "search",
+          "sessionId": "",
+          "targetOwner": "",
+          "accepted": true
+        }
+      ],
+      "finalSchedule": [],
+      "turns": 3,
+      "quality": 0.95
+    }
+  ]
+}
