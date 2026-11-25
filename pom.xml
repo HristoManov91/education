@@ -47,6 +47,7 @@
         <module>system-design/capacity-lab</module>
         <module>system-design/cloud-architecture/lab</module>
         <module>ai/decision-engineering/lab</module>
+        <module>ai/evaluation/lab</module>
         <module>database/sql-labs</module>
         <module>database/transaction-labs</module>
         <module>persistence/hibernate-performance</module>
@@ -64,4 +65,12 @@
         <module>spring/architecture/strategic-ddd</module>
         <module>spring/architecture/event-sourcing</module>
     </modules>
+    <profiles>
+        <profile>
+            <id>live-evals</id>
+            <modules>
+                <module>ai/evaluation/live</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

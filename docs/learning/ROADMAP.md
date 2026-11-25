@@ -15,7 +15,7 @@
 | **P1** | Algorithms & Data Structures | Основи, след това по-дълбоки задачи и общи тестове |
 | **P1** | Caching / Redis | Eviction, consistency, distributed caching |
 | **P1** | Containers / Kubernetes / CI / Testcontainers (advanced) | [Kubernetes for Java lab](../../infrastructure/kubernetes/README.md): Pod, Service, probes, rollout, security, resource limits; [image hardening](../../spring/testing/testcontainers/JAVA-IMAGE-HARDENING.md) и JVM в container |
-| **P1** | [AI Engineering](../../ai/README.md) | Безопасна, проверима и възпроизводима AI работа; [decision engineering](../../ai/decision-engineering/README.md) |
+| **P1** | [AI Engineering](../../ai/README.md) | Безопасна AI работа; [decision engineering](../../ai/decision-engineering/README.md); [AI application evaluation AE-01–10](../../ai/evaluation/README.md) |
 | **P2** | Design Patterns / Advanced Architecture | Усъвършенстване след ключовите основи |
 
 **P2 Design Patterns Mastery Track:** [25 микро-теми DP-01–DP-25](../../design-patterns/MASTERY-TRACK.md) (22 каталожни patterns + GoF Interpreter + Null Object + Data Mapper), [diagnostic cases](../../design-patterns/ASSESSMENT-CASES.md), [refactoring katas](../../design-patterns/REFACTORING-KATAS.md), [Java advanced lab](../../design-patterns/advanced/README.md) и [Spring Boot capstone](../../design-patterns/mastery-lab/README.md). **Не присвоявай оценка по броя прочетени/мърджнати файлове.** Първо самостоятелен отговор, после запис в PROGRESS и D+1/D+7/D+30.

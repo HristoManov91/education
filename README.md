@@ -344,6 +344,8 @@ education/
   - [P1/P2 AI-Era Software Engineering — decisions, refactoring, archaeology, team interactions, ROI](ai/decision-engineering/README.md)
   - [AI knowledge maintenance](ai/KNOWLEDGE-MAINTENANCE.md) · [Source register](ai/SOURCE-REGISTER.md)
 
+- [**P1 AI Evaluation — Eval-Driven Development (AE-01–10)**](ai/evaluation/README.md): golden datasets, deterministic/Dokimos, judges, RAG, tools, security, feedback and CI; [offline Java lab](ai/evaluation/lab/README.md), [opt-in live](ai/evaluation/live/README.md).
+
 ### AI / Agentic Development
 
 - **[P1 Modern Java 25 Code Review Contract за coding agents](ai/agentic-development/MODERN-JAVA-REVIEW-CONTRACT.md)** — semantics, security, tools, независими тестове и compatibility
