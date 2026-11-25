@@ -45,6 +45,7 @@
         <module>spring/ai/semantic-caching</module>
         <module>design-patterns</module>
         <module>system-design/capacity-lab</module>
+        <module>ai/decision-engineering/lab</module>
         <module>database/sql-labs</module>
         <module>database/transaction-labs</module>
         <module>persistence/hibernate-performance</module>
