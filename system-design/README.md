@@ -2,6 +2,8 @@
 
 > **P1 · Mid → Early Senior · учебна програма с практическо мислене, ADR, диаграми, executable Java 25 lab и казуси.** Това НЕ е още един каталог с „сложи Kafka / Redis / Kubernetes“. **Статус:** началният системен curriculum е разработен; наличните модули за DDD/CQRS/Saga/DB/Redis/Testing вече съществуват. Наличието на материал/CI ≠ лична диагностика на обучавания.
 
+**Свързано направление:** [AI decision engineering](../ai/decision-engineering/README.md) — hypotheses, reversible decisions, legacy discovery и organization bottlenecks; не дублира системните NFR/ADR/capacity labs.
+
 ## Проблемът: знам архитектурни технологии, но мога ли да проектирам система?
 
 Услугата за административни справки започва като един Spring Boot application с Oracle база. Нарастват заявките, справките стават бавни, export jobs заемат threads и DB connections. Един екип предлага Kafka и микросървиси, друг — повече Redis, трети — „просто още CPU“.
