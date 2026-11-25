@@ -24,7 +24,7 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Timeout(90)
-class PublicationRegistryTest {
+public class PublicationRegistryTest {
     @TempDir Path directory;
 
     // Public record with stable serialized fields, no event instance kept across contexts.
@@ -55,7 +55,7 @@ class PublicationRegistryTest {
         private final JdbcTemplate jdbc;
         private final AtomicBoolean fail = new AtomicBoolean();
         Listener(JdbcTemplate jdbc) { this.jdbc=jdbc; }
-        void failNextAttempts(boolean value) { fail.set(value); }
+        public void failNextAttempts(boolean value) { fail.set(value); }
 
         @ApplicationModuleListener
         public void project(OrderPlaced event) {
@@ -70,6 +70,7 @@ class PublicationRegistryTest {
         var context = new SpringApplicationBuilder(App.class).web(WebApplicationType.NONE)
                 .properties("spring.datasource.url="+url, "spring.datasource.username=sa",
                         "spring.modulith.events.jdbc.schema-initialization.enabled=true",
+                        "spring.modulith.events.jdbc.use-legacy-structure=false",
                         "spring.modulith.events.republish-outstanding-events-on-restart=false",
                         "spring.modulith.events.completion-mode=update",
                         "spring.main.banner-mode=off")

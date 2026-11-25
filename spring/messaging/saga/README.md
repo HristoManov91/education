@@ -401,6 +401,10 @@ OrderCreated
 
 ---
 
+# P1 extension — hybrid coordination
+
+[EC-02 Hybrid Saga](../integration-patterns/consistency/02-HYBRID-SAGA.md) separates critical workflow owner from independent reactions; [three-axis matrix](../integration-patterns/consistency/01-DECISION-MATRIX.md). Pure workflow model complements existing persistent Saga.
+
 # Saga vs distributed transaction
 
 Saga избира:

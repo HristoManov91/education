@@ -170,6 +170,8 @@
 
 ## P1 — System Design & Software Architecture — end-to-end design track
 
+**Event-driven consistency extension (EC-01–08):** [8 chapters](../../spring/messaging/integration-patterns/consistency/README.md), [failure matrix](../../spring/messaging/integration-patterns/consistency/08-FAILURE-TESTING.md), [lab](../../spring/messaging/integration-patterns/consistency/lab/README.md). No mastery scores assigned.
+
 **Cloud architecture extension (CA-01–08):** [Cloud Architecture](../../system-design/cloud-architecture/README.md) — topology, exit strategy, failure/degradation, DR, IAM, ownership/replay, FinOps и unified observability. След SD prerequisites; [cases](../../system-design/cloud-architecture/EXERCISES.md), [runnable lab](../../system-design/cloud-architecture/lab/README.md). Няма записани оценки.
 
 **Нов централен учебен курс:** [System Design & Architecture (SD-01–SD-16)](../../system-design/README.md), [Requirements/SLO](../../system-design/01-REQUIREMENTS-SLOS.md), [Capacity + Java25 tests](../../system-design/capacity-lab/README.md), [Architecture Styles](../../system-design/03-STYLES-BOUNDARIES.md), [Data/Consistency](../../system-design/04-DATA-COMMUNICATION.md), [Failure/Operations](../../system-design/05-FAILURE-AND-OPERATIONS.md), [C4/ADR](../../system-design/06-C4-ADR-REVIEWS.md), [End-to-End reporting capstone](../../system-design/07-REPORTING-PLATFORM-CASE.md).

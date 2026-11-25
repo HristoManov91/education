@@ -58,6 +58,7 @@
         <module>spring/reliability/fault-tolerance</module>
         <module>spring/messaging/outbox-inbox</module>
         <module>spring/messaging/integration-patterns</module>
+        <module>spring/messaging/integration-patterns/consistency/lab</module>
         <module>spring/messaging/saga</module>
         <module>spring/events/domain-events</module>
         <module>spring/architecture/cqrs</module>
@@ -70,6 +71,12 @@
             <id>live-evals</id>
             <modules>
                 <module>ai/evaluation/live</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>consistency-kafka</id>
+            <modules>
+                <module>spring/messaging/integration-patterns/consistency/kafka-lab</module>
             </modules>
         </profile>
     </profiles>

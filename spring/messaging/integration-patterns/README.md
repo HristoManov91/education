@@ -38,6 +38,10 @@ Separately, our SaaS has 20 tenants sharing a queue. One tenant can publish a hu
 
 [Everyday JSON / JEP540 JDK28 EA](../../../java/experiments/jdk28-simple-json/README.md) и [Java25 `JsonBoundaryCorrectnessTest`](src/test/java/bg/hristomanov/education/integrationpatterns/json/JsonBoundaryCorrectnessTest.java) добавят **11 JUnit проверки на Jackson 3** за duplicate JSON keys, missing vs explicit null, opt-in comments/trailing commas, BigDecimal vs lossy `double` и domain validation. JEP540 кодът е **отделен JDK28 EA експеримент**; нашата Spring Boot/Maven production база остава Java25/Jackson 3. Не приемай, че `JsonMapper` е strict към duplicate names без изрична конфигурация.
 
+## P1 extension — consistency patterns (Emanuel Trandafir)
+
+[EC-01–08 — Event-Driven Consistency](consistency/README.md): decision matrix, hybrid Saga, durable payload inbox, version gaps, bounded retries, Kafka/XA commit windows, persistent Modulith registry and end-to-end failures. [Default lab](consistency/lab/README.md) and [targeted Kafka proof](consistency/kafka-lab/README.md). Existing Outbox and Saga remain canonical.
+
 ## 3. README → code → tests
 
 | Problem | Production-like Java model | Proof |
