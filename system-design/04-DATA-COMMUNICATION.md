@@ -59,6 +59,10 @@ DB transaction: business state + outbox row
 - [Integration choice REST vs queue vs pub/sub](../spring/messaging/integration-patterns/01-INTEGRATION-DECISION-GUIDE.md)
 - [Caching consistency](../spring/caching/README.md)
 
+## Свързано P1 — Event-Driven Consistency
+
+[EC-01–08](../spring/messaging/integration-patterns/consistency/README.md) — three axes, hybrid Saga, durable inbox, gap/replay, Kafka vs XA and Modulith registry; new tests plus existing evidence.
+
 ## 6. Decision card: да сложим ли Kafka за всяка операция?
 
 | Измерение | Да, ако | Не, ако |

@@ -1,0 +1,27 @@
+name: Event Consistency Kafka Proof
+on:
+  pull_request:
+    paths:
+      - 'spring/messaging/integration-patterns/consistency/kafka-lab/**'
+      - '.github/workflows/consistency-kafka-proof.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'spring/messaging/integration-patterns/consistency/kafka-lab/**'
+      - '.github/workflows/consistency-kafka-proof.yml'
+permissions:
+  contents: read
+jobs:
+  kafka-commit-windows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+          cache-dependency-path: spring/messaging/integration-patterns/consistency/kafka-lab/pom.xml
+      - name: Real embedded Kafka and H2
+        run: mvn -B --no-transfer-progress -f spring/messaging/integration-patterns/consistency/kafka-lab/pom.xml test

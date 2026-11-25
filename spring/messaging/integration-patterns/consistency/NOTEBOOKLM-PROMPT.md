@@ -1,0 +1,5 @@
+# NotebookLM — Event-Driven Consistency (BG audio)
+
+Sources: original lecture/SRT, eight chapters, diagrams, evidence map, lab/code and existing Saga/Outbox modules. Follow [general prompt](../../../../docs/NOTEBOOKLM-TECHNICAL-AUDIO-PROMPT.md).
+
+Направи задълбочен български аудио урок за Java/Spring backend Mid+ → Senior. Запази technical terms. Започни с order service, actual transaction boundaries, mock-heavy signal и slow I/O/connection pool. Обясни three axes, hybrid Saga, durable inbox receipt vs processing, seq gap vs observedAt, retry/DLT/replay, Kafka commit windows vs XA, persistent Modulith registry и failure matrix. За всяка техника: problem, when/not, gain/cost, simpler alternative, evidence. Distinguish speaker claims from corrections: exactly-once scope, timestamps, 2PC not Saga, no unconditional no-loss. Не измисляй production metrics, XA tests или точни timestamps. Разграничи real H2/Kafka/Modulith tests от pure workflow model. Завърши с 8 диагностични въпроса с пауза за отговор и ADR capstone.

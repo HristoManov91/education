@@ -363,6 +363,8 @@ education/
 
 ### Spring / Messaging
 
+- [**P1 Event-Driven Consistency — EC-01–08**](spring/messaging/integration-patterns/consistency/README.md): decision axes, hybrid Saga, durable inbox, gaps, retry/DLT, Kafka vs XA, Modulith registry and failure testing; [H2/Modulith lab](spring/messaging/integration-patterns/consistency/lab/README.md), [targeted Kafka proof](spring/messaging/integration-patterns/consistency/kafka-lab/README.md).
+
 - [P2 Integration Patterns — REST vs Queue vs Pub/Sub, coupling, commands/events and fair multi-tenant queues](spring/messaging/integration-patterns/README.md)
   - [01 — Integration Decision Guide (P2)](spring/messaging/integration-patterns/01-INTEGRATION-DECISION-GUIDE.md)
   - [02 — Queue Fairness, Noisy Neighbor, Cells and Shuffle Sharding (Java runnable lab)](spring/messaging/integration-patterns/02-QUEUE-FAIRNESS-NOISY-NEIGHBOR.md)

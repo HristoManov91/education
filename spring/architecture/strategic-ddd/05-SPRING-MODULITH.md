@@ -177,6 +177,10 @@ mvn --no-transfer-progress verify
 
 **Изходен mental model:** Strategic DDD намира *семантичната граница*, Spring Modulith я прави *изпълнимо архитектурно правило* в нашата Java codebase.
 
+## P1 extension — durable event publication recovery
+
+[EC-07 Spring Modulith Event Publication Registry](../../messaging/integration-patterns/consistency/07-MODULITH-REGISTRY.md): actual JDBC registry, rollback, failed listener, context restart and explicit resubmit using Modulith 2.1.1. Existing boundary lab remains independent.
+
 ## Оригинални източници
 
 - [Devoxx Belgium 2026](https://youtu.be/v86SfHA5ISw).

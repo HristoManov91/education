@@ -477,6 +477,10 @@ Pattern-ът не изисква задължително отделна INBOX �
 
 ---
 
+# P1 extension — durable payload inbox
+
+[EC-03 Durable Inbox](../integration-patterns/consistency/03-DURABLE-INBOX.md) separates receipt ACK from local business effect; [ordering/gaps](../integration-patterns/consistency/04-ORDERING-GAPS.md), [retry/redrive](../integration-patterns/consistency/05-RETRY-DLQ.md), [Kafka vs XA](../integration-patterns/consistency/06-KAFKA-XA-2PC.md). Real JDBC proof extends the processed-ID pattern.
+
 # 17. Idempotency не решава ordering
 
 Тези са различни проблеми:
